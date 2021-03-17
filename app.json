@@ -7,6 +7,19 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "android": {
+      "package": "com.mindcorelief"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mindcorelief"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "build": {
+        "publicPath": "./assets"
+      }
+    }
   }
 }
