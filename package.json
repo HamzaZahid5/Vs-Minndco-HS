@@ -7,6 +7,7 @@
     "start": "react-native start",
     "test": "jest",
     "clean": "watchman watch-del-all; rm -rf node_modules && yarn install && npx pod-install; rm -rf /tmp/metro-*; yarn start --reset-cache &",
+    "clean-service": "npx react-native-clean-project",
     "format": "prettier --write 'src/**/*.{js,ts,tsx}"
   },
   "dependencies": {
