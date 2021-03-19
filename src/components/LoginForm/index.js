@@ -43,7 +43,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
         {({
           handleChange,
           isSubmitting,
-          handleSubmit,
+          submitForm,
           values,
           errors,
           touched,
@@ -124,7 +124,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
                 }}
                 loading={isSubmitting || loading}
                 disabled={isSubmitting || loading}
-                onPress={handleSubmit}
+                onPress={submitForm}
               >
                 {'screens.login.singInButton'}
               </BigButton>
