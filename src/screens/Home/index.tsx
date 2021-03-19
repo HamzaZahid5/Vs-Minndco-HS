@@ -1,4 +1,5 @@
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { View, Text } from 'react-native';
@@ -21,6 +22,10 @@ const HomeScreen = ({ navigation }: Props) => {
       <Text>MindCo Relief Home Screen: {flag}</Text>
       <Button icon="camera" mode="contained" onPress={() => navigation.push('Registration')}>
         Press me
+      </Button>
+      <Text> </Text>
+      <Button icon="cancel" mode="contained" onPress={() => auth().signOut()}>
+        Sign Out
       </Button>
     </View>
   );

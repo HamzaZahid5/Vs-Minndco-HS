@@ -1,6 +1,12 @@
 import 'react-native-gesture-handler';
 // import { registerRootComponent } from 'expo';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Platform, UIManager } from 'react-native';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 import App from './App';
 
