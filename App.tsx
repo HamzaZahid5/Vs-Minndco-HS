@@ -39,7 +39,7 @@ export default function App() {
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName={userToken ? "Home" : "Login"}>
             {userToken ? (
               <>
                 <Stack.Screen name="Home" component={HomeScreen} />
