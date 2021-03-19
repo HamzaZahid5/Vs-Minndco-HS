@@ -1,0 +1,255 @@
+/**
+ * SIGN UP FORM WITH MULTIPLE FIELDS, THE LARGER FORM IN THE APP.
+ */
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInputMask } from 'react-native';
+import {
+  Surface,
+  Subheading,
+  Button,
+  withTheme,
+  Text,
+  RadioButton,
+  HelperText,
+} from 'react-native-paper';
+import TextInputStyled from './../TextInputStyled';
+// import PhoneNumberInput from './../PhoneNumberInput';
+import BigButton from './../BigButton';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+Yup.addMethod(Yup.string, 'complianceE146', function(onErrorMessage) {
+  const message = onErrorMessage;
+  return this.test('complianceE146', message, function(value) {
+    const { path, createError } = this;
+    // [value] - value of the property being tested
+    // [path]  - property name,
+    return /^\+[1-9]\d{10,14}$/.test(value) || createError({ path, message });
+  });
+});
+// defered to let translations to boot up
+const getRegisterSchema = () => {
+  return Yup.object().shape({
+    name: Yup.string()
+      .max(50, 'commons.messages.fieldTooLong')
+      .required('commons.messages.fieldRequired'),
+    lastname: Yup.string()
+      .max(50, 'commons.messages.fieldTooLong')
+      .required('commons.messages.fieldRequired'),
+    password: Yup.string()
+      .min(6, 'commons.messages.passwordTooShort')
+      .required('commons.messages.fieldRequired'),
+    confirmpassword: Yup.string()
+      .oneOf(
+        [Yup.ref('password'), null],
+        'commons.messages.passwordDoNotMatch',
+      )
+      .required('commons.messages.passwordDoNotMatch'),
+    email: Yup.string()
+      .email('commons.messages.invalidEmail')
+      .required('commons.messages.fieldRequired'),
+  });
+};
+
+const RegisterForm = ({ theme, onSubmit, loading }) => {
+  const _onSubmit = (values, actions) => {
+    onSubmit(values);
+    actions.setSubmitting(false);
+  };
+  return (
+    <Surface
+      style={styles.surface}
+      theme={{ colors: { surface: 'transparent' } }}
+    >
+      <Formik
+        initialValues={{
+          name: '',
+          lastname: '',
+          password: '',
+          confirmpassword: '',
+          phone: '',
+          email: '',
+          gender: 'f',
+          country: 'US', // it is set on phone selection
+        }}
+        onSubmit={(values, actions) => _onSubmit(values, actions)}
+        validationSchema={getRegisterSchema()}
+      >
+        {({
+          handleChange,
+          isSubmitting,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <React.Fragment>
+            <View style={styles.rowForm} key="row1">
+              <TextInputStyled
+                theme={{ roundness: 0, colors: { background: 'transparent' } }}
+                style={{
+                  flex: 1,
+                  marginRight: 10,
+                  // borderWidth: 1,
+                  // borderColor: 'green',
+                }}
+                label={'screens.register.fieldNameTitle'}
+                value={values.name}
+                type="flat"
+                onChangeText={handleChange('name')}
+                error={
+                  touched.name !== undefined && errors.name ? errors.name : null
+                }
+              />
+              <TextInputStyled
+                theme={{ roundness: 0, colors: { background: 'transparent' } }}
+                style={{
+                  flex: 1,
+                  marginLeft: 10,
+                  // borderWidth: 1,
+                  // borderColor: 'green',
+                }}
+                label={'screens.register.fieldLastNameTitle'}
+                value={values.lastname}
+                type="flat"
+                onChangeText={handleChange('lastname')}
+                error={
+                  touched.lastname !== undefined && errors.lastname
+                    ? errors.lastname
+                    : null
+                }
+              />
+            </View>
+            <View style={styles.rowForm} key="row2">
+              <TextInputStyled
+                theme={{ roundness: 0, colors: { background: 'transparent' } }}
+                style={{ flex: 1 }}
+                label={'screens.register.fieldPasswordTitle'}
+                value={values.password}
+                type="flat"
+                onChangeText={handleChange('password')}
+                secureTextEntry
+                textContentType="newPassword"
+                error={
+                  touched.password !== undefined && errors.password
+                    ? errors.password
+                    : null
+                }
+              />
+            </View>
+            <View style={styles.rowForm} key="row3">
+              <TextInputStyled
+                theme={{ roundness: 0, colors: { background: 'transparent' } }}
+                style={{ flex: 1 }}
+                label={'screens.register.fieldRepeatPasswordTitle'}
+                value={values.confirmpassword}
+                type="flat"
+                onChangeText={handleChange('confirmpassword')}
+                secureTextEntry
+                error={
+                  touched.confirmpassword !== undefined &&
+                  errors.confirmpassword
+                    ? errors.confirmpassword
+                    : null
+                }
+              />
+            </View>
+            <View style={styles.rowForm} key="row5">
+              <TextInputStyled
+                theme={{ roundness: 0, colors: { background: 'transparent' } }}
+                style={{ flex: 1 }}
+                label={'screens.register.fieldEmailTitle'}
+                value={values.email}
+                type="flat"
+                keyboardType="email-address"
+                onChangeText={handleChange('email')}
+                error={
+                  touched.email !== undefined && errors.email
+                    ? errors.email
+                    : null
+                }
+              />
+            </View>
+            <View
+              key="row4"
+              style={[
+                styles.rowForm,
+                { marginTop: 20, paddingLeft: 10, height: 40 },
+              ]}
+            >
+              <Subheading
+                theme={{
+                  colors: {
+                    text:
+                      errors.phone && touched.phone
+                        ? theme.colors.error
+                        : theme.colors.error,
+                  },
+                }}
+              >
+                {'screens.register.fieldPhoneTitle'}
+              </Subheading>
+            </View>
+            {/* <View style={styles.rowForm} key="row4-2">
+              <PhoneNumberInput
+                onChange={(value, state) => {
+                  handleChange('phone')(value);
+                  handleChange('country')(state.countryAbbr);
+                }}
+                value={values.phone}
+                error={
+                  touched.phone !== undefined && errors.phone
+                    ? errors.phone
+                    : null
+                }
+              />
+            </View> */}
+            <BigButton
+              key="submitBtn"
+              style={{
+                marginTop: 40,
+                minWidth: '100%',
+              }}
+              loading={loading}
+              disabled={loading}
+              onPress={handleSubmit}
+            >
+              {'screens.register.confirmCreateButton'}
+            </BigButton>
+          </React.Fragment>
+        )}
+      </Formik>
+    </Surface>
+  );
+};
+
+export default withTheme(RegisterForm);
+
+const styles = StyleSheet.create({
+  surface: {
+    width: '100%',
+    elevation: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rowForm: {
+    // borderWidth: 1,
+    // borderColor: 'red',
+    flexDirection: 'row',
+    margin: 0,
+    width: '100%',
+    height: 80,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  rowFormRadios: {
+    // borderWidth: 1,
+    // borderColor: 'red',
+    flexDirection: 'row',
+    marginBottom: 20,
+    width: '100%',
+    height: 70,
+    alignItems: 'stretch',
+    justifyContent: 'space-around',
+  },
+});
