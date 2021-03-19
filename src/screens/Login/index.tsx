@@ -4,19 +4,20 @@ import auth from '@react-native-firebase/auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {
-//   navigateToAuth,
-//   navigateToSignUp,
-//   navigateToHowItWorks,
-//   navigateToPasswordRecovery,
-// } from './../../utils/navigationActions';
-// import Firebase from './../../services/Firebase';
-import LoginForm from '../../components/LoginForm';
-// import { translate } from './../../utils/localization';
-import BigButton from '../../components/BigButton';
-import styles from './styles';
-// import { connector } from '../../redux/connector';
-// import theme from '../../styles/BasicNewTheme';
-import FadeEffect from '../../components/FadeEffect';
+  //   navigateToAuth,
+  //   navigateToSignUp,
+  //   navigateToHowItWorks,
+  //   navigateToPasswordRecovery,
+  // } from './../../utils/navigationActions';
+  // import Firebase from './../../services/Firebase';
+  import LoginForm from '../../components/LoginForm';
+  // import { translate } from './../../utils/localization';
+  import BigButton from '../../components/BigButton';
+  import styles from './styles';
+  // import { connector } from '../../redux/connector';
+  // import theme from '../../styles/BasicNewTheme';
+  import FadeEffect from '../../components/FadeEffect';
+  import SafeCanvas from '../../components/SafeCanvas';
 import Props from './types';
 
 const onMount = () => {
@@ -55,10 +56,25 @@ const Login = ({ navigation }: Props) => {
         style={styles.surface}
         theme={{ colors: { surface: theme.colors.secondary } }}
       >
-        <Image
-          style={{ width: 85, height: 40 }}
-          // source={require('./../../styles/images/flat_logo.png')}
-        />
+        <SafeCanvas
+          style={{ backgroundColor: "red", flex: 1, width: 100, height: 100 }}
+          shadowMap
+          // invalidateFrameloop
+          // pixelRatio={Dimensions.get('window').height / Dimensions.get('window').width}
+          camera={{ position: [-5, 11, 20], fov: 30 }}
+          concurrent
+          gl={{ antialias: true }}
+          onCreated={({ gl, camera }) => {
+            
+          }}
+        >
+          <ambientLight intensity={1} color="#dadada"/>
+
+          <mesh>
+            <boxBufferGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color={'orange'} />
+          </mesh>
+        </SafeCanvas>
         <View
           style={{
             position: 'relative',
