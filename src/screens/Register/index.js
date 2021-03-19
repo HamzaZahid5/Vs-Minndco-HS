@@ -6,7 +6,7 @@ import {
   Title,
   withTheme,
 } from 'react-native-paper';
-// import Firebase from './../../services/Firebase';
+import auth from '@react-native-firebase/auth';
 import RegisterForm from './../../components/RegisterForm';
 // import RoundedBackButton from './../../components/RoundedBackButton';
 // import ChipButton from './../../components/ChipButton';
@@ -61,9 +61,11 @@ export default withTheme(({ componentId, theme }) => {
       // console.log(form);
       try {
         // @TODO move it to redux action
+        await auth().createUserWithEmailAndPassword(form.email, form.password);
         // const userCredentials = await Firebase.createUser(form);
+        await auth().signInWithEmailAndPassword(form.email, form.password);
         // await Firebase.signInUser(form); // needed to write users collection
-        // // complement form
+        // complement form
         // form.tz = RNLocalize.getTimeZone();
         // form.tz_offset = new Date().getTimezoneOffset() * -60;
         // await Firebase.registerUser({ uid: userCredentials.user.uid, ...form });
