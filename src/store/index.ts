@@ -23,6 +23,6 @@ export default function configureStore(initialState = {}) {
       ? composeWithDevTools(applyMiddleware(thunk, logger))
       : applyMiddleware(thunk),
   );
-  console.log(localStore);
+  
   return localStore;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Appearance } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
@@ -19,13 +19,10 @@ const store = configureStore();
 const theme = Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
 export default function App() {
-  const [userToken, setUserToken] = useState(null);
-  const [initializing, setInitializing] = useState(true);
+  const [userToken, setUserToken] = useState<FirebaseAuthTypes.User | null>(null);
 
   useEffect(() => {
-    // setInitializing(false);
     const unsubscribe = auth().onAuthStateChanged(async authCredentials => {
-      console.log('update user', authCredentials);
       setUserToken(authCredentials);
     });
 

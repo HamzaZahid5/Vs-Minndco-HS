@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
-import flagger from './slices/flags';
+import flagger, { FlagsState } from './slices/flags';
+
+export type RootState = {
+  flags: FlagsState;
+}
 
 const reducer = combineReducers({
   flags: flagger.reducer,

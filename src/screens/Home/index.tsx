@@ -4,9 +4,13 @@ import { useSelector } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import Props from './types';
+import { RootState } from '../../store/reducer';
+
+// selector
+const selectLoadingFlag = (state: RootState) => state.flags.isLoading
 
 const HomeScreen = ({ navigation }: Props) => {
-  const flag = useSelector(state => state.flags.isLoading);
+  const flag = useSelector(selectLoadingFlag);
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>MindCo Relief Home Screen: {flag}</Text>

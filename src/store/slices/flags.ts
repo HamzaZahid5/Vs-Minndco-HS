@@ -1,6 +1,8 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState = {
+export type FlagsState = { isLoading: number };
+
+const initialState: FlagsState = {
   isLoading: 0,
 };
 // const setFlag = createAction('setFlag')
