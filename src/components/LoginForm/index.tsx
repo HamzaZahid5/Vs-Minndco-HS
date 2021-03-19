@@ -7,13 +7,16 @@ import {
   Surface,
   TextInput,
   HelperText,
-  Button,
-  withTheme,
 } from 'react-native-paper';
-import BigButton from './../BigButton';
+import BigButton from '../BigButton';
 // import { translate } from './../../utils/localization';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+export interface LoginFormValues {
+   email: string;
+   password: string;
+ }
 
 const getLogInSchema = () =>
   Yup.object().shape({
@@ -24,18 +27,24 @@ const getLogInSchema = () =>
       'commons.messages.fieldRequired',
     ),
   });
-const LoginForm = ({ theme, onSubmit, loading }) => {
-  const _onSubmit = (values, actions) => {
+type Props = {
+  onSubmit: (values: LoginFormValues) => void;
+  loading: boolean;
+}
+
+const LoginForm = ({ onSubmit, loading }:Props) => {
+  const _onSubmit = (values: LoginFormValues, actions: any) => {
     onSubmit(values);
     actions.setSubmitting(false);
   };
+  const initialValues: LoginFormValues = { email: '', password: ''};
   return (
     <Surface
       style={styles.surface}
       theme={{ colors: { surface: 'transparent' } }}
     >
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={initialValues}
         onSubmit={(values, actions) => _onSubmit(values, actions)}
         validationSchema={getLogInSchema()}
         validateOnChange={true}
@@ -52,7 +61,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
             <React.Fragment>
               <View style={styles.rowForm}>
                 <View
-                  style={{ felx: 1, width: '100%', flexDirection: 'column' }}
+                  style={{ flex: 1, width: '100%', flexDirection: 'column' }}
                 >
                   <TextInput
                     theme={{
@@ -63,11 +72,11 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
                         placeholder: 'gray',
                       },
                     }}
-                    error={touched.email !== undefined && errors.email}
+                    error={touched.email !== undefined && Boolean(errors.email)}
                     style={{ flex: 1 }}
                     label={'screens.login.formFieldUser'}
                     value={values.email}
-                    type="flat"
+                    // type="flat"
                     onChangeText={handleChange('email')}
                     textContentType="username"
                     autoCompleteType="email"
@@ -77,7 +86,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
                   />
                   <HelperText
                     type="error"
-                    visible={touched.email !== undefined && errors.email}
+                    visible={touched.email !== undefined && Boolean(errors.email)}
                   >
                     {errors.email}
                   </HelperText>
@@ -85,7 +94,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
               </View>
               <View style={styles.rowForm}>
                 <View
-                  style={{ felx: 1, width: '100%', flexDirection: 'column' }}
+                  style={{ flex: 1, width: '100%', flexDirection: 'column' }}
                 >
                   <TextInput
                     theme={{
@@ -96,11 +105,11 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
                         placeholder: 'gray',
                       },
                     }}
-                    error={touched.password !== undefined && errors.password}
+                    error={touched.password !== undefined && Boolean(errors.password)}
                     style={{ flex: 1 }}
                     label={'screens.login.formFieldPassword'}
                     value={values.password}
-                    type="flat"
+                    // type="flat"
                     onChangeText={handleChange('password')}
                     textContentType="password"
                     autoCompleteType="password"
@@ -110,7 +119,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
                   />
                   <HelperText
                     type="error"
-                    visible={touched.password !== undefined && errors.password}
+                    visible={touched.password !== undefined && Boolean(errors.password)}
                   >
                     {errors.password}
                   </HelperText>
@@ -136,7 +145,7 @@ const LoginForm = ({ theme, onSubmit, loading }) => {
   );
 };
 
-export default withTheme(LoginForm);
+export default LoginForm;
 
 const styles = StyleSheet.create({
   surface: {

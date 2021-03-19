@@ -4,27 +4,27 @@ import auth from '@react-native-firebase/auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {
-  //   navigateToAuth,
-  //   navigateToSignUp,
-  //   navigateToHowItWorks,
-  //   navigateToPasswordRecovery,
-  // } from './../../utils/navigationActions';
-  // import Firebase from './../../services/Firebase';
-  import LoginForm from '../../components/LoginForm';
-  // import { translate } from './../../utils/localization';
-  import BigButton from '../../components/BigButton';
-  import styles from './styles';
-  // import { connector } from '../../redux/connector';
-  // import theme from '../../styles/BasicNewTheme';
-  import FadeEffect from '../../components/FadeEffect';
-  import SafeCanvas from '../../components/SafeCanvas';
+//   navigateToAuth,
+//   navigateToSignUp,
+//   navigateToHowItWorks,
+//   navigateToPasswordRecovery,
+// } from './../../utils/navigationActions';
+// import Firebase from './../../services/Firebase';
+import LoginForm, { LoginFormValues } from '../../components/LoginForm';
+// import { translate } from './../../utils/localization';
+import BigButton from '../../components/BigButton';
+import styles from './styles';
+// import { connector } from '../../redux/connector';
+// import theme from '../../styles/BasicNewTheme';
+import FadeEffect from '../../components/FadeEffect';
+import SafeCanvas from '../../components/SafeCanvas';
 import Props from './types';
 
 const onMount = () => {
   // Firebase.signOutUser();
 };
 
-const formSubmitHandler = (setLoading) => async form => {
+const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: LoginFormValues) => {
   setLoading(true);
   try {
     await auth().signInWithEmailAndPassword(form.email, form.password);

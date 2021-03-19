@@ -2,24 +2,23 @@
  * GENERIC PURPLE BUTTON AND ITS VARIANTS USED ACROSS THE APP
  */
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, withTheme } from 'react-native-paper';
+import { View, StyleSheet, ButtonProps, ViewStyle } from 'react-native';
+import { Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import theme from './../../styles/BasicNewTheme';
-import Color from 'color';
 
-export default withTheme(
-  ({
-    theme,
-    variant = 'default',
-    style,
-    labelStyle = {},
-    onlyPremium = false,
-    ...props
-  }) => (
+type Props = {
+  variant: string;
+  style?: ViewStyle;
+  labelStyle?: ViewStyle;
+  onlyPremium?: boolean;
+};
+
+export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium = false, ...props }:Props & any) => {
+  // const theme = useTheme();
+  return (
     <View>
       <Button
-        mode={variant === 'link' ? 'default' : 'outlined'}
+        mode={variant === 'link' ? 'text' : 'outlined'}
         theme={{ roundness: 50 }}
         style={[
           styles.buttonStyles,
@@ -72,8 +71,9 @@ export default withTheme(
         </View>
       )}
     </View>
-  ),
-);
+  );
+};
+
 const ICON_SIZE = 30;
 const styles = StyleSheet.create({
   buttonStyles: {
