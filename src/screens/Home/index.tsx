@@ -1,19 +1,9 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
-import { RootStackParamList } from '../../../types'
-
-type HomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
-
-type Props = {
-  navigation: HomeScreenNavigationProp;
-};
+import Props from './types';
 
 const HomeScreen = ({ navigation }: Props) => {
   const flag = useSelector(state => state.flags.isLoading);

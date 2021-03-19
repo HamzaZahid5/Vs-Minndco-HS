@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, ScrollView, Linking } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {
@@ -18,16 +17,7 @@ import styles from './styles';
 // import { connector } from '../../redux/connector';
 // import theme from '../../styles/BasicNewTheme';
 import FadeEffect from '../../components/FadeEffect';
-import { RootStackParamList } from '../../../types';
-
-type LoginScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Login'
->;
-
-type Props = {
-  navigation: LoginScreenNavigationProp;
-};
+import Props from './types';
 
 const onMount = () => {
   // Firebase.signOutUser();
@@ -180,9 +170,5 @@ const Login = ({ navigation }: Props) => {
     </ScrollView>
   );
 };
-
-const mapStateToProp = state => ({
-  locale: state.app?.locale,
-});
 
 export default Login;
