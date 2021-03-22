@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StyleProp } from 'react-native';
 
 export default StyleSheet.create({
   surface: {

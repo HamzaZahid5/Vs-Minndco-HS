@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Appearance } from 'react-native';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { NavigationContainer } from '@react-navigation/native';
+import { Appearance, View, Text } from 'react-native';
+// import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { useAuth } from './src/services/Auth';
+import { NavigationContainer, Theme as NavTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
-import { Provider as PaperProvider, DarkTheme, DefaultTheme } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
 // import * as eva from '@eva-design/eva';
 // import { ApplicationProvider } from '@ui-kitten/components';
 import configureStore from './src/store';
@@ -13,29 +15,20 @@ import RegistrationScreen from './src/screens/Register';
 import LoginScreen from './src/screens/Login';
 import { RootStackParamList } from './types';
 
+
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
 const store = configureStore();
 const theme = Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
 export default function App() {
-  const [userToken, setUserToken] = useState<FirebaseAuthTypes.User | null>(null);
+  const userToken = useAuth();
 
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(async authCredentials => {
-      setUserToken(authCredentials);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  // return <View><Text>da app</Text></View>
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <NavigationContainer>
+        <NavigationContainer theme={theme as NavTheme}>
           <Stack.Navigator initialRouteName={userToken ? "Home" : "Login"}>
             {userToken ? (
               <>

@@ -13,12 +13,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoginForm, { LoginFormValues } from '../../components/LoginForm';
 // import { translate } from './../../utils/localization';
 import BigButton from '../../components/BigButton';
-import styles from './styles';
+import { CustomThemeType } from './../../utils/OriginalTheme';
 // import { connector } from '../../redux/connector';
 // import theme from '../../styles/BasicNewTheme';
 import FadeEffect from '../../components/FadeEffect';
 import SafeCanvas from '../../components/SafeCanvas';
 import Props from './types';
+// @ts-ignore
+import styles from './styles';
 
 const onMount = () => {
   // Firebase.signOutUser();
@@ -32,6 +34,7 @@ const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: Lo
     // navigateToAuth(componentId);
   } catch (e) {
     const exp = /\[(.*?)\]/;
+    // @ts-ignore
     const errMessage = exp.exec(e.message)[1];
     alert(`firebase.errormessages.${errMessage}`);
   }
@@ -41,7 +44,7 @@ const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: Lo
 const Login = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loginFormIsVisible, showLoginForm] = useState(false);
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   useEffect(onMount, []);
 
   const onFormSubmit = formSubmitHandler(setLoading);
@@ -64,15 +67,16 @@ const Login = ({ navigation }: Props) => {
           camera={{ position: [-5, 11, 20], fov: 30 }}
           concurrent
           gl={{ antialias: true }}
-          onCreated={({ gl, camera }) => {
-            
-          }}
         >
+          {/*@ts-ignore*/}
           <ambientLight intensity={1} color="#dadada"/>
-
+          {/*@ts-ignore*/}
           <mesh>
+            {/*@ts-ignore*/}
             <boxBufferGeometry args={[1, 1, 1]} />
+            {/*@ts-ignore*/}
             <meshStandardMaterial color={'orange'} />
+            {/*@ts-ignore*/}
           </mesh>
         </SafeCanvas>
         <View
@@ -83,16 +87,6 @@ const Login = ({ navigation }: Props) => {
             width: '100%',
           }}
         >
-          <Image
-            style={{
-              width: 600,
-              height: 700,
-              position: 'absolute',
-              top: -150,
-              right: -250,
-            }}
-            // source={require('./../../styles/images/cigarette_off.png')}
-          />
           <Title style={[styles.title, { marginTop: 50 }]}>
             {'screens.login.title'}
           </Title>
@@ -130,7 +124,6 @@ const Login = ({ navigation }: Props) => {
           <LoginForm onSubmit={onFormSubmit} loading={loading} />
           <View>
             <Button
-              mode="default"
               uppercase={false}
               theme={{ colors: { primary: '#ffffff' } }}
               labelStyle={{
