@@ -13,13 +13,14 @@ import configureStore from './src/store';
 import HomeScreen from './src/screens/Home';
 import RegistrationScreen from './src/screens/Register';
 import LoginScreen from './src/screens/Login';
+import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
 
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
 const store = configureStore();
-const theme = Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
+const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
 export default function App() {
   const userToken = useAuth();
@@ -32,12 +33,13 @@ export default function App() {
           <Stack.Navigator initialRouteName={userToken ? "Home" : "Login"}>
             {userToken ? (
               <>
-                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Home" component={HomeScreen}   options={{ headerShown: false }} />
               </>
             ) : (
               <>
-                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Login" component={LoginScreen}  options={{ headerShown: false }} />
                 <Stack.Screen name="Registration" component={RegistrationScreen} />
+                <Stack.Screen name="ThemeInspector" component={ThemeInspector} />
               </>
             )}
           </Stack.Navigator>

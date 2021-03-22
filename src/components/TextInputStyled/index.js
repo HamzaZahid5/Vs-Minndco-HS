@@ -15,6 +15,7 @@ export default withTheme(
       }}
     >
       <TextInput
+        theme={{ roundness: 0, colors: { background: 'transparent' } }}
         selectionColor="white"
         error={error}
         theme={
@@ -24,11 +25,12 @@ export default withTheme(
               background: 'transparent',
               primary: 'white',
               text: 'white',
-              placeholder: "gray",
+              placeholder: "white",
+
             },
           }
         }
-        underlineColor="gray"
+        underlineColor="white"
         textAlign={'center'}
         {...props}
       />

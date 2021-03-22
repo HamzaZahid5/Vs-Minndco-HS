@@ -12,14 +12,22 @@ import {
 
 const MindCoReliefDefaulTheme = {
   colors: {
-    primary: 'pink',
-    secondary: '',
+    primary: '#3D9AD5',
+    secondary: '#31CCCC',
+    accent: '#F79337',
+    surface: '#31CCCC',
+    notification: '#33BC7E',
+    warning: '#F8BE54',
+    error: '#F34C78',
+    onSurface: '#3D77B0',
   },
 };
 const MindCoReliefDarkTheme = {
   colors: {
     primary: '#3D9AD5',
     secondary: '#31CCCC',
+    warning: '#ff0000',
+    surface: '#31CCCC',
   },
 };
 
@@ -47,6 +55,7 @@ const CombinedDarkTheme = {
 export type CustomThemeType = Theme & NavTheme & {
   colors: {
     secondary: string,
+    warning: string,
   };
 };
 

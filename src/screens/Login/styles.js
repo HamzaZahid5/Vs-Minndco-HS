@@ -2,13 +2,14 @@ import { StyleSheet, StyleProp } from 'react-native';
 
 export default StyleSheet.create({
   surface: {
-    // borderWidth: 1, borderColor: 'red',
-    padding: 30,
-    minHeight: '100%',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    flex: 1,
     elevation: 0,
-    // minHeight: 'auto',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
   },
   absolutScrollView: {
     // borderWidth: 1, borderColor: 'red',

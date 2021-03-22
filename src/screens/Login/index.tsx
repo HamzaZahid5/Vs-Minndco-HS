@@ -43,7 +43,7 @@ const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: Lo
 
 const Login = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [loginFormIsVisible, showLoginForm] = useState(false);
+  const [loginFormIsVisible, showLoginForm] = useState(true);
   const theme = useTheme() as CustomThemeType;
   useEffect(onMount, []);
 
@@ -57,10 +57,9 @@ const Login = ({ navigation }: Props) => {
     >
       <Surface
         style={styles.surface}
-        theme={{ colors: { surface: theme.colors.secondary } }}
       >
         <SafeCanvas
-          style={{ backgroundColor: "red", flex: 1, width: 100, height: 100 }}
+          style={{ backgroundColor: "red", flex: 1, maxHeight: 100, display: 'none' }}
           shadowMap
           // invalidateFrameloop
           // pixelRatio={Dimensions.get('window').height / Dimensions.get('window').width}
@@ -79,7 +78,8 @@ const Login = ({ navigation }: Props) => {
             {/*@ts-ignore*/}
           </mesh>
         </SafeCanvas>
-        <View
+        
+        {/* <View
           style={{
             position: 'relative',
             height: 260,
@@ -119,37 +119,44 @@ const Login = ({ navigation }: Props) => {
           >
             {'screens.login.howWorksButton'}
           </Button>
-        </View>
+        </View> */}
         <FadeEffect show={loginFormIsVisible}>
-          <LoginForm onSubmit={onFormSubmit} loading={loading} />
-          <View>
-            <Button
-              uppercase={false}
-              theme={{ colors: { primary: '#ffffff' } }}
-              labelStyle={{
-                color: theme.colors.accent,
-                width: '100%',
-                textDecorationLine: 'underline',
-                lineHeight: 30,
-              }}
-              style={{ margin: 10, marginTop: -30 }}
-              // onPress={() => navigateToPasswordRecovery(componentId)}
-            >
-              {'screens.login.forgotPassword'}
-            </Button>
-            <BigButton
-              style={{
-                minWidth: '100%',
-              }}
-              disabled={loading}
-              onPress={() => navigation.push('Registration')}
-            >
-              {'screens.login.signUpButton'}
-            </BigButton>
+          <View style={{
+            flex: 1,
+            maxWidth: '100%',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: 'red',
+          }}>
+            <LoginForm onSubmit={onFormSubmit} loading={loading} />
+            <View>
+              <BigButton
+                variant="link"
+                style={{ margin: 10, marginTop: -30 }}
+                // onPress={() => navigateToPasswordRecovery(componentId)}
+              >
+                {'screens.login.forgotPassword'}
+              </BigButton>
+              <BigButton
+                style={{
+                  minWidth: '100%',
+                }}
+                disabled={loading}
+                onPress={() => navigation.push('Registration')}
+              >
+                {'screens.login.signUpButton'}
+              </BigButton>
+            </View>
           </View>
         </FadeEffect>
         <FadeEffect show={!loginFormIsVisible}>
-          <View>
+          <View style={{
+            flex: 1,
+            width: '100%',
+            justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: 'red',
+          }}>
             <BigButton
               variant="accent"
               style={{

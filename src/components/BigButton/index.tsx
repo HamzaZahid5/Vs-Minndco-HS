@@ -5,7 +5,9 @@ import React from 'react';
 import { View, StyleSheet, ButtonProps, ViewStyle } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Color from 'color';
 
+import { CustomThemeType } from '../../utils/OriginalTheme';
 type Props = {
   variant: string;
   style?: ViewStyle;
@@ -14,7 +16,9 @@ type Props = {
 };
 
 export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium = false, ...props }:Props & any) => {
-  // const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
+  const bgColor = variant === 'link' ? 'transparent' : variant === 'accent' ? theme.colors.accent : theme.colors.background;
+  const txtColor = variant === 'link' ? theme.colors.onSurface : variant === 'accent' ? theme.colors.background : theme.colors.text ;
   return (
     <View>
       <Button
@@ -29,17 +33,15 @@ export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium 
               }
             : null,
           {
-            // backgroundColor: props.disabled
-            //   ? variant === 'accent'
-            //     ? theme.customs.colors.MediumPurple
-            //     : theme.customs.colors.LightConcrete
-            //   : variant === 'accent'
-            //   ? theme.customs.colors.Purple
-            //   : onlyPremium
-            //   ? Color(theme.customs.colors.warning)
-            //       .lighten(0.3)
-            //       .toString()
-            //   : '#ffffff',
+            backgroundColor: props.disabled
+              ? Color(bgColor)
+                  .lighten(0.3)
+                  .toString()
+              : onlyPremium
+              ? Color(theme.colors.warning)
+                  .lighten(0.3)
+                  .toString()
+              : bgColor,
           },
           style,
         ]}
@@ -47,17 +49,11 @@ export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium 
         labelStyle={[
           styles.labelStyle,
           {
-            // color: props.disabled
-            //   ? variant === 'default'
-            //     ? Color(theme.customs.colors.Concrete)
-            //         .alpha(0.5)
-            //         .toString()
-            //     : Color(theme.customs.colors.White)
-            //         .alpha(0.5)
-            //         .toString()
-            //   : variant === 'default'
-            //   ? theme.customs.colors.Concrete
-            //   : theme.customs.colors.White,
+            color: props.disabled
+              ? Color(txtColor)
+                    .alpha(0.5)
+                    .toString()
+              : txtColor,
           },
           variant === 'link' ? styles.linkLabelStyle : null,
           labelStyle,
@@ -84,6 +80,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 3,
     elevation: 2,
+    borderColor: 'transparent',
   },
   contentStyle: {
     height: 40,

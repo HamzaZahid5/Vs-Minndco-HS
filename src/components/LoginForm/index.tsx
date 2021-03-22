@@ -9,9 +9,11 @@ import {
   HelperText,
 } from 'react-native-paper';
 import BigButton from '../BigButton';
-// import { translate } from './../../utils/localization';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+// @ts-ignore
+import TextInputStyled from  '../TextInputStyled';
+// import { translate } from './../../utils/localization';
 
 export interface LoginFormValues {
    email: string;
@@ -63,66 +65,30 @@ const LoginForm = ({ onSubmit, loading }:Props) => {
                 <View
                   style={{ flex: 1, width: '100%', flexDirection: 'column' }}
                 >
-                  <TextInput
-                    theme={{
-                      roundness: 0,
-                      colors: {
-                        background: 'transparent',
-                        text: 'white',
-                        placeholder: 'gray',
-                      },
-                    }}
+                  <TextInputStyled
                     error={touched.email !== undefined && Boolean(errors.email)}
-                    style={{ flex: 1 }}
                     label={'screens.login.formFieldUser'}
                     value={values.email}
-                    // type="flat"
                     onChangeText={handleChange('email')}
                     textContentType="username"
                     autoCompleteType="email"
-                    selectionColor="white"
                     keyboardType="email-address"
-                    underlineColor='gray'
                   />
-                  <HelperText
-                    type="error"
-                    visible={touched.email !== undefined && Boolean(errors.email)}
-                  >
-                    {errors.email}
-                  </HelperText>
                 </View>
               </View>
               <View style={styles.rowForm}>
                 <View
                   style={{ flex: 1, width: '100%', flexDirection: 'column' }}
                 >
-                  <TextInput
-                    theme={{
-                      roundness: 0,
-                      colors: {
-                        background: 'transparent',
-                        text: 'white',
-                        placeholder: 'gray',
-                      },
-                    }}
+                  <TextInputStyled
                     error={touched.password !== undefined && Boolean(errors.password)}
-                    style={{ flex: 1 }}
                     label={'screens.login.formFieldPassword'}
                     value={values.password}
-                    // type="flat"
                     onChangeText={handleChange('password')}
                     textContentType="password"
                     autoCompleteType="password"
                     secureTextEntry
-                    selectionColor="white"
-                    underlineColor={'gray'}
                   />
-                  <HelperText
-                    type="error"
-                    visible={touched.password !== undefined && Boolean(errors.password)}
-                  >
-                    {errors.password}
-                  </HelperText>
                 </View>
               </View>
               <BigButton

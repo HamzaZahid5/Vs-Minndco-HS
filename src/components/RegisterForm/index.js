@@ -86,7 +86,6 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
           <React.Fragment>
             <View style={styles.rowForm} key="row1">
               <TextInputStyled
-                theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{
                   flex: 1,
                   marginRight: 10,
@@ -102,7 +101,6 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 }
               />
               <TextInputStyled
-                theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{
                   flex: 1,
                   marginLeft: 10,
