@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+// @ts-ignore
+import auth from './auth';
+
+export default auth;
 
 export const useAuth = () => {
-  const [userToken, setUserToken] = useState<FirebaseAuthTypes.User | null>(null);
+  const [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(async authCredentials => {

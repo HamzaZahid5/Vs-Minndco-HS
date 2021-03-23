@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Appearance, View, Text } from 'react-native';
 // import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+// @ts-ignore
 import { useAuth } from './src/services/Auth';
 import { NavigationContainer, Theme as NavTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
