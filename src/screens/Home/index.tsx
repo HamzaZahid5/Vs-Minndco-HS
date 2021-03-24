@@ -1,5 +1,6 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
+// @ts-ignore
+import { auth } from '../../services/Auth';
 import { useSelector } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -35,7 +36,11 @@ const HomeScreen = ({ navigation }: Props) => {
           //     <Circle cx={center.x} cy={center.y} r="10" fill="#3C828C" />
           //   ) : null
           // }
-        />
+        >
+          {() => (
+            <Button onPress={() => auth().signOut()}>Log out</Button>
+          )}
+        </AnimatedCircularProgress>
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft><Text>COACH</Text></HomeLayout.BottomLeft>
       <HomeLayout.BottomRight><Text>LS</Text></HomeLayout.BottomRight>

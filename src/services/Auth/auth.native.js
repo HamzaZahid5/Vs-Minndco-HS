@@ -1,2 +1,2 @@
-import { auth } from '@react-native-firebase/auth';
-export default auth;
+import auth from '@react-native-firebase/auth';
+export default () => auth();

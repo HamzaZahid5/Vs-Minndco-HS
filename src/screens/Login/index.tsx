@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, ScrollView, Linking } from 'react-native';
 // @ts-ignore
-import auth from '../../services/Auth';
+import { auth } from '../../services/Auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {
@@ -30,7 +30,6 @@ const onMount = () => {
 const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: LoginFormValues) => {
   setLoading(true);
   try {
-    console.log(auth());
     await auth().signInWithEmailAndPassword(form.email, form.password);
     // await Firebase.signInUser(form);
     // navigateToAuth(componentId);
@@ -40,15 +39,20 @@ const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: Lo
     // const errMessage = exp.exec(e.message)[1];
     const errMessage = e.message;
     alert(`firebase.errormessages.${errMessage}`);
+    setLoading(false);
   }
-  setLoading(false);
 };
 
 const Login = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loginFormIsVisible, showLoginForm] = useState(true);
   const theme = useTheme() as CustomThemeType;
-  useEffect(onMount, []);
+  useEffect(() => {
+    // sign out
+    return () => {
+      
+    }
+  }, []);
 
   const onFormSubmit = formSubmitHandler(setLoading);
   return (

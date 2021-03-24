@@ -129,9 +129,9 @@ const HomeLayout = ({
         <View
           style={[
             styles.rowCenter,
-            Platform.OS === 'android' && orientation === 'LANDSCAPE'
-              ? styles.rowCenterAsRow
-              : null,
+            // Platform.OS === 'android' && orientation === 'LANDSCAPE'
+              // ? styles.rowCenterAsRow
+              // : null,
           ]}
         >
           <View

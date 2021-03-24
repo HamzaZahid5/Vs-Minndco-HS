@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 // @ts-ignore
-import auth from './auth';
+import authentication from './auth';
 
-export default auth;
+export const auth = authentication;
 
 export const useAuth = () => {
   const [userToken, setUserToken] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(async authCredentials => {
+    const unsubscribe = authentication().onAuthStateChanged(async authCredentials => {
       setUserToken(authCredentials);
     });
 
