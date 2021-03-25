@@ -5,13 +5,16 @@ export type FlagsState = { isLoading: number };
 const initialState: FlagsState = {
   isLoading: 0,
 };
-// const setFlag = createAction('setFlag')
+// const setFlag = createAction('flags/set')
 
 const flagger = createSlice({
   name: 'flags',
   initialState,
   reducers: {
-    setIsLoading: (state, action) => state.isLoading += action.payload,
+    setIsLoading: (state, action) => {
+      console.log(state, action);
+      state.isLoading += action.payload;
+    },
   },
 });
 

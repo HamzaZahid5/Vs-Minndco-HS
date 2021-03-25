@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useStore, useDispatch } from 'react-redux';
 // @ts-ignore
 import authentication from './auth';
 
 export const auth = authentication;
 
 export const useAuth = () => {
-  const [userToken, setUserToken] = useState(null);
+  const [userToken, setUserToken] = useState();
 
   useEffect(() => {
     const unsubscribe = authentication().onAuthStateChanged(async authCredentials => {

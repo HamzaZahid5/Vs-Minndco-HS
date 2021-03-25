@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { View, Dimensions, Image, Platform } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 // import { connector } from './../../redux/connector';
 // import theme from './../../styles/ColoredTheme';
 import styles from './styles.js';
@@ -115,53 +117,56 @@ const HomeLayout = ({
             {/* 3D animation here */}
           </View>
         )}
-        <View style={[styles.rowTop, rowTopStyle]}>
-          <View style={[styles.topLeft, debug ? styles.debugRed : null]}>
-            {TopLeftChildren}
-          </View>
-          <View style={[styles.topCenter, debug ? styles.debugGreen : null]}>
-            {TopCenterChildren}
-          </View>
-          <View style={[styles.topRight, debug ? styles.debugBlue : null]}>
-            {TopRightChildren}
-          </View>
-        </View>
-        <View
-          style={[
-            styles.rowCenter,
-            // Platform.OS === 'android' && orientation === 'LANDSCAPE'
-              // ? styles.rowCenterAsRow
-              // : null,
-          ]}
-        >
-          <View
-            style={[styles.flexEndContent, debug ? styles.debugBlue : null]}
-          >
-            {MiddleTopChildren}
+        <SafeAreaView style={{ flex: 1 }}>
+
+          <View style={[styles.rowTop, rowTopStyle]}>
+            <View style={[styles.topLeft, debug ? styles.debugRed : null]}>
+              {TopLeftChildren}
+            </View>
+            <View style={[styles.topCenter, debug ? styles.debugGreen : null]}>
+              {TopCenterChildren}
+            </View>
+            <View style={[styles.topRight, debug ? styles.debugBlue : null]}>
+              {TopRightChildren}
+            </View>
           </View>
           <View
-            style={[styles.centeredContent, debug ? styles.debugRed : null]}
+            style={[
+              styles.rowCenter,
+              // Platform.OS === 'android' && orientation === 'LANDSCAPE'
+                // ? styles.rowCenterAsRow
+                // : null,
+            ]}
           >
-            {MiddleCenterChildren}
-            {otherChildren}
+            <View
+              style={[styles.flexEndContent, debug ? styles.debugBlue : null]}
+            >
+              {MiddleTopChildren}
+            </View>
+            <View
+              style={[styles.centeredContent, debug ? styles.debugRed : null]}
+            >
+              {MiddleCenterChildren}
+              {otherChildren}
+            </View>
+            <View
+              style={[styles.flexStartContent, debug ? styles.debugGreen : null]}
+            >
+              {MiddleBottomChildren}
+            </View>
           </View>
-          <View
-            style={[styles.flexStartContent, debug ? styles.debugGreen : null]}
-          >
-            {MiddleBottomChildren}
+          <View style={[styles.rowBottom, rowBottomStyle]}>
+            <View style={[styles.bottomLeft, debug ? styles.debugGreen : null]}>
+              {BottomLeftChildren}
+            </View>
+            <View style={[styles.bottomCenter, debug ? styles.debugBlue : null]}>
+              {BottomCenterChildren}
+            </View>
+            <View style={[styles.bottomRight, debug ? styles.debugRed : null]}>
+              {BottomRightChildren}
+            </View>
           </View>
-        </View>
-        <View style={[styles.rowBottom, rowBottomStyle]}>
-          <View style={[styles.bottomLeft, debug ? styles.debugGreen : null]}>
-            {BottomLeftChildren}
-          </View>
-          <View style={[styles.bottomCenter, debug ? styles.debugBlue : null]}>
-            {BottomCenterChildren}
-          </View>
-          <View style={[styles.bottomRight, debug ? styles.debugRed : null]}>
-            {BottomRightChildren}
-          </View>
-        </View>
+        </SafeAreaView>
       </LinearGradient>
     </View>
   );

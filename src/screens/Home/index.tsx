@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import { auth } from '../../services/Auth';
-import { useSelector } from 'react-redux';
+import { useSelector, useStore, useDispatch } from 'react-redux';
 import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -14,7 +14,6 @@ import { RootState } from '../../store/reducer';
 const selectLoadingFlag = (state: RootState) => state.flags.isLoading
 
 const HomeScreen = ({ navigation }: Props) => {
-  const flag = useSelector(selectLoadingFlag);
   return (
     <HomeLayout withDecoration>
       <HomeLayout.TopLeft><Text>MENU</Text></HomeLayout.TopLeft>
