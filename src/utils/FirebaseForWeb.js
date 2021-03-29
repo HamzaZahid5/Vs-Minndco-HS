@@ -34,6 +34,7 @@ export default async callback => {
   await enqueueScripts([
     'https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js',
     'https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js',
+    'https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js',
     // Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries
   ]);
   // all loaded

@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import firestore from '../services/Firestore';
 
 // selector
 const getUserIdfromAuth = state => state.user?.auth?.uid;
 
 export default ({ onReady }) => {
-  const uid = useSelector(getUserIdfromAuth);
+  const userId = useSelector(getUserIdfromAuth);
+  const actionSetUser = useDispatch();
+  const loadUser = async uid => {
+    // const { uid } = auth().currentUser;
+    const data = (await firestore()
+      .collection('users')
+      .doc(uid)
+      .get()).data();
+    actionSetUser({ type: 'user/setUser', payload: data });
+    onReady();
+  }
   useEffect(() => {
-    if (uid) {
-      console.log('READY TO LOAD USER');
-      onReady();
+    if (userId) {
+      loadUser(userId);
     }
-  }, [uid]);
+  }, [userId]);
   return null;
 }
