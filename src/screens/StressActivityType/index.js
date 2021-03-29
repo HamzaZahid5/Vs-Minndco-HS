@@ -51,7 +51,7 @@ export default ({ navigation }) => {
         onPress={() => (!selected ? setSelection(3) : null)}
         style={{ flex: 1 }}
       >
-        <Row title="Guided activity" subtitle="Breath sync and mnual tasks to relax" />
+        <Row title="Guided activity" subtitle="Breath sync and interactive content to relax" />
       </TouchableOpacity>
     </View>
   );
@@ -65,19 +65,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    flexWrap: 'wrap',
     // maxHeight: '10%',
+    padding: 20,
   },
   surface: {
+    width: '100%',
+    boxSizing: 'border-box',
     margin: 20,
     borderRadius: 5,
     padding: 20,
     flexDirection: 'row',
   },
   rightSide: {
+    // flex: 1,
     justifyContent: 'center',
   },
   leftSide: {
+    flex: 1,
     justifyContent: 'center',
   },
   rowIcon: {
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   rowText: {
-    fontSize: 30,
+    fontSize: 25,
     // position: 'absolute',
     // left: 0,
     // bottom: 0,

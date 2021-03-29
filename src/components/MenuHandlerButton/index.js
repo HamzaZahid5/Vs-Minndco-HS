@@ -3,14 +3,11 @@ import { useTheme } from 'react-native-paper';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default ({ anyPendingNotification = false }) => {
+export default ({ anyPendingNotification = false, onPress }) => {
   const theme = useTheme();
   return (
     <TouchableOpacity
-      onPress={() => {
-        // analytics().logEvent('home_drawer_press');
-        showDrawer();
-      }}
+      onPress={onPress}
     >
       <Icon style={{ marginBottom: 0, marginLeft: 0 }} name="menu" size={30} color={theme.colors.seconday} />
       {anyPendingNotification && (

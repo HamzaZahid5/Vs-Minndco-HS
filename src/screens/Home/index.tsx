@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }: Props) => {
   return (
     <HomeLayout withDecoration>
       <HomeLayout.TopLeft>
-        <MenuButton />
+        <MenuButton onPress={() => navigation.openDrawer()}/>
       </HomeLayout.TopLeft>
       <HomeLayout.TopRight><Text>WIDGET</Text></HomeLayout.TopRight>
       <HomeLayout.MiddleTop><Text>TIPS</Text></HomeLayout.MiddleTop>

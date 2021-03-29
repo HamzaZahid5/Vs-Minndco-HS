@@ -7,7 +7,7 @@ type HomeScreenNavigationProp = StackNavigationProp<
 >;
 
 type Props = {
-  navigation: HomeScreenNavigationProp;
+  navigation: HomeScreenNavigationProp & { openDrawer:Function };
 };
 
 export default Props;
