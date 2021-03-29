@@ -17,6 +17,12 @@ import BootUp from './src/utils/BootUp';
 import HomeScreen from './src/screens/Home';
 import RegistrationScreen from './src/screens/Register';
 import LoginScreen from './src/screens/Login';
+// @ts-ignore
+import StressRateScreen from './src/screens/StressRate';
+// @ts-ignore
+import StressActivityScreen from './src/screens/StressActivity';
+// @ts-ignore
+import StressActivityTypeScreen from './src/screens/StressActivityType';
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
 
@@ -63,6 +69,10 @@ export default function App() {
               {userToken ? (
                 <>
                   <Stack.Screen name="Home" component={HomeScreen}   options={{ headerShown: false }} />
+                  <Stack.Screen name="StressRate" component={StressRateScreen}   options={{ headerShown: true, title: 'Rate your current stress' }} />
+                  <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
+                  <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
+                  
                 </>
               ) : (
                 <>
