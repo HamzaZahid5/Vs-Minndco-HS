@@ -26,6 +26,11 @@ import StressActivityScreen from './src/screens/StressActivity';
 import StressActivityTypeScreen from './src/screens/StressActivityType';
 // @ts-ignore
 import CustomDrawerContent from './src/screens/Home/CustomDrawerContent';
+// @ts-ignore
+import ActivityScreen from './src/screens/ActivityScreen';
+// @ts-ignore
+import ModalScreen from './src/screens/ModalScreen';
+
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
 
@@ -69,7 +74,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <SafeAreaProvider>
           <NavigationContainer theme={theme as NavTheme}>
-            <Stack.Navigator initialRouteName={userToken ? "Home" : "Login"}>
+            <Stack.Navigator initialRouteName={userToken ? "Home" : "Login"} mode="modal">
               {userToken ? (
                 <>
                   <Stack.Screen name="Home" component={() => (
@@ -84,9 +89,10 @@ export default function App() {
                     </Drawer.Navigator>
                   )
                   }   options={{ headerShown: false }} />
-                  <Stack.Screen name="StressRate" component={StressRateScreen}   options={{ headerShown: true, title: 'Rate your current stress' }} />
+                  <Stack.Screen name="StressRate" component={StressRateScreen} options={{ headerShown: true, title: 'Rate your current stress' }} />
                   <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
+                  <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
                 </>
               ) : (
                 <>
@@ -95,6 +101,7 @@ export default function App() {
                   <Stack.Screen name="ThemeInspector" component={ThemeInspector} />
                 </>
               )}
+              <Stack.Screen name="Modal" component={ModalScreen} options={{ headerShown: false, cardStyle: { backgroundColor: 'transparent' } }} />
             </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaProvider>
