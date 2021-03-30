@@ -1,9 +1,11 @@
 export type RootStackParamList = {
-  Home: any | undefined;
+  Home: undefined;
   Registration: undefined;
   Login: undefined;
   ThemeInspector: undefined;
   StressRate: undefined;
   StressActivity: undefined;
   StressActivityType: undefined;
+  Activity: undefined;
+  Modal: undefined;
 };
