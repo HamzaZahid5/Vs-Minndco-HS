@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   surface: {
     width: '100%',
-    boxSizing: 'border-box',
+    // boxSizing: 'border-box',
     margin: 20,
     borderRadius: 5,
     padding: 20,
