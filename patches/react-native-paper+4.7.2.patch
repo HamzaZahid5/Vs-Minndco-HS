@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-paper/lib/module/components/FAB/FAB.js b/node_modules/react-native-paper/lib/module/components/FAB/FAB.js
+index a0bf312..2626f96 100644
+--- a/node_modules/react-native-paper/lib/module/components/FAB/FAB.js
++++ b/node_modules/react-native-paper/lib/module/components/FAB/FAB.js
+@@ -52,6 +52,7 @@ getContrastingColor;
+ const FAB = ({
+   small,
+   icon,
++  iconSize = 24,
+   label,
+   accessibilityLabel = label,
+   accessibilityState,
+@@ -135,7 +136,7 @@ const FAB = ({
+     pointerEvents: "none"
+   }, icon && loading !== true ? /*#__PURE__*/React.createElement(IconComponent, {
+     source: icon,
+-    size: 24,
++    size: iconSize,
+     color: foregroundColor
+   }) : null, loading ? /*#__PURE__*/React.createElement(ActivityIndicator, {
+     size: 18,
