@@ -92,7 +92,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   // borderWidth: 1,
                   // borderColor: 'green',
                 }}
-                label={'screens.register.fieldNameTitle'}
+                label="Name"
                 value={values.name}
                 type="flat"
                 onChangeText={handleChange('name')}
@@ -107,7 +107,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   // borderWidth: 1,
                   // borderColor: 'green',
                 }}
-                label={'screens.register.fieldLastNameTitle'}
+                label="Last name"
                 value={values.lastname}
                 type="flat"
                 onChangeText={handleChange('lastname')}
@@ -122,7 +122,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               <TextInputStyled
                 theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{ flex: 1 }}
-                label={'screens.register.fieldPasswordTitle'}
+                label="Password"
                 value={values.password}
                 type="flat"
                 onChangeText={handleChange('password')}
@@ -139,7 +139,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               <TextInputStyled
                 theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{ flex: 1 }}
-                label={'screens.register.fieldRepeatPasswordTitle'}
+                label="Repeat password"
                 value={values.confirmpassword}
                 type="flat"
                 onChangeText={handleChange('confirmpassword')}
@@ -156,7 +156,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               <TextInputStyled
                 theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{ flex: 1 }}
-                label={'screens.register.fieldEmailTitle'}
+                label="Email address"
                 value={values.email}
                 type="flat"
                 keyboardType="email-address"
@@ -185,7 +185,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   },
                 }}
               >
-                {'screens.register.fieldPhoneTitle'}
+                Phone number
               </Subheading>
             </View>
             {/* <View style={styles.rowForm} key="row4-2">
@@ -212,7 +212,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               disabled={loading}
               onPress={handleSubmit}
             >
-              {'screens.register.confirmCreateButton'}
+              Create account
             </BigButton>
           </React.Fragment>
         )}

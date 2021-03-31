@@ -67,7 +67,7 @@ const LoginForm = ({ onSubmit, loading }:Props) => {
                 >
                   <TextInputStyled
                     error={touched.email !== undefined && Boolean(errors.email)}
-                    label={'screens.login.formFieldUser'}
+                    label="Email address"
                     value={values.email}
                     onChangeText={handleChange('email')}
                     textContentType="username"
@@ -82,7 +82,7 @@ const LoginForm = ({ onSubmit, loading }:Props) => {
                 >
                   <TextInputStyled
                     error={touched.password !== undefined && Boolean(errors.password)}
-                    label={'screens.login.formFieldPassword'}
+                    label="Password"
                     value={values.password}
                     onChangeText={handleChange('password')}
                     textContentType="password"
@@ -101,7 +101,7 @@ const LoginForm = ({ onSubmit, loading }:Props) => {
                 disabled={isSubmitting || loading}
                 onPress={submitForm}
               >
-                {'screens.login.singInButton'}
+                Sign In
               </BigButton>
             </React.Fragment>
           );

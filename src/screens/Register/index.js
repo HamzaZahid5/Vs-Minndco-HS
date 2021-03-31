@@ -17,7 +17,7 @@ const getLegalContent = () => {
   const result = [];
   let interest;
   let partial;
-  const text = 'screens.register.${termOfUse}, ${privacyPolicy} & ${disclaimer} legalText';
+  const text = 'By creating an account with Mindcotine, you accept our ${termOfUse}, ${privacyPolicy} and ${disclaimer}.';
   [interest, partial] = text.split('${termOfUse}');
   result.push(<Text key={interest}>{interest}</Text>);
   result.push(
@@ -26,7 +26,7 @@ const getLegalContent = () => {
       style={styles.hyperlink}
       onPress={() => Linking.openURL('https://mindcotine.com/terms-of-use')}
     >
-      {'screens.register.termOfUse'}
+      Terms of Use
     </Text>,
   );
   [interest, partial] = partial.split('${privacyPolicy}');
@@ -37,7 +37,7 @@ const getLegalContent = () => {
       style={styles.hyperlink}
       onPress={() => Linking.openURL('https://mindcotine.com/privacy-policy')}
     >
-      {'screens.register.privacyPolicy'}
+      Privacy Policy
     </Text>,
   );
   [interest, partial] = partial.split('${disclaimer}');
@@ -48,7 +48,7 @@ const getLegalContent = () => {
       style={styles.hyperlink}
       onPress={() => Linking.openURL('https://mindcotine.com/disclaimer')}
     >
-      {'screens.register.disclaimer'}
+      Disclaimer
     </Text>,
   );
   return result;
@@ -90,7 +90,7 @@ export default withTheme(({ componentId, theme }) => {
       >
         {/* <RoundedBackButton onPress={() => navigateBack(componentId)} /> */}
         <Title style={styles.title}>
-          {'screens.register.title'}
+          Sign Up
         </Title>
         <RegisterForm onSubmit={onFormSubmit} loading={busy} />
         <View style={styles.legalContainer}>{getLegalContent()}</View>

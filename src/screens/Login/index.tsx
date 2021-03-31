@@ -95,7 +95,7 @@ const Login = ({ navigation }: Props) => {
           }}
         >
           <Title style={[styles.title, { marginTop: 50 }]}>
-            {'screens.login.title'}
+            Learn To Quit Smoking!
           </Title>
           <Button
             mode="contained"
@@ -124,7 +124,7 @@ const Login = ({ navigation }: Props) => {
               />
             )}
           >
-            {'screens.login.howWorksButton'}
+            How does it work?
           </Button>
         </View> */}
         <FadeEffect show={loginFormIsVisible}>
@@ -142,7 +142,7 @@ const Login = ({ navigation }: Props) => {
                 style={{ margin: 10, marginTop: -30 }}
                 // onPress={() => navigateToPasswordRecovery(componentId)}
               >
-                {'screens.login.forgotPassword'}
+                forgot password?
               </BigButton>
               <BigButton
                 style={{
@@ -151,7 +151,7 @@ const Login = ({ navigation }: Props) => {
                 disabled={loading}
                 onPress={() => navigation.push('Registration')}
               >
-                {'screens.login.signUpButton'}
+                Create an account
               </BigButton>
             </View>
           </View>
@@ -173,7 +173,7 @@ const Login = ({ navigation }: Props) => {
               disabled={loading}
               onPress={() => showLoginForm(true)}
             >
-              {'screens.login.enterButton'}
+              Enter
             </BigButton>
           </View>
           <View>
@@ -185,7 +185,7 @@ const Login = ({ navigation }: Props) => {
               disabled={loading}
               onPress={() => navigation.push('Registration')}
             >
-              {'screens.login.signUpButton'}
+              Create an account
             </BigButton>
           </View>
         </FadeEffect>
