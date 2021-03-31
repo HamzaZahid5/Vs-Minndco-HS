@@ -74,10 +74,13 @@ export default function App() {
       <PaperProvider theme={theme}>
         <SafeAreaProvider>
           <NavigationContainer theme={theme as NavTheme}>
-            <Stack.Navigator initialRouteName={userToken ? "Home" : "Login"} mode="modal">
+            <Stack.Navigator
+              initialRouteName={userToken ? "Home" : "Login"}
+              mode="modal"
+            >
               {userToken ? (
                 <>
-                  <Stack.Screen name="Home" component={() => (
+                  <Stack.Screen name="Main" component={() => (
                     <Drawer.Navigator
                       // openByDefault
                       drawerContent={(props) => <CustomDrawerContent {...props} />}
