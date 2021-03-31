@@ -12,9 +12,10 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { isFunction } from '../../utils/helpers';
 import LinearGradient from 'expo-linear-gradient';
 import { Text } from 'react-native';
+import { isFunction } from '../../utils/helpers';
+import BubblesBackground from '../../components/BubblesBackground'
 /**
  ==== NAV ======
  ===============
@@ -114,24 +115,27 @@ const GenericPageLayout = ({
         </Appbar.Header>
       )} */}
       {withScreenWrapper(
-        <View
-          style={[
-            styles.mainContainer,
-            { backgroundColor: theme.colors.background },
-            noScrollContent || fullScroll ? styles.staticMainContainer : null,
-          ]}
-        >
-          {/* <LinearGradient
-            colors={['#ecf1f2ff', '#ecf1f200']}
-            style={[styles.headerContainer, { backgroundColor: theme.colors.background }]}
+        <>
+          <View
+            style={[
+              styles.mainContainer,
+              { backgroundColor: 'transparent' },
+              noScrollContent || fullScroll ? styles.staticMainContainer : null,
+            ]}
           >
-            {header && <View style={styles.headerWrapper}>{header}</View>}
-          </LinearGradient> */}
-          <View style={styles.headerContainer}>
-            <View style={styles.headerWrapper}>{header}</View>
+            {/* <LinearGradient
+              colors={['#ecf1f2ff', '#ecf1f200']}
+              style={[styles.headerContainer, { backgroundColor: theme.colors.background }]}
+            >
+              {header && <View style={styles.headerWrapper}>{header}</View>}
+            </LinearGradient> */}
+            <View style={styles.headerContainer}>
+              <View style={styles.headerWrapper}>{header}</View>
+            </View>
+            {contentWraper}
           </View>
-          {contentWraper}
-        </View>
+          <BubblesBackground />
+        </>
       )}
     </>
   );
