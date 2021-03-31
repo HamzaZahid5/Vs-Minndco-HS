@@ -6,6 +6,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { auth } from '../../services/Auth';
 
 const CustomDrawerItem = ({ name, icon, onPress }) => (
   <TouchableOpacity
@@ -30,8 +31,7 @@ export default (props) => {
     <DrawerContentScrollView {...props}>
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('StressRate');
-          navigation.closeDrawer();
+          auth().signOut();
         }}
         icon="account"
         name="Profile"
