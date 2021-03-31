@@ -146,8 +146,11 @@ export default GenericPageLayout;
 const styles = StyleSheet.create({
   mainContainer: {
     // backgroundColor: theme.customs.colors.White,
-    height: '100%',
-    paddingBottom: 50,
+    minHeight: '100vh',
+    flex: 1,
+    // paddingBottom: 50,
+    borderWidth: 1,
+    borderColor: 'orange',
   },
   staticMainContainer: {
     minHeight: '100%',
@@ -160,6 +163,9 @@ const styles = StyleSheet.create({
   },
   commonContentContainer: {
     paddingHorizontal: 20,
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'lime',
   },
   thinContentContainer: {
     paddingHorizontal: 0,
