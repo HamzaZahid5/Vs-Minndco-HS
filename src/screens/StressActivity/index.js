@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ScreenDecorator from '../../components/ScreenDecorator';
 
 export default ({ navigation }) => {
   const theme = useTheme();
@@ -50,7 +51,7 @@ export default ({ navigation }) => {
   }, [selected])
   
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.primary }}>
+    <ScreenDecorator>
       {options.reverse().map((value, i) => (
         <TouchableOpacity
           key={`activity_${value}`}
@@ -63,7 +64,7 @@ export default ({ navigation }) => {
           </View>
         </TouchableOpacity>
       ))}
-    </View>
+    </ScreenDecorator>
   );
 };
 

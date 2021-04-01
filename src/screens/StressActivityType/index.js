@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FAB, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ScreenDecorator from '../../components/ScreenDecorator';
 
 const Row = ({ title, subtitle }) => {
   const theme = useTheme();
@@ -31,7 +32,7 @@ export default ({ navigation }) => {
   const theme = useTheme();
   const [selected, setSelection] = useState();
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.primary }}>
+    <ScreenDecorator>
       <TouchableOpacity
         key={`type_1`}
         onPress={() => (!selected ? setSelection(1) : null)}
@@ -53,7 +54,7 @@ export default ({ navigation }) => {
       >
         <Row title="Guided activity" subtitle="Breath sync and interactive content to relax" />
       </TouchableOpacity>
-    </View>
+    </ScreenDecorator>
   );
 };
 

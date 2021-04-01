@@ -1,8 +1,6 @@
 import React from 'react';
 // import { useSelector, useStore, useDispatch } from 'react-redux';
-import { View, Text } from 'react-native';
-import { Button } from 'react-native-paper';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { Text } from 'react-native';
 import Props from './types';
 // @ts-ignore
 import HomeLayout from '../../components/HomeLayout';
@@ -32,6 +30,7 @@ const HomeScreen = ({ navigation }: Props) => {
           type="vr-met"
           instructionsText="instructions"
           progress={50}
+          onPress={() => navigation.push('Activity')}
         />
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>

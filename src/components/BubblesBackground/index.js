@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Dimensions } from "react-native";
 import { useTheme } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useHeaderHeight } from '@react-navigation/stack';
 
 const CONFIGS = [
   [
@@ -35,8 +37,9 @@ const CONFIGS = [
     }, 
   ],
 ];
-export default () => {
+export default ({ withHeader }) => {
   const theme = useTheme();
+  const headerHeight = withHeader ? useHeaderHeight() : 0;
   return (
     <View
       style={{
@@ -44,49 +47,63 @@ export default () => {
         position: 'absolute',
         flex: 1,
         width: '100%',
-        height: Dimensions.get('window').height - 64,
-        backgroundColor: theme.colors.primary,
+        height: Dimensions.get('window').height - headerHeight,
+        // backgroundColor: theme.colors.primary,
         overflow: 'hidden',
       }}
     >
-      {CONFIGS[0].map(c => (
-        <View
-          key={c.color + c.size}
+      <LinearGradient
+        colors={[
+          theme.colors.primary,
+          theme.colors.secondary,
+          '#7AC6C6',
+        ]}
+        style={{
+          flex: 1,
+          position: 'relative',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        {CONFIGS[0].map(c => (
+          <View
+            key={c.color + c.size}
+            style={{
+              backgroundColor: c.color,
+              width: c.size,
+              height: c.size,
+              borderRadius: c.size / 2,
+              position: 'absolute',
+              opacity: 0.5,
+              ...c.pos,
+            }}
+          />
+        ))}
+        {/* <View
           style={{
-            backgroundColor: c.color,
-            width: c.size,
-            height: c.size,
-            borderRadius: c.size / 2,
+            backgroundColor: 'red',
+            width: 200,
+            height: 200,
+            borderRadius: 100,
             position: 'absolute',
-            opacity: 0.5,
-            ...c.pos,
+            top:  -50,
+            right: -120,
+            opacity: 0.25,
           }}
         />
-      ))}
-      {/* <View
-        style={{
-          backgroundColor: 'red',
-          width: 200,
-          height: 200,
-          borderRadius: 100,
-          position: 'absolute',
-          top:  -50,
-          right: -120,
-          opacity: 0.25,
-        }}
-      />
-      <View
-        style={{
-          backgroundColor: 'red',
-          width: 100,
-          height: 100,
-          borderRadius: 50,
-          position: 'absolute',
-          top:  150,
-          right: 20,
-          opacity: 0.25,
-        }}
-      /> */}
+        <View
+          style={{
+            backgroundColor: 'red',
+            width: 100,
+            height: 100,
+            borderRadius: 50,
+            position: 'absolute',
+            top:  150,
+            right: 20,
+            opacity: 0.25,
+          }}
+        /> */}
+      </LinearGradient>
     </View>
   )
 }

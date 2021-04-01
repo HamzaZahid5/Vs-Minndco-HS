@@ -77,6 +77,13 @@ export default function App() {
             <Stack.Navigator
               initialRouteName={userToken ? "Home" : "Login"}
               mode="modal"
+              headerMode="float"
+              screenOptions={{
+                headerTransparent: true,
+                headerBackground: () => (
+                  <View style={{ height: 64 }} />
+                )
+              }}
             >
               {userToken ? (
                 <>
