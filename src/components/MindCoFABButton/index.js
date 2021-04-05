@@ -11,7 +11,7 @@ export default ({ icon = 'crown', informativeText = '', onPress = () => false })
       <FAB
         style={[styles.defaulFAB, { backgroundColor: theme.colors.background }]}
         icon={icon}
-        iconSize={30}
+        iconSize={35}
         color={theme.colors.secondary}
         onPress={() => {
           if (triggerOnce) {
