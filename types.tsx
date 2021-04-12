@@ -9,4 +9,5 @@ export type RootStackParamList = {
   StressActivityType: undefined;
   Activity: undefined;
   Modal: undefined;
+  Tutorial: undefined;
 };

@@ -13,8 +13,7 @@ import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
 // import * as eva from '@eva-design/eva';
 // import { ApplicationProvider } from '@ui-kitten/components';
 import configureStore from './src/store';
-// @ts-ignore
-import BootUp from './src/utils/BootUp';
+
 import HomeScreen from './src/screens/Home';
 import RegistrationScreen from './src/screens/Register';
 import LoginScreen from './src/screens/Login';
@@ -30,6 +29,10 @@ import CustomDrawerContent from './src/screens/Home/CustomDrawerContent';
 import ActivityScreen from './src/screens/ActivityScreen';
 // @ts-ignore
 import ModalScreen from './src/screens/ModalScreen';
+// @ts-ignore
+import TutorialScreen from './src/screens/Tutorial';
+// @ts-ignore
+import { useFirestoreListener } from './src/services/Firestore';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -40,34 +43,43 @@ const Stack = createStackNavigator<RootStackParamList>();
 const store = configureStore();
 const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 const Drawer = createDrawerNavigator();
+// @ts-ignore
+const customDrawerContent = props => (
+  <CustomDrawerContent {...props} />
+);
+
+const MainComponent = () => (
+  <Drawer.Navigator
+    // openByDefault
+    drawerContent={customDrawerContent}
+    drawerStyle={{
+      width: 80,
+    }}
+  >
+    <Drawer.Screen name="Home" component={HomeScreen}   options={{ headerShown: false }} />
+  </Drawer.Navigator>
+);
 
 export default function App() {
   const [ready, setReady] = useState(false);
   const userToken = useAuth();
-  useEffect(() => {
-    if (userToken) {
-      store.dispatch({ type: 'user/setAuth', payload: userToken });
-    }
-  }, [userToken]);
+  if (userToken) {
+    store.dispatch({ type: 'user/setAuth', payload: userToken });
+  }
+  
+  const userData = useFirestoreListener('users', userToken?.uid);
+  if (userData) {
+    store.dispatch({ type: 'user/setUser', payload: userData });
+  }
+  // console.log(store.getState().user.data);
 
   // while not ready
   if (userToken === undefined) {
     return <View><Text>Loading...</Text></View>;
-  } else {
-    if (userToken) {
-      if (!ready) {
-        return (
-          <Provider store={store}>
-            <BootUp onReady={() => setReady(true)} />
-          </Provider>
-        );
-      }
-    } else {
-      if (ready) {
-        setReady(false);
-      }
-    }
   }
+  
+  // overwrite Home if show_basic_tutorial
+  const protectedRouteName = store.getState().user.data?.flags?.show_basics_tutorial ? "Tutorial" : "Home";
 
   return (
     <Provider store={store}>
@@ -75,7 +87,7 @@ export default function App() {
         <SafeAreaProvider>
           <NavigationContainer theme={theme as NavTheme}>
             <Stack.Navigator
-              initialRouteName={userToken ? "Home" : "Login"}
+              initialRouteName={userToken ? protectedRouteName : "Login"}
               mode="modal"
               headerMode="float"
               screenOptions={{
@@ -87,18 +99,8 @@ export default function App() {
             >
               {userToken ? (
                 <>
-                  <Stack.Screen name="Main" component={() => (
-                    <Drawer.Navigator
-                      // openByDefault
-                      drawerContent={(props) => <CustomDrawerContent {...props} />}
-                      drawerStyle={{
-                        width: 80,
-                      }}
-                    >
-                      <Drawer.Screen name="Home" component={HomeScreen}   options={{ headerShown: false }} />
-                    </Drawer.Navigator>
-                  )
-                  }   options={{ headerShown: false }} />
+                  <Stack.Screen name="Main" component={MainComponent}   options={{ headerShown: false }} />
+                  <Stack.Screen name="Tutorial" component={TutorialScreen}   options={{ headerShown: false }} />
                   <Stack.Screen name="StressRate" component={StressRateScreen} options={{ headerShown: true, title: 'Rate your current stress' }} />
                   <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
