@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import flagger, { FlagsState } from './slices/flags';
 // @ts-ignore
-import user from './slices/user';
+import user, { UserState } from './slices/user';
 
 export type RootState = {
   flags: FlagsState;
-  user: any;
+  user: UserState;
 }
 
 const reducer = combineReducers({
