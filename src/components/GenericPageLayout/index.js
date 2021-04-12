@@ -85,6 +85,15 @@ const GenericPageLayout = ({
   //   topBarRight ||
   //   (onClose && <Appbar.Action icon="close" onPress={onClose} />);
 
+  const ScreenWrapper = ({ noWrap = false, children }) => (
+    noWrap
+      ? children
+      : (
+        <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
+          {children}
+        </KeyboardAwareScrollView>
+      )
+  )
   const withScreenWrapper =
     fullScroll || withKeyboard
       ? children => (
@@ -114,7 +123,7 @@ const GenericPageLayout = ({
           {RightActions}
         </Appbar.Header>
       )} */}
-      {withScreenWrapper(
+      <ScreenWrapper noWrapp={!fullScroll && !withKeyboard}>
         <>
           <View
             style={[
@@ -136,7 +145,30 @@ const GenericPageLayout = ({
           </View>
           <BubblesBackground />
         </>
-      )}
+      </ScreenWrapper>
+      {/* {withScreenWrapper(
+        <>
+          <View
+            style={[
+              styles.mainContainer,
+              { backgroundColor: 'transparent' },
+              noScrollContent || fullScroll ? styles.staticMainContainer : null,
+            ]}
+          >
+            <LinearGradient
+              colors={['#ecf1f2ff', '#ecf1f200']}
+              style={[styles.headerContainer, { backgroundColor: theme.colors.background }]}
+            >
+              {header && <View style={styles.headerWrapper}>{header}</View>}
+            </LinearGradient>}
+            <View style={styles.headerContainer}>
+              <View style={styles.headerWrapper}>{header}</View>
+            </View>
+            {contentWraper}
+          </View>
+          <BubblesBackground />
+        </>
+      )} */}
     </>
   );
 };
@@ -148,8 +180,9 @@ const styles = StyleSheet.create({
     // backgroundColor: theme.customs.colors.White,
     minHeight: '100vh',
     flex: 1,
-    // paddingBottom: 50,
-    borderWidth: 1,
+    paddingBottom: 50,
+    // borderWidth: 10,
+    height: '100%',
     borderColor: 'orange',
   },
   staticMainContainer: {
