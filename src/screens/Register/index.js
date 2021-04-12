@@ -4,9 +4,10 @@ import {
   Surface,
   Text,
   Title,
-  withTheme,
+  useTheme,
 } from 'react-native-paper';
-import auth from '@react-native-firebase/auth';
+import {auth} from '../../services/Auth';
+import functions from '../../services/Functions';
 import RegisterForm from './../../components/RegisterForm';
 // import RoundedBackButton from './../../components/RoundedBackButton';
 // import ChipButton from './../../components/ChipButton';
@@ -53,29 +54,30 @@ const getLegalContent = () => {
   );
   return result;
 };
-export default withTheme(({ componentId, theme }) => {
+export default ({ }) => {
   const [busy, setBusy] = useState(false);
+  const theme = useTheme();
   const onFormSubmit = async form => {
     if (!busy) {
       setBusy(true);
       // console.log(form);
       try {
-        // @TODO move it to redux action
-        await auth().createUserWithEmailAndPassword(form.email, form.password);
-        // const userCredentials = await Firebase.createUser(form);
-        await auth().signInWithEmailAndPassword(form.email, form.password);
-        // await Firebase.signInUser(form); // needed to write users collection
-        // complement form
-        // form.tz = RNLocalize.getTimeZone();
-        // form.tz_offset = new Date().getTimezoneOffset() * -60;
-        // await Firebase.registerUser({ uid: userCredentials.user.uid, ...form });
-        // =============================
+        const userCredentials = await auth().createUserWithEmailAndPassword(form.email, form.password);
+        form.tz_offset = (new Date()).getTimezoneOffset() * -60;
+        
+        delete form.password;
+        delete form.confirmpassword;
+        
+        await functions().httpsCallable('registerUser')({ uid: userCredentials.user.uid, ...form });
 
-        // navigateToAuth(componentId);
+        // navigation occurs on auth state change.
+
       } catch (e) {
         alert(e);
+        
+        // keep this line here to avoid update of unmounted component.
+        setBusy(false);
       }
-      setBusy(false);
     }
   };
   return (
@@ -97,7 +99,7 @@ export default withTheme(({ componentId, theme }) => {
       </Surface>
     </ScrollView>
   );
-});
+};
 
 const styles = StyleSheet.create({
   absolutScrollView: {
