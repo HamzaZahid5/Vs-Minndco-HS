@@ -32,22 +32,22 @@ const getRegisterSchema = () => {
   return Yup.object().shape({
     name: Yup.string()
       .max(50, 'commons.messages.fieldTooLong')
-      .required('commons.messages.fieldRequired'),
+      .required('Required'),
     lastname: Yup.string()
       .max(50, 'commons.messages.fieldTooLong')
-      .required('commons.messages.fieldRequired'),
+      .required('Required'),
     password: Yup.string()
-      .min(6, 'commons.messages.passwordTooShort')
-      .required('commons.messages.fieldRequired'),
+      .min(6, 'Password too short')
+      .required('Required'),
     confirmpassword: Yup.string()
       .oneOf(
         [Yup.ref('password'), null],
-        'commons.messages.passwordDoNotMatch',
+        'Password do not match',
       )
-      .required('commons.messages.passwordDoNotMatch'),
+      .required('Password do not match'),
     email: Yup.string()
-      .email('commons.messages.invalidEmail')
-      .required('commons.messages.fieldRequired'),
+      .email('Invalid email')
+      .required('Required'),
   });
 };
 
@@ -63,14 +63,14 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
     >
       <Formik
         initialValues={{
-          name: '',
-          lastname: '',
-          password: '',
-          confirmpassword: '',
-          phone: '',
-          email: '',
-          gender: 'f',
-          country: 'US', // it is set on phone selection
+          name: 'Tito',
+          lastname: 'Capo',
+          password: '123456',
+          confirmpassword: '123456',
+          // phone: '',
+          email: 'tito@test.com',
+          // gender: 'f',
+          // country: 'US', // it is set on phone selection
         }}
         onSubmit={(values, actions) => _onSubmit(values, actions)}
         validationSchema={getRegisterSchema()}
@@ -78,7 +78,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
         {({
           handleChange,
           isSubmitting,
-          handleSubmit,
+          submitForm,
           values,
           errors,
           touched,
@@ -118,6 +118,23 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 }
               />
             </View>
+            <View style={styles.rowForm} key="row5">
+              <TextInputStyled
+                theme={{ roundness: 0, colors: { background: 'transparent' } }}
+                style={{ flex: 1 }}
+                label="Email address"
+                value={values.email}
+                type="flat"
+                keyboardType="email-address"
+                onChangeText={handleChange('email')}
+                error={
+                  touched.email !== undefined && errors.email
+                    ? errors.email
+                    : null
+                }
+              />
+            </View>
+            
             <View style={styles.rowForm} key="row2">
               <TextInputStyled
                 theme={{ roundness: 0, colors: { background: 'transparent' } }}
@@ -152,56 +169,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 }
               />
             </View>
-            <View style={styles.rowForm} key="row5">
-              <TextInputStyled
-                theme={{ roundness: 0, colors: { background: 'transparent' } }}
-                style={{ flex: 1 }}
-                label="Email address"
-                value={values.email}
-                type="flat"
-                keyboardType="email-address"
-                onChangeText={handleChange('email')}
-                error={
-                  touched.email !== undefined && errors.email
-                    ? errors.email
-                    : null
-                }
-              />
-            </View>
-            <View
-              key="row4"
-              style={[
-                styles.rowForm,
-                { marginTop: 20, paddingLeft: 10, height: 40 },
-              ]}
-            >
-              <Subheading
-                theme={{
-                  colors: {
-                    text:
-                      errors.phone && touched.phone
-                        ? theme.colors.error
-                        : theme.colors.error,
-                  },
-                }}
-              >
-                Phone number
-              </Subheading>
-            </View>
-            {/* <View style={styles.rowForm} key="row4-2">
-              <PhoneNumberInput
-                onChange={(value, state) => {
-                  handleChange('phone')(value);
-                  handleChange('country')(state.countryAbbr);
-                }}
-                value={values.phone}
-                error={
-                  touched.phone !== undefined && errors.phone
-                    ? errors.phone
-                    : null
-                }
-              />
-            </View> */}
+            
             <BigButton
               key="submitBtn"
               style={{
@@ -210,7 +178,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               }}
               loading={loading}
               disabled={loading}
-              onPress={handleSubmit}
+              onPress={submitForm}
             >
               Create account
             </BigButton>
