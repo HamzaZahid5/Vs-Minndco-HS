@@ -30,7 +30,7 @@ import ActivityScreen from './src/screens/ActivityScreen';
 // @ts-ignore
 import ModalScreen from './src/screens/ModalScreen';
 // @ts-ignore
-import TutorialScreen from './src/screens/Tutorial';
+import WelcomeWizardScreen from './src/screens/WelcomeWizard';
 // @ts-ignore
 import { useFirestoreListener } from './src/services/Firestore';
 
@@ -74,12 +74,12 @@ export default function App() {
   // console.log(store.getState().user.data);
 
   // while not ready
-  if (userToken === undefined) {
+  if (userToken === undefined || !userData) {
     return <View><Text>Loading...</Text></View>;
   }
   
   // overwrite Home if show_basic_tutorial
-  const protectedRouteName = store.getState().user.data?.flags?.show_basics_tutorial ? "Tutorial" : "Home";
+  const protectedRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Home";
 
   return (
     <Provider store={store}>
@@ -100,7 +100,7 @@ export default function App() {
               {userToken ? (
                 <>
                   <Stack.Screen name="Main" component={MainComponent}   options={{ headerShown: false }} />
-                  <Stack.Screen name="Tutorial" component={TutorialScreen}   options={{ headerShown: false }} />
+                  <Stack.Screen name="Tutorial" component={WelcomeWizardScreen}   options={{ headerShown: false }} />
                   <Stack.Screen name="StressRate" component={StressRateScreen} options={{ headerShown: true, title: 'Rate your current stress' }} />
                   <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />

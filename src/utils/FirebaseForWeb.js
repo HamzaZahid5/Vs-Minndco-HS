@@ -23,7 +23,7 @@ const initializeApp = () => {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-  //firebase.analytics();
+  firebase.analytics();
   window.firebaseInitialized();
   `;
 
@@ -36,6 +36,7 @@ export default async callback => {
     'https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js',
     'https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js',
     'https://www.gstatic.com/firebasejs/8.3.1/firebase-functions.js',
+    'https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js',
     // Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries
   ]);
   // all loaded

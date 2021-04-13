@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import firestore from './firestore';
+import {auth} from '../Auth';
 
 export default firestore;
 
@@ -25,3 +26,10 @@ export const useFirestoreListener = (collection, id = null) => {
 
   return snapshotData;
 };
+
+export const updateBasicTutorialCompleted = () => firestore()
+  .collection('users')
+  .doc(auth().currentUser.uid)
+  .update({
+    'flags.show_basics_tutorial': false
+  })

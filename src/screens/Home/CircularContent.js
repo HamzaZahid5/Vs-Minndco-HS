@@ -26,11 +26,11 @@ const CircularContent = ({
         <Title style={styles.activityTitle}>{title}</Title>
       </View>
       <View style={styles.flexStartContent}>
-        <Icon
+        {type && <Icon
           name={getIconByActivityType(type)}
           size={80}
           color="#3C828C"
-        />
+        />}
       </View>
     </>
   );
