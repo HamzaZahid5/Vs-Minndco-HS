@@ -40,4 +40,17 @@ export const updateBasicTutorialCompleted = () => firestore()
   .doc(auth().currentUser.uid)
   .update({
     'flags.show_basics_tutorial': false
-  })
+  });
+
+export const getKitById = code => firestore()
+    .collection('kits')
+    .doc(code)
+    .get();
+
+export const burnCode = code => firestore()
+  .collection('kits')
+  .doc(code)
+  .update({
+    burnt_at: new Date(),
+    used_by: auth().currentUser.uid,
+  });

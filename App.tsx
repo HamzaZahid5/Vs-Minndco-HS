@@ -32,6 +32,8 @@ import ModalScreen from './src/screens/ModalScreen';
 // @ts-ignore
 import WelcomeWizardScreen from './src/screens/WelcomeWizard';
 // @ts-ignore
+import KitActivationScreen from './src/screens/KitActivation';
+// @ts-ignore
 import { useFirestoreListener } from './src/services/Firestore';
 
 import ThemeInspector from './src/utils/ThemeInspector';
@@ -105,6 +107,7 @@ export default function App() {
                   <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
+                  <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
                 </>
               ) : (
                 <>

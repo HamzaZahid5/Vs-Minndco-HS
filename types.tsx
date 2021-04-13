@@ -10,4 +10,5 @@ export type RootStackParamList = {
   Activity: undefined;
   Modal: undefined;
   Tutorial: undefined;
+  KitActivation: undefined;
 };

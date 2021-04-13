@@ -57,7 +57,7 @@ export default (props) => {
 
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('StressRate');
+          navigation.push('KitActivation');
           navigation.closeDrawer();
         }}
         icon="google-cardboard"
