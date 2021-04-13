@@ -34,6 +34,8 @@ import WelcomeWizardScreen from './src/screens/WelcomeWizard';
 // @ts-ignore
 import KitActivationScreen from './src/screens/KitActivation';
 // @ts-ignore
+import KitFinishScreen from './src/screens/KitFinish';
+// @ts-ignore
 import { useFirestoreListener } from './src/services/Firestore';
 
 import ThemeInspector from './src/utils/ThemeInspector';
@@ -108,6 +110,7 @@ export default function App() {
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
+                  <Stack.Screen name="KitFinish" component={KitFinishScreen} options={{ title: 'KIT activated' }} />
                 </>
               ) : (
                 <>
