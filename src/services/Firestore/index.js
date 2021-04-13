@@ -4,22 +4,30 @@ import {auth} from '../Auth';
 
 export default firestore;
 
-export const useFirestoreListener = (collection, id = null) => {
+export const useFirestoreListener = (collection, id) => {
   const [snapshotData, setSnapshotData] = useState();
   useEffect(() => {
-    if (id === null) return;
-    
     let unsubscribe = Function;
-    try {
-      unsubscribe = firestore()
-        .collection(collection)
-        .doc(id)
-        .onSnapshot(userSnapshot => {
-          setSnapshotData(userSnapshot?.data() ?? null);
-        });
-    } catch(e) {
-      alert(e);
+    if (id !== undefined) {
+      if (id === null) {
+        setSnapshotData(null);
+      } else {
+
+        try {
+          unsubscribe = firestore()
+            .collection(collection)
+            .doc(id)
+            .onSnapshot(userSnapshot => {
+              setSnapshotData(userSnapshot?.data() ?? null);
+            });
+        } catch(e) {
+          alert(e);
+        }
+
+      }
+
     }
+    
     
     return () => unsubscribe;
   }, [id]);

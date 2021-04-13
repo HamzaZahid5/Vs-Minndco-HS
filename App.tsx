@@ -67,20 +67,20 @@ export default function App() {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
   }
   
-  const userData = useFirestoreListener('users', userToken?.uid);
+  const userData = useFirestoreListener('users', userToken?.uid ?? null);
   if (userData) {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
   // console.log(store.getState().user.data);
-
+  
   // while not ready
-  if (userToken === undefined || !userData) {
+  console.log(userToken, userData);
+  if (userToken === undefined || userData === undefined) {
     return <View><Text>Loading...</Text></View>;
   }
   
   // overwrite Home if show_basic_tutorial
   const protectedRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Home";
-
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

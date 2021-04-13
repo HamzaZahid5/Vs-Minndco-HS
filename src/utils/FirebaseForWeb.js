@@ -1,12 +1,30 @@
 const enqueueScripts = async (scriptArrays) => {
-  const promises = scriptArrays.map(scriptUri => new Promise(resolve => {
+
+  const injectScript = scriptUri => new Promise(resolve => {
+    
     const script = window.document.createElement('script');
     script.src = scriptUri;
-    script.onload = resolve;
+    script.onload = () => {
+      console.log('injecting', scriptUri);
+      resolve();
+    };
     window.document.head.appendChild(script);
-  }));
-  await Promise.all(promises);
+  });
+  await scriptArrays.reduce( async (previousPromise, nextScript) => {
+    await previousPromise;
+    return injectScript(nextScript);
+  }, Promise.resolve());
+
   return true;
+
+  // const promises = scriptArrays.map(scriptUri => new Promise(resolve => {
+  //   const script = window.document.createElement('script');
+  //   script.src = scriptUri;
+  //   script.onload = resolve;
+  //   window.document.head.appendChild(script);
+  // }));
+  // await Promise.all(promises);
+  // return true;
 }
 
 const initializeApp = () => {

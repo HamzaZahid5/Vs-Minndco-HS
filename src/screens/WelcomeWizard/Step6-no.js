@@ -124,6 +124,7 @@ const getStyles = theme => StyleSheet.create({
   contentWrapper: {
     height: 'auto',
     position: 'absolute',
+    width: '100vw',
     top: -90,
     minWidth: '100%',
     alignContent: 'center',

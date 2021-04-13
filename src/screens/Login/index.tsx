@@ -130,10 +130,10 @@ const Login = ({ navigation }: Props) => {
         <FadeEffect show={loginFormIsVisible}>
           <View style={{
             flex: 1,
+            width: '100vw',
+            padding: 20,
             maxWidth: '100%',
             justifyContent: 'center',
-            borderWidth: 1,
-            borderColor: 'red',
           }}>
             <LoginForm onSubmit={onFormSubmit} loading={loading} />
             <View>
