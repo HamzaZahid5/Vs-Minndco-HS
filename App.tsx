@@ -24,6 +24,8 @@ import StressActivityScreen from './src/screens/StressActivity';
 // @ts-ignore
 import StressActivityTypeScreen from './src/screens/StressActivityType';
 // @ts-ignore
+import StressActivityToDoScreen from './src/screens/StressActivityScreen';
+// @ts-ignore
 import CustomDrawerContent from './src/screens/Home/CustomDrawerContent';
 // @ts-ignore
 import ActivityScreen from './src/screens/ActivityScreen';
@@ -108,6 +110,7 @@ export default function App() {
                   <Stack.Screen name="StressRate" component={StressRateScreen} options={{ headerShown: true, title: 'Rate your current stress' }} />
                   <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
+                  <Stack.Screen name="StressActivityToDo" component={StressActivityToDoScreen} options={{ title: '' }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
                   <Stack.Screen name="KitFinish" component={KitFinishScreen} options={{ title: 'KIT activated' }} />

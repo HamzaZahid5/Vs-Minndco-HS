@@ -31,6 +31,20 @@ const Row = ({ title, subtitle }) => {
 export default ({ navigation }) => {
   const theme = useTheme();
   const [selected, setSelection] = useState();
+
+  useEffect(() => {
+    switch(selected) {
+      case 1:
+        navigation.push('StressActivityToDo', { type: 'READ' });
+        break;
+      case 2:
+        navigation.push('StressActivityToDo', { type: 'LISTEN' });
+        break;
+      case 3:
+        navigation.push('StressActivityToDo', { type: 'DO' });
+        break;
+    }
+  }, [selected]);
   return (
     <ScreenDecorator>
       <TouchableOpacity

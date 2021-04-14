@@ -12,4 +12,5 @@ export type RootStackParamList = {
   Tutorial: undefined;
   KitActivation: undefined;
   KitFinish: undefined;
+  StressActivityToDo: undefined;
 };

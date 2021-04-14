@@ -3,9 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ScreenDecorator from '../../components/ScreenDecorator';
+import useAppActions from './actions';
 
 export default ({ navigation }) => {
   const theme = useTheme();
+  const { saveStressOMeter } = useAppActions();
+  
   const [selected, setSelection] = useState();
   const options = [
     'working',
@@ -46,13 +49,15 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     if (selected) {
+      saveStressOMeter(selected);
+      
       navigation.push('StressActivityType');
     }
   }, [selected])
   
   return (
     <ScreenDecorator>
-      {options.reverse().map((value, i) => (
+      {options.map((value, i) => (
         <TouchableOpacity
           key={`activity_${value}`}
           onPress={() => (!selected ? setSelection(value) : null)}

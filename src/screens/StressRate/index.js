@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 import Row from './AnimatedRateRow';
 import ScreenDecorator from '../../components/ScreenDecorator';
 
 export default ({ navigation }) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [selected, setSelection] = useState();
   const rate = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const colorsIni = [
@@ -38,6 +40,7 @@ export default ({ navigation }) => {
   // }, [selected]);
   const onSelected = idx => {
     if (idx === selected) {
+      dispatch({ type: 'currentStress/setStressLevel', payload: idx });
       navigation.push('StressActivity');
     }
   };

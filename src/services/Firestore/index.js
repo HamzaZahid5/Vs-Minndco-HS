@@ -51,6 +51,17 @@ export const burnCode = code => firestore()
   .collection('kits')
   .doc(code)
   .update({
-    burnt_at: new Date(),
+    burnt_at: firestore.FieldValue.serverTimestamp(),
     used_by: auth().currentUser.uid,
   });
+
+export const saveStressRecord = (level, activity) => firestore()
+  .collection('users')
+  .doc(auth().currentUser.uid)
+  .update({
+    'statistics.stressJournal':  firestore.FieldValue.arrayUnion({
+      date: new Date(),
+      level,
+      activity,
+    }),
+  })
