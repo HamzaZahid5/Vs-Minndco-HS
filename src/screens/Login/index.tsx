@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, ScrollView, Linking } from 'react-native';
+import { View, Image, ScrollView, Linking, Platform } from 'react-native';
 // @ts-ignore
 import { auth } from '../../services/Auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
@@ -130,7 +130,7 @@ const Login = ({ navigation }: Props) => {
         <FadeEffect show={loginFormIsVisible}>
           <View style={{
             flex: 1,
-            width: '100vw',
+            width: Platform.OS === 'web' ? '100vw' : '100%',
             padding: 20,
             maxWidth: '100%',
             justifyContent: 'center',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Button, Platform, TouchableWithoutFeedback } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
 export default () => {
@@ -41,12 +41,16 @@ export default () => {
 const styles = StyleSheet.create({
   videoContainer: {
     height: 232,
-    // flex: 1,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'red',
   },
   video: {
     height: 232,
+    flex: 1,
   },
   buttons: {
+    display: Platform.OS === 'web' ? 'flex' : 'none',
     position: 'relative',
     bottom: -10,
     zIndex: 999,

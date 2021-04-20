@@ -7,6 +7,7 @@ import GenericChipButton from './GenericChipButton';
 import anime from '../../utils/anime';
 import FadeEffect from '../../components/FadeEffect';
 import FABButton from '../../components/MindCoFABButton';
+import { Platform } from 'react-native';
 
 const FullScreenHomeMessage = ({ message = '', next }) => {
   const theme = useTheme();
@@ -115,7 +116,7 @@ const getStyles = theme => StyleSheet.create({
   contentWrapper: {
     height: 'auto',
     position: 'absolute',
-    width: '100vw',
+    width: Platform.OS === 'web' ? '100vw' : '100%',
     top: -90,
     minWidth: '100%',
     alignContent: 'center',

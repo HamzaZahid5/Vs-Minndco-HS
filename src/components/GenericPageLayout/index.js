@@ -16,6 +16,7 @@ import LinearGradient from 'expo-linear-gradient';
 import { Text } from 'react-native';
 import { isFunction } from '../../utils/helpers';
 import BubblesBackground from '../../components/BubblesBackground'
+import { Platform } from 'react-native';
 /**
  ==== NAV ======
  ===============
@@ -178,7 +179,7 @@ export default GenericPageLayout;
 const styles = StyleSheet.create({
   mainContainer: {
     // backgroundColor: theme.customs.colors.White,
-    minHeight: '100vh',
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
     flex: 1,
     paddingBottom: 50,
     // borderWidth: 10,
