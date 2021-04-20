@@ -143,7 +143,7 @@ const GenericPageLayout = ({
             </View>
             {contentWraper}
           </View>
-          <BubblesBackground />
+          {/* { withBG && <BubblesBackground />} */}
         </>
       </ScreenWrapper>
       {/* {withScreenWrapper(

@@ -86,7 +86,7 @@ export default function App() {
   }
   
   // overwrite Home if show_basic_tutorial
-  const protectedRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Home";
+  const protectedRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Main";
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

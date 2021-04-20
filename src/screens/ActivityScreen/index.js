@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {
   useTheme,
@@ -10,68 +10,80 @@ import {
 } from 'react-native-paper';
 import BigButton from '../../components/BigButton';
 import GenericPageLayout from '../../components/GenericPageLayout';
+import VidePlayer from '../../components/VidePlayer';
+import ScreenDecorator from '../../components/ScreenDecorator';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers'
 
 export default () => {
   const theme = useTheme();
+  const [action, setAction] = useState('INIT');
   const activity = {
     type: 'vr-met',
     duration: 10,
     description: '',
   }
   return (
-    <GenericPageLayout
-      fullScroll
-      header={
-        <View style={styles.hero}>
-          <View style={styles.heroContent}>
-            <View style={{ width: '60%', alignItems: 'center' }}>
-              <Headline style={[styles.headline, { ...theme.fonts.headline }]}>
-                activity.name
-              </Headline>
-              <View style={{ marginTop: 20, height: 40 }}>
-                <BigButton variant="accent">
-                  Please, Rotate your device
-                </BigButton>
+    <ScreenDecorator>
+      <GenericPageLayout
+        fullScroll
+        header={
+          <View style={styles.hero}>
+            <View style={styles.heroContent}>
+              <View style={{ width: '60%', alignItems: 'center' }}>
+                { action === 'INIT' && (
+                  <>
+                    <Headline style={[styles.headline, { ...theme.fonts.headline }]}>
+                      activity.name
+                    </Headline>
+                    <View style={{ marginTop: 20, height: 40 }}>
+                      <BigButton variant="accent" onPress={() => setAction('PLAY_VIDEO')}>
+                        Play
+                      </BigButton>
+                    </View>
+                  </>
+                )}
+                { action === 'PLAY_VIDEO' && (
+                  <VidePlayer />
+                )}
               </View>
             </View>
           </View>
-        </View>
-      }
-    >
-      <View style={{
-        borderWidth: 1,
-        borderColor: 'red',
-        // flexGrow: 1,
-      }}>
-        <View style={[styles.content]}>
-          <IconButton
-            icon={getIconByActivityType(activity.type)}
-            size={30}
-            color="white"
-            style={[styles.activityIcon, { backgroundColor: theme.colors.background } ]}
+        }
+      >
+        <View style={{
+          borderWidth: 1,
+          borderColor: 'red',
+          // flexGrow: 1,
+        }}>
+          <View style={[styles.content]}>
+            <IconButton
+              icon={getIconByActivityType(activity.type)}
+              size={30}
+              color="white"
+              style={[styles.activityIcon, { backgroundColor: theme.colors.background } ]}
+            />
+            <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
+              {activity.duration}{' min.'}
+            </Title>
+            <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{activity.description}</Paragraph>
+          </View>
+          <Divider
+            style={{
+              marginTop: 24,
+              backgroundColor: theme.colors.backdrop,
+            }}
           />
-          <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
-            {activity.duration}{' min.'}
-          </Title>
-          <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{activity.description}</Paragraph>
+          <View style={styles.content}>
+            <Title style={styles.title}>
+              Some tips before start
+            </Title>
+            <Paragraph style={styles.description}>
+              {getTipsByActivityType(activity.type)}
+            </Paragraph>
+          </View>
         </View>
-        <Divider
-          style={{
-            marginTop: 24,
-            backgroundColor: theme.colors.backdrop,
-          }}
-        />
-        <View style={styles.content}>
-          <Title style={styles.title}>
-            Some tips before start
-          </Title>
-          <Paragraph style={styles.description}>
-            {getTipsByActivityType(activity.type)}
-          </Paragraph>
-        </View>
-      </View>
-    </GenericPageLayout>
+      </GenericPageLayout>
+    </ScreenDecorator>
   );
 };
 

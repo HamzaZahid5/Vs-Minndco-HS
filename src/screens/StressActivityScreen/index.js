@@ -5,6 +5,7 @@ import AudioPlayer from '../../components/AudioPlayer';
 import BreathSync from '../../components/BreathSync';
 import DeepBreathSync from '../../components/DeepBreathSync';
 import BubbleWrapGame from '../../components/BubbleWrapGame';
+import ScreenDecorator from '../../components/ScreenDecorator';
 import {
   LIFESAVER_READS,
   LIFESAVER_AUDIOS,
@@ -26,7 +27,7 @@ const getContentByType = (type) => {
 
 export default ({ navigation, route }) => {
   const [content, setContent] = useState();
-  const { type: activityType } = route.params;
+  const { type: activityType = '' } = route?.params || {};
   const {
     resetPerformedLifesaverActivity,
     addPerformedLifesaverActivity,
@@ -52,16 +53,18 @@ export default ({ navigation, route }) => {
   const onCloseActivity = () => navigation.popToTop();
 
   return (
-    <>
+    <ScreenDecorator>
       {activityType === 'READ' && content && (
         <ReadActivity content={content} onClose={onCloseActivity} />
       )}
       {activityType === 'LISTEN' && content && (
         <AudioPlayer
-          storagePath={content.source}
+          src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938"
+          // storagePath={content.source}
           onClose={onCloseActivity}
         />
       )}
+
       {activityType === 'DO' &&
         content &&
         content.id === 'deep-breath-sync' && (
@@ -73,6 +76,6 @@ export default ({ navigation, route }) => {
       {activityType === 'DO' && content && content.id === 'bubbles-wrapper' && (
         <BubbleWrapGame onClose={onCloseActivity} />
       )}
-    </>
+    </ScreenDecorator>
   )
 }
