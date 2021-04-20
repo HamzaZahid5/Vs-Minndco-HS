@@ -29,7 +29,7 @@ export default () => {
         header={
           <View style={styles.hero}>
             <View style={styles.heroContent}>
-              <View style={{ width: '60%', alignItems: 'center' }}>
+              <View style={{ width: '100%', alignItems: 'center' }}>
                 { action === 'INIT' && (
                   <>
                     <Headline style={[styles.headline, { ...theme.fonts.headline }]}>
