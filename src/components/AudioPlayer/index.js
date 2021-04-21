@@ -3,12 +3,10 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { IconButton, useTheme } from 'react-native-paper';
 import { Audio } from 'expo-av'
 import Slider from '@react-native-community/slider';
 import Color from 'color';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 
 let tId;
 const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
@@ -16,11 +14,11 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
   const isSliding = useRef();
   const isPlaying = useRef();
   const shouldPlay = useRef();
-  const [playing, setPlaying] = useState(false);
-  const [thumbIcon, setIcon] = useState();
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
+  const theme = useTheme();
+  const styles = getStyles(theme);
 
   async function loadSound(uri) {
     const { sound } = await Audio.Sound.createAsync({uri});
@@ -42,7 +40,6 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
   }
   
   const getStatus = () => {
-    // sound?.getStatusAsync().then(console.log)
     //durationMillis
     sound?.getStatusAsync().then(status => {
       if (currentTime !== status.positionMillis) {
@@ -51,10 +48,7 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
       if (duration !== status.durationMillis) {
         setDuration(status.durationMillis);
       }
-      // if (playing !== status.isPlaying) {
-      //   setPlaying(status.isPlaying);
-      // }
-      // console.log(status.positionMillis * 100 / status.durationMillis);
+      
       statusTId.current = setTimeout(getStatus, 100);
     });
   }
@@ -78,9 +72,6 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
   // useKeepAwake();
   useEffect(() => {
     shouldPlay.current = true;
-    // if (Platform.OS !== "web") {
-    //   Icon.getImageSource('circle', 15, 'white').then(icon => setIcon(icon));
-    // }
     return () => {
       clearTimeout(tId);
       clearTimeout(statusTId.current);
@@ -95,7 +86,6 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
     isSliding.current = true;
   };
   const slidingComplete = val => {
-    console.log('slide complete')
     setCurrentTime(val);
     seekTo(val);
     if (shouldPlay.current && !isPlaying.current) {
@@ -110,7 +100,7 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
     stopSound();
   }
   return (
-    <View style={[styles.playerContainer, { backgroundColor: 'black' }]}>
+    <View style={styles.playerContainer}>
       <View style={styles.controls}>
         <IconButton
           icon={isPlaying.current ? 'pause' : 'play'}
@@ -125,23 +115,8 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
             if (!shouldPlay.current && isPlaying.current) {
               pauseSound();
             }
-            // setPlaying(!playing)
           }}
         />
-        {/* <View style={styles.progressIconsContainer}>
-          <IconButton
-            icon="rewind-10"
-            size={20}
-            color="white"
-            onPress={rewindTen}
-          />
-          <IconButton
-            icon="fast-forward-10"
-            size={20}
-            color="white"
-            onPress={forwardTen}
-          />
-        </View> */}
       </View>
       <Slider
         style={styles.progressSlider}
@@ -155,67 +130,33 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
                 .toString()
             : 'white'
         }
-        // onValueChange={console.log('value change')}
         onSlidingStart={slidingStart}
         onSlidingComplete={slidingComplete}
         value={!isSliding.current ? currentTime : 0}
         thumbTintColor="white"
-        // thumbImage={thumbIcon}
       />
-      {/* {src && (
-        <Video
-          source={{ uri: src, type: 'mp3' }} // Can be a URL or a local file.
-          ref={ref => {
-            player = ref;
-          }} // Store reference
-          ignoreSilentSwitch="ignore"
-          onLoad={({ duration }) => {
-            setDuration(duration);
-            setCurrentTime(0);
-            setPlaying(true);
-          }}
-          onEnd={() => {
-            seekTo(0);
-            // setCurrentTime(0);
-            setPlaying(false);
-            onEnd();
-          }}
-          onProgress={({ currentTime, playableDuration, seekableDuration }) => {
-            setCurrentTime(currentTime);
-          }}
-          paused={!playing}
-          controls={false}
-          playInBackground={true}
-          fullscreen={false}
-          style={styles.hiddenAudioPlayer}
-          resizeMode="contain"
-          audioOnly
-        />
-      )} */}
     </View>
   );
 };
 export default ActivityPlayerVideo;
 
-const styles = StyleSheet.create({
-  hiddenAudioPlayer: {
-    height: 0,
-  },
+const getStyles = theme => StyleSheet.create({
   playerContainer: {
     width: '100%',
-    paddingHorizontal: 25,
+    flex: 1,
   },
   controls: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 25,
-    height: 200,
+    height: 80,
   },
   progressIconsContainer: {
     flexDirection: 'row',
   },
   playIcon: {
-    backgroundColor: 'red',
-    // height: 'auto',
+    backgroundColor: theme.colors.accent,
   },
+  progressSlider: {
+    // backgroundColor: 'lime',
+  }
 });
