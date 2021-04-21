@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }: Props) => {
         />
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
-        <FABButton icon="account-heart" onPress={() => navigation.push('Modal')}/>
+        <FABButton icon="account-heart" onPress={() => navigation.push('Support')}/>
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
         <FABButton icon="head-check" onPress={() => navigation.push('StressRate')}/>

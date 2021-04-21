@@ -14,4 +14,5 @@ export type RootStackParamList = {
   KitFinish: undefined;
   StressActivityToDo: undefined;
   VRMet: undefined;
+  Support: undefined;
 };

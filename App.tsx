@@ -41,6 +41,8 @@ import KitActivationScreen from './src/screens/KitActivation';
 import KitFinishScreen from './src/screens/KitFinish';
 // @ts-ignore
 import VRMetScreen from './src/screens/VRMet';
+// @ts-ignore
+import SupportScreen from './src/screens/Support';
 
 
 import ThemeInspector from './src/utils/ThemeInspector';
@@ -118,6 +120,7 @@ export default function App() {
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
                   <Stack.Screen name="KitFinish" component={KitFinishScreen} options={{ title: 'KIT activated' }} />
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
                 </>
               ) : (
                 <>
