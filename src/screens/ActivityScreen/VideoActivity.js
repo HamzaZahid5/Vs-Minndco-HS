@@ -8,7 +8,7 @@ import {
   Divider,
   useTheme,
 } from 'react-native-paper';
-import VidePlayer from '../../components/VidePlayer';
+import VideoPlayer from '../../components/VideoPlayer';
 import BigButton from '../../components/BigButton';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
 
@@ -38,7 +38,7 @@ export const header = () => {
       </>
     )}
     { action === 'PLAY_VIDEO' && (
-      <VidePlayer />
+      <VideoPlayer />
     )}
   </>);
 };
