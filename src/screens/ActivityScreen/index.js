@@ -6,19 +6,22 @@ import GenericPageLayout from '../../components/GenericPageLayout';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import { header as VideoHeader, body as VideoBody } from './VideoActivity'
 import { header as AudioHeader, body as AudioBody } from './AudioActivity'
+import { header as VRHeader, body as VRBody } from './VRActivity'
+import { header as FormHeader, body as FormBody } from './FormActivity'
 
-export default () => {
+export default ({ navigation }) => {
   return (
     <ScreenDecorator>
       <GenericPageLayout
         fullScroll
+        // withKeyboard={true}
         header={
           <View style={styles.hero}>
-            <AudioHeader id={'some_id'} />
+            <FormHeader id={'some_id'} />
           </View>
         }
       >
-        <AudioBody />
+        <FormBody />
       </GenericPageLayout>
     </ScreenDecorator>
   );

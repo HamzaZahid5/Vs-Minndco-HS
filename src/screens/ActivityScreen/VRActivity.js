@@ -8,7 +8,7 @@ import {
   Divider,
   useTheme,
 } from 'react-native-paper';
-import AudioPlayer from '../../components/AudioPlayer';
+import VRPlayer from '../../components/VRPlayer';
 import BigButton from '../../components/BigButton';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
 
@@ -18,7 +18,7 @@ const activity = {
   description: '',
 }
 
-export const header = () => {
+export const header = ({ onPlay }) => {
   const theme = useTheme();
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
@@ -31,16 +31,11 @@ export const header = () => {
           activity.name
         </Headline>
         <View style={{ marginTop: 20, height: 40 }}>
-          <BigButton variant="accent" onPress={() => setAction('PLAY')}>
+          <BigButton variant="accent" onPress={onPlay}>
             Play
           </BigButton>
         </View>
       </>
-    )}
-    { action === 'PLAY' && (
-      <View style={{ flex: 1, width: '100%' }}>
-        <AudioPlayer src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938" />
-      </View>
     )}
   </>);
 };

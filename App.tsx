@@ -13,6 +13,8 @@ import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
 // import * as eva from '@eva-design/eva';
 // import { ApplicationProvider } from '@ui-kitten/components';
 import configureStore from './src/store';
+// @ts-ignore
+import { useFirestoreListener } from './src/services/Firestore';
 
 import HomeScreen from './src/screens/Home';
 import RegistrationScreen from './src/screens/Register';
@@ -38,7 +40,8 @@ import KitActivationScreen from './src/screens/KitActivation';
 // @ts-ignore
 import KitFinishScreen from './src/screens/KitFinish';
 // @ts-ignore
-import { useFirestoreListener } from './src/services/Firestore';
+import VRMetScreen from './src/screens/VRMet';
+
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -105,15 +108,16 @@ export default function App() {
             >
               {userToken ? (
                 <>
-                  <Stack.Screen name="Main" component={MainComponent}   options={{ headerShown: false }} />
-                  <Stack.Screen name="Tutorial" component={WelcomeWizardScreen}   options={{ headerShown: false }} />
+                  <Stack.Screen name="Main" component={MainComponent} options={{ headerShown: false }} />
+                  <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="StressRate" component={StressRateScreen} options={{ headerShown: true, title: 'Rate your current stress' }} />
-                  <Stack.Screen name="StressActivity" component={StressActivityScreen}   options={{ headerShown: true, title: 'What you were doing?' }} />
+                  <Stack.Screen name="StressActivity" component={StressActivityScreen} options={{ headerShown: true, title: 'What you were doing?' }} />
                   <Stack.Screen name="StressActivityType" component={StressActivityTypeScreen} options={{ title: 'Choose your preference' }} />
                   <Stack.Screen name="StressActivityToDo" component={StressActivityToDoScreen} options={{ title: '' }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
                   <Stack.Screen name="KitFinish" component={KitFinishScreen} options={{ title: 'KIT activated' }} />
+                  <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                 </>
               ) : (
                 <>
