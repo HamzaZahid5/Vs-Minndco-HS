@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import template from 'lodash.template';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import KeyboardSpacer from '../../utils/KeyboardSpacer';
 // import Firebase from '../../services/Firebase';
 
 const URL_UI_SUPPORT =
