@@ -12,6 +12,8 @@ import FABButton from '../../components/MindCoFABButton';
 import CircularContent from './CircularContent';
 // @ts-ignore
 import GoalWidget from '../../containers/GoalWidget';
+// @ts-ignore
+import Tips from './Tips';
 import { RootState } from '../../store/reducer';
 
 // selector
@@ -26,7 +28,9 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.TopRight>
         <GoalWidget />
       </HomeLayout.TopRight>
-      <HomeLayout.MiddleTop><Text>TIPS</Text></HomeLayout.MiddleTop>
+      <HomeLayout.MiddleTop>
+        <Tips />
+      </HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         <CircularContent
           title="Title"

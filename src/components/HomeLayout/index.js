@@ -139,7 +139,7 @@ const HomeLayout = ({
             ]}
           >
             <View
-              style={[styles.flexEndContent, debug ? styles.debugBlue : null]}
+              style={[styles.flexCenterContent, debug ? styles.debugBlue : null]}
             >
               {MiddleTopChildren}
             </View>

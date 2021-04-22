@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Color from 'color';
 
 export default () => {
   const theme = useTheme();
@@ -61,13 +62,12 @@ const getStyles = theme => StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 10,
     borderRadius: 12,
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: Color(theme.colors.secondary).darken(0).alpha(0.5).toString(),
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   text: {
-    color: 'white',
-    lineHeight: 16,
-    fontSize: 14,
+    ...theme.fonts.light,
+    color: theme.colors.placeholder,
   },
 });

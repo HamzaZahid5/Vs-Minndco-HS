@@ -48,7 +48,7 @@ export default (props) => {
 
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('StressRate');
+          navigation.push('Modal');
           navigation.closeDrawer();
         }}
         icon="teach"
