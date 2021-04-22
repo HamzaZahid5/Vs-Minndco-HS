@@ -12,48 +12,68 @@ let tId;
 const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
   const statusTId = useRef();
   const isSliding = useRef();
-  const isPlaying = useRef();
+  // const isPlaying = useRef();
   const shouldPlay = useRef();
+  const [isPlaying, setIsPlaying] = useState();
+  // const [shouldPlay, setShouldPlay] = useState();
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
+  const [currentBuffering, setBuffering] = useState(false);
   const theme = useTheme();
   const styles = getStyles(theme);
 
+  const onPlaybackStatusUpdate = status => {
+    // didJustFinish: false
+    // durationMillis: NaN
+    // isBuffering: false
+    // isLoaded: true
+    // isLooping: false
+    // isMuted: false
+    // isPlaying: false
+    // positionMillis: 0
+    // progressUpdateIntervalMillis: 100
+    // rate: 1
+    // shouldCorrectPitch: false
+    // shouldPlay: false
+    // uri: "https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938"
+    // volume: 1
+    if (currentTime !== status.positionMillis) {
+      setCurrentTime(status.positionMillis);
+    }
+    if (duration !== status.durationMillis && !isNaN(status.durationMillis)) {
+      setDuration(status.durationMillis);
+    }
+    if (currentBuffering !== status.isBuffering) {
+      setBuffering(status.isBuffering);
+    }
+    if (isPlaying !== status.isPlaying) {
+      setIsPlaying(status.isPlaying);
+    }
+  };
   async function loadSound(uri) {
-    const { sound } = await Audio.Sound.createAsync({uri});
+    const downloadFirst = true;
+    const { sound } = await Audio.Sound.createAsync(
+      { uri },
+      { shouldPlay: true },
+      onPlaybackStatusUpdate,
+      downloadFirst,
+    );
     Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
     setSound(sound);
   }
   async function playSound() {
     await sound?.playAsync();
-    isPlaying.current = true;
   }
   async function pauseSound() {
     await sound?.pauseAsync();
-    isPlaying.current = false;
   }
   async function stopSound() {
     await sound?.stopAsync();
-    isPlaying.current = false;
     setCurrentTime(0);
   }
   
-  const getStatus = () => {
-    //durationMillis
-    sound?.getStatusAsync().then(status => {
-      if (currentTime !== status.positionMillis) {
-        setCurrentTime(status.positionMillis);
-      }
-      if (duration !== status.durationMillis) {
-        setDuration(status.durationMillis);
-      }
-      
-      statusTId.current = setTimeout(getStatus, 100);
-    });
-  }
   useEffect(() => {
-    getStatus();
     if(shouldPlay.current) {
       playSound();
     }
@@ -82,19 +102,21 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
     sound.setPositionAsync(val);
   };
   const slidingStart = () => {
-
+    if (isPlaying) {
+      stopSound();
+    }
     isSliding.current = true;
   };
   const slidingComplete = val => {
     setCurrentTime(val);
     seekTo(val);
-    if (shouldPlay.current && !isPlaying.current) {
+    if (shouldPlay.current && !isPlaying) {
       playSound();
     }
     isSliding.current = false;
   };
   
-  if (duration === currentTime && isPlaying.current) {
+  if (duration === currentTime && isPlaying) {
     // reach the end
     shouldPlay.current = false;
     stopSound();
@@ -103,16 +125,16 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
     <View style={styles.playerContainer}>
       <View style={styles.controls}>
         <IconButton
-          icon={isPlaying.current ? 'pause' : 'play'}
+          icon={isPlaying ? 'pause' : 'play'}
           size={30}
           color="white"
           style={styles.playIcon}
           onPress={() => {
             shouldPlay.current = !shouldPlay.current;
-            if (shouldPlay.current && !isPlaying.current) {
+            if (shouldPlay.current && !isPlaying) {
               playSound();
             }
-            if (!shouldPlay.current && isPlaying.current) {
+            if (!shouldPlay.current && isPlaying) {
               pauseSound();
             }
           }}
@@ -132,7 +154,7 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
         }
         onSlidingStart={slidingStart}
         onSlidingComplete={slidingComplete}
-        value={!isSliding.current ? currentTime : 0}
+        value={!isSliding.current ? currentTime : currentTime}
         thumbTintColor="white"
       />
     </View>
