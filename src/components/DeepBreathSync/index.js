@@ -151,7 +151,6 @@ const BreathSync = ({ onClose }) => {
               onPress={() => setPlay(true)}
               style={styles.startButton}
               labelStyle={{
-                fontFamily: 'Graphik-Regular',
                 fontWeight: '400',
                 fontSize: 30,
                 color: theme.colors.primary,
