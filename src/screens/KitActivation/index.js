@@ -11,6 +11,7 @@ import GenericPageLayout from './../../components/GenericPageLayout';
 // import Firebase from './../../services/Firebase';
 // import { connector } from './../../redux/connector';
 import DefaultDialog from './../../components/DefaultDialog';
+import ScreenDecorator from '../../components/ScreenDecorator';
 // import { getLocale } from '../../utils/localization';
 // import {
 //   navigateToKITWelcome,
@@ -72,107 +73,110 @@ const KitActivation = ({ navigation }) => {
     // navigateToKITWelcome(componentId);
   };
   return (
-    <GenericPageLayout
-      onClose={() => navigateToHome(componentId)}
-      fullScroll
-      header={
-        <View style={styles.hero}>
-          <View style={styles.heroContent}>
-            <Headline style={styles.headline}>
-              Activate your KIT
-            </Headline>
-            <Paragraph style={styles.description}>
-              Insert the ACTIVATION CODE printed in your box.
-              {' '}
+    <ScreenDecorator>
+
+      <GenericPageLayout
+        onClose={() => navigateToHome(componentId)}
+        fullScroll
+        header={
+          <View style={styles.hero}>
+            <View style={styles.heroContent}>
+              <Headline style={styles.headline}>
+                Activate your KIT
+              </Headline>
+              <Paragraph style={styles.description}>
+                Insert the ACTIVATION CODE printed in your box.
+                {' '}
+                {
+                  <Text
+                    key="link1"
+                    style={styles.hyperlink}
+                    onPress={() => setHelpVisible(true)}
+                  >
+                    Where is the code?
+                  </Text>
+                }
+              </Paragraph>
+            </View>
+          </View>
+        }
+      >
+        <View style={styles.contentWrapper}>
+          <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
+            <View style={[styles.row, { alignItems: 'center' }]}>
+              <TextInput
+                theme={{
+                  roundness: 0,
+                  colors: {
+                    background: 'transparent',
+                    text: 'white',
+                    placeholder: Color(theme.colors.placeholder)
+                      .alpha(0.5)
+                      .toString(),
+                  },
+                }}
+                style={{
+                  fontSize: 40,
+                  width: '100%',
+                  marginBottom: 30,
+                  display: 'flex',
+                }}
+                returnKeyLabel="submit"
+                label="CODE"
+                value={code}
+                type="flat"
+                onChangeText={text => setCode(text)}
+                keyboardType="number-pad"
+                dense={false}
+              />
+            </View>
+            <View style={[styles.row, { alignItems: 'center' }]}>
+              {/* <RoundedNextButton
+                onPress={onFormSubmit}
+                disabled={isLoading || code.length < 3}
+              /> */}
+              <BigButton
+                style={{
+                  marginBottom: 20,
+                }}
+                disabled={isLoading || code.length < 3}
+                onPress={onFormSubmit}
+              >
+                Use this code
+              </BigButton>
+            </View>
+          </View>
+          <DefaultDialog
+            show={helpVisible}
+            icon="google-cardboard"
+            onClose={() => setHelpVisible(false)}
+            onButtonPress={() => {
+              setHelpVisible(false);
+            }}
+            title="Open you box and look into the back cover for the code as the following image."
+            content={
+              <Image
+                style={{
+                  width: '100%',
+                  height: 200,
+                  borderBottomColor: 'gray',
+                  borderBottomWidth: 1,
+                }}
+                source={{
+                  uri: helpImageSrc,
+                }}
+                resizeMode="contain"
+              />
+            }
+            buttons={[
               {
-                <Text
-                  key="link1"
-                  style={styles.hyperlink}
-                  onPress={() => setHelpVisible(true)}
-                >
-                  Where is the code?
-                </Text>
-              }
-            </Paragraph>
-          </View>
+                label: 'Close',
+              },
+            ]}
+          />
         </View>
-      }
-    >
-      <View style={styles.contentWrapper}>
-        <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-          <View style={[styles.row, { alignItems: 'center' }]}>
-            <TextInput
-              theme={{
-                roundness: 0,
-                colors: {
-                  background: 'transparent',
-                  text: 'white',
-                  placeholder: Color(theme.colors.placeholder)
-                    .alpha(0.5)
-                    .toString(),
-                },
-              }}
-              style={{
-                fontSize: 40,
-                width: '100%',
-                marginBottom: 30,
-                display: 'flex',
-              }}
-              returnKeyLabel="submit"
-              label="CODE"
-              value={code}
-              type="flat"
-              onChangeText={text => setCode(text)}
-              keyboardType="number-pad"
-              dense={false}
-            />
-          </View>
-          <View style={[styles.row, { alignItems: 'center' }]}>
-            {/* <RoundedNextButton
-              onPress={onFormSubmit}
-              disabled={isLoading || code.length < 3}
-            /> */}
-            <BigButton
-              style={{
-                marginBottom: 20,
-              }}
-              disabled={isLoading || code.length < 3}
-              onPress={onFormSubmit}
-            >
-              Use this code
-            </BigButton>
-          </View>
-        </View>
-        <DefaultDialog
-          show={helpVisible}
-          icon="google-cardboard"
-          onClose={() => setHelpVisible(false)}
-          onButtonPress={() => {
-            setHelpVisible(false);
-          }}
-          title="Open you box and look into the back cover for the code as the following image."
-          content={
-            <Image
-              style={{
-                width: '100%',
-                height: 200,
-                borderBottomColor: 'gray',
-                borderBottomWidth: 1,
-              }}
-              source={{
-                uri: helpImageSrc,
-              }}
-              resizeMode="contain"
-            />
-          }
-          buttons={[
-            {
-              label: 'Close',
-            },
-          ]}
-        />
-      </View>
-    </GenericPageLayout>
+      </GenericPageLayout>
+    </ScreenDecorator>
     // <KeyboardAwareScrollView
     //   enableOnAndroid
     //   contentInsetAdjustmentBehavior="automatic"
