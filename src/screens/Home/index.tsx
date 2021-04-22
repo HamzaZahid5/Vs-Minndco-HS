@@ -10,6 +10,8 @@ import MenuButton from '../../components/MenuHandlerButton';
 import FABButton from '../../components/MindCoFABButton';
 // @ts-ignore
 import CircularContent from './CircularContent';
+// @ts-ignore
+import GoalWidget from '../../containers/GoalWidget';
 import { RootState } from '../../store/reducer';
 
 // selector
@@ -21,7 +23,9 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.TopLeft>
         <MenuButton onPress={() => navigation.openDrawer()}/>
       </HomeLayout.TopLeft>
-      <HomeLayout.TopRight><Text>WIDGET</Text></HomeLayout.TopRight>
+      <HomeLayout.TopRight>
+        <GoalWidget />
+      </HomeLayout.TopRight>
       <HomeLayout.MiddleTop><Text>TIPS</Text></HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         <CircularContent
