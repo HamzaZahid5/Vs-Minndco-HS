@@ -7,8 +7,9 @@ import {
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { auth } from '../../services/Auth';
+import { useTheme } from 'react-native-paper';
 
-const CustomDrawerItem = ({ name, icon, onPress }) => (
+const CustomDrawerItem = ({ name, icon, color, onPress }) => (
   <TouchableOpacity
     onPress={onPress}
     style={{ flex: 1, marginVertical: 20 }}
@@ -19,14 +20,15 @@ const CustomDrawerItem = ({ name, icon, onPress }) => (
         alignItems: 'center',
       }}
     >
-      <Icon name={icon} size={30} />
-      <Text>{name}</Text>
+      <Icon name={icon} size={30} color={color} />
+      <Text style={{ color }}>{name}</Text>
     </View>
   </TouchableOpacity>
 );
 
 export default (props) => {
   const { navigation } = props;
+  const theme = useTheme();
   return (
     <DrawerContentScrollView {...props}>
       <CustomDrawerItem
@@ -35,15 +37,17 @@ export default (props) => {
         }}
         icon="account"
         name="Profile"
+        color={theme.colors.dark}
       />
 
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('StressRate');
+          navigation.push('PathEnding');
           navigation.closeDrawer();
         }}
         icon="heart-pulse"
         name="Statistics"
+        color={theme.colors.dark}
       />
 
       <CustomDrawerItem
@@ -53,6 +57,7 @@ export default (props) => {
         }}
         icon="teach"
         name="How To..."
+        color={theme.colors.dark}
       />
 
       <CustomDrawerItem
@@ -62,6 +67,7 @@ export default (props) => {
         }}
         icon="google-cardboard"
         name="Activation"
+        color={theme.colors.dark}
       />
     </DrawerContentScrollView>
   );

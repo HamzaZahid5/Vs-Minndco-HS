@@ -43,10 +43,12 @@ import KitFinishScreen from './src/screens/KitFinish';
 import VRMetScreen from './src/screens/VRMet';
 // @ts-ignore
 import SupportScreen from './src/screens/Support';
-
+// @ts-ignore
+import PathEndingScreen from './src/screens/PathEnding';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
+import Color from 'color';
 
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -102,6 +104,7 @@ export default function App() {
               mode="modal"
               headerMode="float"
               screenOptions={{
+                headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
                 headerTransparent: true,
                 headerBackground: () => (
                   <View style={{ height: 64 }} />
@@ -121,6 +124,7 @@ export default function App() {
                   <Stack.Screen name="KitFinish" component={KitFinishScreen} options={{ title: 'KIT activated' }} />
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="PathEnding" component={PathEndingScreen} options={{ title: '' }} />
                 </>
               ) : (
                 <>

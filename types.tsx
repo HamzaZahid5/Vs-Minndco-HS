@@ -15,4 +15,5 @@ export type RootStackParamList = {
   StressActivityToDo: undefined;
   VRMet: undefined;
   Support: undefined;
+  PathEnding: undefined;
 };
