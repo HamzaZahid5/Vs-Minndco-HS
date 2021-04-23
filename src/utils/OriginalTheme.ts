@@ -9,11 +9,13 @@ import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
+import Color from 'color';
 
 const MindCoReliefDefaulTheme = {
   colors: {
     primary: '#3D9AD5',
     secondary: '#31CCCC',
+    dark: Color('#31CCCC').darken(0.3).toString(),
     accent: '#F79337',
     surface: '#31CCCC',
     notification: '#33BC7E',
@@ -21,14 +23,49 @@ const MindCoReliefDefaulTheme = {
     error: '#F34C78',
     onSurface: '#3D77B0',
   },
+  fonts: {
+    heading1: {
+      ...PaperDefaultTheme.fonts.regular,
+      fontSize: 36,
+      lineHeight: 43,
+    },
+    heading2: {
+      ...PaperDefaultTheme.fonts.regular,
+      fontSize: 28,
+      lineHeight: 36,
+    },
+    large: {
+      ...PaperDefaultTheme.fonts.regular,
+      fontSize: 18,
+      lineHeight: 23,
+    },
+  }
 };
 const MindCoReliefDarkTheme = {
   colors: {
     primary: '#3D9AD5',
     secondary: '#31CCCC',
+    dark: Color('#31CCCC').darken(0.3).toString(),
     warning: '#ff0000',
     surface: '#31CCCC',
   },
+  fonts: {
+    heading1: {
+      ...PaperDarkTheme.fonts.regular,
+      fontSize: 36,
+      lineHeight: 43,
+    },
+    heading2: {
+      ...PaperDarkTheme.fonts.regular,
+      fontSize: 28,
+      lineHeight: 36,
+    },
+    large: {
+      ...PaperDarkTheme.fonts.regular,
+      fontSize: 18,
+      lineHeight: 23,
+    },
+  }
 };
 
 const CombinedDefaultTheme = {
@@ -40,6 +77,10 @@ const CombinedDefaultTheme = {
     ...NavigationDefaultTheme.colors,
     ...MindCoReliefDefaulTheme.colors,
   },
+  fonts: {
+    ...PaperDefaultTheme.fonts,
+    ...MindCoReliefDefaulTheme.fonts,
+  }
 };
 const CombinedDarkTheme = {
   ...PaperDarkTheme,
@@ -50,13 +91,23 @@ const CombinedDarkTheme = {
     ...NavigationDarkTheme.colors,
     ...MindCoReliefDarkTheme.colors,
   },
+  fonts: {
+    ...PaperDarkTheme.fonts,
+    ...MindCoReliefDarkTheme.fonts,
+  }
 };
 
 export type CustomThemeType = Theme & NavTheme & {
   colors: {
     secondary: string,
+    dark: string,
     warning: string,
-  };
+  },
+  fonts: {
+    heading1: any,
+    heading2: any,
+    large: any,
+  }
 };
 
 export const DarkTheme:CustomThemeType = CombinedDarkTheme;

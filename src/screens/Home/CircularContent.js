@@ -48,12 +48,12 @@ const CircularContent = ({
           rotation={0}
           padding={10}
           lineCap="round"
-          tintColor="#3C828C"
+          tintColor={theme.colors.dark}
           backgroundColor="#F0E983"
           // onAnimationComplete={() => console.log('onAnimationComplete')}
           renderCap={({ center }) =>
             progress ? (
-              <Circle cx={center.x} cy={center.y} r="10" fill="#3C828C" />
+              <Circle cx={center.x} cy={center.y} r="10" fill={theme.colors.dark} />
             ) : null
           }
         >

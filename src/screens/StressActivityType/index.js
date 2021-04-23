@@ -2,7 +2,7 @@ import Color from 'color';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FAB, useTheme } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import RowItem from '../../components/RowItem';
 import ScreenDecorator from '../../components/ScreenDecorator';
 
 const Row = ({ title, subtitle }) => {
@@ -47,27 +47,11 @@ export default ({ navigation }) => {
   }, [selected]);
   return (
     <ScreenDecorator>
-      <TouchableOpacity
-        key={`type_1`}
-        onPress={() => (!selected ? setSelection(1) : null)}
-        style={{ flex: 1 }}
-      >
-        <Row title="Reading activity" subtitle="Testimonies and facts about stress" />
-      </TouchableOpacity>
-      <TouchableOpacity
-        key={`type_2`}
-        onPress={() => (!selected ? setSelection(2) : null)}
-        style={{ flex: 1 }}
-      >
-        <Row title="Multimedia activity" subtitle="Audio and video to learn and do" />
-      </TouchableOpacity>
-      <TouchableOpacity
-        key={`type_3`}
-        onPress={() => (!selected ? setSelection(3) : null)}
-        style={{ flex: 1 }}
-      >
-        <Row title="Guided activity" subtitle="Breath sync and interactive content to relax" />
-      </TouchableOpacity>
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around', padding: 20 }}>
+        <RowItem title="Reading activity" text="Testimonies and facts about stress" onPress={() => (!selected ? setSelection(1) : null)} />
+        <RowItem title="Multimedia activity" text="Audio and video to learn and do" onPress={() => (!selected ? setSelection(2) : null)} />
+        <RowItem title="Guided activity" text="Breath sync and interactive content to relax" onPress={() => (!selected ? setSelection(3) : null)} />
+      </View>
     </ScreenDecorator>
   );
 };

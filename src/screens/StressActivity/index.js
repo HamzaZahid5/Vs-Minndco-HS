@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ScreenDecorator from '../../components/ScreenDecorator';
+import RowItem from '../../components/RowItem';
 import useAppActions from './actions';
 
 export default ({ navigation }) => {
@@ -17,9 +18,9 @@ export default ({ navigation }) => {
     'thinking_relationship',
     'studying',
     'thinking_financials',
-    'feeling_sick',
-    'arguing_someone',
-    'driving',
+    // 'feeling_sick',
+    // 'arguing_someone',
+    // 'driving',
     'other',
   ];
   const labels = [
@@ -29,9 +30,9 @@ export default ({ navigation }) => {
     'Thinking on relationships',
     'Studying',
     'Thinking on financials',
-    'Feeling sick',
-    'Arguing with someone',
-    'Driving',
+    // 'Feeling sick',
+    // 'Arguing with someone',
+    // 'Driving',
     'Other',
   ];
   const icons = [
@@ -41,9 +42,9 @@ export default ({ navigation }) => {
     'heart-broken',
     'bookshelf',
     'cash-multiple',
-    'pill',
-    'account-voice',
-    'car-multiple',
+    // 'pill',
+    // 'account-voice',
+    // 'car-multiple',
     'help-rhombus',
   ];
 
@@ -57,18 +58,26 @@ export default ({ navigation }) => {
   
   return (
     <ScreenDecorator>
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around', padding: 20 }}>
+        
       {options.map((value, i) => (
-        <TouchableOpacity
+        <RowItem
           key={`activity_${value}`}
+          title={labels[i]}
+          text=""
           onPress={() => (!selected ? setSelection(value) : null)}
-          style={{ flex: 1 }}
-        >
-          <View style={styles.rowOption}>
-            <Icon style={[styles.rowIcon]} name={icons[i]} />
-            <Text style={styles.rowNumberSmall}>{labels[i]}</Text>
-          </View>
-        </TouchableOpacity>
+        />
+        // <TouchableOpacity
+        // onPress={() => (!selected ? setSelection(value) : null)}
+        // style={{ flex: 1 }}
+        // >
+        //   <View style={styles.rowOption}>
+        //     <Icon style={[styles.rowIcon]} name={icons[i]} />
+        //     <Text style={styles.rowNumberSmall}>{labels[i]}</Text>
+        //   </View>
+        // </TouchableOpacity>
       ))}
+      </View>
     </ScreenDecorator>
   );
 };
