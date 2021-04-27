@@ -1,11 +1,21 @@
 // FROM https://github.com/rossbulat/rn-carousel
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { View, ScrollView, Text } from 'react-native'
 import { Stat } from './Stat';
 import { Slide } from './Slide';
 import { styles } from './styles'
 
-export const Carousel = (props: any) => {
+export const nextSlide = (ref: any) => {
+  console.warn('nextSlide not implemented');
+  // ref.current.snapToItem(ref.current.currentIndex + 1, true)
+}
+
+export const prevSlide = (ref: any) => {
+  console.warn('prevSlide not implemented');
+  // ref.current.snapToItem(ref.current.currentIndex - 1, true)
+}
+
+export default forwardRef((props: any, ref) => {
 
   const { items, style } = props;
   const itemsPerInterval = props.itemsPerInterval === undefined
@@ -53,6 +63,8 @@ export const Carousel = (props: any) => {
   return (
     <View style={styles.container}>
       <ScrollView
+        // @ts-ignore
+        ref={ref}
         horizontal={true}
         contentContainerStyle={{ ...styles.scrollView, width: `${100 * intervals}%` }}
         showsHorizontalScrollIndicator={false}
@@ -92,6 +104,4 @@ export const Carousel = (props: any) => {
       </View>
     </View>
   )
-}
-
-export default Carousel;
+});

@@ -1,6 +1,6 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, forwardRef} from 'react';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import SnapCarousel, { Pagination } from 'react-native-snap-carousel';
 
 const renderItem = ({item, index}) => {
   return (
@@ -11,28 +11,27 @@ const renderItem = ({item, index}) => {
   );
 }
 
-const nextSlide = (ref, currentIndex) => {
-  ref.current.snapToItem(currentIndex + 1, true)
+export const nextSlide = (ref) => {
+  ref.current.snapToItem(ref.current.currentIndex + 1, true)
 }
 
-const prevSlide = (ref, currentIndex) => {
-  ref.current.snapToItem(currentIndex - 1, true)
+export const prevSlide = (ref) => {
+  ref.current.snapToItem(ref.current.currentIndex - 1, true)
 }
 
-export default ({ items }) => {
-  const carouselRef = useRef();
+export default forwardRef(({ items }, ref) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <>
-      <Carousel
-        ref={carouselRef}
+      <SnapCarousel
+        ref={ref}
         layout={'default'}
         data={items}
         renderItem={renderItem}
         sliderWidth={Dimensions.get('window').width}
         itemWidth={Dimensions.get('window').width}
-        onLayout={() => carouselRef.current.snapToItem(currentIndex, true)}
+        onLayout={() => ref.current.snapToItem(currentIndex, true)}
         onSnapToItem={index => setCurrentIndex(index)}
       />
       <Pagination
@@ -56,7 +55,7 @@ export default ({ items }) => {
       />
     </>
   );
-};
+});
 
 const styles = StyleSheet.create({
   slide: {
@@ -85,3 +84,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+// export default {
+//   Carousel: _carousel,
+//   nextSlide,
+//   prevSlide,
+// };
