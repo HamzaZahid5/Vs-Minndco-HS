@@ -17,11 +17,11 @@ export default ({ navigation }) => {
         // withKeyboard={true}
         header={
           <View style={styles.hero}>
-            <FormHeader id={'some_id'} />
+            <VRHeader id={'some_id'} onPlay={() => navigation.push('VRMet')} />
           </View>
         }
       >
-        <FormBody />
+        <VRBody />
       </GenericPageLayout>
     </ScreenDecorator>
   );

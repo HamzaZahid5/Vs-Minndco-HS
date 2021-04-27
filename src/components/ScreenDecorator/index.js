@@ -6,9 +6,7 @@ import { View } from 'react-native';
 export default ({ children }) => (
   <>
     <BubblesBackground />
-    <View style={{ flex: 1 }}>
-      <HeaderPadding />
-      {children}
-    </View>
+    <HeaderPadding />
+    {children}
   </>
 );

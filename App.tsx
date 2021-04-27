@@ -45,6 +45,12 @@ import VRMetScreen from './src/screens/VRMet';
 import SupportScreen from './src/screens/Support';
 // @ts-ignore
 import PathEndingScreen from './src/screens/PathEnding';
+// @ts-ignore
+import ProfileScreen from './src/screens/Profile';
+// @ts-ignore
+import StatisticsScreen from './src/screens/Statistics';
+// @ts-ignore
+import HowToScreen from './src/screens/HowTo';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -125,6 +131,9 @@ export default function App() {
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="PathEnding" component={PathEndingScreen} options={{ title: '' }} />
+                  <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: '' }} />
+                  <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ title: 'Your insights' }} />
+                  <Stack.Screen name="HowTo" component={HowToScreen} options={{ title: 'Your insights' }} />
                 </>
               ) : (
                 <>

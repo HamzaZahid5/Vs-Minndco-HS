@@ -16,4 +16,7 @@ export type RootStackParamList = {
   VRMet: undefined;
   Support: undefined;
   PathEnding: undefined;
+  Profile: undefined;
+  Statistics: undefined;
+  HowTo: undefined;
 };

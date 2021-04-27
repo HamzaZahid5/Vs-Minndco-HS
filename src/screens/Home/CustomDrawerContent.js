@@ -2,11 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import {
   DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { auth } from '../../services/Auth';
 import { useTheme } from 'react-native-paper';
 
 const CustomDrawerItem = ({ name, icon, color, onPress }) => (
@@ -33,7 +30,9 @@ export default (props) => {
     <DrawerContentScrollView {...props}>
       <CustomDrawerItem
         onPress={() => {
-          auth().signOut();
+          // auth().signOut();
+          navigation.push('Profile');
+          navigation.closeDrawer();
         }}
         icon="account"
         name="Profile"
@@ -42,7 +41,7 @@ export default (props) => {
 
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('PathEnding');
+          navigation.push('Statistics');
           navigation.closeDrawer();
         }}
         icon="heart-pulse"
