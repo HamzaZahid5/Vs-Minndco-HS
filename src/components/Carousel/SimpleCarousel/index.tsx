@@ -82,7 +82,7 @@ export const Carousel = (props: any) => {
                   key={index}
                   title={item.title}
                   size={`${100/intervals}%`}
-                />
+                >{item.content}</Slide>
               );
           }
         })}

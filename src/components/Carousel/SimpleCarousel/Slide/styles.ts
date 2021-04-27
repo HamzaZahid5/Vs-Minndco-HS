@@ -10,14 +10,16 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     maxWidth: '100%',
     minWidth: '100%',
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
-    height: 200,
-    borderWidth: 1, borderColor: 'red'
+    // height: '100%',
+    // maxHeight: '100%',
+    borderWidth: 0, borderColor: 'red',
   },
   slideText: {
     width: '100%',

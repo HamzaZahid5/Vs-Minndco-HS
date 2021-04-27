@@ -7,14 +7,15 @@ export const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    height: '100%',
+    flex: 1,
+    // minHeight: '100%',
     backgroundColor: '#fbfbfb',
-    borderColor: '#ebebeb',
-    borderWidth: 1,
+    borderColor: 'purple',
+    borderWidth: 0,
     borderRadius: 8,
     shadowColor: '#fcfcfc',
     shadowOpacity: 1,
-    marginTop: 10,
+    // marginTop: 10,
     shadowOffset: {
       width: 0,
       height: 5

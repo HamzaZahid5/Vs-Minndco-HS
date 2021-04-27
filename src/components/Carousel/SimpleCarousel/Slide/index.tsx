@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Dimensions } from 'react-native'
 import { styles } from './styles'
+import { useHeaderHeight } from '@react-navigation/stack';
+
 
 export const Slide = (props: any) => {
   const slideRef = useRef();
@@ -12,8 +14,15 @@ export const Slide = (props: any) => {
     }
   }, [size])
 
+  const headerHeight = useHeaderHeight();
+  const slideHeight = Dimensions.get('window').height - Math.round(headerHeight);
   return (
-    <View style={styles.slide} ref={slideRef}>
+    <View style={[
+      styles.slide,
+      { height: slideHeight }
+      ]}
+      ref={slideRef}
+    >
       {title && (
         <Text style={styles.slideText}>
           {title}
