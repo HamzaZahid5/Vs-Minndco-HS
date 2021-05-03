@@ -1,21 +1,20 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Carousel from '../Carousel';
 
-export default () => {
+export default ({ content }) => {
+  console.log(content)
   return (
-    <View style={styles.container}>
-      <Carousel
-        style='slide'
-        items={[{
-          title: 'Welcome, swipe to continue.',
-        }, {
-          title: 'About feature X.',
-        }, {
-          title: 'About feature Y.',
-        }]}
-      />
-    </View>
+    <Carousel
+      items={content.pages.map(page => ({
+        title: content.title,
+        content: (
+          <View style={{ flex: 1, height: '100%' }}>
+            <Text>{page}</Text>
+          </View>
+        )
+      }))}
+    />
   );
 };
 
