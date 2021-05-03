@@ -6,6 +6,7 @@ import BreathSync from '../../components/BreathSync';
 import DeepBreathSync from '../../components/DeepBreathSync';
 import BubbleWrapGame from '../../components/BubbleWrapGame';
 import ScreenDecorator from '../../components/ScreenDecorator';
+import StorageLoader from '../../components/StorageLoader';
 import {
   LIFESAVER_READS,
   LIFESAVER_AUDIOS,
@@ -58,11 +59,14 @@ export default ({ navigation, route }) => {
         <ReadActivity content={content} onClose={onCloseActivity} />
       )}
       {activityType === 'LISTEN' && content && (
-        <AudioPlayer
-          src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938"
-          // storagePath={content.source}
-          onClose={onCloseActivity}
-        />
+        <StorageLoader path={content.source}>
+          {url => (
+            <AudioPlayer
+              src={url}
+              onClose={onCloseActivity}
+            />
+          )}
+        </StorageLoader>
       )}
 
       {activityType === 'DO' &&
