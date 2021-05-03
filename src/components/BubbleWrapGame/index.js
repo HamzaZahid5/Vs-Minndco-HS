@@ -124,7 +124,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
                 { color: theme.colors.border },
               ]}
             >
-              {'screens.lifesaverActivities.doBubblesSuccess'}
+              {'DONE!'}
             </Title>
           )}
         </View>

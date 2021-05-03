@@ -10,7 +10,7 @@ export default () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        If you ever feel the urge of stress, tap the button in the bottom righ corner.
+        If you feel you need to reduce your stress level, tap the bottom-right corner.
       </Text>
     </View>
   )

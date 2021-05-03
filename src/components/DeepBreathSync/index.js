@@ -132,8 +132,8 @@ const BreathSync = ({ onClose }) => {
         /> */}
         <Title style={styles.title}>
           {counter !== 0
-            ? 'screens.lifesaverActivities.doDeepBreathTitle'
-            : 'screens.lifesaverActivities.doDeepBreathSuccess'}
+            ? 'Take 10 deep breaths'
+            : 'Well done!'}
         </Title>
       </View>
       {play && counter !== -1 && (
@@ -142,7 +142,7 @@ const BreathSync = ({ onClose }) => {
       <View style={styles.bodyContainer}>
         <Title style={styles.instructions}>
           {counter === -1
-            ? 'screens.lifesaverActivities.doDeepBreathInstructions'
+            ? 'Sync your breathing with the sphere'
             : ' '}
         </Title>
         <View style={[styles.circleContainer]}>
@@ -157,7 +157,7 @@ const BreathSync = ({ onClose }) => {
               }}
             >
               {
-                'screens.lifesaverActivities.doDeepBreathCallToAction'
+                'Tap to start'
               }
             </Button>
           )}
@@ -171,14 +171,14 @@ const BreathSync = ({ onClose }) => {
           {step === 'IN' && (
             <FadeEffect show>
               <Text style={styles.legendFont}>
-                {'screens.lifesaverActivities.doDeepBreathBreatheIn'}
+                {'BREATHE IN'}
               </Text>
             </FadeEffect>
           )}
           {step === 'HOLD' && (
             <FadeEffect show>
               <Text style={styles.legendFont}>
-                {'screens.lifesaverActivities.doDeepBreathHold'}
+                {'HOLD'}
               </Text>
             </FadeEffect>
           )}
@@ -186,7 +186,7 @@ const BreathSync = ({ onClose }) => {
             <FadeEffect show={step === 'OUT'}>
               <Text style={styles.legendFont}>
                 {
-                  'screens.lifesaverActivities.doDeepBreathBreatheOut'
+                  'BREATHE OUT'
                 }
               </Text>
             </FadeEffect>

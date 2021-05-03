@@ -172,8 +172,8 @@ const BreathSync = ({ onClose }) => {
         /> */}
         <Title style={styles.title}>
           {counter !== 0
-            ? 'screens.lifesaverActivities.doBreathTitle'
-            : 'screens.lifesaverActivities.doBreathSuccess'
+            ? 'Take 20 calm breaths'
+            : 'Well done!'
           }
         </Title>
       </View>
@@ -183,7 +183,7 @@ const BreathSync = ({ onClose }) => {
       <View style={styles.bodyContainer}>
         <Title style={styles.instructions}>
           {counter === -1
-            ? 'screens.lifesaverActivities.doBreathInstructions'
+            ? 'Sync your breathing with the square'
             : ' '}
         </Title>
         <View style={styles.squareContainer}>
@@ -197,17 +197,17 @@ const BreathSync = ({ onClose }) => {
                 color: theme.colors.primary,
               }}
             >
-              {'screens.lifesaverActivities.doBreathCallToAction'}
+              {'Tap to start'}
             </Button>
           )}
           <View style={styles.legend}>
             {step !== 'INIT' && (
               <Text style={styles.legendFont}>
                 {step === 'IN'
-                  ? 'screens.lifesaverActivities.doBreathBreatheIn'
+                  ? 'BREATHE IN'
                   : step === 'OUT'
-                  ? 'screens.lifesaverActivities.doBreathBreatheOut'
-                  : 'screens.lifesaverActivities.doBreathBreatheHold'
+                  ? 'BREATHE OUT'
+                  : 'HOLD'
                 }
               </Text>
             )}
