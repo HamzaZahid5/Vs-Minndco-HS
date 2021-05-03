@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -9,7 +9,17 @@ export default ({ title, text, onPress, reverse }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   return (
-    <TouchableOpacity style={[styles.rowContainer]} onPress={onPress}>
+    <Pressable
+      style={({ pressed }) => [
+        {
+          opacity: pressed
+            ? 0.5
+            : 1
+        },
+        styles.rowContainer
+      ]}
+      onPress={onPress}
+    >
       <View style={[styles.rowMainContent, reverse ? styles.rowReverse : null]}>
         { !!title && <Text style={styles.bodyRowTitle}>{title}</Text>}
         { !!text && <Text style={styles.bodyRowText}>{text}</Text>}
@@ -18,7 +28,7 @@ export default ({ title, text, onPress, reverse }) => {
       <View style={styles.rowActionContent}>
         <Icon name="play" size={30} color={Color(theme.colors.secondary).lighten(0.5).toString()} style={styles.rowIcon} />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

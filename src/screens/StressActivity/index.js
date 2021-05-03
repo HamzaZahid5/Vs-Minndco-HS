@@ -67,15 +67,6 @@ export default ({ navigation }) => {
           text=""
           onPress={() => (!selected ? setSelection(value) : null)}
         />
-        // <TouchableOpacity
-        // onPress={() => (!selected ? setSelection(value) : null)}
-        // style={{ flex: 1 }}
-        // >
-        //   <View style={styles.rowOption}>
-        //     <Icon style={[styles.rowIcon]} name={icons[i]} />
-        //     <Text style={styles.rowNumberSmall}>{labels[i]}</Text>
-        //   </View>
-        // </TouchableOpacity>
       ))}
       </View>
     </ScreenDecorator>
