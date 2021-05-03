@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     minWidth: '100%',
     width: '100%',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     alignItems: 'center',
     alignContent: 'center',
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   slideText: {
     width: '100%',
-    textAlign: 'left',
+    textAlign: 'center',
     fontSize: 20,
   },
 });
