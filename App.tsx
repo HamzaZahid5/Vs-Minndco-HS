@@ -94,12 +94,13 @@ export default function App() {
   
   // while not ready
   console.log(userToken, userData);
-  if (userToken === undefined || userData === undefined) {
+  if (userToken === undefined || (userToken && !userData)) {
     return <View><Text>Loading...</Text></View>;
   }
   
   // overwrite Home if show_basic_tutorial
   const protectedRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Main";
+  console.log('TUTO?', userData?.flags?.show_basics_tutorial)
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

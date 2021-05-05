@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { StackActions } from '@react-navigation/native';
 
 import GenericPageLayout from '../../components/GenericPageLayout';
 
@@ -17,11 +18,12 @@ export default ({ navigation }) => {
         // withKeyboard={true}
         header={
           <View style={styles.hero}>
-            <VRHeader id={'some_id'} onPlay={() => navigation.push('VRMet')} />
+            <VideoHeader onFinish={() => navigation.dispatch(StackActions.replace('PathEnding'))}/>
+            {/* <VRHeader id={'some_id'} onPlay={() => navigation.push('VRMet')} /> */}
           </View>
         }
       >
-        <VRBody />
+        <VideoBody />
       </GenericPageLayout>
     </ScreenDecorator>
   );

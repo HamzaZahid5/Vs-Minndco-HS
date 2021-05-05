@@ -28,6 +28,17 @@ export default (props) => {
   const theme = useTheme();
   return (
     <DrawerContentScrollView {...props}>
+
+      <CustomDrawerItem
+        onPress={() => {
+          navigation.push('Modal');
+          navigation.closeDrawer();
+        }}
+        icon="teach"
+        name="How To..."
+        color={theme.colors.dark}
+      />
+      
       <CustomDrawerItem
         onPress={() => {
           // auth().signOut();
@@ -46,16 +57,6 @@ export default (props) => {
         }}
         icon="heart-pulse"
         name="Statistics"
-        color={theme.colors.dark}
-      />
-
-      <CustomDrawerItem
-        onPress={() => {
-          navigation.push('Modal');
-          navigation.closeDrawer();
-        }}
-        icon="teach"
-        name="How To..."
         color={theme.colors.dark}
       />
 

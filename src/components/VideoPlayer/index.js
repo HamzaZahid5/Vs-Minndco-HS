@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Button, Platform, TouchableWithoutFeedback } from 'react-native';
+import React, { useLayoutEffect, useState } from 'react';
+import { View, StyleSheet, Button, Platform, Pressable } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
-export default () => {
+export default ({ didJustFinish }) => {
   const video = React.useRef(null);
   const [status, setStatus] = useState({});
+  useLayoutEffect(() => {
+    if(status.didJustFinish) {
+      didJustFinish();
+    }
+  }, [status])
   return (
     <View style={styles.videoContainer}>
-      <TouchableWithoutFeedback
-        style={StyleSheet.absoluteFillObject}
+      <Pressable
+        style={({ pressed }) => [
+          {
+            opacity: pressed
+              ? 0.5
+              : 1
+          },
+          StyleSheet.absoluteFillObject
+        ]}
+        // style={StyleSheet.absoluteFillObject}
         onPress={() => {
           console.log('playing?', status.isPlaying);
           status.isPlaying ? video.current.pauseAsync() : video.current.playAsync();
@@ -22,10 +35,10 @@ export default () => {
           }}
           useNativeControls
           resizeMode="contain"
-          isLooping
+          // isLooping
           onPlaybackStatusUpdate={status => setStatus(() => status)}
         />
-      </TouchableWithoutFeedback>
+      </Pressable>
       <View style={styles.buttons}>
         <Button
           title={status.isPlaying ? 'Pause' : 'Play'}

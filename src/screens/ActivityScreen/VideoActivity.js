@@ -18,7 +18,7 @@ const activity = {
   description: '',
 }
 
-export const header = () => {
+export const header = ({ onFinish }) => {
   const theme = useTheme();
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
@@ -38,7 +38,7 @@ export const header = () => {
       </>
     )}
     { action === 'PLAY_VIDEO' && (
-      <VideoPlayer />
+      <VideoPlayer didJustFinish={onFinish}/>
     )}
   </>);
 };

@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
-import { StackActions } from '@react-navigation/native';
 
 import BigButton from '../../components/BigButton';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import Carousel, { nextSlide } from '../../components/Carousel';
 import TodayActivityStatus from './TodayActivityStatus';
 import DailyActivityStreak from './DailyActivityStreak';
-import DailyActivityChart from './DailyActivityChart'
-import StressLevelsChart from './StressLevelsChart'
-import AverageStressLevel from './AverageStressLevel'
-import MostFrequentTriggers from './MostFrequentTriggers'
+import DailyActivityChart from './DailyActivityChart';
+import StressLevelsChart from './StressLevelsChart';
+import AverageStressLevel from './AverageStressLevel';
+import MostFrequentTriggers from './MostFrequentTriggers';
+import { usePathEndingBarButton } from '../PathEnding';
 
 export default ({ navigation }) => {
   const theme = useTheme();
@@ -29,6 +29,7 @@ export default ({ navigation }) => {
       
   //   }
   // }, [cRef])
+  usePathEndingBarButton(navigation);
   
   return (
     <ScreenDecorator>
@@ -70,7 +71,7 @@ export default ({ navigation }) => {
                 <StressLevelsChart />
               </View>
               <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
-                <BigButton onPress={() => navigation.dispatch(StackActions.replace('PathEnding'))}>finish</BigButton>
+                {/* <BigButton onPress={() => navigation.dispatch(StackActions.replace('PathEnding'))}>finish</BigButton> */}
               </View>
             </View>
             // <View style={{ flex: 1, height: '100%' }}>

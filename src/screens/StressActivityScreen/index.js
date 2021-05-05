@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import ReadActivity from '../../components/ReadActivity';
 import AudioPlayer from '../../components/AudioPlayer';
@@ -7,6 +7,7 @@ import DeepBreathSync from '../../components/DeepBreathSync';
 import BubbleWrapGame from '../../components/BubbleWrapGame';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import StorageLoader from '../../components/StorageLoader';
+import { usePathEndingBarButton } from '../PathEnding';
 import {
   LIFESAVER_READS,
   LIFESAVER_AUDIOS,
@@ -34,6 +35,8 @@ export default ({ navigation, route }) => {
     addPerformedLifesaverActivity,
   } = useAppActions();
   const lifesaverActivitiesDone = useSelector(store => store.currentStressInput.activitiesDone);
+
+  usePathEndingBarButton(navigation);
   
   useEffect(() => {
     const loadContent = async () => {
