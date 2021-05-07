@@ -31,7 +31,7 @@ export default ({ didJustFinish }) => {
           ref={video}
           style={styles.video}
           source={{
-            uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+            uri: 'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/content%2Fvideo_14_EN.mp4?alt=media&token=b2412b2d-f63c-4956-8171-b93518edd654',
           }}
           useNativeControls
           resizeMode="contain"

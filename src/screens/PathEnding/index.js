@@ -5,6 +5,8 @@ import { StackActions } from '@react-navigation/native';
 import GenericPageLayout from '../../components/GenericPageLayout';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import RowItem from '../../components/RowItem';
+import HearderPoll from './HeaderPoll';
+
 
 export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams = {} } = {}) => {
   useLayoutEffect(() => {
@@ -17,7 +19,7 @@ export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams 
               { name: 'Main' },
               {
                 name: 'PathEnding',
-                params: routeParams,
+                params: routeParams ,
               },
             ],
           })}
@@ -33,6 +35,13 @@ export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams 
 export default () => {
   const theme = useTheme();
   const styles = getStyles(theme);
+
+  const DailyActivityRow = <RowItem title="Use the lifesaver again" text="Still feeling stressed?" reverse />;
+  const StressManagementRow = <RowItem title="Use the lifesaver again" text="Still feeling stressed?" reverse />;
+  const CoachRow = <RowItem title="Use the lifesaver again" text="Still feeling stressed?" reverse />;
+  const TutorialRow = <RowItem title="Use the lifesaver again" text="Still feeling stressed?" reverse />;
+  const VRDemoRow = <RowItem title="Use the lifesaver again" text="Still feeling stressed?" reverse />;
+
   return (
     <ScreenDecorator>
       <GenericPageLayout

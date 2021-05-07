@@ -94,7 +94,7 @@ export default function App() {
   
   // while not ready
   console.log(userToken, userData);
-  if (userToken === undefined || (userToken && !userData)) {
+  if (userToken === undefined || userData === undefined ) { // (userToken && !userData)
     return <View><Text>Loading...</Text></View>;
   }
   

@@ -33,10 +33,10 @@ const HomeScreen = ({ navigation }: Props) => {
       </HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         <CircularContent
-          title="Title"
-          informativeText="Info"
+          title="Breathe calm"
+          informativeText="Tap the circle for your next activity"
           type="vr-met"
-          instructionsText="instructions"
+          instructionsText="Today's activity"
           progress={50}
           onPress={() => navigation.push('Activity')}
         />

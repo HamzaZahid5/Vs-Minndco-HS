@@ -198,8 +198,8 @@ const styles = StyleSheet.create({
   commonContentContainer: {
     paddingHorizontal: 20,
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'lime',
+    // borderWidth: 1,
+    // borderColor: 'lime',
   },
   thinContentContainer: {
     paddingHorizontal: 0,

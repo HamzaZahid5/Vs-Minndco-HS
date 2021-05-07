@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput, Headline, useTheme, Paragraph } from 'react-native-paper';
@@ -39,18 +39,73 @@ const validate = async code => {
   return [true];
 };
 
+const CodeForm = ({ onSubmit, isLoading }) => {
+  const [code, setCode] = useState('');
+  const theme = useTheme();
+  const styles = getStyles(theme);
+  return (
+    <>
+      <View style={[styles.row, { alignItems: 'center' }]}>
+        <TextInput
+          theme={{
+            roundness: 0,
+            colors: {
+              background: 'transparent',
+              text: 'white',
+              placeholder: Color(theme.colors.placeholder)
+                .alpha(0.5)
+                .toString(),
+            },
+          }}
+          style={{
+            fontSize: 40,
+            width: '100%',
+            marginBottom: 30,
+            display: 'flex',
+          }}
+          returnKeyLabel="submit"
+          label="CODE"
+          returnKeyType="done"
+          value={code}
+          type="flat"
+          onChangeText={text => setCode(text)}
+          keyboardType="number-pad"
+          dense={false}
+        />
+      </View>
+      <View style={[styles.row, { alignItems: 'center' }]}>
+        {/* <RoundedNextButton
+          onPress={onFormSubmit}
+          disabled={isLoading || code.length < 3}
+        /> */}
+        <BigButton
+          style={{
+            marginBottom: 20,
+          }}
+          disabled={isLoading}
+          onPress={() => onSubmit(code)}
+        >
+          Use this code
+        </BigButton>
+      </View>
+    </>
+  )
+}
+
 const KitActivation = ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
+  const inputRef = useRef();
   const isLoading = useSelector(store => store.flags.isloading);
   const dispatch = useDispatch();
-  const [code, setCode] = useState('');
+  
   const [helpVisible, setHelpVisible] = useState();
 
   const helpImageSrc =
     'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/images%2Factivation_code_scheme_en.png?alt=media&token=52c9d0e1-a105-4b61-bcf7-c04b25aa1e3f';
 
-  const onFormSubmit = async () => {
+  const onFormSubmit = async (code) => {
+    
     dispatch({ type: 'flags/setIsLoading', payload: 1 })
     const [valid, codeErr] = await validate(code);
     if (valid !== true) {
@@ -59,7 +114,7 @@ const KitActivation = ({ navigation }) => {
     } else {
       try {
         await burnCode(code);
-        analytics().logEvent(ANALYTICS_EVENTS.FUNNEL_KIT_ACTIVATION);
+        // analytics().logEvent(ANALYTICS_EVENTS.FUNNEL_KIT_ACTIVATION);
         nextStep();
       } catch(e) {
         alert(e);
@@ -78,6 +133,7 @@ const KitActivation = ({ navigation }) => {
       <GenericPageLayout
         onClose={() => navigateToHome(componentId)}
         fullScroll
+        withKeyboard
         header={
           <View style={styles.hero}>
             <View style={styles.heroContent}>
@@ -103,48 +159,7 @@ const KitActivation = ({ navigation }) => {
       >
         <View style={styles.contentWrapper}>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-            <View style={[styles.row, { alignItems: 'center' }]}>
-              <TextInput
-                theme={{
-                  roundness: 0,
-                  colors: {
-                    background: 'transparent',
-                    text: 'white',
-                    placeholder: Color(theme.colors.placeholder)
-                      .alpha(0.5)
-                      .toString(),
-                  },
-                }}
-                style={{
-                  fontSize: 40,
-                  width: '100%',
-                  marginBottom: 30,
-                  display: 'flex',
-                }}
-                returnKeyLabel="submit"
-                label="CODE"
-                value={code}
-                type="flat"
-                onChangeText={text => setCode(text)}
-                keyboardType="number-pad"
-                dense={false}
-              />
-            </View>
-            <View style={[styles.row, { alignItems: 'center' }]}>
-              {/* <RoundedNextButton
-                onPress={onFormSubmit}
-                disabled={isLoading || code.length < 3}
-              /> */}
-              <BigButton
-                style={{
-                  marginBottom: 20,
-                }}
-                disabled={isLoading || code.length < 3}
-                onPress={onFormSubmit}
-              >
-                Use this code
-              </BigButton>
-            </View>
+            <CodeForm onSubmit={onFormSubmit} isLoading={isLoading} />
           </View>
           <DefaultDialog
             show={helpVisible}
@@ -177,156 +192,7 @@ const KitActivation = ({ navigation }) => {
         </View>
       </GenericPageLayout>
     </ScreenDecorator>
-    // <KeyboardAwareScrollView
-    //   enableOnAndroid
-    //   contentInsetAdjustmentBehavior="automatic"
-    //   keyboardShouldPersistTaps={'handled'}
-    // >
-    //   <ScrollView
-    //     contentInsetAdjustmentBehavior="automatic"
-    //     contentContainerStyle={{ flexGrow: 1 }}
-    //     style={styles.absolutScrollView}
-    //     keyboardShouldPersistTaps={'handled'}
-    //   >
-    //     <Surface
-    //       theme={{ colors: { surface: 'transparent' } }}
-    //       style={styles.surface}
-    //     >
-    //       {/* <RoundedBackButton
-    //         onPress={() => {
-    //           navigateBack(componentId);
-    //         }}
-    //       /> */}
-    //       <View
-    //         style={[styles.row, { alignItems: 'center', marginBottom: 30 }]}
-    //       >
-    //         {/* <Image
-    //           style={{
-    //             marginTop: -10,
-    //             height: 150,
-    //           }}
-    //           resizeMode="contain"
-    //           source={require('./../../styles/images/kit_diagonal.png')}
-    //         /> */}
-    //       </View>
-    //       <View style={[styles.row, { marginBottom: 0 }]}>
-    //         <Paragraph style={styles.title}>
-    //           Activate your KIT
-    //         </Paragraph>
-    //         <Paragraph>
-    //           Insert the ACTIVATION CODE printed in your box.
-    //           {' '}
-    //           {
-    //             <Text
-    //               key="link1"
-    //               style={styles.hyperlink}
-    //               onPress={() => setHelpVisible(true)}
-    //             >
-    //               Where is the code?
-    //             </Text>
-    //           }
-    //         </Paragraph>
-    //       </View>
-    //       <View style={[styles.row, { alignItems: 'center' }]}>
-    //         <TextInput
-    //           theme={{
-    //             roundness: 0,
-    //             colors: {
-    //               background: 'transparent',
-    //               text: 'white',
-    //               placeholder: Color(theme.colors.placeholder)
-    //                 .alpha(0.5)
-    //                 .toString(),
-    //             },
-    //           }}
-    //           style={{
-    //             fontSize: 40,
-    //             width: '100%',
-    //             marginBottom: 30,
-    //             display: 'flex',
-    //           }}
-    //           returnKeyLabel="submit"
-    //           label="CODE"
-    //           value={code}
-    //           type="flat"
-    //           onChangeText={text => setCode(text)}
-    //           keyboardType="number-pad"
-    //           dense={false}
-    //         />
-    //       </View>
-    //       <View style={[styles.row, { alignItems: 'center' }]}>
-    //         {/* <RoundedNextButton
-    //           onPress={onFormSubmit}
-    //           disabled={isLoading || code.length < 3}
-    //         /> */}
-    //         <BigButton
-    //           style={{
-    //             marginBottom: 20,
-    //           }}
-    //           disabled={isLoading || code.length < 3}
-    //           onPress={onFormSubmit}
-    //         >
-    //           Use this code
-    //         </BigButton>
-    //         <View style={{ marginTop: 34, alignItems: 'center', display: 'none' }}>
-    //           <Paragraph style={{ textAlign: 'center' }}>
-    //             Don't you have your MindCotine KIT?
-    //           </Paragraph>
-    //           <BigButton
-    //             style={{ width: 250 }}
-    //             variant="accent"
-    //             onPress={() => {
-    //               if (isGympassUser) {
-    //                 // GYMPASS FLOW
-    //                 navigateToSupport(componentId);
-    //               } else {
-    //                 // REGULAR FLOW:
-    //                 callOrigin === 'GetLicense'
-    //                   ? // coming from GetLicense? go back
-    //                     navigateBack(componentId)
-    //                   : // coming from elsewhere? got to GetLicense
-    //                     navigateToGetLicense(componentId, {
-    //                       callOrigin: 'KitActivation',
-    //                     });
-    //               }
-    //             }}
-    //             disabled={isLoading}
-    //           >
-    //             Get it NOW!
-    //           </BigButton>
-    //         </View>
-    //       </View>
-    //     </Surface>
-    //   </ScrollView>
-    //   <DefaultDialog
-    //     show={helpVisible}
-    //     icon="google-cardboard"
-    //     onClose={() => setHelpVisible(false)}
-    //     onButtonPress={() => {
-    //       setHelpVisible(false);
-    //     }}
-    //     title="Open you box and look into the back cover for the code as the following image."
-    //     content={
-    //       <Image
-    //         style={{
-    //           width: '100%',
-    //           height: 200,
-    //           borderBottomColor: 'gray',
-    //           borderBottomWidth: 1,
-    //         }}
-    //         source={{
-    //           uri: helpImageSrc,
-    //         }}
-    //         resizeMode="contain"
-    //       />
-    //     }
-    //     buttons={[
-    //       {
-    //         label: 'Close',
-    //       },
-    //     ]}
-    //   />
-    // </KeyboardAwareScrollView>
+    
   );
 };
 
@@ -345,6 +211,9 @@ const getStyles = theme => StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  description: {
+    margin: 30,
   },
   headline: {
     ...theme.fonts.headline3,

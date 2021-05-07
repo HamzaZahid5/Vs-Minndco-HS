@@ -63,12 +63,12 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
     >
       <Formik
         initialValues={{
-          name: 'Tito',
-          lastname: 'Capo',
+          name: 'Demo',
+          lastname: 'User',
           password: '123456',
           confirmpassword: '123456',
           // phone: '',
-          email: 'tito@test.com',
+          email: 'demo@test.com',
           // gender: 'f',
           // country: 'US', // it is set on phone selection
         }}

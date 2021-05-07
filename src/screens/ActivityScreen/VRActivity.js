@@ -28,7 +28,7 @@ export const header = ({ onPlay }) => {
     { action === 'INIT' && (
       <>
         <Headline style={styles.headline}>
-          activity.name
+          Breathe calm
         </Headline>
         <View style={{ marginTop: 20, height: 40 }}>
           <BigButton variant="accent" onPress={onPlay}>
