@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Appearance, View, Text, SafeAreaView } from 'react-native';
 // import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 // @ts-ignore
-import { useAuth } from './src/services/Auth';
+import { useAuth, auth } from './src/services/Auth';
 import { NavigationContainer, Theme as NavTheme } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -16,7 +15,6 @@ import configureStore from './src/store';
 // @ts-ignore
 import { useFirestoreListener } from './src/services/Firestore';
 
-import HomeScreen from './src/screens/Home';
 import RegistrationScreen from './src/screens/Register';
 import LoginScreen from './src/screens/Login';
 // @ts-ignore
@@ -28,8 +26,6 @@ import StressActivityTypeScreen from './src/screens/StressActivityType';
 // @ts-ignore
 import StressActivityToDoScreen from './src/screens/StressActivityScreen';
 // @ts-ignore
-import CustomDrawerContent from './src/screens/Home/CustomDrawerContent';
-// @ts-ignore
 import ActivityScreen from './src/screens/ActivityScreen';
 // @ts-ignore
 import ModalScreen from './src/screens/ModalScreen';
@@ -38,7 +34,7 @@ import WelcomeWizardScreen from './src/screens/WelcomeWizard';
 // @ts-ignore
 import KitActivationScreen from './src/screens/KitActivation';
 // @ts-ignore
-import KitFinishScreen from './src/screens/KitFinish';
+import AboutVRScreen from './src/screens/AboutVR';
 // @ts-ignore
 import VRMetScreen from './src/screens/VRMet';
 // @ts-ignore
@@ -51,6 +47,10 @@ import ProfileScreen from './src/screens/Profile';
 import StatisticsScreen from './src/screens/Statistics';
 // @ts-ignore
 import HowToScreen from './src/screens/HowTo';
+// @ts-ignore
+import MainComponent from './src/screens/Home/DrawerNavigator';
+// @ts-ignore
+import KitAssembleScreen from './src/screens/KitAssemble';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -61,23 +61,6 @@ const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
 const store = configureStore();
 const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
-const Drawer = createDrawerNavigator();
-// @ts-ignore
-const customDrawerContent = props => (
-  <CustomDrawerContent {...props} />
-);
-
-const MainComponent = () => (
-  <Drawer.Navigator
-    // openByDefault
-    drawerContent={customDrawerContent}
-    drawerStyle={{
-      width: 80,
-    }}
-  >
-    <Drawer.Screen name="Home" component={HomeScreen}   options={{ headerShown: false }} />
-  </Drawer.Navigator>
-);
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -93,21 +76,24 @@ export default function App() {
   // console.log(store.getState().user.data);
   
   // while not ready
-  console.log(userToken, userData);
-  if (userToken === undefined || userData === undefined ) { // (userToken && !userData)
+  // console.log(userToken, userData);
+  const isWaitingForAuth = userToken === undefined; // waiting for auth response
+  const isNotAuthed = userToken === null; // auth response with no-authed
+  const isAuthed = !isWaitingForAuth && !isNotAuthed;
+  // auth().signOut();
+  if (isWaitingForAuth || (isAuthed && !userData) ) {
     return <View><Text>Loading...</Text></View>;
   }
   
-  // overwrite Home if show_basic_tutorial
-  const protectedRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Main";
-  console.log('TUTO?', userData?.flags?.show_basics_tutorial)
+  // replace Main by Tutorial as initialRoute if show_basic_tutorial
+  const protectedInitialRouteName = userData?.flags?.show_basics_tutorial ? "Tutorial" : "Main";
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
         <SafeAreaProvider>
           <NavigationContainer theme={theme as NavTheme}>
             <Stack.Navigator
-              initialRouteName={userToken ? protectedRouteName : "Login"}
+              initialRouteName={userToken ? protectedInitialRouteName : "Login"}
               mode="modal"
               headerMode="float"
               screenOptions={{
@@ -128,13 +114,14 @@ export default function App() {
                   <Stack.Screen name="StressActivityToDo" component={StressActivityToDoScreen} options={{ title: '' }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
-                  <Stack.Screen name="KitFinish" component={KitFinishScreen} options={{ title: 'KIT activated' }} />
+                  <Stack.Screen name="AboutVR" component={AboutVRScreen} options={{ title: 'About VR' }} />
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="PathEnding" component={PathEndingScreen} options={{ title: '' }} />
                   <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: '' }} />
                   <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ title: 'Your insights' }} />
                   <Stack.Screen name="HowTo" component={HowToScreen} options={{ title: 'Your insights' }} />
+                  <Stack.Screen name="KitAssemble" component={KitAssembleScreen} options={{ title: 'Assemble your VR Headset' }} />
                 </>
               ) : (
                 <>

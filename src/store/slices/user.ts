@@ -1,4 +1,6 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
+//@ts-ignore
+import obfuscate from '../../utils/emailObfuscator';
 
 export type UserState = {
   data: {
@@ -23,7 +25,10 @@ const user = createSlice({
     setAuth: (state, action) => {
       return {
         ...state,
-        auth: action.payload,
+        auth: {
+          uid: action.payload.uid,
+          email: obfuscate(action.payload.email),
+        },
       }
     },
     setUser: (state, action) => {

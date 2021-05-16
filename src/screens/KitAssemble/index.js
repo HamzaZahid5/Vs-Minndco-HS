@@ -1,54 +1,57 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
-import { Headline, Paragraph, useTheme } from 'react-native-paper';
+import React, { useCallback, useRef, useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Paragraph, useTheme } from 'react-native-paper';
+import YoutubePlayer from 'react-native-youtube-iframe';
 import GenericPageLayout from './../../components/GenericPageLayout';
 import BigButton from '../../components/BigButton';
-import ChipButton from '../../components/ChipButton';
-import { Text } from 'react-native';
 
-const KitFinish = ({ navigation }) => {
+const KitAssemble = ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
-  
+  const [playing, setPlaying] = useState(true);
+  const playerRef = useRef();
+  const onStateChange = useCallback(state => {
+    if (state === 'ended') {
+      setPlaying(false);
+      playerRef.current.seekTo(0);
+    }
+  }, []);
+  const togglePlaying = useCallback(() => {
+    setPlaying(prev => !prev);
+  }, []);
+
   return (
     <GenericPageLayout
-      onClose={() => navigateToHome(componentId)}
+      onClose={() => navigation.popTo('Main')}
+      topBarTitle={'screens.kitWelcome.title'}
       fullScroll
       header={
         <View style={styles.hero}>
-          <View style={styles.heroContent}>
-            <Headline style={styles.headline}>
-              Congratulations!
-            </Headline>
-            <Paragraph style={styles.description}>
-              VR videos now are part of the main program as well as 2d-videos, audios and writting activities.
-            </Paragraph>
-            <ChipButton onPress={() => navigation.navigate('Main')}>DONE</ChipButton>
-          </View>
+          <YoutubePlayer
+            ref={playerRef}
+            height={232}
+            width={'auto'}
+            play={playing}
+            controls={false}
+            modestbranding={true}
+            videoId={'Keh3svyVAwo'}
+            onChangeState={onStateChange}
+          />
         </View>
       }
     >
       <View style={styles.contentWrapper}>
+        <Paragraph style={styles.description}>
+          {'screens.kitWelcome.page2paragraph'}
+        </Paragraph>
         <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-          <Text>To get ready for VR videos learn</Text>
           <BigButton
             style={{
               marginBottom: 20,
             }}
-            onPress={() => navigation.navigate('Main')}
+            onPress={() => navigation.push('VRDemo')}
           >
-            How to assemble my VR headset
-          </BigButton>
-        </View>
-        <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-          <Text>If you feel ready, you can try it out now</Text>
-          <BigButton
-            style={{
-              marginBottom: 20,
-            }}
-            onPress={() => navigation.navigate('Main')}
-          >
-            access my first VR activity!
+            {'screens.kitWelcome.page2NextBtnLabel'}
           </BigButton>
         </View>
       </View>
@@ -56,9 +59,9 @@ const KitFinish = ({ navigation }) => {
   );
 };
 
-export default KitFinish;
+export default KitAssemble;
 
-const getStyles = theme => StyleSheet.create({
+const getStyles =  theme => StyleSheet.create({
   hero: {
     height: '100%',
     justifyContent: 'center',
@@ -82,6 +85,8 @@ const getStyles = theme => StyleSheet.create({
     textAlign: 'center',
   },
   contentWrapper: {
+    width: '100%',
+    height: '100%',
     marginVertical: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -91,7 +96,7 @@ const getStyles = theme => StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     // justifyContent: 'center',
-    backgroundColor: theme.colors.accent,
+    backgroundColor: theme.colors.primary,
     width: 78,
     borderRadius: 4,
     padding: 5,
@@ -106,7 +111,7 @@ const getStyles = theme => StyleSheet.create({
   optionText: {
     ...theme.fonts.small,
     fontWeight: 'bold',
-    color: theme.colors.text,
+    color: 'white',
     marginTop: 5,
   },
 });

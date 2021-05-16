@@ -7,7 +7,7 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import Carousel, { nextSlide } from '../../components/Carousel';
 import TodayActivityStatus from './TodayActivityStatus';
 import DailyActivityStreak from './DailyActivityStreak';
-import DailyActivityChart from './DailyActivityChart';
+import CompletionChart from './CompletionChart';
 import StressLevelsChart from './StressLevelsChart';
 import AverageStressLevel from './AverageStressLevel';
 import MostFrequentTriggers from './MostFrequentTriggers';
@@ -48,7 +48,7 @@ export default ({ navigation }) => {
                 </View>
               </View>
               <View style={{ flex: 1, backgroundColor: '#0f0a', padding: 10 }}>
-                <DailyActivityChart />
+                <CompletionChart />
               </View>
               <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
                 <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'react-native-paper';
 
@@ -26,6 +27,8 @@ const CustomDrawerItem = ({ name, icon, color, onPress }) => (
 export default (props) => {
   const { navigation } = props;
   const theme = useTheme();
+  const kitId = useSelector(store => store.user.data.kit_id) || "";
+  const kitActivated = kitId.length > 0;
   return (
     <DrawerContentScrollView {...props}>
 
@@ -35,7 +38,7 @@ export default (props) => {
           navigation.closeDrawer();
         }}
         icon="teach"
-        name="How To..."
+        name="Learning"
         color={theme.colors.dark}
       />
       
@@ -60,15 +63,28 @@ export default (props) => {
         color={theme.colors.dark}
       />
 
-      <CustomDrawerItem
-        onPress={() => {
-          navigation.push('KitActivation');
-          navigation.closeDrawer();
-        }}
-        icon="google-cardboard"
-        name="Activation"
-        color={theme.colors.dark}
-      />
+      { !kitActivated && (
+        <CustomDrawerItem
+          onPress={() => {
+            navigation.push('KitActivation');
+            navigation.closeDrawer();
+          }}
+          icon="google-cardboard"
+          name="Activation"
+          color={theme.colors.dark}
+        />
+      )}
+      { kitActivated && (
+        <CustomDrawerItem
+          onPress={() => {
+            navigation.push('AboutVR');
+            navigation.closeDrawer();
+          }}
+          icon="google-cardboard"
+          name="About VR"
+          color={theme.colors.dark}
+        />
+      )}
     </DrawerContentScrollView>
   );
 };

@@ -11,7 +11,7 @@ export type RootStackParamList = {
   Modal: undefined;
   Tutorial: undefined;
   KitActivation: undefined;
-  KitFinish: undefined;
+  AboutVR: undefined;
   StressActivityToDo: undefined;
   VRMet: undefined;
   Support: undefined;
@@ -19,4 +19,6 @@ export type RootStackParamList = {
   Profile: undefined;
   Statistics: undefined;
   HowTo: undefined;
+  VRDemo: undefined;
+  KitAssemble: undefined;
 };

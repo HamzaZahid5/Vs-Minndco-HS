@@ -7,10 +7,12 @@ import BigButton from "../../components/BigButton";
 import Row from './DetailRow';
 import { auth } from '../../services/Auth';
 import config from './../../../env';
+import { useSelector } from 'react-redux';
 
 export default () => {
   const theme = useTheme();
   const styles = getStyles(theme);
+  const email = useSelector(store => store.user.auth.email);
   return (
     <ScreenDecorator>
       <GenericPageLayout
@@ -26,7 +28,7 @@ export default () => {
         }
       >
         <View style={styles.bodyContainer}>
-          <Row label="Email" text="mhherrera31@gmail.com" />
+          <Row label="Email" text={email} />
         </View>
 
         <View style={styles.footer}>

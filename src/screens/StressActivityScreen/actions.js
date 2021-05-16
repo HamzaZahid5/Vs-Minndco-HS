@@ -11,9 +11,9 @@ const useAppActions = () => {
     addPerformedLifesaverActivity: activity => {
       dispatch({ type: 'currentStress/addActivityDone', payload: activity.id });
       return functions().httpsCallable('saveLifesaverInteraction')({
-        ...activity,
-        stressLevel,
-        triggerActivity,
+        activity_id: activity.id,
+        level: stressLevel,
+        reason: triggerActivity,
       });
     },
   };
