@@ -21,3 +21,5 @@ export const useStorageDownloadURL = (path = '') => {
 
   return url;
 }
+
+export default storage;
