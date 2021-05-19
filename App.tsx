@@ -51,6 +51,8 @@ import HowToScreen from './src/screens/HowTo';
 import MainComponent from './src/screens/Home/DrawerNavigator';
 // @ts-ignore
 import KitAssembleScreen from './src/screens/KitAssemble';
+// @ts-ignore
+import useProgram from './src/utils/hooks/useProgram';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -80,6 +82,7 @@ export default function App() {
   const isWaitingForAuth = userToken === undefined; // waiting for auth response
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
+  useProgram();
   // auth().signOut();
   if (isWaitingForAuth || (isAuthed && !userData) ) {
     return <View><Text>Loading...</Text></View>;
