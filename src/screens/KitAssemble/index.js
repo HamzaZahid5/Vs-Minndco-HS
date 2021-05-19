@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
-import YoutubePlayer from 'react-native-youtube-iframe';
+// import YoutubePlayer from 'react-native-youtube-iframe';
 import GenericPageLayout from './../../components/GenericPageLayout';
 import BigButton from '../../components/BigButton';
 
@@ -27,7 +27,7 @@ const KitAssemble = ({ navigation }) => {
       fullScroll
       header={
         <View style={styles.hero}>
-          <YoutubePlayer
+          {/* <YoutubePlayer
             ref={playerRef}
             height={232}
             width={'auto'}
@@ -36,7 +36,7 @@ const KitAssemble = ({ navigation }) => {
             modestbranding={true}
             videoId={'Keh3svyVAwo'}
             onChangeState={onStateChange}
-          />
+          /> */}
         </View>
       }
     >
