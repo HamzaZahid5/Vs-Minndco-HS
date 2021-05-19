@@ -14,12 +14,14 @@ import CircularContent from './CircularContent';
 import GoalWidget from '../../containers/GoalWidget';
 // @ts-ignore
 import Tips from './Tips';
-import { RootState } from '../../store/reducer';
-
-// selector
-const selectLoadingFlag = (state: RootState) => state.flags.isLoading
+// @ts-ignore
+import useNextActivity from '../../utils/hooks/useNextActivity';
+// @ts-ignore
+import useCompletion from '../../utils/hooks/useCompletion';
 
 const HomeScreen = ({ navigation }: Props) => {
+  const nextActivity = useNextActivity();
+  const progress = useCompletion();
   return (
     <HomeLayout withDecoration>
       <HomeLayout.TopLeft>
@@ -33,11 +35,11 @@ const HomeScreen = ({ navigation }: Props) => {
       </HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         <CircularContent
-          title="Breathe calm"
+          title={nextActivity?.name}
           informativeText="Tap the circle for your next activity"
-          type="vr-met"
+          type={nextActivity?.type}
           instructionsText="Today's activity"
-          progress={50}
+          progress={progress}
           onPress={() => navigation.push('Activity')}
         />
       </HomeLayout.MiddleCenter>

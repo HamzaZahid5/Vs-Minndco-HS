@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -17,7 +17,7 @@ const CircularContent = ({
   onPress,
 }) => {
   const theme = useTheme();
-  const [circleContent] = useState(
+  const [circleContent, updateCircleContent] = useState(
     <>
       <View style={styles.flexEndContent}>
         <Text style={styles.nextUpText}>{instructionsText}</Text>
@@ -34,6 +34,7 @@ const CircularContent = ({
       </View>
     </>
   );
+  
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -57,7 +58,23 @@ const CircularContent = ({
             ) : null
           }
         >
-          {() => circleContent}
+          {() => (
+            <>
+              <View style={styles.flexEndContent}>
+                <Text style={styles.nextUpText}>{instructionsText}</Text>
+              </View>
+              <View style={styles.centeredContent}>
+                <Title style={styles.activityTitle}>{title}</Title>
+              </View>
+              <View style={styles.flexStartContent}>
+                {type && <Icon
+                  name={getIconByActivityType(type)}
+                  size={80}
+                  color="#3C828C"
+                />}
+              </View>
+            </>
+          )}
         </AnimatedCircularProgress>
         <View style={styles.background} />
       </View>

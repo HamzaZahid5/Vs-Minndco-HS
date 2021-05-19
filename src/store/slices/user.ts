@@ -7,13 +7,18 @@ export type UserState = {
     flags?: {
       show_basics_tutorial: boolean,
     },
+    progress: Array<string>,
+    kit_id: string,
   },
   auth: any,
 };
 
 
 const initialState: UserState = {
-  data: {},
+  data: {
+    progress: [],
+    kit_id: '',
+  },
   auth: {},
 };
 // const setFlag = createAction('flags/set')
