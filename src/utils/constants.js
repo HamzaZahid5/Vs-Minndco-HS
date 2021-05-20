@@ -1,4 +1,4 @@
-export const TIPS_VR = '· Prepare your VR headset.\n· Put the phone into it while you are in this screen.\n· Rotate your device and press the START button.';
+export const TIPS_VR = '· Prepare your VR headset.\n· Put the phone into it while you are in this screen (remove the phone case for a better fit).\n· Press the START button and follow screen indications.';
 export const TIPS_VIDEO = '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Try to reduce ambient light.';
 export const TIPS_AUDIO = '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Turn up the volume.';
 
