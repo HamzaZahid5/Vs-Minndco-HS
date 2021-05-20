@@ -64,4 +64,19 @@ export const saveStressRecord = (level, activity) => firestore()
       level,
       activity,
     }),
-  })
+  });
+
+  export const saveActivityDone = ({
+    treatment_module,
+    treatment_level,
+    activityKey
+  }) => firestore()
+    .collection('users')
+    .doc(auth().currentUser.uid)
+    .update({
+      treatment_module,
+      treatment_level,
+      progress: firestore.FieldValue.arrayUnion(activityKey),
+      'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
+      'statistics.last_completed_activity': activityKey,
+    });
