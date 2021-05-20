@@ -7,23 +7,15 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import RowItem from '../../components/RowItem';
 import HearderPoll from './HeaderPoll';
 import HeaderRating from './HeaderRating';
+import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 
 export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams = {} } = {}) => {
+  const resetTo = useNavigationResetPathTo(navigation);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <Button
-
-          onPress={() => navigation.reset({
-            index: 1,
-            routes: [
-              { name: 'Main' },
-              {
-                name: 'PathEnding',
-                params: routeParams ,
-              },
-            ],
-          })}
+          onPress={() => resetTo('PathEnding', routeParams)}
           mode="text"
           color="white"
         >
@@ -37,16 +29,7 @@ export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams 
 export default ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
-  const resetPathTo = (routeName, routeParams = {}) => navigation.reset({
-    index: 1,
-    routes: [
-      { name: 'Main' },
-      {
-        name: routeName,
-        params: routeParams ,
-      },
-    ],
-  });
+  const resetPathTo = useNavigationResetPathTo(navigation);
 
   const DailyActivityRow = <RowItem title="Do your daily activity" text="Ready to train?" reverse onPress={() => resetPathTo('Activity')}/>;
   const StressManagementRow = <RowItem title="Use the lifesaver" text="Feeling stressed?" reverse onPress={() => resetPathTo('')}/>;
