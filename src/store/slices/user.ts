@@ -9,6 +9,8 @@ export type UserState = {
     },
     progress: Array<string>,
     kit_id: string,
+    treatment_module: number,
+    treatment_level: number,
   },
   auth: any,
 };
@@ -18,6 +20,8 @@ const initialState: UserState = {
   data: {
     progress: [],
     kit_id: '',
+    treatment_module: 1,
+    treatment_level: 1,
   },
   auth: {},
 };
