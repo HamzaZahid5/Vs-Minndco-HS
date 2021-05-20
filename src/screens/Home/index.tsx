@@ -20,7 +20,7 @@ import useNextActivity from '../../utils/hooks/useNextActivity';
 import useCompletion from '../../utils/hooks/useCompletion';
 
 const HomeScreen = ({ navigation }: Props) => {
-  const nextActivity = useNextActivity();
+  const [nextActivity] = useNextActivity();
   const progress = useCompletion();
   return (
     <HomeLayout withDecoration>
