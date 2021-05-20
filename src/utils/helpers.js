@@ -46,7 +46,7 @@ export const getActivityPositionByKey = (program, key, includeVR) => {
   const activities = getAllActivities(program, includeVR);
   const activityId = getActivityFromKey(key);
   const index = activities.findIndex(a => a.id === activityId);
-  return index < 0 ? 0 : index;
+  return index;
 }
 
 // all activities (no level, no module) with VR filter
@@ -81,5 +81,6 @@ export const findNextActivity = (program, maxProgressKey = '', includeVR) => {
 export const calculateProgramCompletion = (program, maxProgressKey, includeVR) => {
   const totalActivities = getAllActivities(program, includeVR).length;
   const currentActivityPosition = getActivityPositionByKey(program, maxProgressKey, includeVR);
-  return currentActivityPosition * totalActivities / 100;
+  const activitiesDone = currentActivityPosition + 1;
+  return activitiesDone * totalActivities / 100;
 }
