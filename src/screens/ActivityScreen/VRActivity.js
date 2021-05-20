@@ -18,7 +18,7 @@ const activity = {
   description: '',
 }
 
-export const header = ({ onPlay }) => {
+export const header = ({ onPlay, title, duration, description }) => {
   const theme = useTheme();
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
@@ -28,11 +28,11 @@ export const header = ({ onPlay }) => {
     { action === 'INIT' && (
       <>
         <Headline style={styles.headline}>
-          Breathe calm
+          { title }
         </Headline>
         <View style={{ marginTop: 20, height: 40 }}>
           <BigButton variant="accent" onPress={onPlay}>
-            Play
+            Start
           </BigButton>
         </View>
       </>
@@ -48,22 +48,22 @@ const getHeaderStyles = theme => StyleSheet.create({
   },
 });
 
-export const body = () => {
+export const body = ({ type, duration, description }) => {
   const theme = useTheme();
   const styles = getBodyStyles(theme);
   return (
     <>
       <View style={[styles.content]}>
         <IconButton
-          icon={getIconByActivityType(activity.type)}
+          icon={getIconByActivityType(type)}
           size={30}
           color="white"
           style={[styles.activityIcon, { backgroundColor: theme.colors.background } ]}
         />
         <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
-          {activity.duration}{' min.'}
+          {duration}{' min.'}
         </Title>
-        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{activity.description}</Paragraph>
+        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{description}</Paragraph>
       </View>
       <Divider
         style={{
@@ -76,7 +76,7 @@ export const body = () => {
           Some tips before start
         </Title>
         <Paragraph style={styles.description}>
-          {getTipsByActivityType(activity.type)}
+          {getTipsByActivityType(type)}
         </Paragraph>
       </View>
     </>
