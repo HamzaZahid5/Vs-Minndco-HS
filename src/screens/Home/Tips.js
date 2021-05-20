@@ -5,7 +5,6 @@ import Color from 'color';
 
 export default () => {
   const theme = useTheme();
-  console.log(theme);
   const styles = getStyles(theme);
   return (
     <View style={styles.container}>
