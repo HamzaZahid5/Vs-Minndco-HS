@@ -36,7 +36,7 @@ const KitFinish = ({ navigation }) => {
             <RowItem title="Set up my VR headset" text="You need your gear ready to go" reverse onPress={() => navigation.push('KitAssemble')}/>
           </View>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-            <RowItem title="Take my first VR experience" text="Ready to try VR?" reverse onPress={() => navigation.push('VRDemo')}/>
+            <RowItem title="Take me to the VR screen" text="Ready to try VR?" reverse onPress={() => navigation.push('VRDemo')}/>
           </View>
         </View>
       </GenericPageLayout>
