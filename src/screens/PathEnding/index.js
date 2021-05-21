@@ -47,12 +47,9 @@ export default ({ navigation }) => {
         fullScroll
         header={
           <HeaderRating />
-          // <View style={styles.hero}>
-          //   <Text>Some feedback here!</Text>
-          // </View>
         }
       >
-          <Text style={styles.bodyTitle}>What's next?</Text>
+        <Text style={styles.bodyTitle}>What's next?</Text>
         <View style={styles.bodyContainer}>
           {DailyActivityRow}
           {LearnRow}
@@ -71,8 +68,9 @@ const getStyles = theme => StyleSheet.create({
   },
   bodyContainer: {
     // backgroundColor: '#f00a',
-    minHeight: '100%',
-    flex: 1,
+    // minHeight: '100%',
+    flexGrow: 1,
+    margin: 'auto',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
