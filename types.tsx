@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Login: undefined;
   ThemeInspector: undefined;
   StressRate: undefined;
-  StressActivity: undefined;
+  StressTrigger: undefined;
   StressActivityType: undefined;
   Activity: undefined;
   Modal: undefined;
