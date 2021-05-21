@@ -80,97 +80,23 @@ const GenericPageLayout = ({
         {isFunction(children) ? children({ scrollContentTo }) : children}
       </ScrollView>
     );
-  // const LeftActions =
-  //   topBarLeft || (onBack && <Appbar.BackAction onPress={onBack} />);
-  // const RightActions =
-  //   topBarRight ||
-  //   (onClose && <Appbar.Action icon="close" onPress={onClose} />);
 
-  const ScreenWrapper = ({ noWrap = false, children }) => (
-    noWrap
-      ? children
-      : (
-        <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
-          {children}
-        </KeyboardAwareScrollView>
-      )
-  )
-  const withScreenWrapper =
-    fullScroll || withKeyboard
-      ? children => (
-          <KeyboardAwareScrollView keyboardShouldPersistTaps={'handled'}>
-            {children}
-          </KeyboardAwareScrollView>
-        )
-      : _ => _;
   return (
-    <>
-      {/* {!hideTopBar && (
-        <Appbar.Header
-          style={{
-            elevation: 0,
-            backgroundColor: theme.customs.colors.White,
-          }}
-        >
-          {LeftActions}
-          <Appbar.Content
-            title={topBarTitle}
-            titleStyle={{
-              textAlign: 'center',
-              marginRight:
-                RightActions === null && Platform.OS === 'android' ? 55 : 0,
-            }}
-          />
-          {RightActions}
-        </Appbar.Header>
-      )} */}
-      <ScreenWrapper noWrapp={!fullScroll && !withKeyboard}>
-        <>
-          <View
-            style={[
-              styles.mainContainer,
-              { backgroundColor: 'transparent' },
-              noScrollContent || fullScroll ? styles.staticMainContainer : null,
-            ]}
-          >
-            {/* <LinearGradient
-              colors={['#ecf1f2ff', '#ecf1f200']}
-              style={[styles.headerContainer, { backgroundColor: theme.colors.background }]}
-            >
-              {header && <View style={styles.headerWrapper}>{header}</View>}
-            </LinearGradient> */}
-            <View style={styles.headerContainer}>
-              <View style={styles.headerWrapper}>{header}</View>
-            </View>
-            {contentWraper}
-          </View>
-          {/* { withBG && <BubblesBackground />} */}
-        </>
-      </ScreenWrapper>
-      {/* {withScreenWrapper(
-        <>
-          <View
-            style={[
-              styles.mainContainer,
-              { backgroundColor: 'transparent' },
-              noScrollContent || fullScroll ? styles.staticMainContainer : null,
-            ]}
-          >
-            <LinearGradient
-              colors={['#ecf1f2ff', '#ecf1f200']}
-              style={[styles.headerContainer, { backgroundColor: theme.colors.background }]}
-            >
-              {header && <View style={styles.headerWrapper}>{header}</View>}
-            </LinearGradient>}
-            <View style={styles.headerContainer}>
-              <View style={styles.headerWrapper}>{header}</View>
-            </View>
-            {contentWraper}
-          </View>
-          <BubblesBackground />
-        </>
-      )} */}
-    </>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          margin: 'auto',      
+        }}
+        style={[
+          styles.mainContainer,
+          { backgroundColor: 'transparent' },
+        ]}
+      >
+        <View style={styles.headerContainer}>
+          <View style={styles.headerWrapper}>{header}</View>
+        </View>
+        {contentWraper}
+      </ScrollView>
   );
 };
 
@@ -178,28 +104,22 @@ export default GenericPageLayout;
 
 const styles = StyleSheet.create({
   mainContainer: {
-    // backgroundColor: theme.customs.colors.White,
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-    flex: 1,
-    paddingBottom: 50,
-    // borderWidth: 10,
-    height: '100%',
-    borderColor: 'orange',
+    // borderWidth: 1,
+    borderColor: 'purple',
   },
   staticMainContainer: {
-    minHeight: '100%',
   },
   headerContainer: {
-    // backgroundColor: theme.customs.colors.White,
+    height: 232,
   },
   headerWrapper: {
-    height: 232,
   },
   commonContentContainer: {
     paddingHorizontal: 20,
-    flex: 1,
+    flexGrow: 1,
+    margin: 'auto',
     // borderWidth: 1,
-    // borderColor: 'lime',
+    borderColor: 'lime',
   },
   thinContentContainer: {
     paddingHorizontal: 0,
