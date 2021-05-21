@@ -20,7 +20,7 @@ const KitFinish = ({ navigation }) => {
           <View style={styles.hero}>
             <View style={styles.heroContent}>
               <Headline style={styles.headline}>
-                VR-MET<Text style={{ fontSize: 'small', lineHeight: 25, textAlignVertical: 'top'}}>®</Text>
+                VR-MET<Text style={{ fontSize: 13, lineHeight: 25, textAlignVertical: 'top'}}>®</Text>
               </Headline>
               <Paragraph style={styles.description}>
                 Is a program that combines Virtual Reality, Mindfulness based self-control and cue-exposure therapy for a high efficiency in behaviour change.
