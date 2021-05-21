@@ -35,9 +35,6 @@ export default ({ navigation }) => {
     '#EC0040',
   ];
 
-  // useEffect(() => {
-  //   navigation.push('')
-  // }, [selected]);
   const onSelected = idx => {
     if (idx === selected) {
       dispatch({ type: 'currentStress/setStressLevel', payload: idx });
