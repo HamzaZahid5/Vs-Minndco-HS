@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import {View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 export default ({ onVote }) => {
-  const [vote, setVote] = useState(2);
+  const [vote, setVote] = useState(0);
+  useEffect(() => {
+    if (vote > 0) { onVote(vote); }
+  }, [vote]);
   const theme = useTheme();
   const styles = getStyles(theme);
   const starChar = Platform.OS === 'ios' ? '★' : '⭐️';
