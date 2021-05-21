@@ -16,6 +16,8 @@ export default ({
         setHighlight(true);
         setTimeout(onSelected, 500);
       }, delay);
+    } else {
+      setHighlight(false);
     }
   }, [selected])
   return (

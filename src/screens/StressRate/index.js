@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
@@ -41,9 +41,18 @@ export default ({ navigation }) => {
   const onSelected = idx => {
     if (idx === selected) {
       dispatch({ type: 'currentStress/setStressLevel', payload: idx });
-      navigation.push('StressActivity');
+      navigation.push('StressTrigger');
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setSelection(undefined);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ScreenDecorator>
