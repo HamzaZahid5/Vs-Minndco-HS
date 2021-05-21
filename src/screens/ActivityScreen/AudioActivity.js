@@ -11,35 +11,35 @@ import {
 import AudioPlayer from '../../components/AudioPlayer';
 import BigButton from '../../components/BigButton';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
+import { useStorageDownloadURL } from '../../services/Storage';
 
-const activity = {
-  type: 'vr-met',
-  duration: 10,
-  description: '',
-}
-
-export const header = () => {
+export const header = (onComplete, storeAsset, title) => {
   const theme = useTheme();
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
+  const assetURI = useStorageDownloadURL(storeAsset);
 
   return (
     <>
     { action === 'INIT' && (
       <>
         <Headline style={styles.headline}>
-          activity.name
+          {title}
         </Headline>
         <View style={{ marginTop: 20, height: 40 }}>
           <BigButton variant="accent" onPress={() => setAction('PLAY')}>
-            Play
+            Start
           </BigButton>
         </View>
       </>
     )}
     { action === 'PLAY' && (
       <View style={{ flex: 1, width: '100%' }}>
-        <AudioPlayer src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938" />
+        <AudioPlayer
+          audioURI={assetURI}
+          didJustFinish={onComplete}
+          // src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938"
+        />
       </View>
     )}
   </>);
@@ -53,22 +53,22 @@ const getHeaderStyles = theme => StyleSheet.create({
   },
 });
 
-export const body = () => {
+export const body = ({ type, duration, description }) => {
   const theme = useTheme();
   const styles = getBodyStyles(theme);
   return (
     <>
       <View style={[styles.content]}>
         <IconButton
-          icon={getIconByActivityType(activity.type)}
+          icon={getIconByActivityType(type)}
           size={30}
           color="white"
           style={[styles.activityIcon, { backgroundColor: theme.colors.background } ]}
         />
         <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
-          {activity.duration}{' min.'}
+          {duration}{' min.'}
         </Title>
-        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{activity.description}</Paragraph>
+        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{description}</Paragraph>
       </View>
       <Divider
         style={{
@@ -81,7 +81,7 @@ export const body = () => {
           Some tips before start
         </Title>
         <Paragraph style={styles.description}>
-          {getTipsByActivityType(activity.type)}
+          {getTipsByActivityType(type)}
         </Paragraph>
       </View>
     </>

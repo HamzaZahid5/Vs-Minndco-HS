@@ -9,7 +9,7 @@ import Slider from '@react-native-community/slider';
 import Color from 'color';
 
 let tId;
-const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
+const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   const statusTId = useRef();
   const isSliding = useRef();
   // const isPlaying = useRef();
@@ -84,10 +84,10 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
   }, [sound]);
 
   useEffect(() => {
-    if (src) {
-      loadSound(src);
+    if (audioURI) {
+      loadSound(audioURI);
     }
-  }, [src]);
+  }, [audioURI]);
 
   // useKeepAwake();
   useEffect(() => {
@@ -120,6 +120,7 @@ const ActivityPlayerVideo = ({ src = '', onEnd = null }) => {
     // reach the end
     shouldPlay.current = false;
     stopSound();
+    didJustFinish();
   }
   return (
     <View style={styles.playerContainer}>

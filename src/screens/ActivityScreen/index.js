@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { StackActions } from '@react-navigation/native';
+import template from 'lodash.template';
 
 import GenericPageLayout from '../../components/GenericPageLayout';
 
@@ -29,7 +30,7 @@ export default ({ navigation }) => {
 
   const IS = getWhatContentIs(nextActivity);
 
-  const handleFormComplete = answer => {
+  const handleActivityComplete = answer => {
     saveActivityDone(nextActivityKey, answer);
     resetPathTo('PathEnding');
   };
@@ -41,7 +42,11 @@ export default ({ navigation }) => {
         header={
           <View style={styles.hero}>
             { IS.video && (
-              <VideoHeader onFinish={() => navigation.dispatch(StackActions.replace('PathEnding'))}/>
+              <VideoHeader
+                title={nextActivity.name}
+                storeAsset={template(nextActivity.asset)({ language: 'EN' })}
+                onComplete={handleActivityComplete}
+              />
             )}
             { IS.vr && (
               <VRHeader
@@ -53,7 +58,11 @@ export default ({ navigation }) => {
               />
             )}
             { IS.audio && (
-              <AudioHeader onFinish={() => navigation.dispatch(StackActions.replace('PathEnding'))}/>
+              <AudioHeader
+                title={nextActivity.name}
+                storeAsset={template(nextActivity.asset)({ language: 'EN' })}
+                onComplete={handleActivityComplete}
+              />
             )}
             { IS.form && (
               <FormHeader
@@ -64,7 +73,11 @@ export default ({ navigation }) => {
         }
       >
         { IS.video && (
-          <VideoBody />
+          <VideoBody
+            type={nextActivity.type}
+            duration={nextActivity.duration}
+            description={nextActivity.description}
+          />
         )}
         { IS.vr && (
           <VRBody
@@ -74,7 +87,11 @@ export default ({ navigation }) => {
           />
         )}
         { IS.audio && (
-          <AudioBody />
+          <AudioBody
+            type={nextActivity.type}
+            duration={nextActivity.duration}
+            description={nextActivity.description}
+          />
         )}
         { IS.form && (
           <FormBody
@@ -82,7 +99,7 @@ export default ({ navigation }) => {
             duration={nextActivity.duration}
             description={nextActivity.description}
             asset={nextActivity.asset}
-            onComplete={handleFormComplete}
+            onComplete={handleActivityComplete}
           />
         )}
         
