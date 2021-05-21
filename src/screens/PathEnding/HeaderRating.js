@@ -60,7 +60,6 @@ const getStyles = theme => StyleSheet.create({
   selected: {
     fontSize: 35,
     color: 'gold',
-    // textShadow: '0 0 0 gray',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 1,
@@ -68,7 +67,6 @@ const getStyles = theme => StyleSheet.create({
   unselected: {
     fontSize: 35,
     color: Platform.OS === 'ios' ? 'black' : 'transparent',
-    // textShadow: '0 0 0 gray',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 1,
