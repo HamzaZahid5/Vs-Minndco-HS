@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { Platform } from 'react-native';
 import {View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 export default ({ onVote }) => {
-  const [vote, setVote] = useState(0);
+  const [vote, setVote] = useState(2);
   const theme = useTheme();
   const styles = getStyles(theme);
+  const starChar = Platform.OS === 'ios' ? '★' : '⭐️';
   return (
     <View style={styles.pollContainer}>
       <Text>how useful you've found the activity?</Text>
@@ -14,25 +16,25 @@ export default ({ onVote }) => {
           style={{}}
           onPress={() => setVote(1)}
         >
-          <Text style={[styles.star, vote < 1 ? styles.unselected : styles.selected]}>⭐️</Text>
+          <Text style={[styles.star, vote < 1 ? styles.unselected : styles.selected]}>{starChar}</Text>
         </Pressable>
         <Pressable
           style={{}}
           onPress={() => setVote(2)}
         >
-          <Text style={[styles.star, vote < 2 ? styles.unselected : styles.selected]}>⭐️</Text>
+          <Text style={[styles.star, vote < 2 ? styles.unselected : styles.selected]}>{starChar}</Text>
         </Pressable>
         <Pressable
           style={{}}
           onPress={() => setVote(3)}
         >
-          <Text style={[styles.star, vote < 3 ? styles.unselected : styles.selected]}>⭐️</Text>
+          <Text style={[styles.star, vote < 3 ? styles.unselected : styles.selected]}>{starChar}</Text>
         </Pressable>
         <Pressable
           style={{}}
           onPress={() => setVote(4)}
         >
-          <Text style={[styles.star, vote < 4 ? styles.unselected : styles.selected]}>⭐️</Text>
+          <Text style={[styles.star, vote < 4 ? styles.unselected : styles.selected]}>{starChar}</Text>
         </Pressable>
       </View>
     </View>
@@ -53,14 +55,16 @@ const getStyles = theme => StyleSheet.create({
     margin: 5,
   },
   selected: {
-    color: 'yellow',
+    fontSize: 35,
+    color: 'gold',
     // textShadow: '0 0 0 gray',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 1,
   },
   unselected: {
-    color: 'transparent',
+    fontSize: 35,
+    color: Platform.OS === 'ios' ? 'black' : 'transparent',
     // textShadow: '0 0 0 gray',
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
