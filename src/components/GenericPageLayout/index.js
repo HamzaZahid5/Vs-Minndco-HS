@@ -12,11 +12,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import LinearGradient from 'expo-linear-gradient';
-import { Text } from 'react-native';
 import { isFunction } from '../../utils/helpers';
-import BubblesBackground from '../../components/BubblesBackground'
-import { Platform } from 'react-native';
 /**
  ==== NAV ======
  ===============
@@ -82,10 +78,13 @@ const GenericPageLayout = ({
     );
 
   return (
-      <ScrollView
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        keyboardShouldPersistTaps={'handled'}
+        extraHeight={390}
         contentContainerStyle={{
           flexGrow: 1,
-          margin: 'auto',      
+          margin: 'auto',
         }}
         style={[
           styles.mainContainer,
@@ -96,7 +95,7 @@ const GenericPageLayout = ({
           <View style={styles.headerWrapper}>{header}</View>
         </View>
         {contentWraper}
-      </ScrollView>
+      </KeyboardAwareScrollView>
   );
 };
 

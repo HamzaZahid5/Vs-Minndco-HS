@@ -3,6 +3,7 @@ import { View, Image, ScrollView, Linking, Platform } from 'react-native';
 // @ts-ignore
 import { auth } from '../../services/Auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {
 //   navigateToAuth,
@@ -56,10 +57,12 @@ const Login = ({ navigation }: Props) => {
 
   const onFormSubmit = formSubmitHandler(setLoading);
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      keyboardShouldPersistTaps={'handled'}
+      extraHeight={190}
       contentInsetAdjustmentBehavior="automatic"
       contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps={'handled'}
       style={styles.absolutScrollView}
     >
       <Surface
@@ -190,7 +193,7 @@ const Login = ({ navigation }: Props) => {
           </View>
         </FadeEffect>
       </Surface>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
