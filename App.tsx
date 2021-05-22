@@ -65,7 +65,6 @@ const store = configureStore();
 const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
 export default function App() {
-  const [ready, setReady] = useState(false);
   const userToken = useAuth();
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
