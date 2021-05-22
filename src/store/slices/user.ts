@@ -7,6 +7,7 @@ import firestore from '../../services/Firestore';
 
 export type UserStatistics = {
   last_completed_activity_at?: firestore.Timestamp,
+  activity_days_in_a_row: number,
 }
 export type UserState = {
   data: {
@@ -29,7 +30,9 @@ const initialState: UserState = {
     kit_id: '',
     treatment_module: 1,
     treatment_level: 1,
-    statistics: {}
+    statistics: {
+      activity_days_in_a_row: 0,
+    },
   },
   auth: {},
 };

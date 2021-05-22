@@ -9,3 +9,4 @@ export const LAST_ACTIVITY_AT = (store:RootState) => {
   const fireBaseDate = store?.user?.data?.statistics?.last_completed_activity_at;
   return fireBaseDate ? fireBaseDate.toDate() : undefined;
 };
+export const ACTIVITY_DAYS_IN_A_ROW = (store:RootState) => store?.user?.data?.statistics?.activity_days_in_a_row;
