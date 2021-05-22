@@ -1,13 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { saveActivityDone as saveActivityDoneIntoDB } from '../services/Firestore';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { saveActivityDone as saveActivityDoneIntoDB, resetUserStreak as resetUserStreakIntoDB } from '../services/Firestore';
 import functions from '../services/Functions';
-import { TREATMENT_MODULE_AND_LEVEL } from '../store/selectors';
-import { buildActivityKey, getModuleNumberFromKey, getLevelNumberFromKey } from '../utils/helpers';
+import { LAST_ACTIVITY_AT, ACTIVITY_DAYS_IN_A_ROW } from '../store/selectors';
+import { getModuleNumberFromKey, getLevelNumberFromKey } from '../utils/helpers';
 import useNextActivity from '../utils/hooks/useNextActivity';
 
 const useActivityActions = () => {
   // const dispatch = useDispatch();
   const [nextActivity] = useNextActivity();
+  const lastActivityDate = useSelector(LAST_ACTIVITY_AT);
+  const streakCount = useSelector(ACTIVITY_DAYS_IN_A_ROW);
+  
+  const lastActivityAt = moment(lastActivityDate).format('YYYY-MM-DD');
+  const lastActivityNotToday = lastActivityAt !== moment().format('YYYY-MM-DD');
+  const lastActivityNotYesterday = lastActivityAt !== moment().subtract(1, 'd').format('YYYY-MM-DD');
+
+  const streakLost = () => lastActivityNotToday && lastActivityNotYesterday;
+  // only matter if is not another activity in the same day, all other cases increment the streak.
+  // we don't care about streak lost since that happens when login
+  const isConsecutiveDay = () => lastActivityNotToday;
+
   return {
     saveActivityDone: async (activityKey, answer = '') => {
       const treatment_module = getModuleNumberFromKey(activityKey);
@@ -17,7 +30,9 @@ const useActivityActions = () => {
         treatment_module,
         treatment_level,
         activityKey,
+        streak: isConsecutiveDay() ? streakCount + 1 : streakCount,
       });
+      
       await functions().httpsCallable('logActivityDone')({
         activity: nextActivity,
         activityKey,
@@ -25,6 +40,11 @@ const useActivityActions = () => {
       });
       return true;
     },
+    updateStreak: async () => {
+      if (streakLost()) {
+        resetUserStreakIntoDB();
+      }
+    }
   };
 };
 
