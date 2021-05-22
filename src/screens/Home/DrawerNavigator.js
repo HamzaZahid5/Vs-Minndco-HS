@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawerContent from './CustomDrawerContent';
 import HomeScreen from './index';
+// @ts-ignore
+import useActivityActions from '../../appActionHooks/useActivityActions';
 
 const Drawer = createDrawerNavigator();
 
@@ -11,6 +13,7 @@ const getDrawerContent = props => (
 );
 
 export default ({ navigation }) => {
+  const { updateStreak } = useActivityActions();
   const welcomeTutorial = useSelector(store => store.user.data.flags.show_basics_tutorial);
   
   useEffect(() => {
@@ -18,6 +21,10 @@ export default ({ navigation }) => {
       navigation.navigate('Tutorial');
     }
   }, [welcomeTutorial]);
+
+  useEffect(() => {
+    updateStreak();
+  }, []);
 
   return (
     <Drawer.Navigator
