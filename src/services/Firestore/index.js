@@ -66,17 +66,26 @@ export const saveStressRecord = (level, activity) => firestore()
     }),
   });
 
-  export const saveActivityDone = ({
+export const saveActivityDone = ({
+  treatment_module,
+  treatment_level,
+  activityKey,
+  streak
+}) => firestore()
+  .collection('users')
+  .doc(auth().currentUser.uid)
+  .update({
     treatment_module,
     treatment_level,
-    activityKey
-  }) => firestore()
-    .collection('users')
-    .doc(auth().currentUser.uid)
-    .update({
-      treatment_module,
-      treatment_level,
-      progress: firestore.FieldValue.arrayUnion(activityKey),
-      'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
-      'statistics.last_completed_activity': activityKey,
-    });
+    progress: firestore.FieldValue.arrayUnion(activityKey),
+    'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
+    'statistics.last_completed_activity': activityKey,
+    'statistics.activity_days_in_a_row': streak,
+  });
+
+export const resetUserStreak = () => firestore()
+  .collection('users')
+  .doc(auth().currentUser.uid)
+  .update({
+    'statistics.activity_days_in_a_row': 0,
+  });
