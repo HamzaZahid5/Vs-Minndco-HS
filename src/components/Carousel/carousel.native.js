@@ -5,7 +5,7 @@ import SnapCarousel, { Pagination } from 'react-native-snap-carousel';
 const renderItem = ({item, index}) => {
   return (
     <View style={styles.slide}>
-      { item.title && <Text style={styles.text}>{ item.title }</Text> }
+      {/* { item.title && <Text style={styles.text}>{ item.title }</Text> } */}
       { item.content }
     </View>
   );
@@ -19,7 +19,8 @@ export const prevSlide = (ref) => {
   ref.current.snapToItem(ref.current.currentIndex - 1, true)
 }
 
-export default forwardRef(({ items }, ref) => {
+export default forwardRef(({ items }, externalRef) => {
+  const ref = externalRef || useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     minWidth: '100%',
     width: '100%',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     alignItems: 'center',
     alignContent: 'center',
