@@ -1,6 +1,7 @@
 import {
   DarkTheme as PaperDarkTheme,
   DefaultTheme as PaperDefaultTheme,
+  configureFonts,
 } from 'react-native-paper';
 import { Theme } from "react-native-paper/src/types";
 import { Theme as NavTheme } from '@react-navigation/native';
@@ -11,6 +12,62 @@ import {
 } from '@react-navigation/native';
 import Color from 'color';
 
+const fontConfig = {
+  web: {
+    regular: {
+      fontFamily: 'Graphik-Regular',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Graphik-Medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Graphik-Light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'Graphik-Light',
+      fontWeight: 'normal',
+    },
+  },
+  ios: {
+    regular: {
+      fontFamily: 'Graphik-Regular',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Graphik-Medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Graphik-Light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'Graphik-Light',
+      fontWeight: 'normal',
+    },
+  },
+  android: {
+    regular: {
+      fontFamily: 'Graphik-Regular',
+      fontWeight: 'normal',
+    },
+    medium: {
+      fontFamily: 'Graphik-Medium',
+      fontWeight: 'normal',
+    },
+    light: {
+      fontFamily: 'Graphik-Light',
+      fontWeight: 'normal',
+    },
+    thin: {
+      fontFamily: 'Graphik-Light',
+      fontWeight: 'normal',
+    },
+  }
+};
 const MindCoReliefDefaulTheme = {
   colors: {
     primary: '#3D9AD5',
@@ -23,19 +80,24 @@ const MindCoReliefDefaulTheme = {
     error: '#F34C78',
     onSurface: '#3D77B0',
   },
-  fonts: {
+  //@ts-ignore
+  fonts: configureFonts(fontConfig),
+  fontsHelper: {
     heading1: {
       ...PaperDefaultTheme.fonts.regular,
+      fontFamily: 'Graphik-Regular',
       fontSize: 36,
       lineHeight: 43,
     },
     heading2: {
       ...PaperDefaultTheme.fonts.regular,
+      fontFamily: 'Graphik-Regular',
       fontSize: 28,
       lineHeight: 36,
     },
     large: {
       ...PaperDefaultTheme.fonts.regular,
+      fontFamily: 'Graphik-Regular',
       fontSize: 18,
       lineHeight: 23,
     },
@@ -49,23 +111,28 @@ const MindCoReliefDarkTheme = {
     warning: '#ff0000',
     surface: '#31CCCC',
   },
-  fonts: {
+  //@ts-ignore
+  fonts: configureFonts(fontConfig),
+  fontsHelper: {
     heading1: {
       ...PaperDarkTheme.fonts.regular,
+      fontFamily: 'Graphik-Regular',
       fontSize: 36,
       lineHeight: 43,
     },
     heading2: {
       ...PaperDarkTheme.fonts.regular,
+      fontFamily: 'Graphik-Regular',
       fontSize: 28,
       lineHeight: 36,
     },
     large: {
       ...PaperDarkTheme.fonts.regular,
+      fontFamily: 'Graphik-Regular',
       fontSize: 18,
       lineHeight: 23,
     },
-  }
+  },
 };
 
 const CombinedDefaultTheme = {
@@ -80,7 +147,8 @@ const CombinedDefaultTheme = {
   fonts: {
     ...PaperDefaultTheme.fonts,
     ...MindCoReliefDefaulTheme.fonts,
-  }
+  },
+  fontsHelper: MindCoReliefDarkTheme.fontsHelper,
 };
 const CombinedDarkTheme = {
   ...PaperDarkTheme,
@@ -94,7 +162,8 @@ const CombinedDarkTheme = {
   fonts: {
     ...PaperDarkTheme.fonts,
     ...MindCoReliefDarkTheme.fonts,
-  }
+  },
+  fontsHelper: MindCoReliefDarkTheme.fontsHelper,
 };
 
 export type CustomThemeType = Theme & NavTheme & {
@@ -103,7 +172,8 @@ export type CustomThemeType = Theme & NavTheme & {
     dark: string,
     warning: string,
   },
-  fonts: {
+  fonts: any,
+  fontsHelper: {
     heading1: any,
     heading2: any,
     large: any,
