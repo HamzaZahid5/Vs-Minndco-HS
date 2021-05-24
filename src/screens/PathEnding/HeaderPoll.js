@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-export default ({ onVote }) => {
+export default ({ onVote = Function }) => {
   const [vote, setVote] = useState();
   const theme = useTheme();
   const styles = getStyles(theme);
