@@ -53,6 +53,8 @@ import MainComponent from './src/screens/Home/DrawerNavigator';
 import KitAssembleScreen from './src/screens/KitAssemble';
 // @ts-ignore
 import useProgram from './src/utils/hooks/useProgram';
+// @ts-ignore
+import useFontLoader from './src/utils/hooks/useFontLoader';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -82,8 +84,9 @@ export default function App() {
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
   useProgram();
+  const [fontsLoaded] = useFontLoader();
   // auth().signOut();
-  if (isWaitingForAuth || (isAuthed && !userData) ) {
+  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded ) {
     return <View><Text>Loading...</Text></View>;
   }
   
