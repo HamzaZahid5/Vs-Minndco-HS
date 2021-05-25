@@ -4,46 +4,47 @@ import { Paragraph, useTheme } from 'react-native-paper';
 import {
   LineChart,
 } from "react-native-chart-kit";
+import Color from 'color';
 
-export default ({ days }) => {
+export default ({ data = [] }) => {
   const theme = useTheme();
+  const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
   return (
     <View style={{
-      backgroundColor: 'blue',
+      backgroundColor: Color('#F79337').lighten(0).toString(),
+      width: '100%',
       borderRadius: 24,
       padding: 14,
       height: '100%',
       justifyContent: 'flex-start',
+      alignItems: 'center',
+      shadowColor: '#664AB9',
+      shadowOffset: { width: 1, height: 1 },
+      shadowOpacity: 0.4,
+      shadowRadius: 3,
+      elevation: 2,
     }}>
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFFFFF' }}>
         Level trending
       </Paragraph>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE / 3 }}>
         <LineChart
           data={{
-            labels: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+            // labels: [],
             datasets: [
               {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100
-                ]
+                data,
               }
             ]
           }}
-          width={Dimensions.get("window").width-Dimensions.get("window").width*0.1} // from react-native
-          height={220}
+          width={Dimensions.get('window').width}
+          height={SIZE/3}
           yAxisInterval={1} // optional, defaults to 1
           withHorizontalLabels={false}
           chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: "#fb8c00",
-            backgroundGradientTo: "#ffa726",
+            backgroundColor: "transparent",
+            backgroundGradientFrom: "#fff",
+            backgroundGradientTo: "#fff",
             backgroundGradientFromOpacity: 0,
             backgroundGradientToOpacity: 0,
             decimalPlaces: 2, // optional, defaults to 2dp
@@ -55,7 +56,7 @@ export default ({ days }) => {
             propsForDots: {
               r: "6",
               strokeWidth: "2",
-              stroke: "#ffa726"
+              stroke: "#fff"
             }
           }}
           bezier

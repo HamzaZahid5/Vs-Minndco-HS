@@ -29,7 +29,7 @@ const getContentByType = (type) => {
 
 export default ({ navigation, route }) => {
   const [content, setContent] = useState();
-  const { type: activityType = '' } = route?.params || {};
+  const { type: activityType = 'DO' } = route?.params || {};
   const {
     resetPerformedLifesaverActivity,
     addPerformedLifesaverActivity,

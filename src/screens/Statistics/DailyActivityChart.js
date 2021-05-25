@@ -5,7 +5,7 @@ import {
   LineChart,
 } from "react-native-chart-kit";
 
-export default ({ days }) => {
+export default ({ data = [] }) => {
   const theme = useTheme();
   return (
     <View style={{
@@ -21,18 +21,10 @@ export default ({ days }) => {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <LineChart
           data={{
-            labels: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+            labels: ["", "", "", "", "", "", ""],
             datasets: [
               {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100
-                ]
+                data,
               }
             ]
           }}

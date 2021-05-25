@@ -167,6 +167,8 @@ const getStyles = theme => StyleSheet.create({
   playerContainer: {
     width: '100%',
     flex: 1,
+    justifyContent: 'center',
+    padding: 30,
   },
   controls: {
     flexDirection: 'row',

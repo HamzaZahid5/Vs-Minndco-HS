@@ -60,9 +60,9 @@ export default forwardRef(({ items }, externalRef) => {
 
 const styles = StyleSheet.create({
   slide: {
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    paddingTop: 30,
+    // paddingHorizontal: 20,
+    // paddingBottom: 10,
+    // paddingTop: 30,
     flexBasis: '100%',
     flex: 1,
     flexGrow: 1,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // height: '100%',
     // maxHeight: '100%',
-    borderWidth: 0, borderColor: 'red',
+    // borderWidth: 0, borderColor: 'red',
   },
   slideText: {
     width: '100%',

@@ -4,14 +4,19 @@ import { Paragraph, useTheme } from 'react-native-paper';
 import {
   ProgressChart,
 } from "react-native-chart-kit";
+import Color from 'color';
 import useCompletion from '../../utils/hooks/useCompletion';
 
 const chartConfig = {
   backgroundGradientFrom: "transparent",
-  // backgroundGradientFromOpacity: 0,
+  backgroundGradientFromOpacity: 0,
   backgroundGradientTo: "transparent",
-  // backgroundGradientToOpacity: 0.5,
-  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  backgroundGradientToOpacity: 0,
+  color: (opacity = 1) => {
+    console.log(opacity)
+    const [r, g, b] = Color('#FFF').array();
+    return `rgba(${r}, ${g}, ${b}, ${opacity * 2})`;
+  },
   // strokeWidth: 2, // optional, default 3
   // barPercentage: 0.5,
   // useShadowColorFromDataset: false // optional
@@ -28,35 +33,43 @@ export default () => {
       })
     }
   }, [progress])
-  const SIZE = Math.min(Dimensions.get('window').width, Dimensions.get('window').height);
+  // const SIZE = Math.min(Dimensions.get('window').width, Dimensions.get('window').height);
+  const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
   return (
     <View style={{
-      backgroundColor: 'blue',
+      backgroundColor: Color('#87B1E3').lighten(0).toString(),
+      width: '100%',
       borderRadius: 24,
       padding: 14,
       height: '100%',
       justifyContent: 'flex-start',
+      alignItems: 'center',
+      shadowColor: '#664AB9',
+      shadowOffset: { width: 1, height: 1 },
+      shadowOpacity: 0.4,
+      shadowRadius: 3,
+      elevation: 2,
     }}>
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>
         Program completion
       </Paragraph>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE - SIZE / 8 }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE / 3 }}>
         <View style={{ flex: 1 }}/>
         <View style={{ position: 'absolute' }}>
           {data && (
             <ProgressChart
               data={data}
-              width={SIZE}
-              height={SIZE}
+              width={SIZE/3}
+              height={SIZE/3}
               strokeWidth={12}
-              radius={SIZE / 4}
+              radius={SIZE / 8}
               hideLegend
               chartConfig={chartConfig}
             />
           )}
         </View>
         <View style={{ position: 'absolute', width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}>
-          <Paragraph style={{ fontSize: 40}}>{progress}%</Paragraph>
+          <Paragraph style={{ fontSize: 40, lineHeight: 40, color: '#FFF' }}>{progress}%</Paragraph>
         </View>
       </View>
     </View>

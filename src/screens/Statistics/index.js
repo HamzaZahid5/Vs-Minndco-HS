@@ -12,11 +12,35 @@ import StressLevelsChart from './StressLevelsChart';
 import AverageStressLevel from './AverageStressLevel';
 import MostFrequentTriggers from './MostFrequentTriggers';
 import { usePathEndingBarButton } from '../PathEnding';
+import useJournal from '../../utils/hooks/useJournal';
+import { triggerKeyToLabel } from '../StressTrigger';
+
+const getFrequentTriggersFromJournal = (journal = []) => {
+  const triggersWithScores = journal.reduce((r, item) => {
+    if(!r.hasOwnProperty(item.reason)) {
+      r[item.reason] = 0;
+    }
+    r[item.reason]++;
+    return r;
+  }, {});
+
+  return Object.entries(triggersWithScores)
+    .map(i => ({ label: triggerKeyToLabel(i[0]), count: i[1] }))
+    .sort((a, b) => {
+      if (a.count > b.count) return -1;
+      if (a.count < b.count) return 1;
+    });
+};
 
 export default ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
-  const cRef = useRef()
+  const cRef = useRef();
+  const journal = useJournal() || [];
+  const frequentTriggers = getFrequentTriggersFromJournal(journal);
+  const avgStressLevel = journal.reduce((r, i) => r + i.level, 0) / journal.length;
+  const chartData = journal.map(r => r.level);
+  console.log({journal, avgStressLevel});
   // useEffect(() => {
   //   if(cRef.current) {
   //     setTimeout(() => {
@@ -38,37 +62,39 @@ export default ({ navigation }) => {
         items={[{
           // title: 'Constancy',
           content: (
-            <View style={{ flex: 1, height: '100%' }}>
-              <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#f00a' }}>
-                <View style={{ flex: 1, backgroundColor: '#00fa', padding: 10 }}>
-                  <TodayActivityStatus done={false} />
+            <>
+              <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <View style={{ flex: 1, padding: 10 }}>
+                    <TodayActivityStatus done={false} />
+                  </View>
+                  <View style={{ flex: 1, padding: 10 }}>
+                    <DailyActivityStreak days={5} />
+                  </View>
                 </View>
-                <View style={{ flex: 1, backgroundColor: '#000a', padding: 10 }}>
-                  <DailyActivityStreak days={5} />
+                <View style={{ flex: 1, minWidth: '100%', padding: 10, alignItems: 'center' }}>
+                  <CompletionChart />
+                </View>
+                <View style={{ position: 'absolute', bottom: -30, right: 5, width: '100%', alignItems: 'flex-end' }}>
+                  <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>
                 </View>
               </View>
-              <View style={{ flex: 1, backgroundColor: '#0f0a', padding: 10 }}>
-                <CompletionChart />
-              </View>
-              <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
-                <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>
-              </View>
-            </View>
+            </>
           ),
         }, {
           // title: 'Triggers',
           content: (
             <View style={{ flex: 1, height: '100%' }}>
-              <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#f00a' }}>
-                <View style={{ flex: 1, backgroundColor: '#00fa', padding: 10 }}>
-                  <MostFrequentTriggers triggers={['alcohol', 'work', 'other']} />
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, padding: 10 }}>
+                  <MostFrequentTriggers triggers={frequentTriggers.map(t => t.label)} />
                 </View>
-                <View style={{ flex: 1, backgroundColor: '#000a', padding: 10 }}>
-                  <AverageStressLevel level={5} />
+                <View style={{ flex: 1, padding: 10 }}>
+                  <AverageStressLevel level={avgStressLevel} />
                 </View>
               </View>
-              <View style={{ flex: 1, backgroundColor: '#0f0a', padding: 10 }}>
-                <StressLevelsChart />
+              <View style={{ flex: 1, padding: 10 }}>
+                <StressLevelsChart data={chartData} />
               </View>
               <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
                 {/* <BigButton onPress={() => navigation.dispatch(StackActions.replace('PathEnding'))}>finish</BigButton> */}

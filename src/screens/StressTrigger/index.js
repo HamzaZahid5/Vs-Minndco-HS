@@ -6,47 +6,52 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import RowItem from '../../components/RowItem';
 import useAppActions from './actions';
 
+export const triggerKeyToLabel = key => {
+  return labels[options.findIndex(k => k === key)];
+}
+
+export const options = [
+  'working',
+  'talking_family',
+  'on_a_date',
+  'thinking_relationship',
+  'studying',
+  'thinking_financials',
+  // 'feeling_sick',
+  // 'arguing_someone',
+  // 'driving',
+  'other',
+];
+export const labels = [
+  'Working',
+  'Talking with family',
+  'On a date',
+  'Thinking on relationships',
+  'Studying',
+  'Thinking on financials',
+  // 'Feeling sick',
+  // 'Arguing with someone',
+  // 'Driving',
+  'Other',
+];
 export default ({ navigation }) => {
   const theme = useTheme();
   const { saveStressOMeter } = useAppActions();
   
   const [selected, setSelection] = useState();
-  const options = [
-    'working',
-    'talking_family',
-    'on_a_date',
-    'thinking_relationship',
-    'studying',
-    'thinking_financials',
-    // 'feeling_sick',
-    // 'arguing_someone',
-    // 'driving',
-    'other',
-  ];
-  const labels = [
-    'Working',
-    'Talking with family',
-    'On a date',
-    'Thinking on relationships',
-    'Studying',
-    'Thinking on financials',
-    // 'Feeling sick',
-    // 'Arguing with someone',
-    // 'Driving',
-    'Other',
-  ];
-  const icons = [
-    'account-hard-hat',
-    'account-group',
-    'head-heart',
-    'heart-broken',
-    'bookshelf',
-    'cash-multiple',
-    // 'pill',
-    // 'account-voice',
-    // 'car-multiple',
-    'help-rhombus',
-  ];
+  
+  // const icons = [
+  //   'account-hard-hat',
+  //   'account-group',
+  //   'head-heart',
+  //   'heart-broken',
+  //   'bookshelf',
+  //   'cash-multiple',
+  //   // 'pill',
+  //   // 'account-voice',
+  //   // 'car-multiple',
+  //   'help-rhombus',
+  // ];
 
   useEffect(() => {
     if (selected) {

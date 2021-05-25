@@ -4,6 +4,29 @@ import {auth} from '../Auth';
 
 export default firestore;
 
+export const useFirestoreJournalListener = () => {
+  const [snapshot, setSnapshot] = useState();
+  useEffect(() => {
+    let unsubscribe = Function;
+    try {
+      unsubscribe = firestore()
+        .collection("users")
+        .doc(auth().currentUser.uid)
+        .collection("journal")
+        .orderBy("date", "desc")
+        .limit(10)
+        .onSnapshot(sn => {
+          console.log('SN', sn.size);
+          setSnapshot(sn);
+        });
+    } catch(e) {
+      alert(e);
+    }
+    return () => unsubscribe;
+  }, []);
+  return snapshot;
+};
+
 export const useFirestoreListener = (collection, id) => {
   const [snapshotData, setSnapshotData] = useState();
   useEffect(() => {
