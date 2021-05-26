@@ -44,15 +44,17 @@ const playLostSound = () => {
 //   tId = setTimeout(callback, 1500);
 // };
 
-const BreathSync = ({ onClose }) => {
+const BreathSync = ({ onClose = Function }) => {
   const theme = useTheme();
   const styles= getStyles(theme);
   const [play, setPlay] = useState(false);
   const [counter, setCounter] = useState(-1);
+  const [next, setNext] = useState();
   const position = useRef(new Animated.ValueXY({ x: -100, y: -150 })).current;
   const size = useRef(new Animated.Value(0)).current;
   // const [animation, _] = useState(new Animated.ValueXY({ x: -10, y: -10 }));
   const [step, setStep] = useState('INIT');
+
   // useKeepAwake();
   useEffect(() => {
     if (play) {
@@ -70,6 +72,7 @@ const BreathSync = ({ onClose }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play]);
+  
   useEffect(() => {
     if (counter === 0) {
       setPlay(false);
@@ -77,6 +80,13 @@ const BreathSync = ({ onClose }) => {
       playWinSound();
     }
   }, [counter]);
+
+  useEffect(() => {
+    if (play) {
+      next === 'breath-out' ? breathOut() : breathIn();
+    }
+  }, [next, play]);
+
   const breathIn = () => {
     setStep('IN');
     Animated.timing(size, {
@@ -98,25 +108,11 @@ const BreathSync = ({ onClose }) => {
           useNativeDriver: true,
         }).start(({ finished: finishHold }) => {
           if(finishHold) {
-            breathOut();
+            setNext('breath-out');
           }
         });
       }
     });
-
-    // LayoutAnimation.configureNext({
-    //   ...LayoutAnimation.Presets.easeInEaseOut,
-    //   duration: 2000,
-    // });
-    // tId = setTimeout(() => {
-    //   LayoutAnimation.configureNext({
-    //     ...LayoutAnimation.Presets.easeInEaseOut,
-    //     duration: 1500,
-    //   });
-    //   setStep('HOLD-IN');
-    //   holdBreath(breathOut);
-    // }, 2000);
-    // setStep('IN');
   };
   const breathOut = () => {
     setStep('OUT');
@@ -139,7 +135,7 @@ const BreathSync = ({ onClose }) => {
           useNativeDriver: true,
         }).start(({ finished: finishHold }) => {
           if(finishHold) {
-            breathIn();
+            setNext('breath-in');
           }
         });
       }
@@ -156,20 +152,9 @@ const BreathSync = ({ onClose }) => {
     transform,
   };
 
-  
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        {/* <RoundedBackButton
-          style={styles.backButtonStyle}
-          onPress={() => {
-            const completed = counter === 0;
-            if (!completed) {
-              playLostSound();
-            }
-            onClose(completed);
-          }}
-        /> */}
         <Title style={styles.title}>
           {counter !== 0
             ? 'Take 20 calm breaths'
@@ -187,9 +172,15 @@ const BreathSync = ({ onClose }) => {
             : ' '}
         </Title>
         <View style={styles.squareContainer}>
-          {counter === -1 && (
+          {counter <= 0 && (
             <Button
-              onPress={() => setPlay(true)}
+              onPress={() => {
+                if (counter === 0) {
+                  onClose()
+                } else {
+                  setPlay(true);
+                }
+              }}
               style={styles.startButton}
               labelStyle={{
                 fontWeight: '400',
@@ -197,7 +188,7 @@ const BreathSync = ({ onClose }) => {
                 color: theme.colors.primary,
               }}
             >
-              {'Tap to start'}
+              {counter === 0 ? 'Tap to finish' : 'Tap to start'}
             </Button>
           )}
           <View style={styles.legend}>
