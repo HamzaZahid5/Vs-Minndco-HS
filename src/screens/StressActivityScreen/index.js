@@ -14,6 +14,7 @@ import {
   LIFESAVER_ACTIVITIES,
 } from '../../utils/constants';
 import useAppActions from "./actions";
+import useNavigationResetPathTo from "../../utils/hooks/useNavigationResetPathTo";
 
 const getContentByType = (type) => {
   switch (type) {
@@ -37,6 +38,8 @@ export default ({ navigation, route }) => {
   const lifesaverActivitiesDone = useSelector(store => store.currentStressInput.activitiesDone);
 
   usePathEndingBarButton(navigation);
+  const resetTo = useNavigationResetPathTo(navigation);
+  
   
   useEffect(() => {
     const loadContent = async () => {
@@ -54,7 +57,7 @@ export default ({ navigation, route }) => {
     loadContent();
   },[]);
 
-  const onCloseActivity = () => navigation.popToTop();
+  const onCloseActivity = () => resetTo('PathEnding');
 
   return (
     <ScreenDecorator>
