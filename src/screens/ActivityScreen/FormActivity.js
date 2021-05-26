@@ -48,8 +48,8 @@ export const body = ({ type, duration, description, asset, onComplete }) => {
         <IconButton
           icon={getIconByActivityType(type)}
           size={30}
-          color="white"
-          style={[styles.activityIcon, { backgroundColor: theme.colors.background } ]}
+          color={theme.colors.primary}
+          style={[styles.activityIcon, { backgroundColor: '#FFFBC6', borderWidth: 3, borderColor: '#F0E983' } ]}
         />
         <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
           {duration}{' min.'}

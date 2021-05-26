@@ -17,24 +17,7 @@ const CircularContent = ({
   onPress,
 }) => {
   const theme = useTheme();
-  const [circleContent, updateCircleContent] = useState(
-    <>
-      <View style={styles.flexEndContent}>
-        <Text style={styles.nextUpText}>{instructionsText}</Text>
-      </View>
-      <View style={styles.centeredContent}>
-        <Title style={styles.activityTitle}>{title}</Title>
-      </View>
-      <View style={styles.flexStartContent}>
-        {type && <Icon
-          name={getIconByActivityType(type)}
-          size={80}
-          color="#3C828C"
-        />}
-      </View>
-    </>
-  );
-  
+
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -45,16 +28,16 @@ const CircularContent = ({
         <AnimatedCircularProgress
           size={250}
           width={10}
-          fill={progress}
+          fill={progress * 100}
           rotation={0}
           padding={10}
           lineCap="round"
-          tintColor={theme.colors.dark}
+          tintColor={theme.colors.secondary}
           backgroundColor="#F0E983"
           // onAnimationComplete={() => console.log('onAnimationComplete')}
           renderCap={({ center }) =>
             progress ? (
-              <Circle cx={center.x} cy={center.y} r="10" fill={theme.colors.dark} />
+              <Circle cx={center.x} cy={center.y} r="10" fill={theme.colors.secondary} />
             ) : null
           }
         >
@@ -70,7 +53,7 @@ const CircularContent = ({
                 {type && <Icon
                   name={getIconByActivityType(type)}
                   size={80}
-                  color="#3C828C"
+                  color={theme.colors.secondary}
                 />}
               </View>
             </>

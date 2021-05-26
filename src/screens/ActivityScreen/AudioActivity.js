@@ -63,7 +63,7 @@ export const body = ({ type, duration, description }) => {
           icon={getIconByActivityType(type)}
           size={30}
           color="white"
-          style={[styles.activityIcon, { backgroundColor: theme.colors.background } ]}
+          style={[styles.activityIcon, { backgroundColor: theme.colors.accent } ]}
         />
         <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
           {duration}{' min.'}
