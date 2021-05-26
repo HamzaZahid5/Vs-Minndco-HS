@@ -42,7 +42,7 @@ const playLostSound = () => {
 };
 
 const holdBreath = callback => (tId = setTimeout(callback, 1500));
-const BreathSync = ({ onClose }) => {
+const BreathSync = ({ onClose = Function }) => {
   const theme = useTheme();
   const styles =getStyles(theme);
   const [play, setPlay] = useState(false);
