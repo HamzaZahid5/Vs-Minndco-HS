@@ -9,9 +9,10 @@ import Color from 'color';
 export default ({ data = [] }) => {
   const theme = useTheme();
   const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
+  const cardColor = Color('#F79337').lighten(0).toString();
   return (
     <View style={{
-      backgroundColor: Color('#F79337').lighten(0).toString(),
+      backgroundColor: cardColor,
       width: '100%',
       borderRadius: 24,
       padding: 14,
@@ -37,21 +38,25 @@ export default ({ data = [] }) => {
               }
             ]
           }}
-          width={Dimensions.get('window').width}
+          width={Dimensions.get('window').width - Dimensions.get('window').width * 0.05}
           height={SIZE/3}
           yAxisInterval={1} // optional, defaults to 1
-          withHorizontalLabels={false}
+          // withHorizontalLabels={false}
+          // withVerticalLabels={false}
+          withVerticalLines={false}
+          getDotColor={() => cardColor}
           chartConfig={{
             backgroundColor: "transparent",
             backgroundGradientFrom: "#fff",
             backgroundGradientTo: "#fff",
             backgroundGradientFromOpacity: 0,
             backgroundGradientToOpacity: 0,
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 0, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
-              borderRadius: 16
+              // borderRadius: 16
+              // width: SIZE/3,
             },
             propsForDots: {
               r: "6",
@@ -61,8 +66,12 @@ export default ({ data = [] }) => {
           }}
           bezier
           style={{
-            marginVertical: 8,
-            borderRadius: 16
+            marginLeft: Dimensions.get('window').width * -0.05,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: Dimensions.get('window').width - Dimensions.get('window').width * 0.05,
+            // marginVertical: 8,
+            // borderRadius: 16
           }}
         />
       </View>
