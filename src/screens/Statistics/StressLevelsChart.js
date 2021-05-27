@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import {
@@ -7,7 +7,13 @@ import {
 import Color from 'color';
 
 export default ({ data = [] }) => {
+  const [segments, setSegments] = useState(0);
   const theme = useTheme();
+  useEffect(() => {
+    if (data.length) {
+      setSegments(Math.max(...data) - Math.min(...data));
+    }
+  }, [data])
   const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
   const cardColor = Color('#F79337').lighten(0).toString();
   return (
@@ -38,10 +44,10 @@ export default ({ data = [] }) => {
               }
             ]
           }}
+          segments={segments}
           width={Dimensions.get('window').width - Dimensions.get('window').width * 0.05}
           height={SIZE/3}
           yAxisInterval={1} // optional, defaults to 1
-          // withHorizontalLabels={false}
           // withVerticalLabels={false}
           withVerticalLines={false}
           getDotColor={() => cardColor}

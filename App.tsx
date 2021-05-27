@@ -83,7 +83,7 @@ export default function App() {
   const isWaitingForAuth = userToken === undefined; // waiting for auth response
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
-  useProgram();
+  // useProgram();
   const [fontsLoaded] = useFontLoader();
   // auth().signOut();
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded ) {

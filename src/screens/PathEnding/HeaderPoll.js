@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import useValuationActions from '../../appActionHooks/useValuationActions';
 
-export default ({ onVote = Function }) => {
+export default ({ asset }) => {
   const [vote, setVote] = useState();
+  const { voteMood } = useValuationActions();
+
+  const onVote = rate => {
+    voteMood(asset, rate);
+  }
+
+  useEffect(() => {
+    if (vote) { onVote(vote); }
+  }, [vote])
+
   const theme = useTheme();
   const styles = getStyles(theme);
   return (
@@ -12,9 +23,9 @@ export default ({ onVote = Function }) => {
       <View style={styles.options}>
         <Pressable
           style={{
-            backgroundColor: vote === '1' ? 'gray' : 'transparent'
+            backgroundColor: vote === 'stressed' ? 'gray' : 'transparent'
           }}
-          onPress={() => setVote('1')}
+          onPress={() => setVote('stressed')}
         >
           <Text style={{}}>😩</Text>
           <Text style={{}}>
@@ -23,9 +34,9 @@ export default ({ onVote = Function }) => {
         </Pressable>
         <Pressable
           style={{
-            backgroundColor: vote === '2' ? 'gray' : 'transparent'
+            backgroundColor: vote === 'bored' ? 'gray' : 'transparent'
           }}
-          onPress={() => setVote('2')}
+          onPress={() => setVote('bored')}
         >
           <Text style={{}}>😕</Text>
           <Text style={{}}>
@@ -34,9 +45,9 @@ export default ({ onVote = Function }) => {
         </Pressable>
         <Pressable
           style={{
-            backgroundColor: vote === '3' ? 'gray' : 'transparent'
+            backgroundColor: vote === 'angry' ? 'gray' : 'transparent'
           }}
-          onPress={() => setVote('3')}
+          onPress={() => setVote('angry')}
         >
           <Text style={{}}>😡</Text>
           <Text style={{}}>
@@ -45,9 +56,9 @@ export default ({ onVote = Function }) => {
         </Pressable>
         <Pressable
           style={{
-            backgroundColor: vote === '4' ? 'gray' : 'transparent'
+            backgroundColor: vote === 'happy' ? 'gray' : 'transparent'
           }}
-          onPress={() => setVote('4')}
+          onPress={() => setVote('happy')}
         >
           <Text style={{}}>😄</Text>
           <Text style={{}}>

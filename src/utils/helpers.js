@@ -82,5 +82,6 @@ export const calculateProgramCompletion = (program, maxProgressKey, includeVR) =
   const totalActivities = getAllActivities(program, includeVR).length;
   const currentActivityPosition = getActivityPositionByKey(program, maxProgressKey, includeVR);
   const activitiesDone = currentActivityPosition + 1;
-  return activitiesDone * totalActivities / 100;
+  const progress = activitiesDone * 100 / totalActivities;
+  return Math.round(progress*100)/100;
 }

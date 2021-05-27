@@ -4,48 +4,37 @@ import {View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import useValuationActions from '../../appActionHooks/useValuationActions';
 
-export default ({ asset = '' }) => {
+export default ({ onVote = Function }) => {
   const [vote, setVote] = useState(0);
-  const { voteRating } = useValuationActions();
+  const { voteYesNo } = useValuationActions();
 
   useEffect(() => {
     if (vote > 0) { onVote(vote); }
   }, [vote]);
 
   const onVote = rate => {
-    voteRating(asset, rate);
+    voteYesNo(asset, rate);
   }
-  
+
   const theme = useTheme();
   const styles = getStyles(theme);
-  const starChar = Platform.OS === 'ios' ? '★' : '⭐️';
+  const charVoteYes = Platform.OS === 'ios' ? '✓' : '👍';
+  const charVoteNo = Platform.OS === 'ios' ? '✖' : '👎';
   return (
     <View style={styles.pollContainer}>
-      <Text>how useful you've found the activity?</Text>
+      <Text>It was a useful activity?</Text>
       <View style={styles.options}>
+        <Pressable
+          style={{}}
+          onPress={() => setVote(0)}
+        >
+          <Text style={[styles.star, vote === 0 ? styles.unselected : styles.selected]}>{charVoteNo}</Text>
+        </Pressable>
         <Pressable
           style={{}}
           onPress={() => setVote(1)}
         >
-          <Text style={[styles.star, vote < 1 ? styles.unselected : styles.selected]}>{starChar}</Text>
-        </Pressable>
-        <Pressable
-          style={{}}
-          onPress={() => setVote(2)}
-        >
-          <Text style={[styles.star, vote < 2 ? styles.unselected : styles.selected]}>{starChar}</Text>
-        </Pressable>
-        <Pressable
-          style={{}}
-          onPress={() => setVote(3)}
-        >
-          <Text style={[styles.star, vote < 3 ? styles.unselected : styles.selected]}>{starChar}</Text>
-        </Pressable>
-        <Pressable
-          style={{}}
-          onPress={() => setVote(4)}
-        >
-          <Text style={[styles.star, vote < 4 ? styles.unselected : styles.selected]}>{starChar}</Text>
+          <Text style={[styles.star, vote === 1 ? styles.unselected : styles.selected]}>{charVoteYes}</Text>
         </Pressable>
       </View>
     </View>

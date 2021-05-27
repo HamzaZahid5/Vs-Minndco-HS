@@ -39,21 +39,18 @@ export default ({ navigation }) => {
   const journal = useJournal() || [];
   const frequentTriggers = getFrequentTriggersFromJournal(journal);
   const avgStressLevel = journal.reduce((r, i) => r + i.level, 0) / journal.length;
-  const chartData = journal.map(r => r.level);
-  console.log({journal, avgStressLevel});
-  // useEffect(() => {
-  //   if(cRef.current) {
-  //     setTimeout(() => {
-  //       console.log(cRef.current.currentIndex)
-  //       nextSlide(cRef);
-  //     }, 1000)
-  //     setTimeout(() => {
-  //       nextSlide(cRef);
-  //     }, 2000)
-      
-  //   }
-  // }, [cRef])
-  usePathEndingBarButton(navigation);
+  const chartData = journal.map(r => r.level).reverse();
+
+  usePathEndingBarButton(navigation, {
+    routeParams: {
+      header: {
+        type: 'statistics',
+      },
+      body: {
+        options: ['TutorialRow', 'CoachRow', 'StressManagementRow'],
+      }
+    }
+  });
   
   return (
     <ScreenDecorator>
@@ -66,10 +63,10 @@ export default ({ navigation }) => {
               <View style={{ flex: 1 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <View style={{ flex: 1, padding: 10 }}>
-                    <TodayActivityStatus done={false} />
+                    <TodayActivityStatus />
                   </View>
                   <View style={{ flex: 1, padding: 10 }}>
-                    <DailyActivityStreak days={5} />
+                    <DailyActivityStreak />
                   </View>
                 </View>
                 <View style={{ flex: 1, minWidth: '100%', padding: 10, alignItems: 'center' }}>

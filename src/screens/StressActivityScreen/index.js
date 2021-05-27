@@ -37,8 +37,18 @@ export default ({ navigation, route }) => {
   } = useAppActions();
   const lifesaverActivitiesDone = useSelector(store => store.currentStressInput.activitiesDone);
 
-  usePathEndingBarButton(navigation);
+  const routeParams = {
+    header: {
+      type: 'vote',
+      asset: content?.id,
+    },
+    body: {
+      options: ['LearnRow', 'CoachRow', 'StressManagementRowAgain'],
+    }
+  };
+  usePathEndingBarButton(navigation, { routeParams });
   const resetTo = useNavigationResetPathTo(navigation);
+  const onCloseActivity = () => resetTo('PathEnding', routeParams);
   
   
   useEffect(() => {
@@ -57,7 +67,7 @@ export default ({ navigation, route }) => {
     loadContent();
   },[]);
 
-  const onCloseActivity = () => resetTo('PathEnding');
+  
 
   return (
     <ScreenDecorator>

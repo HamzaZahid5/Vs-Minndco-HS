@@ -9,8 +9,7 @@ import { LAST_ACTIVITY_AT } from '../../store/selectors';
 export default () => {
   const theme = useTheme();
   const lastActivityAt = useSelector(LAST_ACTIVITY_AT);
-  const todaysActivityDone = moment(lastActivityAt).format('YYY-MM-DD') === moment().format('YYYY-MM-DD');
-  
+  const todaysActivityDone = moment(lastActivityAt).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
   return (
     <View style={{
       backgroundColor: 'white',

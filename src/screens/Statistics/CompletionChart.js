@@ -29,7 +29,8 @@ export default () => {
     if(progress) {
       setData({
         labels: ["completion"], // optional
-        data: [progress / 100]
+        // looks like a bug with decimals for circle chart
+        data: [Math.floor(progress)]
       })
     }
   }, [progress])

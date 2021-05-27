@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
-import { useSelector } from 'react-redux';
 import Color from 'color';
+import { useSelector } from 'react-redux';
 import { ACTIVITY_DAYS_IN_A_ROW } from '../../store/selectors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 

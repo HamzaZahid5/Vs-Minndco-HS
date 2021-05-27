@@ -25,10 +25,19 @@ export default ({ navigation }) => {
   const [nextActivity, nextActivityKey] = useNextActivity();
   
   const { saveActivityDone } = useActivityActions();
-
-  const resetPathTo = useNavigationResetPathTo(navigation);
-
   const IS = getWhatContentIs(nextActivity);
+
+  const routeParams = {
+    header: {
+      type: IS.form ? 'performance' : 'rate',
+      asset: nextActivity?.id,
+    },
+    body: {
+      options: ['LearnRow', 'StatsRow', 'StressManagementRow'],
+    }
+  };
+  const resetPathTo = useNavigationResetPathTo(navigation, routeParams);
+
 
   const handleActivityComplete = answer => {
     saveActivityDone(nextActivityKey, answer);

@@ -28,7 +28,7 @@ const CircularContent = ({
         <AnimatedCircularProgress
           size={250}
           width={10}
-          fill={progress * 100}
+          fill={progress}
           rotation={0}
           padding={10}
           lineCap="round"
