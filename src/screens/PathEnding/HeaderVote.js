@@ -4,8 +4,8 @@ import {View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import useValuationActions from '../../appActionHooks/useValuationActions';
 
-export default ({ onVote = Function }) => {
-  const [vote, setVote] = useState(0);
+export default ({ asset = '' }) => {
+  const [vote, setVote] = useState(-1);
   const { voteYesNo } = useValuationActions();
 
   useEffect(() => {
@@ -22,19 +22,19 @@ export default ({ onVote = Function }) => {
   const charVoteNo = Platform.OS === 'ios' ? '✖' : '👎';
   return (
     <View style={styles.pollContainer}>
-      <Text>It was a useful activity?</Text>
+      <Text>It was a useful activity for you?</Text>
       <View style={styles.options}>
         <Pressable
           style={{}}
           onPress={() => setVote(0)}
         >
-          <Text style={[styles.star, vote === 0 ? styles.unselected : styles.selected]}>{charVoteNo}</Text>
+          <Text style={[styles.icon, styles.flipH, vote === 0 ? styles.selected : styles.unselected]}>{charVoteNo}</Text>
         </Pressable>
         <Pressable
           style={{}}
           onPress={() => setVote(1)}
         >
-          <Text style={[styles.star, vote === 1 ? styles.unselected : styles.selected]}>{charVoteYes}</Text>
+          <Text style={[styles.icon, vote === 1 ? styles.selected : styles.unselected]}>{charVoteYes}</Text>
         </Pressable>
       </View>
     </View>
@@ -49,10 +49,14 @@ const getStyles = theme => StyleSheet.create({
   },
   options: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  star: {
+  icon: {
     fontSize: 30,
     margin: 5,
+  },
+  flipH: {
+    transform: 'scaleX(-1)',
   },
   selected: {
     fontSize: 35,

@@ -36,12 +36,12 @@ export default ({ navigation }) => {
       options: ['LearnRow', 'StatsRow', 'StressManagementRow'],
     }
   };
-  const resetPathTo = useNavigationResetPathTo(navigation, routeParams);
+  const resetPathTo = useNavigationResetPathTo(navigation);
 
 
   const handleActivityComplete = answer => {
     saveActivityDone(nextActivityKey, answer);
-    resetPathTo('PathEnding');
+    resetPathTo('PathEnding', routeParams);
   };
   return (
     <ScreenDecorator>

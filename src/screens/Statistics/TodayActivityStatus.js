@@ -2,14 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
-import { LAST_ACTIVITY_AT } from '../../store/selectors';
+import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone'
 
 export default () => {
   const theme = useTheme();
-  const lastActivityAt = useSelector(LAST_ACTIVITY_AT);
-  const todaysActivityDone = moment(lastActivityAt).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+  const todaysActivityDone = useTodaysActivityDone();
   return (
     <View style={{
       backgroundColor: 'white',

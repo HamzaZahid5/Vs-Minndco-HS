@@ -113,7 +113,7 @@ const WelcomeWizard = ({ navigation }) => {
         <Step4
           next={nextStep}
           end={finishWizard}
-          message={"When you notice a craving is creeping in and your mind starts to stress you - come here right away, I got you!\nThis is your lifesaver. I´ll help you curb that urge with different activities!"}
+          message={"When you notice a craving is creeping in and your mind starts to stress you - come here right away, I got you!\nThis is your reliever. I´ll help you curb that urge with different activities!"}
         />
       )}
       {currentStep === 4 && (

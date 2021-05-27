@@ -15,6 +15,8 @@ import GoalWidget from '../../containers/GoalWidget';
 // @ts-ignore
 import Tips from './Tips';
 // @ts-ignore
+import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
+// @ts-ignore
 import useNextActivity from '../../utils/hooks/useNextActivity';
 // @ts-ignore
 import useCompletion from '../../utils/hooks/useCompletion';
@@ -22,6 +24,7 @@ import useCompletion from '../../utils/hooks/useCompletion';
 const HomeScreen = ({ navigation }: Props) => {
   const [nextActivity] = useNextActivity();
   const progress = useCompletion();
+  const todaysActivityDone = useTodaysActivityDone();
   return (
     <HomeLayout withDecoration>
       <HomeLayout.TopLeft>
@@ -36,9 +39,9 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.MiddleCenter>
         <CircularContent
           title={nextActivity?.name}
-          informativeText="Tap the circle for your next activity"
+          informativeText={nextActivity ? 'Tap the circle for your next activity' : ' '}
           type={nextActivity?.type}
-          instructionsText="Today's activity"
+          instructionsText={nextActivity ? todaysActivityDone ? "Tomorrow's activity" : "Today's activity" : ''}
           progress={progress}
           onPress={() => navigation.push('Activity')}
         />

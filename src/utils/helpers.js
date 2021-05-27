@@ -24,6 +24,8 @@ export const getIconByActivityType = type => {
   }
 };
 
+export const range = (min, max) => Math.random() * (max - min) + min;
+
 // PROGRAM HELPERS
 export const buildActivityKey = (mId, lId, aId) => `M${mId}_L${lId}_${aId}`;
 export const getModuleFromKey = (key = '') => key.split('_')[0];

@@ -12,9 +12,18 @@ export default ({ navigation, route }) => {
   
   const { saveActivityDone } = useActivityActions();
   
+  const routeParams = {
+    header: {
+      type: 'rate',
+      asset: activityKey,
+    },
+    body: {
+      options: ['LearnRow', 'ViewerAssembleRow', 'StressManagementRow'],
+    }
+  };
   const onCompleteActivity = () => {
     saveActivityDone(activityKey);
-    resetPathTo('PathEnding');
+    resetPathTo('PathEnding', routeParams);
   };
 
   return (
