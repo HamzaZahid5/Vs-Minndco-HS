@@ -21,4 +21,5 @@ export type RootStackParamList = {
   HowTo: undefined;
   VRDemo: undefined;
   KitAssemble: undefined;
+  Library: undefined;
 };

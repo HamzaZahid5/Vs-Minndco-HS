@@ -3,9 +3,9 @@ module.exports = {
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
   plugins: ['@typescript-eslint'],
   extends: [
+    '@react-native-community',
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
-    'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
     'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
   parserOptions: {
@@ -18,6 +18,17 @@ module.exports = {
   rules: {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    strict: 0,
+    quotes: ['error', 'single', { avoidEscape: true }],
+    semi: 2,
+    'arrow-parens': 2,
+    'import/no-extraneous-dependencies': 'off',
+    // no-prototype-builtins: off,
+    'no-nested-ternary': 'off',
+    camelcase: 2,
+    'no-console': 2,
+    'object-curly-spacing': 'off',
+    '@typescript-eslint/ban-ts-comment': [2, { 'ts-ignore': 'allow-with-description', minimumDescriptionLength: 3 }],
   },
   settings: {
     react: {

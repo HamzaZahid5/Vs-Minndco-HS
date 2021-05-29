@@ -2,23 +2,23 @@ import React from 'react';
 // import { useSelector, useStore, useDispatch } from 'react-redux';
 import { Text } from 'react-native';
 import Props from './types';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import HomeLayout from '../../components/HomeLayout';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import MenuButton from '../../components/MenuHandlerButton';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import FABButton from '../../components/MindCoFABButton';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import CircularContent from './CircularContent';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import GoalWidget from '../../containers/GoalWidget';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import Tips from './Tips';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import useNextActivity from '../../utils/hooks/useNextActivity';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import useCompletion from '../../utils/hooks/useCompletion';
 
 const HomeScreen = ({ navigation }: Props) => {
@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }: Props) => {
   return (
     <HomeLayout withDecoration>
       <HomeLayout.TopLeft>
-        <MenuButton onPress={() => navigation.openDrawer()}/>
+        <MenuButton onPress={() => navigation.openDrawer()} />
       </HomeLayout.TopLeft>
       <HomeLayout.TopRight>
         <GoalWidget />
@@ -41,19 +41,19 @@ const HomeScreen = ({ navigation }: Props) => {
           title={nextActivity?.name}
           informativeText={nextActivity ? 'Tap the circle for your next activity' : ' '}
           type={nextActivity?.type}
-          instructionsText={nextActivity ? todaysActivityDone ? "Tomorrow's activity" : "Today's activity" : ''}
+          instructionsText={nextActivity ? (todaysActivityDone ? "Tomorrow's activity" : "Today's activity") : ''}
           progress={progress}
           onPress={() => navigation.push('Activity')}
         />
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
-        <FABButton icon="account-heart" onPress={() => navigation.push('Support')}/>
+        <FABButton icon="account-heart" onPress={() => navigation.push('Support')} />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
-        <FABButton icon="head-check" onPress={() => navigation.push('StressRate')}/>
+        <FABButton icon="head-check" onPress={() => navigation.push('StressRate')} />
       </HomeLayout.BottomRight>
     </HomeLayout>
   );
-}
+};
 
 export default HomeScreen;
