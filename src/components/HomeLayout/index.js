@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { View, Dimensions, Image, Platform } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,22 +11,25 @@ import styles from './styles.js';
 // import useOrientation from '../../hooks/useOrientation';
 
 const TopLeft = ({ children }) => <>{children}</>;
+TopLeft.propTypes = { children: PropTypes.object };
 const TopCenter = ({ children }) => <>{children}</>;
+TopCenter.propTypes = { children: PropTypes.object };
 const TopRight = ({ children }) => <>{children}</>;
+TopRight.propTypes = { children: PropTypes.object };
 const MiddleTop = ({ children }) => <>{children}</>;
+MiddleTop.propTypes = { children: PropTypes.object };
 const MiddleCenter = ({ children }) => <>{children}</>;
+MiddleCenter.propTypes = { children: PropTypes.object };
 const MiddleBottom = ({ children }) => <>{children}</>;
+MiddleBottom.propTypes = { children: PropTypes.object };
 const BottomLeft = ({ children }) => <>{children}</>;
+BottomLeft.propTypes = { children: PropTypes.object };
 const BottomCenter = ({ children }) => <>{children}</>;
+BottomCenter.propTypes = { children: PropTypes.object };
 const BottomRight = ({ children }) => <>{children}</>;
+BottomRight.propTypes = { children: PropTypes.object };
 
-const HomeLayout = ({
-  children,
-  rowTopStyle,
-  rowBottomStyle,
-  debug = false,
-  withDecoration,
-}) => {
+const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, withDecoration }) => {
   const theme = useTheme();
   // const orientation = useOrientation();
   // const webViewRef = useRef();
@@ -82,7 +86,7 @@ const HomeLayout = ({
         otherChildren.push(ch);
     }
   });
-  
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -119,53 +123,30 @@ const HomeLayout = ({
           </View>
         )}
         <SafeAreaView style={{ flex: 1 }}>
-
           <View style={[styles.rowTop, rowTopStyle]}>
-            <View style={[styles.topLeft, debug ? styles.debugRed : null]}>
-              {TopLeftChildren}
-            </View>
-            <View style={[styles.topCenter, debug ? styles.debugGreen : null]}>
-              {TopCenterChildren}
-            </View>
-            <View style={[styles.topRight, debug ? styles.debugBlue : null]}>
-              {TopRightChildren}
-            </View>
+            <View style={[styles.topLeft, debug ? styles.debugRed : null]}>{TopLeftChildren}</View>
+            <View style={[styles.topCenter, debug ? styles.debugGreen : null]}>{TopCenterChildren}</View>
+            <View style={[styles.topRight, debug ? styles.debugBlue : null]}>{TopRightChildren}</View>
           </View>
           <View
             style={[
               styles.rowCenter,
               // Platform.OS === 'android' && orientation === 'LANDSCAPE'
-                // ? styles.rowCenterAsRow
-                // : null,
+              // ? styles.rowCenterAsRow
+              // : null,
             ]}
           >
-            <View
-              style={[styles.flexCenterContent, debug ? styles.debugBlue : null]}
-            >
-              {MiddleTopChildren}
-            </View>
-            <View
-              style={[styles.centeredContent, debug ? styles.debugRed : null]}
-            >
+            <View style={[styles.flexCenterContent, debug ? styles.debugBlue : null]}>{MiddleTopChildren}</View>
+            <View style={[styles.centeredContent, debug ? styles.debugRed : null]}>
               {MiddleCenterChildren}
               {otherChildren}
             </View>
-            <View
-              style={[styles.flexStartContent, debug ? styles.debugGreen : null]}
-            >
-              {MiddleBottomChildren}
-            </View>
+            <View style={[styles.flexStartContent, debug ? styles.debugGreen : null]}>{MiddleBottomChildren}</View>
           </View>
           <View style={[styles.rowBottom, rowBottomStyle]}>
-            <View style={[styles.bottomLeft, debug ? styles.debugGreen : null]}>
-              {BottomLeftChildren}
-            </View>
-            <View style={[styles.bottomCenter, debug ? styles.debugBlue : null]}>
-              {BottomCenterChildren}
-            </View>
-            <View style={[styles.bottomRight, debug ? styles.debugRed : null]}>
-              {BottomRightChildren}
-            </View>
+            <View style={[styles.bottomLeft, debug ? styles.debugGreen : null]}>{BottomLeftChildren}</View>
+            <View style={[styles.bottomCenter, debug ? styles.debugBlue : null]}>{BottomCenterChildren}</View>
+            <View style={[styles.bottomRight, debug ? styles.debugRed : null]}>{BottomRightChildren}</View>
           </View>
         </SafeAreaView>
       </LinearGradient>
@@ -183,6 +164,13 @@ HomeLayout.BottomLeft = BottomLeft;
 HomeLayout.BottomCenter = BottomCenter;
 HomeLayout.BottomRight = BottomRight;
 
+HomeLayout.propTypes = {
+  children: PropTypes.object,
+  rowTopStyle: PropTypes.object,
+  rowBottomStyle: PropTypes.object,
+  debug: PropTypes.bool,
+  withDecoration: PropTypes.bool,
+};
 // const mapStateToProp = state => ({
 //   new_smoke_record: state.app?.newSmokeRecordFlag,
 // });

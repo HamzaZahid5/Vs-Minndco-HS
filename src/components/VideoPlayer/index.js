@@ -1,29 +1,29 @@
 import React, { useLayoutEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet, Button, Platform, Pressable } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
-export default ({ videoURI, didJustFinish }) => {
+const VideoPlayer = ({ videoURI, didJustFinish }) => {
   const video = React.useRef(null);
   const [status, setStatus] = useState({});
   useLayoutEffect(() => {
-    if(status.didJustFinish) {
+    if (status.didJustFinish) {
       didJustFinish();
     }
-  }, [status])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
   return (
     <View style={styles.videoContainer}>
       <Pressable
         style={({ pressed }) => [
           {
-            opacity: pressed
-              ? 0.5
-              : 1
+            opacity: pressed ? 0.5 : 1,
           },
-          StyleSheet.absoluteFillObject
+          StyleSheet.absoluteFillObject,
         ]}
         // style={StyleSheet.absoluteFillObject}
         onPress={() => {
-          console.log('playing?', status.isPlaying);
+          // console.log('playing?', status.isPlaying);
           status.isPlaying ? video.current.pauseAsync() : video.current.playAsync();
         }}
       >
@@ -42,14 +42,19 @@ export default ({ videoURI, didJustFinish }) => {
       <View style={styles.buttons}>
         <Button
           title={status.isPlaying ? 'Pause' : 'Play'}
-          onPress={() =>
-            status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
-          }
+          onPress={() => (status.isPlaying ? video.current.pauseAsync() : video.current.playAsync())}
         />
       </View>
     </View>
   );
-}
+};
+
+VideoPlayer.propTypes = {
+  videoURI: PropTypes.string,
+  didJustFinish: PropTypes.func,
+};
+
+export default VideoPlayer;
 
 const styles = StyleSheet.create({
   videoContainer: {

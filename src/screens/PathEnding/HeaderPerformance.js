@@ -1,12 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTheme, Headline, Paragraph, ProgressBar } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { ACTIVITY_DAYS_IN_A_ROW } from '../../store/selectors';
 import useCompletion from '../../utils/hooks/useCompletion';
 import useJournal from '../../utils/hooks/useJournal';
 
-export default () => {
+const HeaderPerfromance = () => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const progress = useCompletion();
@@ -23,24 +23,27 @@ export default () => {
         </View>
         <View>
           <Paragraph>Habit</Paragraph>
-          <ProgressBar progress={streakCount*100/20} />
+          <ProgressBar progress={(streakCount * 100) / 20} />
         </View>
         <View>
           <Paragraph>Avg level</Paragraph>
-          <ProgressBar progress={avgStressLevel*100/10} />
+          <ProgressBar progress={(avgStressLevel * 100) / 10} />
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
-const getStyles = theme => StyleSheet.create({
-  container: {
-    height: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  main: {
-    flexDirection: 'column',
-  },
-});
+export default HeaderPerfromance;
+
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      height: '100%',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    main: {
+      flexDirection: 'column',
+    },
+  });

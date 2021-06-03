@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import WebView from 'react-native-webview';
 // import { useKeepAwake } from '@sayem314/react-native-keep-awake';
@@ -69,11 +70,11 @@ const getMessageEventsHandler = (webViewRef, onExit, onFinish) => event => {
     onExit();
   }
   if (event.nativeEvent.data.indexOf('log:') === 0) {
-    console.log(event.nativeEvent.data);
+    // console.log(event.nativeEvent.data);
   }
 };
 
-export default ({ onFinish, onExit, url }) => {
+const VRPlayer = ({ onFinish, onExit, url }) => {
   const webViewRef = useRef();
   // useKeepAwake();
 
@@ -84,16 +85,14 @@ export default ({ onFinish, onExit, url }) => {
         source={{
           uri: 'https://www.mindcotine.com/wp-content/assets/vrmet_player/',
         }}
-        injectedJavaScriptBeforeContentLoaded={template(
-          INJECTED_PANOVIEWER_CONFIG,
-        )({ VIDEO_URL: url })}
+        injectedJavaScriptBeforeContentLoaded={template(INJECTED_PANOVIEWER_CONFIG)({ VIDEO_URL: url })}
         userAgent="Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1"
         injectedJavaScript={DEBUGGING}
         allowsInlineMediaPlayback
         ignoreSilentHardwareSwitch
         onError={syntheticEvent => {
           const { nativeEvent } = syntheticEvent;
-          console.warn('WebView error: ', nativeEvent);
+          // console.warn('WebView error: ', nativeEvent);
         }}
         onMessage={getMessageEventsHandler(webViewRef, onExit, onFinish)}
         style={{
@@ -103,6 +102,14 @@ export default ({ onFinish, onExit, url }) => {
     </View>
   );
 };
+
+VRPlayer.propTypes = {
+  onFinish: PropTypes.func,
+  onExit: PropTypes.func,
+  url: PropTypes.string,
+};
+
+export default VRPlayer;
 
 const styles = StyleSheet.create({
   container: {

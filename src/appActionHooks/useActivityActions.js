@@ -1,6 +1,9 @@
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { saveActivityDone as saveActivityDoneIntoDB, resetUserStreak as resetUserStreakIntoDB } from '../services/Firestore';
+import {
+  saveActivityDone as saveActivityDoneIntoDB,
+  resetUserStreak as resetUserStreakIntoDB,
+} from '../services/Firestore';
 import functions from '../services/Functions';
 import { LAST_ACTIVITY_AT, ACTIVITY_DAYS_IN_A_ROW } from '../store/selectors';
 import { getModuleNumberFromKey, getLevelNumberFromKey } from '../utils/helpers';
@@ -11,7 +14,7 @@ const useActivityActions = () => {
   const [nextActivity] = useNextActivity();
   const lastActivityDate = useSelector(LAST_ACTIVITY_AT);
   const streakCount = useSelector(ACTIVITY_DAYS_IN_A_ROW);
-  
+
   const lastActivityAt = moment(lastActivityDate).format('YYYY-MM-DD');
   const lastActivityNotToday = lastActivityAt !== moment().format('YYYY-MM-DD');
   const lastActivityNotYesterday = lastActivityAt !== moment().subtract(1, 'd').format('YYYY-MM-DD');
@@ -32,7 +35,7 @@ const useActivityActions = () => {
         activityKey,
         streak: isConsecutiveDay() ? streakCount + 1 : streakCount,
       });
-      
+
       await functions().httpsCallable('logActivityDone')({
         activity: nextActivity,
         activityKey,
@@ -44,7 +47,7 @@ const useActivityActions = () => {
       if (streakLost()) {
         resetUserStreakIntoDB();
       }
-    }
+    },
   };
 };
 

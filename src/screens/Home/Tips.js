@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Color from 'color';
 
-export default () => {
+const Tips = () => {
   const theme = useTheme();
   const styles = getStyles(theme);
   return (
@@ -12,19 +12,22 @@ export default () => {
         TIP: If you feel the need to reduce your stress level, tap the bottom-right corner.
       </Text>
     </View>
-  )
-}
+  );
+};
 
-const getStyles = theme => StyleSheet.create({
-  container: {
-    borderRadius: 10,
-    backgroundColor: Color(theme.colors.secondary).darken(0).alpha(0.5).toString(), //theme.colors.secondary,
-    marginHorizontal: 20,
-    maxWidth: 300,
-    padding: 10,
-  },
-  text: {
-    ...theme.fonts.light,
-    color: theme.colors.placeholder
-  }
-});
+export default Tips;
+
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      borderRadius: 10,
+      backgroundColor: Color(theme.colors.secondary).darken(0).alpha(0.5).toString(), //theme.colors.secondary,
+      marginHorizontal: 20,
+      maxWidth: 300,
+      padding: 10,
+    },
+    text: {
+      ...theme.fonts.light,
+      color: theme.colors.placeholder,
+    },
+  });

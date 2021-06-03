@@ -2,6 +2,7 @@
  * GENERIC PURPLE BUTTON AND ITS VARIANTS USED ACROSS THE APP
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet, ButtonProps, ViewStyle } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,10 +16,18 @@ type Props = {
   onlyPremium?: boolean;
 };
 
-export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium = false, ...props }:Props & any) => {
+const BigButton = ({
+  variant = 'default',
+  style = {},
+  labelStyle = {},
+  onlyPremium = false,
+  ...props
+}: Props & any) => {
   const theme = useTheme() as CustomThemeType;
-  const bgColor = variant === 'link' ? 'transparent' : variant === 'accent' ? theme.colors.accent : theme.colors.background;
-  const txtColor = variant === 'link' ? theme.colors.onSurface : variant === 'accent' ? theme.colors.background : theme.colors.text ;
+  const bgColor =
+    variant === 'link' ? 'transparent' : variant === 'accent' ? theme.colors.accent : theme.colors.background;
+  const txtColor =
+    variant === 'link' ? theme.colors.onSurface : variant === 'accent' ? theme.colors.background : theme.colors.text;
   return (
     <View>
       <Button
@@ -34,13 +43,9 @@ export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium 
             : null,
           {
             backgroundColor: props.disabled
-              ? Color(bgColor)
-                  .lighten(0.3)
-                  .toString()
+              ? Color(bgColor).lighten(0.3).toString()
               : onlyPremium
-              ? Color(theme.colors.warning)
-                  .lighten(0.3)
-                  .toString()
+              ? Color(theme.colors.warning).lighten(0.3).toString()
               : bgColor,
           },
           style,
@@ -49,11 +54,7 @@ export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium 
         labelStyle={[
           styles.labelStyle,
           {
-            color: props.disabled
-              ? Color(txtColor)
-                    .alpha(0.5)
-                    .toString()
-              : txtColor,
+            color: props.disabled ? Color(txtColor).alpha(0.5).toString() : txtColor,
           },
           variant === 'link' ? styles.linkLabelStyle : null,
           labelStyle,
@@ -69,6 +70,15 @@ export default ({ variant = 'default', style = {}, labelStyle = {}, onlyPremium 
     </View>
   );
 };
+
+BigButton.propTypes = {
+  variant: PropTypes.string,
+  style: PropTypes.object,
+  labelStyle: PropTypes.object,
+  onlyPremium: PropTypes.bool,
+};
+
+export default BigButton;
 
 const ICON_SIZE = 30;
 const styles = StyleSheet.create({

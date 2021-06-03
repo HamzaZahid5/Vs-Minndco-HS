@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   statsHead: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     // marginTop: 10,
     shadowOffset: {
       width: 0,
-      height: 5
+      height: 5,
     },
     display: 'flex',
   },
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: 40,
     color: 'red',
-  }
+  },
 });
 
 export default styles;

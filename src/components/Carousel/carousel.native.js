@@ -1,25 +1,32 @@
-import React, {useEffect, useRef, useState, forwardRef} from 'react';
+import React, { useEffect, useRef, useState, forwardRef } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import SnapCarousel, { Pagination } from 'react-native-snap-carousel';
 
-const renderItem = ({item, index}) => {
+const renderItem = ({ item, index }) => {
   return (
     <View style={styles.slide}>
       {/* { item.title && <Text style={styles.text}>{ item.title }</Text> } */}
-      { item.content }
+      {item.content}
     </View>
   );
-}
+};
 
-export const nextSlide = (ref) => {
-  ref.current.snapToItem(ref.current.currentIndex + 1, true)
-}
+renderItem.propTypes = {
+  item: PropTypes.object,
+  index: PropTypes.number,
+};
 
-export const prevSlide = (ref) => {
-  ref.current.snapToItem(ref.current.currentIndex - 1, true)
-}
+export const nextSlide = ref => {
+  ref.current.snapToItem(ref.current.currentIndex + 1, true);
+};
 
-export default forwardRef(({ items }, externalRef) => {
+export const prevSlide = ref => {
+  ref.current.snapToItem(ref.current.currentIndex - 1, true);
+};
+
+const Carousel = ({ items }, externalRef) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const ref = externalRef || useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,9 +45,11 @@ export default forwardRef(({ items }, externalRef) => {
       <Pagination
         dotsLength={items.length}
         activeDotIndex={currentIndex}
-        containerStyle={{
-          // backgroundColor: 'rgba(0, 0, 0, 0.75)'
-        }}
+        containerStyle={
+          {
+            // backgroundColor: 'rgba(0, 0, 0, 0.75)'
+          }
+        }
         dotStyle={{
           width: 10,
           height: 10,
@@ -48,15 +57,23 @@ export default forwardRef(({ items }, externalRef) => {
           marginHorizontal: 8,
           // backgroundColor: 'rgba(255, 255, 255, 0.92)'
         }}
-        inactiveDotStyle={{
-          // Define styles for inactive dots here
-        }}
+        inactiveDotStyle={
+          {
+            // Define styles for inactive dots here
+          }
+        }
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
       />
     </>
   );
-});
+};
+
+Carousel.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.object),
+};
+
+export default forwardRef(Carousel);
 
 const styles = StyleSheet.create({
   slide: {

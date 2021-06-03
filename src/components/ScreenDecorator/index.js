@@ -1,12 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import HeaderPadding from '../../utils/HeaderPadding';
 import BubblesBackground from '../../components/BubblesBackground';
-import { View } from 'react-native';
 
-export default ({ children }) => (
+const ScreenDecorator = ({ children }) => (
   <>
     <BubblesBackground />
     <HeaderPadding />
     {children}
   </>
 );
+
+ScreenDecorator.propTypes = {
+  children: PropTypes.object,
+};
+
+export default ScreenDecorator;

@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Image,
-  TouchableWithoutFeedback,
-  View,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-} from 'react-native';
+import PropTypes from 'prop-types';
+import { Image, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
 // import Sound from 'react-native-sound';
 // import LinearGradient from 'react-native-linear-gradient';
@@ -66,10 +60,12 @@ const Bubble = ({ onSmash = _ => _ }) => {
   }, []);
   return (
     <TouchableWithoutFeedback
-      style={{
-        // width: 100,
-        // height: 100,
-      }}
+      style={
+        {
+          // width: 100,
+          // height: 100,
+        }
+      }
       onPress={() => {
         // console.log('SMASH')
         if (!smashed) {
@@ -80,18 +76,16 @@ const Bubble = ({ onSmash = _ => _ }) => {
       }}
     >
       {!smashed ? (
-        <Image
-          style={styles.bubble}
-          source={require('../../../assets/images/bubble.png')}
-        />
+        <Image style={styles.bubble} source={require('../../../assets/images/bubble.png')} />
       ) : (
-        <Image
-          style={styles.bubble}
-          source={require('../../../assets/images/bubble_smashed.png')}
-        />
+        <Image style={styles.bubble} source={require('../../../assets/images/bubble_smashed.png')} />
       )}
     </TouchableWithoutFeedback>
   );
+};
+
+Bubble.propTypes = {
+  onSmash: PropTypes.func,
 };
 
 const BubbleWrapGame = ({ onClose = _ => _ }) => {
@@ -117,31 +111,11 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
           }}
         /> */}
         <View style={styles.topBarTitle}>
-          {smashed === 0 && (
-            <Title
-              style={[
-                styles.title,
-                { color: theme.colors.border },
-              ]}
-            >
-              {'DONE!'}
-            </Title>
-          )}
+          {smashed === 0 && <Title style={[styles.title, { color: theme.colors.border }]}>{'DONE!'}</Title>}
         </View>
         <View style={styles.scoreContainer}>
-          <Title
-            style={[
-              styles.title,
-              { color: theme.colors.border },
-            ]}
-          >
-            {smashed}
-          </Title>
-          <Icon
-            name="blur-radial"
-            size={40}
-            color={theme.colors.border}
-          />
+          <Title style={[styles.title, { color: theme.colors.border }]}>{smashed}</Title>
+          <Icon name="blur-radial" size={40} color={theme.colors.border} />
         </View>
       </View>
       <View style={styles.board}>
@@ -150,19 +124,11 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
           .map((_, i) => {
             const isEven = i % 2 === 0;
             return (
-              <View
-                key={`row_${i}`}
-                style={[styles.row, isEven ? styles.rowEven : null]}
-              >
+              <View key={`row_${i}`} style={[styles.row, isEven ? styles.rowEven : null]}>
                 {Array(columns - (isEven ? 1 : 0))
                   .fill(0)
                   .map((_, j) => (
-                    <Bubble
-                      key={`bubble_${i}_${j}`}
-                      onSmash={isSmashed =>
-                        countSmash(smashed - (isSmashed ? 1 : 0))
-                      }
-                    />
+                    <Bubble key={`bubble_${i}_${j}`} onSmash={isSmashed => countSmash(smashed - (isSmashed ? 1 : 0))} />
                   ))}
               </View>
             );
@@ -170,12 +136,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
       </View>
       <View style={styles.floatingCover}>
         <LinearGradient
-          colors={[
-            theme.colors.backdrop,
-            '#37b15c99',
-            '#37b15c99',
-            theme.colors.backdrop,
-          ]}
+          colors={[theme.colors.backdrop, '#37b15c99', '#37b15c99', theme.colors.backdrop]}
           locations={[0.1, 0.2, 0.9, 1]}
           style={{
             flex: 1,
@@ -191,64 +152,70 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
   );
 };
 
+BubbleWrapGame.propTypes = {
+  onClose: PropTypes.func,
+};
+
 export default BubbleWrapGame;
-const getStyles = theme => StyleSheet.create({
-  container: {
-    overflow: 'hidden',
-    flex: 1,
-    height: '110%',
-    marginBottom: -30,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 5,
-    backgroundColor: theme.colors.backdrop,
-  },
-  board: {
-    flex: 0,
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-  },
-  row: {
-    width: '100%',
-    flexDirection: 'row',
-  },
-  rowEven: {
-    paddingLeft: bubble_size / 2,
-  },
-  bubble: {
-    width: bubble_size,
-    height: bubble_size,
-  },
-  scoreContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  topBarTitle: {
-    flex: 1,
-    margin: 'auto',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  floatingCover: {
-    position: 'absolute',
-    zIndex: -1,
-    width: '100%',
-    height: '115%',
-    top: -50,
-    backgroundColor: 'transparent',
-  },
-  floatingImageContent: {
-    position: 'absolute',
-    left: '-30%',
-    top: '-30%',
-    width: '130%',
-    height: '130%',
-    transform: [{ rotate: '20deg' }],
-    zIndex: -2,
-  },
-});
+
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      overflow: 'hidden',
+      flex: 1,
+      height: '110%',
+      marginBottom: -30,
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 5,
+      backgroundColor: theme.colors.backdrop,
+    },
+    board: {
+      flex: 0,
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+    },
+    row: {
+      width: '100%',
+      flexDirection: 'row',
+    },
+    rowEven: {
+      paddingLeft: bubble_size / 2,
+    },
+    bubble: {
+      width: bubble_size,
+      height: bubble_size,
+    },
+    scoreContainer: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    topBarTitle: {
+      flex: 1,
+      margin: 'auto',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    floatingCover: {
+      position: 'absolute',
+      zIndex: -1,
+      width: '100%',
+      height: '115%',
+      top: -50,
+      backgroundColor: 'transparent',
+    },
+    floatingImageContent: {
+      position: 'absolute',
+      left: '-30%',
+      top: '-30%',
+      width: '130%',
+      height: '130%',
+      transform: [{ rotate: '20deg' }],
+      zIndex: -2,
+    },
+  });

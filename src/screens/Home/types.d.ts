@@ -1,13 +1,10 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../types'
+import { RootStackParamList } from '../../../types';
 
-type HomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 type Props = {
-  navigation: HomeScreenNavigationProp & { openDrawer:Function };
+  navigation: HomeScreenNavigationProp & { openDrawer: FunctionConstructor };
 };
 
 export default Props;

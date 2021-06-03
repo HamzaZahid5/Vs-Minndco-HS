@@ -133,6 +133,7 @@ const Login = ({ navigation }: Props) => {
           >
             <LoginForm onSubmit={onFormSubmit} loading={loading} />
             <View>
+              {/* @ts-ignore: unimplemented */}
               <BigButton
                 variant="link"
                 style={{ margin: 10, marginTop: -30 }}
@@ -140,6 +141,7 @@ const Login = ({ navigation }: Props) => {
               >
                 forgot password?
               </BigButton>
+              {/* @ts-ignore: unimplemented */}
               <BigButton
                 style={{
                   minWidth: '100%',
@@ -162,6 +164,7 @@ const Login = ({ navigation }: Props) => {
               borderColor: 'red',
             }}
           >
+            {/* @ts-ignore: unimplemented */}
             <BigButton
               variant="accent"
               style={{
@@ -175,6 +178,7 @@ const Login = ({ navigation }: Props) => {
             </BigButton>
           </View>
           <View>
+            {/* @ts-ignore: unimplemented */}
             <BigButton
               style={{
                 marginTop: 20,

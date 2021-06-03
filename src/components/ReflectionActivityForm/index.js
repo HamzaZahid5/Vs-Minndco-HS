@@ -2,20 +2,17 @@
  * QUESTION FORM USED INTO PROGRAM ACTIVITY SCREEN. ONE OF MANY OPTIONS LIKE VR, 2D VIDEO AND AUDIO
  */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Title, Snackbar, useTheme } from 'react-native-paper';
 import TextInputStyled from './../TextInputStyled';
 import BigButton from './../BigButton';
 
 const validateInput = form => {
-  return (form.answer || '').trim() === ''
-    ? ['Please, complete the answer form']
-    : [];
+  return (form.answer || '').trim() === '' ? ['Please, complete the answer form'] : [];
 };
-const ActivityPlayerReflectionForm = ({
-  onEnd = null,
-  question = '',
-}) => {
+
+const ActivityPlayerReflectionForm = ({ onEnd = null, question = '' }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const [state, setState] = useState({});
@@ -60,12 +57,7 @@ const ActivityPlayerReflectionForm = ({
         />
       </View>
       <View style={styles.ctaWrapper}>
-        <BigButton
-          variant="accent"
-          onPress={onFormSubmit}
-          disabled={submitting}
-          loading={submitting}
-        >
+        <BigButton variant="accent" onPress={onFormSubmit} disabled={submitting} loading={submitting}>
           {submitting ? 'Submitting' : 'Submit'}
         </BigButton>
       </View>
@@ -93,26 +85,32 @@ const ActivityPlayerReflectionForm = ({
   );
 };
 
+ActivityPlayerReflectionForm.propTypes = {
+  onEnd: PropTypes.func,
+  question: PropTypes.string,
+};
+
 export default ActivityPlayerReflectionForm;
 
-const getStyles = theme => StyleSheet.create({
-  // CONTENT
-  content: {
-    marginTop: 24,
-    marginHorizontal: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  title: {
-    ...theme.fonts.small,
-    // fontWeight: 'bold',
-    color: theme.colors.text,
-    textTransform: 'uppercase',
-  },
-  ctaWrapper: {
-    marginTop: 24,
-    width: '100%',
-    alignItems: 'center',
-  },
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    // CONTENT
+    content: {
+      marginTop: 24,
+      marginHorizontal: 4,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: 1,
+    },
+    title: {
+      ...theme.fonts.small,
+      // fontWeight: 'bold',
+      color: theme.colors.text,
+      textTransform: 'uppercase',
+    },
+    ctaWrapper: {
+      marginTop: 24,
+      width: '100%',
+      alignItems: 'center',
+    },
+  });

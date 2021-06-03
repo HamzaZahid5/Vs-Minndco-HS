@@ -1,44 +1,42 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
-import {
-  Headline,
-  IconButton,
-  Title,
-  Paragraph,
-  Divider,
-  useTheme,
-} from 'react-native-paper';
+import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
 import ReflectionActivityForm from '../../components/ReflectionActivityForm';
 import BigButton from '../../components/BigButton';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
 
-export const header = ({ title }) => {
+export const Header = ({ title }) => {
   const theme = useTheme();
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
 
   return (
     <>
-    { action === 'INIT' && (
-      <>
-        <Headline style={styles.headline}>
-          {title}
-        </Headline>
-        <Paragraph>Read, think about and answer</Paragraph>
-      </>
-    )}
-  </>);
+      {action === 'INIT' && (
+        <>
+          <Headline style={styles.headline}>{title}</Headline>
+          <Paragraph>Read, think about and answer</Paragraph>
+        </>
+      )}
+    </>
+  );
 };
 
-const getHeaderStyles = theme => StyleSheet.create({
-  headline: {
-    ...theme.fonts.headline,
-    // fontWeight: 'bold',
-    color: 'white',
-  },
-});
+Header.propTypes = {
+  title: PropTypes.string,
+};
 
-export const body = ({ type, duration, description, asset, onComplete }) => {
+const getHeaderStyles = theme =>
+  StyleSheet.create({
+    headline: {
+      ...theme.fonts.headline,
+      // fontWeight: 'bold',
+      color: 'white',
+    },
+  });
+
+export const Body = ({ type, duration, description, asset, onComplete }) => {
   const theme = useTheme();
   const styles = getBodyStyles(theme);
 
@@ -49,12 +47,15 @@ export const body = ({ type, duration, description, asset, onComplete }) => {
           icon={getIconByActivityType(type)}
           size={30}
           color={theme.colors.primary}
-          style={[styles.activityIcon, { backgroundColor: '#FFFBC6', borderWidth: 3, borderColor: '#F0E983' } ]}
+          style={[styles.activityIcon, { backgroundColor: '#FFFBC6', borderWidth: 3, borderColor: '#F0E983' }]}
         />
         <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
-          {duration}{' min.'}
+          {duration}
+          {' min.'}
         </Title>
-        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{description}</Paragraph>
+        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>
+          {description}
+        </Paragraph>
       </View>
       <Divider
         style={{
@@ -63,25 +64,33 @@ export const body = ({ type, duration, description, asset, onComplete }) => {
         }}
       />
       <View style={styles.content}>
-        <ReflectionActivityForm question={asset} onEnd={onComplete}/>
+        <ReflectionActivityForm question={asset} onEnd={onComplete} />
       </View>
     </>
-  )
+  );
 };
 
-const getBodyStyles = theme => StyleSheet.create({
-  content: {
-    marginHorizontal: 4,
-  },
-  activityIcon: {
-    margin: 0,
-    marginBottom: 24,
-    padding: 0,
-  },
-  title: {
-    // fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  description: {
-  },
-});
+Body.propTypes = {
+  type: PropTypes.string,
+  duration: PropTypes.string,
+  description: PropTypes.string,
+  asset: PropTypes.string,
+  onComplete: PropTypes.func,
+};
+
+const getBodyStyles = theme =>
+  StyleSheet.create({
+    content: {
+      marginHorizontal: 4,
+    },
+    activityIcon: {
+      margin: 0,
+      marginBottom: 24,
+      padding: 0,
+    },
+    title: {
+      // fontWeight: 'bold',
+      textTransform: 'uppercase',
+    },
+    description: {},
+  });

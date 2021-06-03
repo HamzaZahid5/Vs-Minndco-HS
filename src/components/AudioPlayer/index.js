@@ -2,9 +2,10 @@
  * AUDIO PLAYER USED INTO PROGRAM ACTIVITY SCREEN. ONE OF MANY OPTIONS LIKE VR, 2D VIDEO AND QUESTIONS
  */
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet, Platform } from 'react-native';
 import { IconButton, useTheme } from 'react-native-paper';
-import { Audio } from 'expo-av'
+import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import Color from 'color';
 
@@ -72,21 +73,23 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     await sound?.stopAsync();
     setCurrentTime(0);
   }
-  
+
   useEffect(() => {
-    if(shouldPlay.current) {
+    if (shouldPlay.current) {
       playSound();
     }
     return () => {
       sound?.stopAsync();
       sound?.unloadAsync();
-    }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sound]);
 
   useEffect(() => {
     if (audioURI) {
       loadSound(audioURI);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioURI]);
 
   // useKeepAwake();
@@ -94,6 +97,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     shouldPlay.current = true;
     return () => {
       clearTimeout(tId);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       clearTimeout(statusTId.current);
     };
   }, []);
@@ -115,7 +119,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     }
     isSliding.current = false;
   };
-  
+
   if (duration === currentTime && isPlaying) {
     // reach the end
     shouldPlay.current = false;
@@ -146,13 +150,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
         minimumValue={0}
         maximumValue={duration || 0}
         minimumTrackTintColor="#FFFFFF"
-        maximumTrackTintColor={
-          Platform.OS === 'ios'
-            ? Color('white')
-                .fade(0.5)
-                .toString()
-            : 'white'
-        }
+        maximumTrackTintColor={Platform.OS === 'ios' ? Color('white').fade(0.5).toString() : 'white'}
         onSlidingStart={slidingStart}
         onSlidingComplete={slidingComplete}
         value={!isSliding.current ? currentTime : currentTime}
@@ -161,27 +159,34 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     </View>
   );
 };
+
+ActivityPlayerVideo.propTypes = {
+  audioURI: PropTypes.string,
+  didJustFinish: PropTypes.func,
+};
+
 export default ActivityPlayerVideo;
 
-const getStyles = theme => StyleSheet.create({
-  playerContainer: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    padding: 30,
-  },
-  controls: {
-    flexDirection: 'row',
-    marginBottom: 25,
-    height: 80,
-  },
-  progressIconsContainer: {
-    flexDirection: 'row',
-  },
-  playIcon: {
-    backgroundColor: theme.colors.accent,
-  },
-  progressSlider: {
-    // backgroundColor: 'lime',
-  }
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    playerContainer: {
+      width: '100%',
+      flex: 1,
+      justifyContent: 'center',
+      padding: 30,
+    },
+    controls: {
+      flexDirection: 'row',
+      marginBottom: 25,
+      height: 80,
+    },
+    progressIconsContainer: {
+      flexDirection: 'row',
+    },
+    playIcon: {
+      backgroundColor: theme.colors.accent,
+    },
+    progressSlider: {
+      // backgroundColor: 'lime',
+    },
+  });

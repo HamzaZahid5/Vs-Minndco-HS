@@ -2,24 +2,17 @@
  * SMALL VERSION OF GENERIC BUTTON TO USE INLINE LOKE INTO PROFILE SCREEN
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ChipButton = ({ onlyPremium = false, ...props }) => {
   const theme = useTheme();
-  const {
-    labelStyle,
-    contentStyle,
-    style,
-    disabled,
-    ...moreProps
-  } = props;
+  const { labelStyle, contentStyle, style, disabled, ...moreProps } = props;
   const Wrapper = disabled
     ? ({ children }) => <View>{children}</View>
-    : ({ children }) => (
-        <TouchableOpacity onPress={props.onPress}>{children}</TouchableOpacity>
-      );
+    : ({ children }) => <TouchableOpacity onPress={props.onPress}>{children}</TouchableOpacity>;
   return (
     <Wrapper>
       <Button
@@ -29,23 +22,33 @@ const ChipButton = ({ onlyPremium = false, ...props }) => {
         theme={{ roundness: 50, colors: { primary: '#ffffff' } }}
         style={[styles.chipButton, style]}
         contentStyle={[styles.chipButtonContent, contentStyle]}
-        labelStyle={[
-          styles.chipButtonLabel,
-          { color: theme.colors.darker },
-          labelStyle,
-        ]}
+        labelStyle={[styles.chipButtonLabel, { color: theme.colors.darker }, labelStyle]}
         disabled={disabled}
         {...moreProps}
       />
       {onlyPremium && (
-        <View style={[styles.crownWrapper, {
-          backgroundColor: theme.colors.warning,
-        }]}>
+        <View
+          style={[
+            styles.crownWrapper,
+            {
+              backgroundColor: theme.colors.warning,
+            },
+          ]}
+        >
           <Icon size={20} color={theme.colors.accent} name="crown" />
         </View>
       )}
     </Wrapper>
   );
+};
+
+ChipButton.propTypes = {
+  onlyPremium: PropTypes.bool,
+  labelStyle: PropTypes.object,
+  contentStyle: PropTypes.object,
+  style: PropTypes.object,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 
 export default ChipButton;

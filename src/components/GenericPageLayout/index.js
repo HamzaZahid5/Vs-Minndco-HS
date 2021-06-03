@@ -3,6 +3,7 @@
  * USED IN HOME, LEVEL OVERVIEW, ACTIVITY, ACTIVITY POLL & STATISTICS.
  */
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   StyleSheet,
@@ -27,6 +28,7 @@ import { isFunction } from '../../utils/helpers';
  =             =
  ===============
  */
+
 const GenericPageLayout = ({
   header = false, // HEADER elements
   children = _ => _, // CONTENT elements
@@ -50,7 +52,7 @@ const GenericPageLayout = ({
       contentRef.current.scrollTo({ y: offset, animated: true });
     }
   };
-  
+
   const contentWraper =
     noScrollContent || fullScroll ? (
       <View
@@ -78,25 +80,31 @@ const GenericPageLayout = ({
     );
 
   return (
-      <KeyboardAwareScrollView
-        enableOnAndroid
-        keyboardShouldPersistTaps={'handled'}
-        extraHeight={390}
-        contentContainerStyle={{
-          flexGrow: 1,
-          margin: 'auto',
-        }}
-        style={[
-          styles.mainContainer,
-          { backgroundColor: 'transparent' },
-        ]}
-      >
-        <View style={styles.headerContainer}>
-          <View style={styles.headerWrapper}>{header}</View>
-        </View>
-        {contentWraper}
-      </KeyboardAwareScrollView>
+    <KeyboardAwareScrollView
+      enableOnAndroid
+      keyboardShouldPersistTaps={'handled'}
+      extraHeight={390}
+      contentContainerStyle={{
+        flexGrow: 1,
+        margin: 'auto',
+      }}
+      style={[styles.mainContainer, { backgroundColor: 'transparent' }]}
+    >
+      <View style={styles.headerContainer}>
+        <View style={styles.headerWrapper}>{header}</View>
+      </View>
+      {contentWraper}
+    </KeyboardAwareScrollView>
   );
+};
+
+GenericPageLayout.propTypes = {
+  header: PropTypes.oneOf(PropTypes.object, PropTypes.bool),
+  children: PropTypes.object,
+  noScrollContent: PropTypes.bool,
+  fullScroll: PropTypes.bool,
+  thinContent: PropTypes.bool,
+  withKeyboard: PropTypes.bool,
 };
 
 export default GenericPageLayout;
@@ -106,13 +114,11 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     borderColor: 'purple',
   },
-  staticMainContainer: {
-  },
+  staticMainContainer: {},
   headerContainer: {
     height: 232,
   },
-  headerWrapper: {
-  },
+  headerWrapper: {},
   commonContentContainer: {
     paddingHorizontal: 20,
     flexGrow: 1,

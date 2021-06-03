@@ -1,4 +1,4 @@
-import functions from "../services/Functions";
+import functions from '../services/Functions';
 
 const useValuationActions = () => {
   return {
@@ -22,7 +22,7 @@ const useValuationActions = () => {
         range: ['stressed', 'bored', 'angry', 'happy'],
         rate,
       });
-    }
+    },
   };
 };
 

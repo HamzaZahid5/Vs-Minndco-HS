@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
-import {
-  ProgressChart,
-} from "react-native-chart-kit";
+import { ProgressChart } from 'react-native-chart-kit';
 import Color from 'color';
 import useCompletion from '../../utils/hooks/useCompletion';
 
 const chartConfig = {
-  backgroundGradientFrom: "transparent",
+  backgroundGradientFrom: 'transparent',
   backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: "transparent",
+  backgroundGradientTo: 'transparent',
   backgroundGradientToOpacity: 0,
   color: (opacity = 1) => {
-    console.log(opacity)
+    // console.log(opacity);
     const [r, g, b] = Color('#FFF').array();
     return `rgba(${r}, ${g}, ${b}, ${opacity * 2})`;
   },
@@ -21,47 +19,47 @@ const chartConfig = {
   // barPercentage: 0.5,
   // useShadowColorFromDataset: false // optional
 };
-export default () => {
+const CompletionChart = () => {
   const theme = useTheme();
   const progress = useCompletion();
   const [data, setData] = useState();
   useEffect(() => {
-    if(progress) {
+    if (progress) {
       setData({
-        labels: ["completion"], // optional
+        labels: ['completion'], // optional
         // looks like a bug with decimals for circle chart
-        data: [Math.floor(progress)]
-      })
+        data: [Math.floor(progress)],
+      });
     }
-  }, [progress])
+  }, [progress]);
   // const SIZE = Math.min(Dimensions.get('window').width, Dimensions.get('window').height);
   const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
   return (
-    <View style={{
-      backgroundColor: Color('#87B1E3').lighten(0).toString(),
-      width: '100%',
-      borderRadius: 24,
-      padding: 14,
-      height: '100%',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      shadowColor: '#664AB9',
-      shadowOffset: { width: 1, height: 1 },
-      shadowOpacity: 0.4,
-      shadowRadius: 3,
-      elevation: 2,
-    }}>
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>
-        Program completion
-      </Paragraph>
+    <View
+      style={{
+        backgroundColor: Color('#87B1E3').lighten(0).toString(),
+        width: '100%',
+        borderRadius: 24,
+        padding: 14,
+        height: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        shadowColor: '#664AB9',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity: 0.4,
+        shadowRadius: 3,
+        elevation: 2,
+      }}
+    >
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>Program completion</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE / 3 }}>
-        <View style={{ flex: 1 }}/>
+        <View style={{ flex: 1 }} />
         <View style={{ position: 'absolute' }}>
           {data && (
             <ProgressChart
               data={data}
-              width={SIZE/3}
-              height={SIZE/3}
+              width={SIZE / 3}
+              height={SIZE / 3}
               strokeWidth={12}
               radius={SIZE / 8}
               hideLegend
@@ -69,10 +67,14 @@ export default () => {
             />
           )}
         </View>
-        <View style={{ position: 'absolute', width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}>
+        <View
+          style={{ position: 'absolute', width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}
+        >
           <Paragraph style={{ fontSize: 40, lineHeight: 40, color: '#FFF' }}>{progress}%</Paragraph>
         </View>
       </View>
     </View>
   );
 };
+
+export default CompletionChart;

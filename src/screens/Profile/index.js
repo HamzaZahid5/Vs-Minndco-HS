@@ -3,13 +3,13 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
 import GenericPageLayout from '../../components/GenericPageLayout';
 import ScreenDecorator from '../../components/ScreenDecorator';
-import BigButton from "../../components/BigButton";
+import BigButton from '../../components/BigButton';
 import Row from './DetailRow';
 import { auth } from '../../services/Auth';
 import config from './../../../env';
 import { useSelector } from 'react-redux';
 
-export default () => {
+const Profile = () => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const email = useSelector(store => store.user.auth.email);
@@ -19,11 +19,7 @@ export default () => {
         fullScroll
         header={
           <View style={styles.hero}>
-            <Avatar.Text
-              labelStyle={styles.avatarLabel}
-              size={100}
-              label={'M'}
-            />
+            <Avatar.Text labelStyle={styles.avatarLabel} size={100} label={'M'} />
           </View>
         }
       >
@@ -50,33 +46,36 @@ export default () => {
       </GenericPageLayout>
     </ScreenDecorator>
   );
-}
+};
 
-const getStyles = theme => StyleSheet.create({
-  hero: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bodyContainer: {
-    // backgroundColor: '#f00a',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  bodyTitle: {
-    ...theme.fonts.heading2,
-    color: theme.colors.dark,
-  },
-  footer: {
-    marginVertical: 20,
-    justifyContent: 'center',
-  },
-  app_version: {
-    ...theme.fonts.thin,
-    color: theme.colors.text,
-    display: 'flex',
-    textAlign: 'center',
-  },
-});
+export default Profile;
+
+const getStyles = theme =>
+  StyleSheet.create({
+    hero: {
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    bodyContainer: {
+      // backgroundColor: '#f00a',
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+    },
+    bodyTitle: {
+      ...theme.fonts.heading2,
+      color: theme.colors.dark,
+    },
+    footer: {
+      marginVertical: 20,
+      justifyContent: 'center',
+    },
+    app_version: {
+      ...theme.fonts.thin,
+      color: theme.colors.text,
+      display: 'flex',
+      textAlign: 'center',
+    },
+  });

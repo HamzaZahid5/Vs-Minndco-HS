@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -8,22 +9,11 @@ import { getIconByActivityType } from '../../utils/helpers';
 // import FadeEffect from '../../components/FadeEffect';
 // import theme from '../../styles/ColoredTheme';
 
-const CircularContent = ({
-  title,
-  type,
-  instructionsText,
-  informativeText,
-  progress = 0,
-  onPress,
-}) => {
+const CircularContent = ({ title, type, instructionsText, informativeText, progress = 0, onPress }) => {
   const theme = useTheme();
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.8}
-      style={{ zIndex: 10 }}
-    >
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={{ zIndex: 10 }}>
       <View style={styles.container}>
         <AnimatedCircularProgress
           size={250}
@@ -36,9 +26,7 @@ const CircularContent = ({
           backgroundColor="#F0E983"
           // onAnimationComplete={() => console.log('onAnimationComplete')}
           renderCap={({ center }) =>
-            progress ? (
-              <Circle cx={center.x} cy={center.y} r="10" fill={theme.colors.secondary} />
-            ) : null
+            progress ? <Circle cx={center.x} cy={center.y} r="10" fill={theme.colors.secondary} /> : null
           }
         >
           {() => (
@@ -50,11 +38,7 @@ const CircularContent = ({
                 <Title style={styles.activityTitle}>{title}</Title>
               </View>
               <View style={styles.flexStartContent}>
-                {type && <Icon
-                  name={getIconByActivityType(type)}
-                  size={80}
-                  color={theme.colors.secondary}
-                />}
+                {type && <Icon name={getIconByActivityType(type)} size={80} color={theme.colors.secondary} />}
               </View>
             </>
           )}
@@ -66,6 +50,15 @@ const CircularContent = ({
       </View>
     </TouchableOpacity>
   );
+};
+
+CircularContent.propTypes = {
+  title: PropTypes.string,
+  type: PropTypes.string,
+  instructionsText: PropTypes.string,
+  informativeText: PropTypes.string,
+  progress: PropTypes.number,
+  onPress: PropTypes.func,
 };
 
 export default CircularContent;

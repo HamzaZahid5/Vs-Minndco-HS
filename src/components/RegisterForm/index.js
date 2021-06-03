@@ -2,25 +2,18 @@
  * SIGN UP FORM WITH MULTIPLE FIELDS, THE LARGER FORM IN THE APP.
  */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View, TextInputMask } from 'react-native';
-import {
-  Surface,
-  Subheading,
-  Button,
-  withTheme,
-  Text,
-  RadioButton,
-  HelperText,
-} from 'react-native-paper';
+import { Surface, Subheading, Button, withTheme, Text, RadioButton, HelperText } from 'react-native-paper';
 import TextInputStyled from './../TextInputStyled';
 // import PhoneNumberInput from './../PhoneNumberInput';
 import BigButton from './../BigButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-Yup.addMethod(Yup.string, 'complianceE146', function(onErrorMessage) {
+Yup.addMethod(Yup.string, 'complianceE146', function (onErrorMessage) {
   const message = onErrorMessage;
-  return this.test('complianceE146', message, function(value) {
+  return this.test('complianceE146', message, function (value) {
     const { path, createError } = this;
     // [value] - value of the property being tested
     // [path]  - property name,
@@ -30,24 +23,13 @@ Yup.addMethod(Yup.string, 'complianceE146', function(onErrorMessage) {
 // defered to let translations to boot up
 const getRegisterSchema = () => {
   return Yup.object().shape({
-    name: Yup.string()
-      .max(50, 'commons.messages.fieldTooLong')
-      .required('Required'),
-    lastname: Yup.string()
-      .max(50, 'commons.messages.fieldTooLong')
-      .required('Required'),
-    password: Yup.string()
-      .min(6, 'Password too short')
-      .required('Required'),
+    name: Yup.string().max(50, 'commons.messages.fieldTooLong').required('Required'),
+    lastname: Yup.string().max(50, 'commons.messages.fieldTooLong').required('Required'),
+    password: Yup.string().min(6, 'Password too short').required('Required'),
     confirmpassword: Yup.string()
-      .oneOf(
-        [Yup.ref('password'), null],
-        'Password do not match',
-      )
+      .oneOf([Yup.ref('password'), null], 'Password do not match')
       .required('Password do not match'),
-    email: Yup.string()
-      .email('Invalid email')
-      .required('Required'),
+    email: Yup.string().email('Invalid email').required('Required'),
   });
 };
 
@@ -57,10 +39,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
     actions.setSubmitting(false);
   };
   return (
-    <Surface
-      style={styles.surface}
-      theme={{ colors: { surface: 'transparent' } }}
-    >
+    <Surface style={styles.surface} theme={{ colors: { surface: 'transparent' } }}>
       <Formik
         initialValues={{
           name: 'Demo',
@@ -75,14 +54,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
         onSubmit={(values, actions) => _onSubmit(values, actions)}
         validationSchema={getRegisterSchema()}
       >
-        {({
-          handleChange,
-          isSubmitting,
-          submitForm,
-          values,
-          errors,
-          touched,
-        }) => (
+        {({ handleChange, isSubmitting, submitForm, values, errors, touched }) => (
           <React.Fragment>
             <View style={styles.rowForm} key="row1">
               <TextInputStyled
@@ -96,9 +68,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 value={values.name}
                 type="flat"
                 onChangeText={handleChange('name')}
-                error={
-                  touched.name !== undefined && errors.name ? errors.name : null
-                }
+                error={touched.name !== undefined && errors.name ? errors.name : null}
               />
               <TextInputStyled
                 style={{
@@ -111,11 +81,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 value={values.lastname}
                 type="flat"
                 onChangeText={handleChange('lastname')}
-                error={
-                  touched.lastname !== undefined && errors.lastname
-                    ? errors.lastname
-                    : null
-                }
+                error={touched.lastname !== undefined && errors.lastname ? errors.lastname : null}
               />
             </View>
             <View style={styles.rowForm} key="row5">
@@ -127,14 +93,10 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 type="flat"
                 keyboardType="email-address"
                 onChangeText={handleChange('email')}
-                error={
-                  touched.email !== undefined && errors.email
-                    ? errors.email
-                    : null
-                }
+                error={touched.email !== undefined && errors.email ? errors.email : null}
               />
             </View>
-            
+
             <View style={styles.rowForm} key="row2">
               <TextInputStyled
                 theme={{ roundness: 0, colors: { background: 'transparent' } }}
@@ -145,11 +107,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 onChangeText={handleChange('password')}
                 secureTextEntry
                 textContentType="newPassword"
-                error={
-                  touched.password !== undefined && errors.password
-                    ? errors.password
-                    : null
-                }
+                error={touched.password !== undefined && errors.password ? errors.password : null}
               />
             </View>
             <View style={styles.rowForm} key="row3">
@@ -161,15 +119,10 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 type="flat"
                 onChangeText={handleChange('confirmpassword')}
                 secureTextEntry
-                error={
-                  touched.confirmpassword !== undefined &&
-                  errors.confirmpassword
-                    ? errors.confirmpassword
-                    : null
-                }
+                error={touched.confirmpassword !== undefined && errors.confirmpassword ? errors.confirmpassword : null}
               />
             </View>
-            
+
             <BigButton
               key="submitBtn"
               style={{
@@ -187,6 +140,12 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
       </Formik>
     </Surface>
   );
+};
+
+RegisterForm.propTypes = {
+  theme: PropTypes.object,
+  onSubmit: PropTypes.bool,
+  loading: PropTypes.bool,
 };
 
 export default withTheme(RegisterForm);

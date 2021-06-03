@@ -2,13 +2,8 @@
  * BREATH SYNC ANIMATION WITH CIRCLES
  */
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  Animated,
-  LayoutAnimation,
-  StyleSheet,
-} from 'react-native';
+import PropTypes from 'prop-types';
+import { View, Text, Animated, LayoutAnimation, StyleSheet } from 'react-native';
 import { Title, Button, useTheme } from 'react-native-paper';
 // import Sound from 'react-native-sound';
 // import { useKeepAwake } from '@sayem314/react-native-keep-awake';
@@ -46,7 +41,7 @@ const playLostSound = () => {
 
 const BreathSync = ({ onClose = Function }) => {
   const theme = useTheme();
-  const styles= getStyles(theme);
+  const styles = getStyles(theme);
   const [play, setPlay] = useState(false);
   const [counter, setCounter] = useState(-1);
   const [next, setNext] = useState();
@@ -72,7 +67,7 @@ const BreathSync = ({ onClose = Function }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play]);
-  
+
   useEffect(() => {
     if (counter === 0) {
       setPlay(false);
@@ -85,6 +80,7 @@ const BreathSync = ({ onClose = Function }) => {
     if (play) {
       next === 'breath-out' ? breathOut() : breathIn();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [next, play]);
 
   const breathIn = () => {
@@ -98,8 +94,7 @@ const BreathSync = ({ onClose = Function }) => {
       toValue: { x: -100, y: -450 },
       duration: 2000,
       useNativeDriver: true,
-    })
-    .start(({ finished: finishIn }) => {
+    }).start(({ finished: finishIn }) => {
       if (finishIn) {
         setStep('HOLD-IN');
         Animated.timing(position, {
@@ -107,7 +102,7 @@ const BreathSync = ({ onClose = Function }) => {
           duration: 1500,
           useNativeDriver: true,
         }).start(({ finished: finishHold }) => {
-          if(finishHold) {
+          if (finishHold) {
             setNext('breath-out');
           }
         });
@@ -122,7 +117,7 @@ const BreathSync = ({ onClose = Function }) => {
       useNativeDriver: true,
     }).start();
     Animated.timing(position, {
-          toValue: { x: 100, y: -150 },
+      toValue: { x: 100, y: -150 },
       duration: 2000,
       useNativeDriver: true,
     }).start(({ finished: finishOut }) => {
@@ -134,7 +129,7 @@ const BreathSync = ({ onClose = Function }) => {
           duration: 1500,
           useNativeDriver: true,
         }).start(({ finished: finishHold }) => {
-          if(finishHold) {
+          if (finishHold) {
             setNext('breath-in');
           }
         });
@@ -155,28 +150,17 @@ const BreathSync = ({ onClose = Function }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Title style={styles.title}>
-          {counter !== 0
-            ? 'Take 20 calm breaths'
-            : 'Well done!'
-          }
-        </Title>
+        <Title style={styles.title}>{counter !== 0 ? 'Take 20 calm breaths' : 'Well done!'}</Title>
       </View>
-      {play && counter !== -1 && (
-        <Title style={styles.counter}>{counter}</Title>
-      )}
+      {play && counter !== -1 && <Title style={styles.counter}>{counter}</Title>}
       <View style={styles.bodyContainer}>
-        <Title style={styles.instructions}>
-          {counter === -1
-            ? 'Sync your breathing with the square'
-            : ' '}
-        </Title>
+        <Title style={styles.instructions}>{counter === -1 ? 'Sync your breathing with the square' : ' '}</Title>
         <View style={styles.squareContainer}>
           {counter <= 0 && (
             <Button
               onPress={() => {
                 if (counter === 0) {
-                  onClose()
+                  onClose();
                 } else {
                   setPlay(true);
                 }
@@ -194,12 +178,7 @@ const BreathSync = ({ onClose = Function }) => {
           <View style={styles.legend}>
             {step !== 'INIT' && (
               <Text style={styles.legendFont}>
-                {step === 'IN'
-                  ? 'BREATHE IN'
-                  : step === 'OUT'
-                  ? 'BREATHE OUT'
-                  : 'HOLD'
-                }
+                {step === 'IN' ? 'BREATHE IN' : step === 'OUT' ? 'BREATHE OUT' : 'HOLD'}
               </Text>
             )}
           </View>
@@ -210,118 +189,123 @@ const BreathSync = ({ onClose = Function }) => {
   );
 };
 
+BreathSync.propTypes = {
+  onClose: PropTypes.func,
+};
+
 export default BreathSync;
 
-const getStyles = theme => StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  squareContainer: {
-    width: 200,
-    height: 300,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: theme.colors.background + '88',
-    borderRadius: 5,
-  },
-  legend: {
-    width: 200, // should match with squareContainer
-    // flex: 1,
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    marginVertical: 20,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    color: theme.colors.backdrop,
-    flex: 1,
-    marginRight: 40,
-  },
-  instructions: {
-    marginVertical: 20,
-    paddingHorizontal: 24,
-    textAlign: 'center',
-    fontSize: 20,
-    color: theme.colors.backdrop,
-  },
-  legendFont: {
-    ...theme.fonts.heading2,
-    fontSize: 24,
-    color: theme.colors.backdrop,
-    width: '100%',
-    textAlign: 'center',
-  },
-  bodyContainer: {
-    alignItems: 'center',
-    height: '100%',
-    marginTop: '25%',
-  },
-  headerContainer: {
-    // height: '25%',
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 5,
-    // marginBottom: '25%',
-    // backgroundColor: '#f00a',
-  },
-  backButtonStyle: {
-    backgroundColor: theme.colors.primary,
-  },
-  startButton: {
-    zIndex: 10,
-    position: 'absolute',
-    top: 115,
-  },
-  counter: {
-    position: 'absolute',
-    right: 0,
-    width: 250,
-    textAlign: 'right',
-    fontSize: 150,
-    lineHeight: 150,
-    margin: 20,
-    marginTop: 40,
-    color: theme.colors.backdrop,
-  },
-  indicator: {
-    backgroundColor: theme.colors.card + 'AA',
-    width: 20,
-    height: 20,
-    borderRadius: 5,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    position: 'absolute',
-    bottom: -160,
-    left: 90,
-  },
-  bottomLeft: {
-    bottom: -10,
-    left: -10,
-    width: 20,
-    height: 20,
-  },
-  bottomRight: {
-    bottom: -10,
-    right: -10,
-    width: 20,
-    height: 20,
-  },
-  upperLeft: {
-    top: -20,
-    left: -20,
-    width: 40,
-    height: 40,
-  },
-  upperRight: {
-    top: -20,
-    right: -20,
-    width: 40,
-    height: 40,
-  },
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    squareContainer: {
+      width: 200,
+      height: 300,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      backgroundColor: theme.colors.background + '88',
+      borderRadius: 5,
+    },
+    legend: {
+      width: 200, // should match with squareContainer
+      // flex: 1,
+      height: 80,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    title: {
+      marginVertical: 20,
+      textAlign: 'center',
+      textTransform: 'uppercase',
+      color: theme.colors.backdrop,
+      flex: 1,
+      marginRight: 40,
+    },
+    instructions: {
+      marginVertical: 20,
+      paddingHorizontal: 24,
+      textAlign: 'center',
+      fontSize: 20,
+      color: theme.colors.backdrop,
+    },
+    legendFont: {
+      ...theme.fonts.heading2,
+      fontSize: 24,
+      color: theme.colors.backdrop,
+      width: '100%',
+      textAlign: 'center',
+    },
+    bodyContainer: {
+      alignItems: 'center',
+      height: '100%',
+      marginTop: '25%',
+    },
+    headerContainer: {
+      // height: '25%',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      paddingHorizontal: 5,
+      // marginBottom: '25%',
+      // backgroundColor: '#f00a',
+    },
+    backButtonStyle: {
+      backgroundColor: theme.colors.primary,
+    },
+    startButton: {
+      zIndex: 10,
+      position: 'absolute',
+      top: 115,
+    },
+    counter: {
+      position: 'absolute',
+      right: 0,
+      width: 250,
+      textAlign: 'right',
+      fontSize: 150,
+      lineHeight: 150,
+      margin: 20,
+      marginTop: 40,
+      color: theme.colors.backdrop,
+    },
+    indicator: {
+      backgroundColor: theme.colors.card + 'AA',
+      width: 20,
+      height: 20,
+      borderRadius: 5,
+      // justifyContent: 'center',
+      // alignItems: 'center',
+      position: 'absolute',
+      bottom: -160,
+      left: 90,
+    },
+    bottomLeft: {
+      bottom: -10,
+      left: -10,
+      width: 20,
+      height: 20,
+    },
+    bottomRight: {
+      bottom: -10,
+      right: -10,
+      width: 20,
+      height: 20,
+    },
+    upperLeft: {
+      top: -20,
+      left: -20,
+      width: 40,
+      height: 40,
+    },
+    upperRight: {
+      top: -20,
+      right: -20,
+      width: 40,
+      height: 40,
+    },
+  });

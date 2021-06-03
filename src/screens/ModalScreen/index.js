@@ -1,9 +1,10 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { View, Text } from 'react-native';
 import { Modal } from 'react-native-paper';
-import Dialog from "../../components/DefaultDialog";
+import Dialog from '../../components/DefaultDialog';
 
-export default ({ navigation }) => (
+const ModalScreen = ({ navigation }) => (
   <Dialog
     show
     onClose={() => navigation.pop()}
@@ -26,3 +27,9 @@ export default ({ navigation }) => (
   //   <View><Text>da Modal</Text></View>
   // </Modal>
 );
+
+ModalScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+export default ModalScreen;

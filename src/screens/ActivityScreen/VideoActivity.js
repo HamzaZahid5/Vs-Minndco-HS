@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
 import VideoPlayer from '../../components/VideoPlayer';
@@ -6,7 +7,7 @@ import BigButton from '../../components/BigButton';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
 import { useStorageDownloadURL } from '../../services/Storage';
 
-export const header = ({ onComplete, storeAsset, title }) => {
+export const Header = ({ onComplete, storeAsset, title }) => {
   const theme = useTheme();
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
@@ -29,6 +30,12 @@ export const header = ({ onComplete, storeAsset, title }) => {
   );
 };
 
+Header.propTypes = {
+  onComplete: PropTypes.func,
+  storeAsset: PropTypes.string,
+  title: PropTypes.string,
+};
+
 const getHeaderStyles = theme =>
   StyleSheet.create({
     headline: {
@@ -37,7 +44,7 @@ const getHeaderStyles = theme =>
     },
   });
 
-export const body = ({ type, duration, description }) => {
+export const Body = ({ type, duration, description }) => {
   const theme = useTheme();
   const styles = getBodyStyles(theme);
   return (
@@ -69,6 +76,12 @@ export const body = ({ type, duration, description }) => {
       </View>
     </>
   );
+};
+
+Body.propTypes = {
+  type: PropTypes.string,
+  duration: PropTypes.string,
+  description: PropTypes.string,
 };
 
 const getBodyStyles = theme =>

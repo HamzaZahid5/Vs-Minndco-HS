@@ -5,10 +5,8 @@
 import React from 'react';
 import { Canvas } from 'react-three-fiber';
 
-export default props => {
-  return (
-    <Canvas
-      {...props}
-    />
-  )
+const SafeCanvas = props => {
+  return <Canvas {...props} />;
 };
+
+export default SafeCanvas;

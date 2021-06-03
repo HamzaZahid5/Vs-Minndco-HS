@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInput, Headline, useTheme, Paragraph } from 'react-native-paper';
@@ -22,7 +23,6 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 // import RoundedBackButton from '../../components/RoundedBackButton';
 // import to from 'await-to-js';
 import Color from 'color';
-import { ANALYTICS_EVENTS } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
@@ -52,9 +52,7 @@ const CodeForm = ({ onSubmit, isLoading }) => {
             colors: {
               background: 'transparent',
               text: 'white',
-              placeholder: Color(theme.colors.placeholder)
-                .alpha(0.5)
-                .toString(),
+              placeholder: Color(theme.colors.placeholder).alpha(0.5).toString(),
             },
           }}
           style={{
@@ -89,8 +87,13 @@ const CodeForm = ({ onSubmit, isLoading }) => {
         </BigButton>
       </View>
     </>
-  )
-}
+  );
+};
+
+CodeForm.propTypes = {
+  onSubmit: PropTypes.func,
+  isLoading: PropTypes.bool,
+};
 
 const KitActivation = ({ navigation }) => {
   const theme = useTheme();
@@ -98,15 +101,14 @@ const KitActivation = ({ navigation }) => {
   const inputRef = useRef();
   const isLoading = useSelector(store => store.flags.isloading);
   const dispatch = useDispatch();
-  
+
   const [helpVisible, setHelpVisible] = useState();
 
   const helpImageSrc =
     'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/images%2Factivation_code_scheme_en.png?alt=media&token=52c9d0e1-a105-4b61-bcf7-c04b25aa1e3f';
 
-  const onFormSubmit = async (code) => {
-    
-    dispatch({ type: 'flags/setIsLoading', payload: 1 })
+  const onFormSubmit = async code => {
+    dispatch({ type: 'flags/setIsLoading', payload: 1 });
     const [valid, codeErr] = await validate(code);
     if (valid !== true) {
       // eslint-disable-next-line no-alert
@@ -116,12 +118,12 @@ const KitActivation = ({ navigation }) => {
         await burnCode(code);
         // analytics().logEvent(ANALYTICS_EVENTS.FUNNEL_KIT_ACTIVATION);
         nextStep();
-      } catch(e) {
+      } catch (e) {
         alert(e);
         // alert('Something went wrong using this code. Please contact support.');
       }
     }
-    dispatch({ type: 'flags/setIsLoading', payload: -1 })
+    dispatch({ type: 'flags/setIsLoading', payload: -1 });
   };
   const nextStep = () => {
     navigation.navigate('KitFinish');
@@ -129,26 +131,18 @@ const KitActivation = ({ navigation }) => {
   };
   return (
     <ScreenDecorator>
-
       <GenericPageLayout
-        onClose={() => navigateToHome(componentId)}
+        // onClose={() => navigateToHome(componentId)}
         fullScroll
         withKeyboard
         header={
           <View style={styles.hero}>
             <View style={styles.heroContent}>
-              <Headline style={styles.headline}>
-                Activate your KIT
-              </Headline>
+              <Headline style={styles.headline}>Activate your KIT</Headline>
               <Paragraph style={styles.description}>
-                Insert the ACTIVATION CODE printed in your box.
-                {' '}
+                Insert the ACTIVATION CODE printed in your box.{' '}
                 {
-                  <Text
-                    key="link1"
-                    style={styles.hyperlink}
-                    onPress={() => setHelpVisible(true)}
-                  >
+                  <Text key="link1" style={styles.hyperlink} onPress={() => setHelpVisible(true)}>
                     Where is the code?
                   </Text>
                 }
@@ -192,62 +186,66 @@ const KitActivation = ({ navigation }) => {
         </View>
       </GenericPageLayout>
     </ScreenDecorator>
-    
   );
+};
+
+KitActivation.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default KitActivation;
 
-const getStyles = theme => StyleSheet.create({
-  hero: {
-    height: '100%',
-    justifyContent: 'center',
-  },
-  heroContent: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  description: {
-    margin: 30,
-  },
-  headline: {
-    ...theme.fonts.headline3,
-    // fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-  },
-  absolutScrollView: {
-    // borderWidth: 1, borderColor: 'red',
-    width: '100%',
-    minHeight: '100%',
-  },
-  surface: {
-    // borderWidth: 1, borderColor: 'lime',
-    padding: 30,
-    minHeight: '100%',
-    elevation: 0,
-  },
-  row: {
-    // borderWidth: 1, borderColor: 'red',
-    margin: 0,
-    width: '100%',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-  },
-  title: {
-    fontSize: 40,
-    lineHeight: 40,
-    // fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  hyperlink: {
-    fontSize: 14,
-    color: '#664AB9',
-    textDecorationLine: 'underline',
-  },
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    hero: {
+      height: '100%',
+      justifyContent: 'center',
+    },
+    heroContent: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    description: {
+      margin: 30,
+    },
+    headline: {
+      ...theme.fonts.headline3,
+      // fontWeight: 'bold',
+      color: 'white',
+      textAlign: 'center',
+    },
+    absolutScrollView: {
+      // borderWidth: 1, borderColor: 'red',
+      width: '100%',
+      minHeight: '100%',
+    },
+    surface: {
+      // borderWidth: 1, borderColor: 'lime',
+      padding: 30,
+      minHeight: '100%',
+      elevation: 0,
+    },
+    row: {
+      // borderWidth: 1, borderColor: 'red',
+      margin: 0,
+      width: '100%',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+    },
+    title: {
+      fontSize: 40,
+      lineHeight: 40,
+      // fontWeight: 'bold',
+      marginBottom: 20,
+    },
+    hyperlink: {
+      fontSize: 14,
+      color: '#664AB9',
+      textDecorationLine: 'underline',
+    },
+  });

@@ -7,8 +7,6 @@ export default StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 30,
   },
   absolutScrollView: {

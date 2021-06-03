@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   slide: {
@@ -19,7 +19,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     // height: '100%',
     // maxHeight: '100%',
-    borderWidth: 0, borderColor: 'red',
+    borderWidth: 0,
+    borderColor: 'red',
   },
   slideText: {
     width: '100%',
