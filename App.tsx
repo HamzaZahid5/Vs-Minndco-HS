@@ -17,6 +17,8 @@ import { useFirestoreListener } from './src/services/Firestore';
 
 import RegistrationScreen from './src/screens/Register';
 import LoginScreen from './src/screens/Login';
+import LibraryScreen from './src/screens/Library';
+import ContentsShelfScreen from './src/screens/ContentsShelf';
 // @ts-ignore: non-ts file
 import StressRateScreen from './src/screens/StressRate';
 // @ts-ignore: non-ts file
@@ -46,15 +48,11 @@ import ProfileScreen from './src/screens/Profile';
 // @ts-ignore: non-ts file
 import StatisticsScreen from './src/screens/Statistics';
 // @ts-ignore: non-ts file
-import HowToScreen from './src/screens/HowTo';
-// @ts-ignore: non-ts file
-import LibraryScreen from './src/screens/Library';
+import HowItWorksScreen from './src/screens/HowItWorks';
 // @ts-ignore: non-ts file
 import MainComponent from './src/screens/Home/DrawerNavigator';
 // @ts-ignore: non-ts file
 import KitAssembleScreen from './src/screens/KitAssemble';
-// @ts-ignore: non-ts file
-import useProgram from './src/utils/hooks/useProgram';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
 
@@ -142,13 +140,18 @@ export default function App() {
                   <Stack.Screen name="PathEnding" component={PathEndingScreen} options={{ title: '' }} />
                   <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: '' }} />
                   <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ title: 'Your insights' }} />
-                  <Stack.Screen name="HowTo" component={HowToScreen} options={{ title: 'Your insights' }} />
+                  <Stack.Screen name="ContentsShelf" component={ContentsShelfScreen} options={{ title: '' }} />
                   <Stack.Screen
                     name="KitAssemble"
                     component={KitAssembleScreen}
                     options={{ title: 'Assemble your VR Headset' }}
                   />
                   <Stack.Screen name="Library" component={LibraryScreen} options={{ title: '' }} />
+                  <Stack.Screen
+                    name="HowItWorks"
+                    component={HowItWorksScreen}
+                    options={{ title: 'How MindCo Relief Works' }}
+                  />
                 </>
               ) : (
                 <>

@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'left',
     fontSize: 11,
-    fontWeight: '600',
+    // fontWeight: '600',
     paddingTop: 5,
   },
 });

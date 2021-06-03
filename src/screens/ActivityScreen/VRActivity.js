@@ -43,7 +43,7 @@ export const header = ({ onPlay, title, duration, description }) => {
 const getHeaderStyles = theme => StyleSheet.create({
   headline: {
     ...theme.fonts.headline,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: 'white',
   },
 });
@@ -93,7 +93,7 @@ const getBodyStyles = theme => StyleSheet.create({
     padding: 0,
   },
   title: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     textTransform: 'uppercase',
   },
   description: {

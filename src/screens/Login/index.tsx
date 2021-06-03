@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, ScrollView, Linking, Platform } from 'react-native';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -21,14 +21,14 @@ import { CustomThemeType } from './../../utils/OriginalTheme';
 import FadeEffect from '../../components/FadeEffect';
 import SafeCanvas from '../../components/SafeCanvas';
 import Props from './types';
-// @ts-ignore
+// @ts-ignore: non-ts file
 import styles from './styles';
 
 const onMount = () => {
   // Firebase.signOutUser();
 };
 
-const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: LoginFormValues) => {
+const formSubmitHandler = (setLoading: (val: boolean) => void) => async (form: LoginFormValues) => {
   setLoading(true);
   try {
     await auth().signInWithEmailAndPassword(form.email, form.password);
@@ -36,7 +36,6 @@ const formSubmitHandler = (setLoading:(val: boolean) => void) => async (form: Lo
     // navigateToAuth(componentId);
   } catch (e) {
     // const exp = /\[(.*?)\]/;
-    // @ts-ignore
     // const errMessage = exp.exec(e.message)[1];
     const errMessage = e.message;
     alert(`firebase.errormessages.${errMessage}`);
@@ -48,12 +47,6 @@ const Login = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loginFormIsVisible, showLoginForm] = useState(true);
   const theme = useTheme() as CustomThemeType;
-  useEffect(() => {
-    // sign out
-    return () => {
-      
-    }
-  }, []);
 
   const onFormSubmit = formSubmitHandler(setLoading);
   return (
@@ -65,11 +58,9 @@ const Login = ({ navigation }: Props) => {
       contentContainerStyle={{ flexGrow: 1 }}
       style={styles.absolutScrollView}
     >
-      <Surface
-        style={styles.surface}
-      >
+      <Surface style={styles.surface}>
         <SafeCanvas
-          style={{ backgroundColor: "red", flex: 1, maxHeight: 100, display: 'none' }}
+          style={{ backgroundColor: 'red', flex: 1, maxHeight: 100, display: 'none' }}
           shadowMap
           // invalidateFrameloop
           // pixelRatio={Dimensions.get('window').height / Dimensions.get('window').width}
@@ -78,7 +69,7 @@ const Login = ({ navigation }: Props) => {
           gl={{ antialias: true }}
         >
           {/*@ts-ignore*/}
-          <ambientLight intensity={1} color="#dadada"/>
+          <ambientLight intensity={1} color="#dadada" />
           {/*@ts-ignore*/}
           <mesh>
             {/*@ts-ignore*/}
@@ -88,7 +79,7 @@ const Login = ({ navigation }: Props) => {
             {/*@ts-ignore*/}
           </mesh>
         </SafeCanvas>
-        
+
         {/* <View
           style={{
             position: 'relative',
@@ -131,13 +122,15 @@ const Login = ({ navigation }: Props) => {
           </Button>
         </View> */}
         <FadeEffect show={loginFormIsVisible}>
-          <View style={{
-            flex: 1,
-            width: Platform.OS === 'web' ? '100vw' : '100%',
-            padding: 20,
-            maxWidth: '100%',
-            justifyContent: 'center',
-          }}>
+          <View
+            style={{
+              flex: 1,
+              width: Platform.OS === 'web' ? '100vw' : '100%',
+              padding: 20,
+              maxWidth: '100%',
+              justifyContent: 'center',
+            }}
+          >
             <LoginForm onSubmit={onFormSubmit} loading={loading} />
             <View>
               <BigButton
@@ -160,13 +153,15 @@ const Login = ({ navigation }: Props) => {
           </View>
         </FadeEffect>
         <FadeEffect show={!loginFormIsVisible}>
-          <View style={{
-            flex: 1,
-            width: '100%',
-            justifyContent: 'center',
-            borderWidth: 1,
-            borderColor: 'red',
-          }}>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: 'red',
+            }}
+          >
             <BigButton
               variant="accent"
               style={{

@@ -1,15 +1,8 @@
-import {
-  DarkTheme as PaperDarkTheme,
-  DefaultTheme as PaperDefaultTheme,
-  configureFonts,
-} from 'react-native-paper';
-import { Theme } from "react-native-paper/src/types";
+import { DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme, configureFonts } from 'react-native-paper';
+import { Theme } from 'react-native-paper/src/types';
 import { Theme as NavTheme } from '@react-navigation/native';
 
-import {
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-} from '@react-navigation/native';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
 import Color from 'color';
 
 const fontConfig = {
@@ -66,21 +59,22 @@ const fontConfig = {
       fontFamily: 'Graphik-Light',
       fontWeight: 'normal',
     },
-  }
+  },
 };
 const MindCoReliefDefaulTheme = {
   colors: {
     primary: '#3D9AD5',
-    secondary: '#31CCCC',
+    // secondary: '#31CCCC',
+    secondary: '#2F8DCE',
     dark: Color('#31CCCC').darken(0.3).toString(),
-    accent: '#F79337',
+    accent: Color('#F79337').darken(0.2).toString(),
     surface: '#31CCCC',
     notification: '#33BC7E',
     warning: '#F8BE54',
     error: '#F34C78',
     onSurface: '#3D77B0',
   },
-  //@ts-ignore
+  //@ts-ignore: unimplemented
   fonts: configureFonts(fontConfig),
   fontsHelper: {
     heading1: {
@@ -101,7 +95,7 @@ const MindCoReliefDefaulTheme = {
       fontSize: 18,
       lineHeight: 23,
     },
-  }
+  },
 };
 const MindCoReliefDarkTheme = {
   colors: {
@@ -111,7 +105,7 @@ const MindCoReliefDarkTheme = {
     warning: '#ff0000',
     surface: '#31CCCC',
   },
-  //@ts-ignore
+  //@ts-ignore: unimplemented
   fonts: configureFonts(fontConfig),
   fontsHelper: {
     heading1: {
@@ -166,22 +160,23 @@ const CombinedDarkTheme = {
   fontsHelper: MindCoReliefDarkTheme.fontsHelper,
 };
 
-export type CustomThemeType = Theme & NavTheme & {
-  colors: {
-    secondary: string,
-    dark: string,
-    warning: string,
-  },
-  fonts: any,
-  fontsHelper: {
-    heading1: any,
-    heading2: any,
-    large: any,
-  }
-};
+export type CustomThemeType = Theme &
+  NavTheme & {
+    colors: {
+      secondary: string;
+      dark: string;
+      warning: string;
+    };
+    fonts: any;
+    fontsHelper: {
+      heading1: any;
+      heading2: any;
+      large: any;
+    };
+  };
 
-export const DarkTheme:CustomThemeType = CombinedDarkTheme;
-export const DefaultTheme:CustomThemeType = CombinedDefaultTheme;
+export const DarkTheme: CustomThemeType = CombinedDarkTheme;
+export const DefaultTheme: CustomThemeType = CombinedDefaultTheme;
 
 // dark: false,
 //   roundness: 4,

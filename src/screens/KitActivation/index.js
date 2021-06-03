@@ -217,7 +217,7 @@ const getStyles = theme => StyleSheet.create({
   },
   headline: {
     ...theme.fonts.headline3,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
   },
@@ -242,7 +242,7 @@ const getStyles = theme => StyleSheet.create({
   title: {
     fontSize: 40,
     lineHeight: 40,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     marginBottom: 20,
   },
   hyperlink: {

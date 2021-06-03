@@ -6,11 +6,9 @@ let localData = null;
 const getProgramFile = async (programName = 'quests') => {
   let url;
   try {
-    url = await storage()
-      .ref()
-      .child(`program/${programName}.json`)
-      .getDownloadURL();
+    url = await storage().ref().child(`program/${programName}.json`).getDownloadURL();
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   }
 
@@ -18,6 +16,7 @@ const getProgramFile = async (programName = 'quests') => {
     const response = await fetch(url);
     return response.json();
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   }
 };

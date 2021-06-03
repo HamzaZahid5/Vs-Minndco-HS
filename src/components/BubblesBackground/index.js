@@ -1,45 +1,51 @@
-import React from "react";
-import { View, Dimensions } from "react-native";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { View, Dimensions } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/stack';
+import { range } from '../../utils/helpers';
 
-const CONFIGS = [
-  [
-    {
-      color: '#87B1E3',
-      size: 480,
-      pos: {
-        right: -185,
-        top: -208,
-      }
-    }, {
-      color: '#75C1E1',
-      size: 225,
-      pos: {
-        right: -40,
-        top: 220,
-      }
-    }, {
-      color: '#75C1E1',
-      size: 187,
-      pos: {
-        left: -6,
-        top: 30,
-      }
-    }, {
-      color: '#87B1E3',
-      size: 60,
-      pos: {
-        left: 60,
-        top: 210,
-      }
-    }, 
-  ],
-];
-export default ({ withHeader }) => {
+const BubblesBackground = ({ withHeader }) => {
+  const CONFIGS = [
+    [
+      {
+        color: '#87B1E3',
+        size: 480,
+        pos: {
+          right: range(-185, -175),
+          top: range(-208, -198),
+        },
+      },
+      {
+        color: '#75C1E1',
+        size: 225,
+        pos: {
+          right: range(-40, -30),
+          top: range(220, 230),
+        },
+      },
+      {
+        color: '#75C1E1',
+        size: 187,
+        pos: {
+          left: range(-6, 4),
+          top: range(30, 40),
+        },
+      },
+      {
+        color: '#87B1E3',
+        size: 60,
+        pos: {
+          left: range(60, 70),
+          top: range(210, 220),
+        },
+      },
+    ],
+  ];
   const theme = useTheme();
-  const headerHeight = withHeader ? useHeaderHeight() : 0;
+  const extraHeaderHeight = useHeaderHeight();
+  const headerHeight = withHeader ? extraHeaderHeight : 0;
   return (
     <View
       style={{
@@ -53,11 +59,8 @@ export default ({ withHeader }) => {
       }}
     >
       <LinearGradient
-        colors={[
-          theme.colors.primary,
-          theme.colors.secondary,
-          '#7AC6C6',
-        ]}
+        // colors={[theme.colors.primary, theme.colors.secondary, '#7AC6C6']}
+        colors={['#88B0E3', '#75C1E1', '#2F8DCE', '#2F8DCE']}
         style={{
           flex: 1,
           position: 'relative',
@@ -105,5 +108,11 @@ export default ({ withHeader }) => {
         /> */}
       </LinearGradient>
     </View>
-  )
-}
+  );
+};
+
+BubblesBackground.propTypes = {
+  withHeader: PropTypes.bool,
+};
+
+export default BubblesBackground;

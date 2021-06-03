@@ -82,7 +82,7 @@ const getStyles =  theme => StyleSheet.create({
   },
   headline: {
     ...theme.fonts.headline3,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
   },
@@ -112,7 +112,7 @@ const getStyles =  theme => StyleSheet.create({
   },
   optionText: {
     ...theme.fonts.small,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: 'white',
     marginTop: 5,
   },

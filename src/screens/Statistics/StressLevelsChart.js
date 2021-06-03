@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
@@ -7,7 +8,7 @@ import {
 import Color from 'color';
 
 export default ({ data = [] }) => {
-  const [segments, setSegments] = useState(0);
+  const [segments, setSegments] = useState(1);
   const theme = useTheme();
   useEffect(() => {
     if (data.length) {
@@ -16,9 +17,9 @@ export default ({ data = [] }) => {
   }, [data])
   const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
   const cardColor = Color('#F79337').lighten(0).toString();
-  return (
+  return !!data.length && (
     <View style={{
-      backgroundColor: cardColor,
+      backgroundColor: 'red',
       width: '100%',
       borderRadius: 24,
       padding: 14,

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 
@@ -17,7 +18,7 @@ import { triggerKeyToLabel } from '../StressTrigger';
 
 const getFrequentTriggersFromJournal = (journal = []) => {
   const triggersWithScores = journal.reduce((r, item) => {
-    if(!r.hasOwnProperty(item.reason)) {
+    if (!r.hasOwnProperty(item.reason)) {
       r[item.reason] = 0;
     }
     r[item.reason]++;
@@ -32,7 +33,7 @@ const getFrequentTriggersFromJournal = (journal = []) => {
     });
 };
 
-export default ({ navigation }) => {
+const Statistics = ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const cRef = useRef();
@@ -48,85 +49,85 @@ export default ({ navigation }) => {
       },
       body: {
         options: ['TutorialRow', 'CoachRow', 'StressManagementRow'],
-      }
-    }
+      },
+    },
   });
-  
+
   return (
     <ScreenDecorator>
       <Carousel
         ref={cRef}
-        items={[{
-          // title: 'Constancy',
-          content: (
-            <>
-              <View style={{ flex: 1 }}>
+        items={[
+          {
+            content: (
+              <>
+                <View style={{ flex: 1 }}>
+                  <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1, padding: 10 }}>
+                      <TodayActivityStatus />
+                    </View>
+                    <View style={{ flex: 1, padding: 10 }}>
+                      <DailyActivityStreak />
+                    </View>
+                  </View>
+                  <View style={{ flex: 1, minWidth: '100%', padding: 10, alignItems: 'center' }}>
+                    <CompletionChart />
+                  </View>
+                  <View style={{ position: 'absolute', bottom: -30, right: 5, width: '100%', alignItems: 'flex-end' }}>
+                    <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>
+                  </View>
+                </View>
+              </>
+            ),
+          },
+          {
+            content: (
+              <View style={{ flex: 1, height: '100%' }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                   <View style={{ flex: 1, padding: 10 }}>
-                    <TodayActivityStatus />
+                    <MostFrequentTriggers triggers={frequentTriggers.map(t => t.label)} />
                   </View>
                   <View style={{ flex: 1, padding: 10 }}>
-                    <DailyActivityStreak />
+                    <AverageStressLevel level={avgStressLevel} />
                   </View>
                 </View>
-                <View style={{ flex: 1, minWidth: '100%', padding: 10, alignItems: 'center' }}>
-                  <CompletionChart />
-                </View>
-                <View style={{ position: 'absolute', bottom: -30, right: 5, width: '100%', alignItems: 'flex-end' }}>
-                  <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>
-                </View>
-              </View>
-            </>
-          ),
-        }, {
-          // title: 'Triggers',
-          content: (
-            <View style={{ flex: 1, height: '100%' }}>
-              <View style={{ flex: 1, flexDirection: 'row' }}>
                 <View style={{ flex: 1, padding: 10 }}>
-                  <MostFrequentTriggers triggers={frequentTriggers.map(t => t.label)} />
+                  <StressLevelsChart data={chartData} />
                 </View>
-                <View style={{ flex: 1, padding: 10 }}>
-                  <AverageStressLevel level={avgStressLevel} />
+                <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
+                  {/* <BigButton onPress={() => navigation.dispatch(StackActions.replace('PathEnding'))}>finish</BigButton> */}
                 </View>
               </View>
-              <View style={{ flex: 1, padding: 10 }}>
-                <StressLevelsChart data={chartData} />
-              </View>
-              <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
-                {/* <BigButton onPress={() => navigation.dispatch(StackActions.replace('PathEnding'))}>finish</BigButton> */}
-              </View>
-            </View>
-            // <View style={{ flex: 1, height: '100%' }}>
-            //   <Text style={{color: 'red'}}>Most frequent trigger: work</Text>
-            //   <Text style={{color: 'red'}}>Average level: 8</Text>
-            //   <Text style={{color: 'red'}}>last 10 records: __/---\___/-\_</Text>
-            //   <View style={{ position: 'absolute', bottom: -40, width: '100%', alignItems: 'center' }}>
-                
-            //   </View>
-            // </View>
-          ),
-        }]}
+            ),
+          },
+        ]}
       />
     </ScreenDecorator>
   );
-}
+};
 
-const getStyles = theme => StyleSheet.create({
-  hero: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bodyContainer: {
-    // backgroundColor: '#f00a',
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  bodyTitle: {
-    ...theme.fonts.heading2,
-    color: theme.colors.dark,
-  },
-});
+Statistics.propTypes = {
+  navigation: PropTypes.object,
+};
+
+export default Statistics;
+
+const getStyles = theme =>
+  StyleSheet.create({
+    hero: {
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    bodyContainer: {
+      // backgroundColor: '#f00a',
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+    },
+    bodyTitle: {
+      ...theme.fonts.heading2,
+      color: theme.colors.dark,
+    },
+  });

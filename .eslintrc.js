@@ -21,14 +21,15 @@ module.exports = {
     strict: 0,
     quotes: ['error', 'single', { avoidEscape: true }],
     semi: 2,
-    'arrow-parens': 2,
+    'arrow-parens': ['error', 'as-needed'],
     'import/no-extraneous-dependencies': 'off',
     // no-prototype-builtins: off,
     'no-nested-ternary': 'off',
-    camelcase: 2,
+    camelcase: 0,
     'no-console': 2,
     'object-curly-spacing': 'off',
     '@typescript-eslint/ban-ts-comment': [2, { 'ts-ignore': 'allow-with-description', minimumDescriptionLength: 3 }],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
   settings: {
     react: {

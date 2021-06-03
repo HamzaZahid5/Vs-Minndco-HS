@@ -106,7 +106,7 @@ const getStyles = theme => StyleSheet.create({
   },
   title: {
     ...theme.fonts.small,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     color: theme.colors.text,
     textTransform: 'uppercase',
   },

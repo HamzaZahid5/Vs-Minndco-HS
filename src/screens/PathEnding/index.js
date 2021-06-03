@@ -1,4 +1,5 @@
 import React, { useLayoutEffect } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme, Button, Headline } from 'react-native-paper';
 import GenericPageLayout from '../../components/GenericPageLayout';
@@ -16,40 +17,38 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
 export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams = {} } = {}) => {
   const resetTo = useNavigationResetPathTo(navigation);
   useLayoutEffect(() => {
+    const headerRight = () => (
+      <Button onPress={() => resetTo('PathEnding', routeParams)} mode="text" color="white">
+        {text}
+      </Button>
+    );
     navigation.setOptions({
-      headerRight: () => (
-        <Button
-          onPress={() => resetTo('PathEnding', routeParams)}
-          mode="text"
-          color="white"
-        >
-          {text}
-        </Button>
-      ),
+      headerRight,
     });
-  }, [navigation]);
-}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation, routeParams]);
+};
 
 const getHeaderByParam = param => {
   if (param.type === 'statistics') {
-    return <HeaderStatistics />
+    return <HeaderStatistics />;
   }
   if (param.type === 'performance') {
-    return <HeaderPerformance />
+    return <HeaderPerformance />;
   }
   if (param.type === 'rate') {
-    return <HeaderRating asset={param.asset} />
+    return <HeaderRating asset={param.asset} />;
   }
   if (param.type === 'vote') {
-    return <HeaderVote asset={param.asset} />
+    return <HeaderVote asset={param.asset} />;
   }
   if (param.type === 'mood_poll') {
-    return <HeaderPoll asset={param.asset} />
+    return <HeaderPoll asset={param.asset} />;
   }
-  return <HeaderEmpty />
-}
+  return <HeaderEmpty />;
+};
 
-export default ({ navigation, route }) => {
+const PathEnding = ({ navigation, route }) => {
   const theme = useTheme();
   const todaysActivityDone = useTodaysActivityDone();
   const styles = getStyles(theme);
@@ -63,24 +62,81 @@ export default ({ navigation, route }) => {
     rowOptions = rowOptions.slice(0, 3);
   }
 
-  const DailyActivityRow = <RowItem title="Do your daily activity" text="Ready to train?" reverse onPress={() => resetPathTo('Activity')}/>;
-  const StressManagementRow = <RowItem title="Use the reliever" text="Feeling stressed?" reverse onPress={() => resetPathTo('StressRate')}/>;
-  const StressManagementRowAgain = <RowItem title="Use the reliever again" text="Still feeling stressed?" reverse onPress={() => resetPathTo('StressRate')}/>;
-  const CoachRow = <RowItem title="Message your coach" text="Looking for some advises?" reverse onPress={() => resetPathTo('Support')}/>;
-  const TutorialRow = <RowItem title="See the app tutorial" text="Want to review the app features?" reverse onPress={() => resetPathTo('Tutorial')}/>;
-  const HowToProgram = <RowItem title="Check out the program overview" text="Wondering how this work?" reverse onPress={() => resetPathTo('')}/>;
-  const VRDemoRow = <RowItem title="Take the first VR experience" text="Ready to try VR?" reverse onPress={() => resetPathTo('VRDemo')}/>;
-  const ViewerAssembleRow = <RowItem title="How to assemble my VR headset" text="Get ready for VR" reverse onPress={() => resetPathTo('KitAssemble')}/>;
-  const StatsRow = <RowItem title="See your performance" text="Willing to know you better?" reverse onPress={() => resetPathTo('Statistics')}/>;
-  const LearnRow = <RowItem title="Let's visit the library" text="Ready to learn about stress?" reverse onPress={() => resetPathTo('HowTo')}/>;
+  const DailyActivityRow = (
+    <RowItem title="Do your daily activity" text="Ready to train?" reverse onPress={() => resetPathTo('Activity')} />
+  );
+  const StressManagementRow = (
+    <RowItem title="Use the reliever" text="Feeling stressed?" reverse onPress={() => resetPathTo('StressRate')} />
+  );
+  const StressManagementRowAgain = (
+    <RowItem
+      title="Use the reliever again"
+      text="Still feeling stressed?"
+      reverse
+      onPress={() => resetPathTo('StressRate')}
+    />
+  );
+  const CoachRow = (
+    <RowItem
+      title="Message your coach"
+      text="Looking for some advises?"
+      reverse
+      onPress={() => resetPathTo('Support')}
+    />
+  );
+  const TutorialRow = (
+    <RowItem
+      title="See the app tutorial"
+      text="Want to review the app features?"
+      reverse
+      onPress={() => resetPathTo('Tutorial')}
+    />
+  );
+  const HowToProgram = (
+    <RowItem
+      title="Check out the program overview"
+      text="Wondering how this work?"
+      reverse
+      onPress={() => resetPathTo('HowItWorks')}
+    />
+  );
+  const VRDemoRow = (
+    <RowItem
+      title="Take the first VR experience"
+      text="Ready to try VR?"
+      reverse
+      onPress={() => resetPathTo('VRDemo')}
+    />
+  );
+  const ViewerAssembleRow = (
+    <RowItem
+      title="How to assemble my VR headset"
+      text="Get ready for VR"
+      reverse
+      onPress={() => resetPathTo('KitAssemble')}
+    />
+  );
+  const StatsRow = (
+    <RowItem
+      title="See your performance"
+      text="Willing to know you better?"
+      reverse
+      onPress={() => resetPathTo('Statistics')}
+    />
+  );
+  const LearnRow = (
+    <RowItem
+      title="Let's visit the library"
+      text="Ready to learn everything about stress?"
+      reverse
+      onPress={() => resetPathTo('Library')}
+    />
+  );
 
   return (
     <ScreenDecorator>
-      <GenericPageLayout
-        fullScroll
-        header={getHeaderByParam(headerParam)}
-      >
-        <Headline style={styles.bodyTitle}>What's next?</Headline>
+      <GenericPageLayout fullScroll header={getHeaderByParam(headerParam)}>
+        <Headline style={styles.bodyTitle}>{"What's next?"}</Headline>
         <View style={styles.bodyContainer}>
           {rowOptions.includes('DailyActivityRow') && DailyActivityRow}
           {rowOptions.includes('LearnRow') && LearnRow}
@@ -96,25 +152,33 @@ export default ({ navigation, route }) => {
       </GenericPageLayout>
     </ScreenDecorator>
   );
-}
+};
 
-const getStyles = theme => StyleSheet.create({
-  hero: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bodyContainer: {
-    // backgroundColor: '#f00a',
-    // minHeight: '100%',
-    flexGrow: 1,
-    margin: 'auto',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  bodyTitle: {
-    ...theme.fonts.heading2,
-    color: theme.colors.dark,
-  },
-});
+PathEnding.propTypes = {
+  navigation: PropTypes.object,
+  route: PropTypes.object,
+};
+
+export default PathEnding;
+
+const getStyles = theme =>
+  StyleSheet.create({
+    hero: {
+      height: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    bodyContainer: {
+      // backgroundColor: '#f00a',
+      // minHeight: '100%',
+      flexGrow: 1,
+      margin: 'auto',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+    },
+    bodyTitle: {
+      ...theme.fonts.heading2,
+      color: theme.colors.dark,
+    },
+  });

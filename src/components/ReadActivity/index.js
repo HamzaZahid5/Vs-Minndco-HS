@@ -54,6 +54,6 @@ const getStyles = theme => StyleSheet.create({
     margin: 20,
     fontSize: 40,
     color: '#0005',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
   }
 });

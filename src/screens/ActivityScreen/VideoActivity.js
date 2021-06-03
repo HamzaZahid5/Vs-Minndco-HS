@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import {
-  Headline,
-  IconButton,
-  Title,
-  Paragraph,
-  Divider,
-  useTheme,
-} from 'react-native-paper';
+import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
 import VideoPlayer from '../../components/VideoPlayer';
 import BigButton from '../../components/BigButton';
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
@@ -21,34 +14,28 @@ export const header = ({ onComplete, storeAsset, title }) => {
 
   return (
     <>
-    { action === 'INIT' && (
-      <>
-        <Headline style={styles.headline}>
-          {title}
-        </Headline>
-        <View style={{ marginTop: 20, height: 40 }}>
-          <BigButton variant="accent" onPress={() => setAction('PLAY_VIDEO')}>
-            Start
-          </BigButton>
-        </View>
-      </>
-    )}
-    { action === 'PLAY_VIDEO' && (
-      <VideoPlayer
-        videoURI={assetURI}
-        didJustFinish={onComplete}
-      />
-    )}
-  </>);
+      {action === 'INIT' && (
+        <>
+          <Headline style={styles.headline}>{title}</Headline>
+          <View style={{ marginTop: 20, height: 40 }}>
+            <BigButton variant="accent" onPress={() => setAction('PLAY_VIDEO')}>
+              Start
+            </BigButton>
+          </View>
+        </>
+      )}
+      {action === 'PLAY_VIDEO' && <VideoPlayer videoURI={assetURI} didJustFinish={onComplete} />}
+    </>
+  );
 };
 
-const getHeaderStyles = theme => StyleSheet.create({
-  headline: {
-    ...theme.fonts.headline,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-});
+const getHeaderStyles = theme =>
+  StyleSheet.create({
+    headline: {
+      ...theme.fontsHelper.heading1,
+      color: theme.colors.backdrop, // '#fffc',
+    },
+  });
 
 export const body = ({ type, duration, description }) => {
   const theme = useTheme();
@@ -60,12 +47,15 @@ export const body = ({ type, duration, description }) => {
           icon={getIconByActivityType(type)}
           size={30}
           color="white"
-          style={[styles.activityIcon, { backgroundColor: theme.colors.accent } ]}
+          style={[styles.activityIcon, { backgroundColor: theme.colors.accent }]}
         />
-        <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.text }]}>
-          {duration}{' min.'}
+        <Title style={[styles.title, { ...theme.fonts.small, color: theme.colors.backdrop }]}>
+          {duration}
+          {' min.'}
         </Title>
-        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>{description}</Paragraph>
+        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.text }]}>
+          {description}
+        </Paragraph>
       </View>
       <Divider
         style={{
@@ -74,30 +64,25 @@ export const body = ({ type, duration, description }) => {
         }}
       />
       <View style={styles.content}>
-        <Title style={styles.title}>
-          Some tips before start
-        </Title>
-        <Paragraph style={styles.description}>
-          {getTipsByActivityType(type)}
-        </Paragraph>
+        <Title style={[styles.title, { color: theme.colors.backdrop }]}>Some tips before start</Title>
+        <Paragraph style={styles.description}>{getTipsByActivityType(type)}</Paragraph>
       </View>
     </>
-  )
+  );
 };
 
-const getBodyStyles = theme => StyleSheet.create({
-  content: {
-    marginHorizontal: 4,
-  },
-  activityIcon: {
-    margin: 0,
-    marginBottom: 24,
-    padding: 0,
-  },
-  title: {
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  description: {
-  },
-});
+const getBodyStyles = theme =>
+  StyleSheet.create({
+    content: {
+      marginHorizontal: 4,
+    },
+    activityIcon: {
+      margin: 0,
+      marginBottom: 24,
+      padding: 0,
+    },
+    title: {
+      textTransform: 'uppercase',
+    },
+    description: {},
+  });

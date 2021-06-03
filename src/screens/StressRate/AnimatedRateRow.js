@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontSize: 120,
     fontStyle: 'italic',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     opacity: 0.75,
   },
   rowNumberSmall: {
@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     color: 'white',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
   }
 })

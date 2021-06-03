@@ -86,11 +86,12 @@ const HomeLayout = ({
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={[
-          theme.colors.primary,
-          theme.colors.secondary,
-          '#7AC6C6',
-        ]}
+        // colors={[
+        //   theme.colors.primary,
+        //   theme.colors.secondary,
+        //   '#7AC6C6',
+        // ]}
+        colors={['#88B0E3', '#75C1E1', '#2F8DCE', '#2F8DCE']}
         style={styles.gradient}
       >
         {/* <Image

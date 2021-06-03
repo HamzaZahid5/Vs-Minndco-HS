@@ -1,17 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-import {
-  DrawerContentScrollView,
-} from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'react-native-paper';
 
 const CustomDrawerItem = ({ name, icon, color, onPress }) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={{ flex: 1, marginVertical: 20 }}
-  >
+  <TouchableOpacity onPress={onPress} style={{ flex: 1, marginVertical: 20 }}>
     <View
       style={{
         justifyContent: 'center',
@@ -24,24 +20,30 @@ const CustomDrawerItem = ({ name, icon, color, onPress }) => (
   </TouchableOpacity>
 );
 
-export default (props) => {
+CustomDrawerItem.propTypes = {
+  name: PropTypes.string,
+  icon: PropTypes.string,
+  color: PropTypes.string,
+  onPress: PropTypes.func,
+};
+
+const CustomDrawerContent = props => {
   const { navigation } = props;
   const theme = useTheme();
-  const kitId = useSelector(store => store.user.data.kit_id) || "";
+  const kitId = useSelector(store => store.user.data.kit_id) || '';
   const kitActivated = kitId.length > 0;
   return (
     <DrawerContentScrollView {...props}>
-
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('Modal');
+          navigation.push('Library');
           navigation.closeDrawer();
         }}
         icon="teach"
         name="Learning"
-        color={theme.colors.dark}
+        color={theme.colors.secondary}
       />
-      
+
       <CustomDrawerItem
         onPress={() => {
           // auth().signOut();
@@ -50,7 +52,7 @@ export default (props) => {
         }}
         icon="account"
         name="Profile"
-        color={theme.colors.dark}
+        color={theme.colors.secondary}
       />
 
       <CustomDrawerItem
@@ -60,10 +62,10 @@ export default (props) => {
         }}
         icon="heart-pulse"
         name="Statistics"
-        color={theme.colors.dark}
+        color={theme.colors.secondary}
       />
 
-      { !kitActivated && (
+      {!kitActivated && (
         <CustomDrawerItem
           onPress={() => {
             navigation.push('KitActivation');
@@ -71,10 +73,10 @@ export default (props) => {
           }}
           icon="google-cardboard"
           name="Activation"
-          color={theme.colors.dark}
+          color={theme.colors.secondary}
         />
       )}
-      { kitActivated && (
+      {kitActivated && (
         <CustomDrawerItem
           onPress={() => {
             navigation.push('AboutVR');
@@ -82,9 +84,15 @@ export default (props) => {
           }}
           icon="google-cardboard"
           name="About VR"
-          color={theme.colors.dark}
+          color={theme.colors.secondary}
         />
       )}
     </DrawerContentScrollView>
   );
 };
+
+CustomDrawerContent.propTypes = {
+  navigation: PropTypes.object,
+};
+
+export default CustomDrawerContent;

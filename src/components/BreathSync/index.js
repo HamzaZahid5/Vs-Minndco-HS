@@ -183,7 +183,7 @@ const BreathSync = ({ onClose = Function }) => {
               }}
               style={styles.startButton}
               labelStyle={{
-                fontWeight: '400',
+                // fontWeight: '400',
                 fontSize: 21,
                 color: theme.colors.primary,
               }}
