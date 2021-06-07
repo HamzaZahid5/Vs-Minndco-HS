@@ -1,24 +1,29 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Paragraph, useTheme } from 'react-native-paper';
+import { Headline, Paragraph, Text, useTheme } from 'react-native-paper';
+import Color from 'color';
 // @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 // @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
 // @ts-ignore: non-ts file
 import RowItem from '../../components/RowItem';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 import Props from './types';
 
 const Library = ({ navigation }: Props): JSX.Element => {
-  // const theme = useTheme();
-  const styles = getStyles();
+  const theme = useTheme() as CustomThemeType;
+  const styles = getStyles(theme);
   return (
     <ScreenDecorator>
       <GenericPageLayout
         fullScroll
         header={
-          <View>
-            <Paragraph>Review the contents any time you need to refresh some knowledge</Paragraph>
+          <View style={styles.container}>
+            <Headline style={styles.headline}>Your personal library</Headline>
+            <Paragraph style={styles.paragraph}>
+              Review the contents any time you need to refresh some knowledge
+            </Paragraph>
           </View>
         }
       >
@@ -55,7 +60,7 @@ const Library = ({ navigation }: Props): JSX.Element => {
 
 export default Library;
 
-const getStyles = () =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     bodyContainer: {
       flexGrow: 1,
@@ -63,5 +68,17 @@ const getStyles = () =>
       flexDirection: 'column',
       justifyContent: 'space-around',
       alignItems: 'center',
+    },
+    container: {
+      height: '100%',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      padding: 20,
+    },
+    headline: {
+      color: Color(theme.colors.dark).darken(0.3).toString(),
+    },
+    paragraph: {
+      textAlign: 'center',
     },
   });

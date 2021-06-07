@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Paragraph, useTheme } from 'react-native-paper';
+import { Text, Headline, Paragraph, useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+import Color from 'color';
 // @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 // @ts-ignore: non-ts file
@@ -14,11 +15,12 @@ import { ProgramActivity } from '../../../types';
 import { PROGRESS } from '../../store/selectors';
 // @ts-ignore: non-ts file
 import { getActivityFromKey } from '../../utils/helpers';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
 const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
-  // const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
+  const styles = getStyles(theme);
   const contentCategory = route.params.category;
-  const styles = getStyles();
   const activities = useProgramActivitiesByCategory(contentCategory) || [];
   const uniqueActivities = activities.reduce((r: Record<string, ProgramActivity>, a: ProgramActivity) => {
     if (!r.hasOwnProperty(a.id)) {
@@ -46,8 +48,16 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
       <GenericPageLayout
         fullScroll
         header={
-          <View>
-            <Paragraph>Contents</Paragraph>
+          <View style={styles.container}>
+            <Headline style={styles.headline}>Your personal library</Headline>
+            <Paragraph style={styles.paragraph}>
+              Review the contents any time you need to refresh some knowledge
+            </Paragraph>
+            <View style={styles.infoContainer}>
+              <Text style={[styles.infoText, { color: theme.colors.dark }]}>
+                contents unlocks from your daily activities
+              </Text>
+            </View>
           </View>
         }
       >
@@ -59,7 +69,7 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
 
 export default ContentsShelf;
 
-const getStyles = () =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     bodyContainer: {
       flexGrow: 1,
@@ -67,5 +77,28 @@ const getStyles = () =>
       flexDirection: 'column',
       justifyContent: 'space-around',
       alignItems: 'center',
+    },
+    container: {
+      height: '100%',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      padding: 20,
+    },
+    headline: {
+      color: Color(theme.colors.dark).darken(0.3).toString(),
+    },
+    paragraph: {
+      textAlign: 'center',
+    },
+    infoContainer: {
+      width: 250,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 10,
+    },
+    infoText: {
+      // color: theme.customs.colors.Green,
+      textAlign: 'center',
+      margin: 5,
     },
   });
