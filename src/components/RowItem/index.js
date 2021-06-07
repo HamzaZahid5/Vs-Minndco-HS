@@ -75,7 +75,7 @@ const getStyles = theme =>
       flexDirection: 'column-reverse',
     },
     bodyRowTitle: {
-      ...theme.fonts.large,
+      ...theme.fontsHelper.large,
       // margin: 10,
     },
     bodyRowText: {

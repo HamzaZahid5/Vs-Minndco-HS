@@ -165,7 +165,7 @@ HomeLayout.BottomCenter = BottomCenter;
 HomeLayout.BottomRight = BottomRight;
 
 HomeLayout.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   rowTopStyle: PropTypes.object,
   rowBottomStyle: PropTypes.object,
   debug: PropTypes.bool,

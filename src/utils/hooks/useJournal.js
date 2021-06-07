@@ -6,7 +6,7 @@ export default () => {
   useEffect(() => {
     if (querySnapshot && querySnapshot.size) {
       const data = [];
-      querySnapshot.forEach((doc) => {
+      querySnapshot.forEach(doc => {
         data.push(doc.data());
       });
       setJournalData(data);
@@ -14,4 +14,4 @@ export default () => {
   }, [querySnapshot]);
 
   return journalData;
-}
+};

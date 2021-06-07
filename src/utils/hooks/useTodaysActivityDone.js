@@ -7,4 +7,4 @@ export default () => {
   const todaysActivityDone = moment(lastActivityAt).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
 
   return todaysActivityDone;
-}
+};

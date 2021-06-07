@@ -13,6 +13,8 @@ import CircularContent from './CircularContent';
 // @ts-ignore: non-ts file
 import GoalWidget from '../../containers/GoalWidget';
 // @ts-ignore: non-ts file
+import FadeEffect from '../../components/FadeEffect';
+// @ts-ignore: non-ts file
 import Tips from './Tips';
 // @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
@@ -25,6 +27,18 @@ const HomeScreen = ({ navigation }: Props) => {
   const [nextActivity] = useNextActivity();
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
+  // const nextActivity = {
+  //   id: 'body-scan',
+  //   name: '',
+  //   type: '2d-video',
+  //   description: '',
+  //   duration: 10,
+  //   asset: '',
+  //   category: 'mindfulness',
+  // };
+  // // alert(JSON.stringify(nextActivity));
+  // const progress = 50;
+  // const todaysActivityDone = false;
   return (
     <HomeLayout withDecoration>
       <HomeLayout.TopLeft>
@@ -37,14 +51,18 @@ const HomeScreen = ({ navigation }: Props) => {
         <Tips />
       </HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
-        <CircularContent
-          title={nextActivity?.name}
-          informativeText={nextActivity ? 'Tap the circle for your next activity' : ' '}
-          type={nextActivity?.type}
-          instructionsText={nextActivity ? (todaysActivityDone ? "Tomorrow's activity" : "Today's activity") : ''}
-          progress={progress}
-          onPress={() => navigation.push('Activity')}
-        />
+        {/* <FadeEffect show={typeof nextActivity === 'object'}> */}
+        {typeof nextActivity === 'object' ? (
+          <CircularContent
+            title={nextActivity?.name}
+            informativeText={nextActivity ? 'Tap the circle for your next activity' : ' '}
+            type={nextActivity?.type}
+            instructionsText={nextActivity ? (todaysActivityDone ? "Tomorrow's activity" : "Today's activity") : ''}
+            progress={progress}
+            onPress={() => navigation.push('Activity')}
+          />
+        ) : null}
+        {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
         <FABButton icon="account-heart" onPress={() => navigation.push('Support')} />

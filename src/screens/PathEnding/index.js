@@ -2,6 +2,7 @@ import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme, Button, Headline } from 'react-native-paper';
+import Color from 'color';
 import GenericPageLayout from '../../components/GenericPageLayout';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import RowItem from '../../components/RowItem';
@@ -13,14 +14,30 @@ import HeaderVote from './HeaderVote';
 import HeaderPerformance from './HeaderPerformance';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
+import ChipButton from '../../components/ChipButton';
 
 export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams = {} } = {}) => {
   const resetTo = useNavigationResetPathTo(navigation);
+  const theme = useTheme();
   useLayoutEffect(() => {
     const headerRight = () => (
-      <Button onPress={() => resetTo('PathEnding', routeParams)} mode="text" color="white">
+      <ChipButton
+        onPress={() => resetTo('PathEnding', routeParams)}
+        labelStyle={{
+          color: Color(theme.colors.dark).darken(0.3).toString(),
+          lineHeight: 10,
+          marginTop: 7,
+          fontFamiliy: 'Graphik-Bold',
+        }}
+        style={{
+          backgroundColor: 'transparent',
+          marginHorizontal: 10,
+          borderWidth: 2,
+          borderColor: Color(theme.colors.dark).darken(0.3).toString(),
+        }}
+      >
         {text}
-      </Button>
+      </ChipButton>
     );
     navigation.setOptions({
       headerRight,
@@ -178,7 +195,7 @@ const getStyles = theme =>
       alignItems: 'center',
     },
     bodyTitle: {
-      ...theme.fonts.heading2,
+      ...theme.fontsHelper.heading2,
       color: theme.colors.dark,
     },
   });

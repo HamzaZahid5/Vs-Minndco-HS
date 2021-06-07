@@ -8,17 +8,17 @@ export default () => {
   // STATE
   const [nextActivity, setNextActivity] = useState();
   const [nextActivityKey, setNextActivityKey] = useState();
-  
+
   // REDUX SELECTORS
   const progress = useSelector(PROGRESS);
   const includeVR = useSelector(KIT_ACTIVATED);
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL);
-  
+
   // PROGRAM
-  const program  = useProgram();
+  const program = useProgram();
 
   useEffect(() => {
-    if (program) {
+    if (program && progress) {
       const nextActivity = findNextActivity(program, [...progress].pop(), includeVR);
       setNextActivity(nextActivity);
       setNextActivityKey(buildActivityKey(mId, lId, nextActivity.id));
@@ -26,4 +26,4 @@ export default () => {
   }, [program, progress, includeVR, mId, lId]);
 
   return [nextActivity, nextActivityKey];
-}
+};

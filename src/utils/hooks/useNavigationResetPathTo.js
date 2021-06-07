@@ -2,15 +2,16 @@
 // import { useEffect, useState } from 'react';
 
 export default navigation => {
-  const resetPathTo = (routeName, routeParams = {}) => navigation.reset({
+  const resetPathTo = (routeName, routeParams = {}) =>
+    navigation.reset({
       index: 1,
       routes: [
         { name: 'Main' },
         {
           name: routeName,
-          params: routeParams ,
+          params: routeParams,
         },
       ],
-  });
+    });
   return resetPathTo;
-}
+};
