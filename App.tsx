@@ -4,6 +4,7 @@ import { Appearance, View, Text, SafeAreaView } from 'react-native';
 // @ts-ignore: non-ts file
 import { useAuth, auth } from './src/services/Auth';
 import { NavigationContainer, Theme as NavTheme } from '@react-navigation/native';
+import { Theme as PaperTheme } from 'react-native-paper/src/types';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -95,7 +96,7 @@ export default function App() {
   const headerBackground = () => <View style={{ height: 64 }} />;
   return (
     <Provider store={store}>
-      <PaperProvider theme={theme}>
+      <PaperProvider theme={theme as PaperTheme}>
         <SafeAreaProvider>
           <NavigationContainer theme={theme as NavTheme}>
             <Stack.Navigator
