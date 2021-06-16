@@ -113,12 +113,24 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               position: 'absolute',
               // top: -100,
               zIndex: 0,
-              margin: -10,
+              // margin: -10,
               width: Dimensions.get('window').width + 20,
               height: Dimensions.get('window').height + 10,
-              backgroundColor: 'transparent',
+              alignContent: 'center',
+              justifyContent: 'flex-end',
             }}
           >
+            <Image
+              source={require('../../../assets/images/home_bg.png')}
+              style={{
+                // backgroundColor: '#f00a',
+                width: Dimensions.get('window').width,
+                height: Dimensions.get('window').width * 2,
+                opacity: 0.75,
+                // marginBottom: 50,
+              }}
+              resizeMode="cover"
+            />
             {/* 3D animation here */}
           </View>
         )}
