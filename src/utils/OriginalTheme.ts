@@ -81,7 +81,11 @@ const MindCoReliefDefaulTheme = {
       ...PaperDefaultTheme.fonts.regular,
       fontFamily: 'Graphik-Regular',
       fontSize: 36,
-      lineHeight: 43,
+      lineHeight: 42,
+      minHeight: 46,
+      // borderWidth: 1,
+      // borderColor: 'red',
+      textAlignVertical: 'bottom',
     },
     heading2: {
       ...PaperDefaultTheme.fonts.regular,
@@ -112,7 +116,11 @@ const MindCoReliefDarkTheme = {
       ...PaperDarkTheme.fonts.regular,
       fontFamily: 'Graphik-Regular',
       fontSize: 36,
-      lineHeight: 43,
+      lineHeight: 42,
+      height: 46,
+      borderWidth: 1,
+      borderColor: 'red',
+      textAlignVertical: 'bottom',
     },
     heading2: {
       ...PaperDarkTheme.fonts.regular,
@@ -142,7 +150,7 @@ const CombinedDefaultTheme = {
     ...PaperDefaultTheme.fonts,
     ...MindCoReliefDefaulTheme.fonts,
   },
-  fontsHelper: MindCoReliefDarkTheme.fontsHelper,
+  fontsHelper: MindCoReliefDefaulTheme.fontsHelper,
 };
 const CombinedDarkTheme = {
   ...PaperDarkTheme,
