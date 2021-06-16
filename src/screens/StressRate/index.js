@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import Row from './AnimatedRateRow';
 import ScreenDecorator from '../../components/ScreenDecorator';
 
-export default ({ navigation }) => {
+const StressRate = ({ navigation }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [selected, setSelection] = useState();
@@ -55,15 +56,15 @@ export default ({ navigation }) => {
     <ScreenDecorator>
       {rate.reverse().map(i => (
         <TouchableOpacity key={`rate_${i}`} onPress={() => (!selected ? setSelection(i) : null)} style={{ flex: 1 }}>
-          <Row
-            selected={selected >= i}
-            delay={i * 50}
-            value={i}
-            color={colorsIni[i - 1]}
-            onSelected={() => onSelected(i)}
-          />
+          <Row selected={selected >= i} delay={i * 50} value={i} onSelected={() => onSelected(i)} />
         </TouchableOpacity>
       ))}
     </ScreenDecorator>
   );
 };
+
+StressRate.propTypes = {
+  navigation: PropTypes.object,
+};
+
+export default StressRate;
