@@ -80,10 +80,8 @@ const getStyles = theme =>
       paddingHorizontal: 20,
     },
     headline: {
-      ...theme.fonts.headline3,
-      // fontWeight: 'bold',
+      ...theme.fontsHelper.heading1,
       color: 'white',
-      textAlign: 'center',
     },
     contentWrapper: {
       marginVertical: 10,

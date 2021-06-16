@@ -76,7 +76,9 @@ const getStyles = (theme: CustomThemeType) =>
       padding: 20,
     },
     headline: {
-      color: Color(theme.colors.dark).darken(0.3).toString(),
+      // color: Color(theme.colors.dark).darken(0.3).toString(),
+      ...theme.fontsHelper.heading2,
+      color: 'white',
     },
     paragraph: {
       textAlign: 'center',

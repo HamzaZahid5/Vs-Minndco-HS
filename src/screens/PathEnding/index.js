@@ -27,7 +27,7 @@ export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams 
           color: Color(theme.colors.dark).darken(0.3).toString(),
           lineHeight: 10,
           marginTop: 7,
-          fontFamiliy: 'Graphik-Bold',
+          fontFamily: 'Graphik-Bold',
         }}
         style={{
           backgroundColor: 'transparent',
