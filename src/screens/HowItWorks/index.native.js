@@ -6,7 +6,7 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import Carousel from '../../components/Carousel';
 import { usePathEndingBarButton } from '../PathEnding';
 import { useTheme } from 'react-native-paper';
-// import { BlurView, VibrancyView } from '@react-native-community/blur';
+import { BlurView, VibrancyView } from '@react-native-community/blur';
 import { Platform } from 'react-native';
 
 const slide1 = `
@@ -115,10 +115,11 @@ const HowItWorks = ({ navigation }) => {
           {
             content: (
               <View style={[styles.container, { borderRadius: 30, overflow: 'hidden' }]}>
-                <View
-                  // blurType="light"
-                  // blurAmount={5}
-                  // reducedTransparencyFallbackColor="white"
+                <BlurView
+                  blurType="light"
+                  blurAmount={5}
+                  reducedTransparencyFallbackColor="white"
+                  // style={[StyleSheet.absoluteFillObject]}
                   style={{ height: '100%', width: '100%', padding: 20 }}
                 >
                   <WebView
@@ -138,17 +139,18 @@ const HowItWorks = ({ navigation }) => {
                     textZoom={100}
                     source={{ html: slide1 }}
                   />
-                </View>
+                </BlurView>
               </View>
             ),
           },
           {
             content: (
               <View style={[styles.container, { borderRadius: 30, overflow: 'hidden' }]}>
-                <View
-                  // blurType="light"
-                  // blurAmount={5}
-                  // reducedTransparencyFallbackColor="white"
+                <BlurView
+                  blurType="light"
+                  blurAmount={5}
+                  reducedTransparencyFallbackColor="white"
+                  // style={[StyleSheet.absoluteFillObject]}
                   style={{
                     height: '100%',
                     width: '100%',
@@ -174,17 +176,18 @@ const HowItWorks = ({ navigation }) => {
                     textZoom={100}
                     source={{ html: slide2 }}
                   />
-                </View>
+                </BlurView>
               </View>
             ),
           },
           {
             content: (
               <View style={[styles.container, { borderRadius: 30, overflow: 'hidden' }]}>
-                <View
-                  // blurType="light"
-                  // blurAmount={5}
-                  // reducedTransparencyFallbackColor="white"
+                <BlurView
+                  blurType="light"
+                  blurAmount={5}
+                  reducedTransparencyFallbackColor="white"
+                  // style={[StyleSheet.absoluteFillObject]}
                   style={{
                     height: '100%',
                     width: '100%',
@@ -210,7 +213,7 @@ const HowItWorks = ({ navigation }) => {
                     textZoom={100}
                     source={{ html: slide3 }}
                   />
-                </View>
+                </BlurView>
               </View>
             ),
           },
