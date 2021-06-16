@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { View, Text, Animated, LayoutAnimation, StyleSheet } from 'react-native';
 import { Title, Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Color from 'color';
 // import Sound from 'react-native-sound';
 // import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 // import { translate } from './../../utils/localization';
@@ -140,7 +141,7 @@ const BreathSync = ({ onClose = Function }) => {
           )}
           {counter !== -1 && (
             <Animated.View style={[styles.circle, animatedStyle]}>
-              <Icon size={20} name={icon} color="#000" />
+              <Icon size={20} name={icon} color="#fff" />
             </Animated.View>
           )}
         </View>
@@ -187,11 +188,11 @@ const getStyles = theme =>
       justifyContent: 'center',
       position: 'relative',
       alignItems: 'center',
-      backgroundColor: theme.colors.card + '88',
+      backgroundColor: theme.colors.card,
       borderRadius: 140,
     },
     circle: {
-      backgroundColor: theme.colors.accent,
+      backgroundColor: Color(theme.colors.accent).alpha(0.5).toString(),
       width: 100,
       height: 100,
       borderRadius: 50,
