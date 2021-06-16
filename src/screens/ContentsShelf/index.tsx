@@ -21,6 +21,14 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const contentCategory = route.params.category;
+  const descriptionByCategory =
+    contentCategory === 'education'
+      ? 'VR contents for learning about stress and coping skills'
+      : contentCategory === 'relaxation'
+      ? 'VR contents to stay calm and relax your mind'
+      : contentCategory === 'mindfulness'
+      ? 'Enhance your innate resilience, health, and contentment'
+      : '';
   const activities = useProgramActivitiesByCategory(contentCategory) || [];
   const uniqueActivities = activities.reduce((r: Record<string, ProgramActivity>, a: ProgramActivity) => {
     if (!r.hasOwnProperty(a.id)) {
@@ -49,13 +57,11 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
         fullScroll
         header={
           <View style={styles.container}>
-            <Headline style={styles.headline}>Your personal library</Headline>
-            <Paragraph style={styles.paragraph}>
-              Review the contents any time you need to refresh some knowledge
-            </Paragraph>
+            <Headline style={styles.headline}>{contentCategory}</Headline>
+            <Paragraph style={styles.paragraph}>{descriptionByCategory}</Paragraph>
             <View style={styles.infoContainer}>
               <Text style={[styles.infoText, { color: theme.colors.dark }]}>
-                contents unlocks from your daily activities
+                contents unlock from your daily activities
               </Text>
             </View>
           </View>
@@ -85,7 +91,10 @@ const getStyles = (theme: CustomThemeType) =>
       padding: 20,
     },
     headline: {
-      color: Color(theme.colors.dark).darken(0.3).toString(),
+      ...theme.fontsHelper.heading2,
+      color: 'white',
+      textAlign: 'center',
+      textTransform: 'capitalize',
     },
     paragraph: {
       textAlign: 'center',
