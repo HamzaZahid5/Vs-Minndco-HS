@@ -40,16 +40,12 @@ const HomeScreen = ({ navigation }: Props) => {
   // const progress = 50;
   // const todaysActivityDone = false;
   return (
-    <HomeLayout withDecoration>
+    <HomeLayout withDecoration={false}>
       <HomeLayout.TopLeft>
         <MenuButton onPress={() => navigation.openDrawer()} />
       </HomeLayout.TopLeft>
-      <HomeLayout.TopRight>
-        <GoalWidget />
-      </HomeLayout.TopRight>
-      <HomeLayout.MiddleTop>
-        <Tips />
-      </HomeLayout.MiddleTop>
+      <HomeLayout.TopRight>{/* <GoalWidget /> */}</HomeLayout.TopRight>
+      <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         {/* <FadeEffect show={typeof nextActivity === 'object'}> */}
         {typeof nextActivity === 'object' ? (
@@ -65,10 +61,10 @@ const HomeScreen = ({ navigation }: Props) => {
         {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
-        <FABButton icon="account-heart" onPress={() => navigation.push('Support')} />
+        <FABButton icon="account-heart" informativeText="Coach" onPress={() => navigation.push('Support')} />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
-        <FABButton icon="head-check" onPress={() => navigation.push('StressRate')} />
+        <FABButton icon="head-check" informativeText="Reliever" onPress={() => navigation.push('StressRate')} />
       </HomeLayout.BottomRight>
     </HomeLayout>
   );
