@@ -11,7 +11,7 @@ import { getIconByActivityType } from '../../utils/helpers';
 
 const CircularContent = ({ title, type, instructionsText, informativeText, progress = 0, onPress }) => {
   const theme = useTheme();
-
+  const styles = getStyles(theme);
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={{ zIndex: 10 }}>
       <View style={styles.container}>
@@ -46,7 +46,7 @@ const CircularContent = ({ title, type, instructionsText, informativeText, progr
         <View style={styles.background} />
       </View>
       <View style={styles.infoContainer}>
-        <Text style={[styles.infoText, { color: theme.colors.primary }]}>{informativeText}</Text>
+        <Text style={[styles.infoText]}>{informativeText}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -63,63 +63,64 @@ CircularContent.propTypes = {
 
 export default CircularContent;
 
-const styles = StyleSheet.create({
-  container: {
-    width: 250,
-    height: 250,
-    borderRadius: 150,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 10,
-    borderColor: 'transparent',
-  },
-  background: {
-    position: 'absolute',
-    backgroundColor: '#FFFBC6',
-    width: 240,
-    height: 240,
-    borderRadius: 150,
-    zIndex: -1,
-  },
-  circleContentContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: '#f00a',
-  },
-  nextUpText: {
-    color: '#3C828C',
-    alignSelf: 'flex-start',
-  },
-  centeredContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -25,
-  },
-  flexStartContent: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flex: 1,
-  },
-  flexEndContent: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-  activityTitle: {
-    textAlign: 'center',
-    fontSize: 20,
-    paddingHorizontal: 5,
-  },
-  infoContainer: {
-    width: 250,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  infoText: {
-    // color: theme.customs.colors.Green,
-    textAlign: 'center',
-    margin: 5,
-  },
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      width: 250,
+      height: 250,
+      borderRadius: 150,
+      backgroundColor: 'transparent',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderWidth: 10,
+      borderColor: 'transparent',
+    },
+    background: {
+      position: 'absolute',
+      backgroundColor: '#FFFBC6',
+      width: 240,
+      height: 240,
+      borderRadius: 150,
+      zIndex: -1,
+    },
+    circleContentContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      // backgroundColor: '#f00a',
+    },
+    nextUpText: {
+      color: '#3C828C',
+      alignSelf: 'flex-start',
+    },
+    centeredContent: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: -25,
+    },
+    flexStartContent: {
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      flex: 1,
+    },
+    flexEndContent: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: 1,
+    },
+    activityTitle: {
+      textAlign: 'center',
+      fontSize: 20,
+      paddingHorizontal: 5,
+    },
+    infoContainer: {
+      width: 250,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    infoText: {
+      color: theme.colors.placeholder,
+      textAlign: 'center',
+      margin: 5,
+    },
+  });
