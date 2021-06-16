@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Animated, LayoutAnimation, StyleSheet } from 'react-native';
 import { Title, Button, useTheme } from 'react-native-paper';
+import Color from 'color';
 // import Sound from 'react-native-sound';
 // import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 // import { translate } from './../../utils/localization';
@@ -274,7 +275,7 @@ const getStyles = theme =>
       color: theme.colors.backdrop,
     },
     indicator: {
-      backgroundColor: theme.colors.card + 'AA',
+      backgroundColor: Color(theme.colors.accent).alpha(0.5).toString(),
       width: 20,
       height: 20,
       borderRadius: 5,
