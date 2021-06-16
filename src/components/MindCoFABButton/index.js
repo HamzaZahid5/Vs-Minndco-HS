@@ -7,6 +7,7 @@ import { useTheme, FAB } from 'react-native-paper';
 const MindCoFAABButton = ({ icon = 'crown', informativeText = '', onPress = () => false }) => {
   const [triggerOnce, lockTrigger] = useState(false);
   const theme = useTheme();
+  const styles = getStyles(theme);
   return (
     <View style={styles.mainContainer}>
       <FAB
@@ -37,11 +38,16 @@ MindCoFAABButton.propTypes = {
 
 export default MindCoFAABButton;
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    marginVertical: 20,
-    marginHorizontal: 20,
-  },
-  defaulFAB: {},
-  infoText: {},
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    mainContainer: {
+      marginVertical: 20,
+      marginHorizontal: 20,
+    },
+    defaulFAB: {},
+    infoText: {
+      color: theme.colors.placeholder,
+      textAlign: 'center',
+      marginTop: 5,
+    },
+  });
