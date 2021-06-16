@@ -45,6 +45,7 @@ const getStyles = theme =>
       shadowOpacity: 0.4,
       shadowRadius: 3,
       elevation: 4,
+      margin: 10,
     },
     title: {
       ...theme.fontsHelper.heading2,
