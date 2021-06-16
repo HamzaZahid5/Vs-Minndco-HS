@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Platform } from 'react-native';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { Headline, useTheme } from 'react-native-paper';
 import useValuationActions from '../../appActionHooks/useValuationActions';
+import FadeEffect from '../../components/FadeEffect';
 
 const HeaderRating = ({ asset = '' }) => {
   const [vote, setVote] = useState(0);
@@ -25,7 +26,7 @@ const HeaderRating = ({ asset = '' }) => {
   const starChar = Platform.OS === 'ios' ? '★' : '⭐️';
   return (
     <View style={styles.pollContainer}>
-      <Text>{"how useful you've found the activity?"}</Text>
+      <Headline style={{ textAlign: 'center' }}>{"How useful you've found the activity?"}</Headline>
       <View style={styles.options}>
         <Pressable style={{}} onPress={() => setVote(1)}>
           <Text style={[styles.star, vote < 1 ? styles.unselected : styles.selected]}>{starChar}</Text>
@@ -40,6 +41,9 @@ const HeaderRating = ({ asset = '' }) => {
           <Text style={[styles.star, vote < 4 ? styles.unselected : styles.selected]}>{starChar}</Text>
         </Pressable>
       </View>
+      <FadeEffect show={vote > 0}>
+        <Text style={styles.title}>Thanks for voting</Text>
+      </FadeEffect>
     </View>
   );
 };
@@ -56,6 +60,7 @@ const getStyles = theme =>
       height: '100%',
       justifyContent: 'flex-start',
       alignItems: 'center',
+      marginHorizontal: 20,
     },
     options: {
       flexDirection: 'row',
@@ -77,5 +82,8 @@ const getStyles = theme =>
       textShadowColor: 'rgba(0, 0, 0, 0.75)',
       textShadowOffset: { width: -1, height: 1 },
       textShadowRadius: 1,
+    },
+    title: {
+      ...theme.fontsHelper.large,
     },
   });
