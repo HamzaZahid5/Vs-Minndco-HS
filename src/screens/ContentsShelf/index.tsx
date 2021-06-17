@@ -44,7 +44,7 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
       <RowItem
         key={act.id}
         title={act.name}
-        text={locked ? 'unlocks from Daily Activity screen' : 'tap to play'}
+        text={locked ? 'unlocks from Daily Activity screen' : 'tap to replay'}
         locked={locked}
         // reverse
         onPress={() => navigation.push('HowItWorks')}
