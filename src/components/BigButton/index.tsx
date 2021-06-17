@@ -27,7 +27,7 @@ const BigButton = ({
   const bgColor =
     variant === 'link' ? 'transparent' : variant === 'accent' ? theme.colors.accent : theme.colors.background;
   const txtColor =
-    variant === 'link' ? theme.colors.onSurface : variant === 'accent' ? theme.colors.background : theme.colors.text;
+    variant === 'link' ? theme.colors.placeholder : variant === 'accent' ? theme.colors.background : theme.colors.text;
   return (
     <View>
       <Button
