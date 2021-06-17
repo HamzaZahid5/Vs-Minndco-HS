@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, ScrollView, Linking, Platform } from 'react-native';
+import { View, Image, ScrollView, Linking, Platform, Dimensions } from 'react-native';
 // @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {
 //   navigateToAuth,
@@ -58,27 +59,53 @@ const Login = ({ navigation }: Props) => {
       contentContainerStyle={{ flexGrow: 1 }}
       style={styles.absolutScrollView}
     >
-      <Surface style={styles.surface}>
-        <SafeCanvas
-          style={{ backgroundColor: 'red', flex: 1, maxHeight: 100, display: 'none' }}
-          shadowMap
-          // invalidateFrameloop
-          // pixelRatio={Dimensions.get('window').height / Dimensions.get('window').width}
-          camera={{ position: [-5, 11, 20], fov: 30 }}
-          concurrent
-          gl={{ antialias: true }}
+      <LinearGradient colors={['#88B0E3', '#75C1E1', '#2F8DCE', '#2F8DCE']} style={{ minHeight: '100%' }}>
+        <View
+          style={{
+            // backgroundColor: 'red',
+            flex: 1,
+            height: Dimensions.get('window').height * 0.33,
+            width: Dimensions.get('window').width,
+            position: 'absolute',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}
         >
-          {/*@ts-ignore*/}
-          <ambientLight intensity={1} color="#dadada" />
-          {/*@ts-ignore*/}
-          <mesh>
+          <Image
+            source={require('../../../assets/images/logo.png')}
+            resizeMode="contain"
+            style={{ height: Dimensions.get('window').height * 0.25 }}
+          />
+        </View>
+        {false && (
+          <SafeCanvas
+            style={{
+              display: 'none',
+              backgroundColor: 'red',
+              flex: 1,
+              height: Dimensions.get('window').height * 0.33,
+              width: Dimensions.get('window').width,
+              position: 'absolute',
+            }}
+            shadowMap
+            // invalidateFrameloop
+            // pixelRatio={Dimensions.get('window').height / Dimensions.get('window').width}
+            camera={{ position: [-5, 11, 20], fov: 30 }}
+            concurrent
+            gl={{ antialias: true }}
+          >
             {/*@ts-ignore*/}
-            <boxBufferGeometry args={[1, 1, 1]} />
+            <ambientLight intensity={1} color="#dadada" />
             {/*@ts-ignore*/}
-            <meshStandardMaterial color={'orange'} />
-            {/*@ts-ignore*/}
-          </mesh>
-        </SafeCanvas>
+            <mesh>
+              {/*@ts-ignore*/}
+              <boxBufferGeometry args={[1, 1, 1]} />
+              {/*@ts-ignore*/}
+              <meshStandardMaterial color={'orange'} />
+              {/*@ts-ignore*/}
+            </mesh>
+          </SafeCanvas>
+        )}
 
         {/* <View
           style={{
@@ -127,6 +154,7 @@ const Login = ({ navigation }: Props) => {
               flex: 1,
               width: Platform.OS === 'web' ? '100vw' : '100%',
               padding: 20,
+              marginTop: '40%',
               maxWidth: '100%',
               justifyContent: 'center',
             }}
@@ -191,7 +219,7 @@ const Login = ({ navigation }: Props) => {
             </BigButton>
           </View>
         </FadeEffect>
-      </Surface>
+      </LinearGradient>
     </KeyboardAwareScrollView>
   );
 };
