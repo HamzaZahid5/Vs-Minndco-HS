@@ -42,12 +42,12 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
     <Surface style={styles.surface} theme={{ colors: { surface: 'transparent' } }}>
       <Formik
         initialValues={{
-          name: 'Demo',
-          lastname: 'User',
-          password: '123456',
-          confirmpassword: '123456',
+          name: '',
+          lastname: '',
+          password: '',
+          confirmpassword: '',
           // phone: '',
-          email: 'demo@test.com',
+          email: '',
           // gender: 'f',
           // country: 'US', // it is set on phone selection
         }}
@@ -86,7 +86,6 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             </View>
             <View style={styles.rowForm} key="row5">
               <TextInputStyled
-                theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{ flex: 1 }}
                 label="Email address"
                 value={values.email}
@@ -99,7 +98,6 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
 
             <View style={styles.rowForm} key="row2">
               <TextInputStyled
-                theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{ flex: 1 }}
                 label="Password"
                 value={values.password}
@@ -112,7 +110,6 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             </View>
             <View style={styles.rowForm} key="row3">
               <TextInputStyled
-                theme={{ roundness: 0, colors: { background: 'transparent' } }}
                 style={{ flex: 1 }}
                 label="Repeat password"
                 value={values.confirmpassword}
@@ -166,6 +163,7 @@ const styles = StyleSheet.create({
     height: 80,
     alignItems: 'center',
     justifyContent: 'space-between',
+    // marginVertical: 50,
   },
   rowFormRadios: {
     // borderWidth: 1,
