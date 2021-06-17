@@ -40,7 +40,7 @@ const HomeScreen = ({ navigation }: Props) => {
   // const progress = 50;
   // const todaysActivityDone = false;
   return (
-    <HomeLayout withDecoration={false}>
+    <HomeLayout withDecoration={true}>
       <HomeLayout.TopLeft>
         <MenuButton onPress={() => navigation.openDrawer()} />
       </HomeLayout.TopLeft>
