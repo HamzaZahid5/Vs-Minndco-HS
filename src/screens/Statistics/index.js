@@ -61,7 +61,7 @@ const Statistics = ({ navigation }) => {
           {
             content: (
               <>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingHorizontal: 20 }}>
                   <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={{ flex: 1, padding: 10 }}>
                       <TodayActivityStatus />
@@ -73,7 +73,7 @@ const Statistics = ({ navigation }) => {
                   <View style={{ flex: 1, minWidth: '100%', padding: 10, alignItems: 'center' }}>
                     <CompletionChart />
                   </View>
-                  <View style={{ position: 'absolute', bottom: -30, right: 5, width: '100%', alignItems: 'flex-end' }}>
+                  <View style={{ position: 'absolute', bottom: -30, right: 25, width: '100%', alignItems: 'flex-end' }}>
                     <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>
                   </View>
                 </View>
@@ -83,7 +83,7 @@ const Statistics = ({ navigation }) => {
           {
             content: (
               <View style={{ flex: 1, height: '100%' }}>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 20 }}>
                   <View style={{ flex: 1, padding: 10 }}>
                     <MostFrequentTriggers triggers={frequentTriggers.map(t => t.label)} />
                   </View>

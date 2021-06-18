@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import template from 'lodash.template';
 
 import GenericPageLayout from '../../components/GenericPageLayout';
@@ -49,32 +49,39 @@ const ActivityScreen = ({ navigation }) => {
         // withKeyboard={true}
         header={
           <View style={styles.hero}>
-            {IS.video && (
-              <VideoHeader
-                title={nextActivity.name}
-                storeAsset={template(nextActivity.asset)({ language: 'EN' })}
-                onComplete={handleActivityComplete}
-              />
-            )}
-            {IS.vr && (
-              <VRHeader
-                title={nextActivity.name}
-                id={'some_id'}
-                onPlay={() =>
-                  navigation.push('VRMet', {
-                    activityKey: nextActivityKey,
-                  })
-                }
-              />
-            )}
-            {IS.audio && (
-              <AudioHeader
-                title={nextActivity.name}
-                storeAsset={template(nextActivity.asset)({ language: 'EN' })}
-                onComplete={handleActivityComplete}
-              />
-            )}
-            {IS.form && <FormHeader title={nextActivity.name} />}
+            <View style={{ position: 'absolute' }}>
+              {IS.video && (
+                <VideoHeader
+                  title={nextActivity.name}
+                  storeAsset={template(nextActivity.asset)({ language: 'EN' })}
+                  onComplete={handleActivityComplete}
+                />
+              )}
+              {IS.vr && (
+                <VRHeader
+                  title={nextActivity.name}
+                  id={'some_id'}
+                  onPlay={() =>
+                    navigation.push('VRMet', {
+                      activityKey: nextActivityKey,
+                    })
+                  }
+                />
+              )}
+              {IS.audio && (
+                <AudioHeader
+                  title={nextActivity.name}
+                  storeAsset={template(nextActivity.asset)({ language: 'EN' })}
+                  onComplete={handleActivityComplete}
+                />
+              )}
+              {IS.form && <FormHeader title={nextActivity.name} />}
+            </View>
+            <Image
+              style={styles.topImage}
+              source={require('../../../assets/images/header_bg_5.png')}
+              resizeMode="cover"
+            />
           </View>
         }
       >
@@ -112,5 +119,11 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
+  },
+  topImage: {
+    opacity: 0.75,
+    position: 'absolute',
+    zIndex: -1,
   },
 });

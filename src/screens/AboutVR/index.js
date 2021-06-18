@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text } from 'react-native';
 import { Headline, Paragraph, useTheme } from 'react-native-paper';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import GenericPageLayout from '../../components/GenericPageLayout';
@@ -17,7 +17,7 @@ const KitFinish = ({ navigation }) => {
         fullScroll
         header={
           <View style={styles.hero}>
-            <View style={styles.heroContent}>
+            <View style={{ position: 'absolute' }}>
               <Headline style={styles.headline}>
                 VR-MET<Text style={{ fontSize: 13, lineHeight: 25, textAlignVertical: 'top' }}>®</Text>
               </Headline>
@@ -25,8 +25,12 @@ const KitFinish = ({ navigation }) => {
                 Is a program that combines Virtual Reality, Mindfulness based self-control and cue-exposure therapy for
                 a high efficiency in behaviour change.
               </Paragraph>
-              {/* <ChipButton onPress={() => navigation.navigate('Main')}>DONE</ChipButton> */}
             </View>
+            <Image
+              style={styles.topImage}
+              source={require('../../../assets/images/header_bg_4.png')}
+              resizeMode="cover"
+            />
           </View>
         }
       >
@@ -65,6 +69,8 @@ const getStyles = theme =>
     hero: {
       height: '100%',
       justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
     },
     floatingImageContent: {
       height: '100%',
@@ -82,6 +88,10 @@ const getStyles = theme =>
     headline: {
       ...theme.fontsHelper.heading1,
       color: 'white',
+      textAlign: 'center',
+    },
+    description: {
+      textAlign: 'center',
     },
     contentWrapper: {
       marginVertical: 10,
@@ -110,5 +120,10 @@ const getStyles = theme =>
       // fontWeight: 'bold',
       color: theme.colors.text,
       marginTop: 5,
+    },
+    topImage: {
+      opacity: 0.75,
+      position: 'absolute',
+      zIndex: -1,
     },
   });

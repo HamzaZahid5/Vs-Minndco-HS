@@ -16,7 +16,7 @@ export const Header = ({ title }) => {
       {action === 'INIT' && (
         <>
           <Headline style={styles.headline}>{title}</Headline>
-          <Paragraph>Read, think about and answer</Paragraph>
+          <Paragraph style={styles.paragraph}>Read, think about and answer</Paragraph>
         </>
       )}
     </>
@@ -31,8 +31,11 @@ const getHeaderStyles = theme =>
   StyleSheet.create({
     headline: {
       ...theme.fonts.headline,
-      // fontWeight: 'bold',
       color: 'white',
+      textAlign: 'center',
+    },
+    paragraph: {
+      textAlign: 'center',
     },
   });
 

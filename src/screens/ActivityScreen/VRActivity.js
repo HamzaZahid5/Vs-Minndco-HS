@@ -44,8 +44,8 @@ const getHeaderStyles = theme =>
   StyleSheet.create({
     headline: {
       ...theme.fonts.headline,
-      // fontWeight: 'bold',
       color: 'white',
+      textAlign: 'center',
     },
   });
 

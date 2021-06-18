@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Headline, Paragraph, Text, useTheme } from 'react-native-paper';
 import Color from 'color';
 // @ts-ignore: non-ts file
@@ -20,10 +20,17 @@ const Library = ({ navigation }: Props): JSX.Element => {
         fullScroll
         header={
           <View style={styles.container}>
-            <Headline style={styles.headline}>Your personal library</Headline>
-            <Paragraph style={styles.paragraph}>
-              Review the contents any time you need to refresh some knowledge
-            </Paragraph>
+            <View style={{ position: 'absolute' }}>
+              <Headline style={styles.headline}>Your personal library</Headline>
+              <Paragraph style={styles.paragraph}>
+                Review the contents any time you need to refresh some knowledge
+              </Paragraph>
+            </View>
+            <Image
+              style={styles.topImage}
+              source={require('../../../assets/images/header_bg_3.png')}
+              resizeMode="cover"
+            />
           </View>
         }
       >
@@ -79,8 +86,14 @@ const getStyles = (theme: CustomThemeType) =>
       // color: Color(theme.colors.dark).darken(0.3).toString(),
       ...theme.fontsHelper.heading2,
       color: 'white',
+      textAlign: 'center',
     },
     paragraph: {
       textAlign: 'center',
+    },
+    topImage: {
+      opacity: 0.75,
+      position: 'absolute',
+      zIndex: -1,
     },
   });
