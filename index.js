@@ -13,4 +13,4 @@ import App from './App';
 // the environment is set up appropriately
 injectFirebaseAndBootUp(() => {
   registerRootComponent(App);
-})
+});

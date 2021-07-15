@@ -4,7 +4,6 @@ import { View, Dimensions } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/stack';
-import { range } from '../../utils/helpers';
 
 const BubblesBackground = ({ withHeader }) => {
   const CONFIGS = [
@@ -13,32 +12,32 @@ const BubblesBackground = ({ withHeader }) => {
         color: '#87B1E3',
         size: 480,
         pos: {
-          right: range(-185, -175),
-          top: range(-208, -198),
+          right: -185,
+          top: -208,
         },
       },
       {
         color: '#75C1E1',
         size: 225,
         pos: {
-          right: range(-40, -30),
-          top: range(220, 230),
+          right: -40,
+          top: 220,
         },
       },
       {
         color: '#75C1E1',
         size: 187,
         pos: {
-          left: range(-6, 4),
-          top: range(30, 40),
+          left: -6,
+          top: 30,
         },
       },
       {
         color: '#87B1E3',
         size: 60,
         pos: {
-          left: range(60, 70),
-          top: range(210, 220),
+          left: 60,
+          top: 210,
         },
       },
     ],

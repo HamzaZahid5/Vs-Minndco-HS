@@ -167,5 +167,6 @@ const getStyles = theme =>
     messageText: {
       color: theme.colors.primary,
       ...theme.fonts.medium,
+      lineHeight: 17,
     },
   });

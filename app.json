@@ -13,7 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mindcorelief"
+      "bundleIdentifier": "com.mindcorelief",
+      "requireFullScreen": true
     },
     "web": {
       "favicon": "./assets/favicon.png",

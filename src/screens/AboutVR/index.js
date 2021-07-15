@@ -5,10 +5,25 @@ import { Headline, Paragraph, useTheme } from 'react-native-paper';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import GenericPageLayout from '../../components/GenericPageLayout';
 import RowItem from '../../components/RowItem';
+import useVRPlayerCTA from '../../utils/hooks/useVRPlayerCTA';
 
 const KitFinish = ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
+  const resourceId = 'contents/01_What is Stress_2k.mp4';
+  const openVRPlayer = useVRPlayerCTA({
+    resourceId,
+    onCancel: () => {
+      // eslint-disable-next-line no-console
+      console.log('cancel');
+      navigation.navigate('Main');
+    },
+    onComplete: () => {
+      // eslint-disable-next-line no-console
+      console.log('complete');
+      navigation.navigate('Main');
+    },
+  });
 
   return (
     <ScreenDecorator>
@@ -49,7 +64,8 @@ const KitFinish = ({ navigation }) => {
               title="Take me to the VR screen"
               text="Ready to try VR?"
               reverse
-              onPress={() => navigation.push('VRDemo')}
+              // onPress={() => navigation.push('VRMet')}
+              onPress={openVRPlayer}
             />
           </View>
         </View>

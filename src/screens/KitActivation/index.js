@@ -126,7 +126,7 @@ const KitActivation = ({ navigation }) => {
     dispatch({ type: 'flags/setIsLoading', payload: -1 });
   };
   const nextStep = () => {
-    navigation.navigate('KitFinish');
+    navigation.navigate('AboutVR');
     // navigateToKITWelcome(componentId);
   };
   return (

@@ -21,7 +21,7 @@ import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo
 const WelcomeWizard = ({ navigation }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector(state => state.tutorials.welcome_tutorial_current_step);
-  const resetTo = useNavigationResetPathTo();
+  const resetTo = useNavigationResetPathTo(navigation);
 
   function nextStep(step) {
     dispatch({ type: 'tutorials/setWelcomeTutorialStep', payload: step || currentStep + 1 });
@@ -97,7 +97,7 @@ const WelcomeWizard = ({ navigation }) => {
           next={nextStep}
           end={finishWizard}
           message={
-            'You are not alone! Access to chat with your Coach by clicking the botton-left action.\nGet guidance and advises from profesionals.\nIf you have new messages from your Coach, a red dot will alert you about it.'
+            'You are not alone! Access to chat with your Coach by touching the botton-left action.\nGet guidance and advises from profesionals.\nIf you have new messages from your Coach, a red dot will alert you about it.'
           }
         />
       )}

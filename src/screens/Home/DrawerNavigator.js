@@ -6,6 +6,7 @@ import CustomDrawerContent from './CustomDrawerContent';
 import HomeScreen from './index';
 // @ts-ignore: unimplemented
 import useActivityActions from '../../appActionHooks/useActivityActions';
+import useOrientation from '../../utils/hooks/useOrientation';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,6 +15,7 @@ const getDrawerContent = props => <CustomDrawerContent {...props} />;
 const DrawerNavigator = ({ navigation }) => {
   const { updateStreak } = useActivityActions();
   const welcomeTutorial = useSelector(store => store.user.data.flags.show_basics_tutorial);
+  const orientation = useOrientation();
 
   useEffect(() => {
     if (welcomeTutorial) {
@@ -32,7 +34,7 @@ const DrawerNavigator = ({ navigation }) => {
       // openByDefault
       drawerContent={getDrawerContent}
       drawerStyle={{
-        width: 80,
+        width: orientation === 'PORTRAIT' ? 80 : 160,
       }}
     >
       <Drawer.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
