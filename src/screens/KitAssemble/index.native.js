@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import GenericPageLayout from './../../components/GenericPageLayout';
+import GenericPageLayout from '../../components/GenericPageLayout';
 import BigButton from '../../components/BigButton';
 import ScreenDecorator from '../../components/ScreenDecorator';
+import useVRPlayerCTA from '../../utils/hooks/useVRPlayerCTA';
 
 const KitAssemble = ({ navigation }) => {
   const theme = useTheme();
@@ -21,6 +22,21 @@ const KitAssemble = ({ navigation }) => {
   const togglePlaying = useCallback(() => {
     setPlaying(prev => !prev);
   }, []);
+
+  const resourceId = 'contents/00_welcome_to_relief_EN.mp4';
+  const openVRPlayer = useVRPlayerCTA({
+    resourceId,
+    onCancel: () => {
+      // eslint-disable-next-line no-console
+      console.log('cancel');
+      navigation.navigate('Main');
+    },
+    onComplete: () => {
+      // eslint-disable-next-line no-console
+      console.log('complete');
+      navigation.navigate('Main');
+    },
+  });
 
   return (
     <ScreenDecorator>
@@ -53,7 +69,7 @@ const KitAssemble = ({ navigation }) => {
               style={{
                 marginBottom: 20,
               }}
-              onPress={() => navigation.push('VRDemo')}
+              onPress={openVRPlayer}
             >
               Load VR-MET
             </BigButton>
