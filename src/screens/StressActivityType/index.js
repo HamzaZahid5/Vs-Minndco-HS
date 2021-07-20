@@ -33,7 +33,7 @@ export default ({ navigation }) => {
   const [selected, setSelection] = useState();
 
   useEffect(() => {
-    switch(selected) {
+    switch (selected) {
       case 1:
         navigation.push('StressActivityToDo', { type: 'READ' });
         break;
@@ -48,9 +48,21 @@ export default ({ navigation }) => {
   return (
     <ScreenDecorator>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around', padding: 20 }}>
-        <RowItem title="Reading activity" text="Testimonies and facts about stress" onPress={() => (!selected ? setSelection(1) : null)} />
-        <RowItem title="Multimedia activity" text="Audio and video to learn and do" onPress={() => (!selected ? setSelection(2) : null)} />
-        <RowItem title="Guided activity" text="Breath sync and interactive content to relax" onPress={() => (!selected ? setSelection(3) : null)} />
+        <RowItem
+          title="Reading activity"
+          text="Testimonies and facts about stress"
+          onPress={() => (!selected ? setSelection(1) : null)}
+        />
+        <RowItem
+          title="Multimedia activity"
+          text="Audio and video to learn and do"
+          onPress={() => (!selected ? setSelection(2) : null)}
+        />
+        <RowItem
+          title="Guided activity"
+          text="Breath sync and interactive content to relax"
+          onPress={() => (!selected ? setSelection(3) : null)}
+        />
       </View>
     </ScreenDecorator>
   );
@@ -102,5 +114,5 @@ const styles = StyleSheet.create({
   rowTextSmall: {
     fontSize: 15,
     color: 'white',
-  }
+  },
 });

@@ -1,3 +1,4 @@
+import template from 'lodash-es/template';
 import { TIPS_VR, TIPS_VIDEO, TIPS_AUDIO } from './constants';
 export const isFunction = f => typeof f === 'function';
 
@@ -30,6 +31,8 @@ export const range = (min, max) => Math.random() * (max - min) + min;
 export const buildActivityKey = (mId, lId, aId) => `M${mId}_L${lId}_${aId}`;
 export const getModuleFromKey = (key = '') => key.split('_')[0];
 export const getModuleNumberFromKey = (key = '') => Number(getModuleFromKey(key).replace('M', ''));
+export const formatAsset = (assetTemplate, language, gender) =>
+  template(assetTemplate)({ language: language.toUpperCase(), gender: gender.toUpperCase() });
 
 export const getLevelFromKey = (key = '') => key.split('_')[1];
 export const getLevelNumberFromKey = (key = '') => Number(getLevelFromKey(key).replace('L', ''));

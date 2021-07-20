@@ -23,7 +23,12 @@ const AverageStressLevel = ({ level }) => {
     >
       <Paragraph style={{ fontSize: 20 }}>Avg Stress Level</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50 }}>{level}</Paragraph>
+        {level === 0 && (
+          <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50, color: '#0006' }}>-</Paragraph>
+        )}
+        {level !== 0 && (
+          <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50 }}>{level}</Paragraph>
+        )}
       </View>
     </View>
   );

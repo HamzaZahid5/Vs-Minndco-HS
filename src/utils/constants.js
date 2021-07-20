@@ -1,6 +1,9 @@
-export const TIPS_VR = '· Prepare your VR headset.\n· Put the phone into it while you are in this screen (remove the phone case for a better fit).\n· Press the START button and follow screen indications.';
-export const TIPS_VIDEO = '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Try to reduce ambient light.';
-export const TIPS_AUDIO = '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Turn up the volume.';
+export const TIPS_VR =
+  '· Prepare your VR headset.\n· Put the phone into it while you are in this screen (remove the phone case for a better fit).\n· Press the START button and follow screen indications.';
+export const TIPS_VIDEO =
+  '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Try to reduce ambient light.';
+export const TIPS_AUDIO =
+  '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Turn up the volume.';
 
 export const ANALYTICS_EVENTS = {
   FUNNEL_LOGIN: 'funnel_login',
@@ -85,7 +88,7 @@ export const LIFESAVER_READS = [
   {
     id: 'laugh-it-out',
     free: true,
-    type: 'read-to-do',
+    // type: 'read-to-do',
     title: 'Laugh it out / Smile wide',
     type: 'text',
     pages: [
@@ -97,7 +100,7 @@ export const LIFESAVER_READS = [
   {
     id: 'safe-activity',
     free: true,
-    type: 'read-to-do',
+    // type: 'read-to-do',
     title: 'S.A.F.E. activity',
     type: 'text',
     pages: [
@@ -109,7 +112,7 @@ export const LIFESAVER_READS = [
   {
     id: 'connect-with-nature',
     free: true,
-    type: 'read-to-do',
+    // type: 'read-to-do',
     title: 'Connect with nature',
     type: 'text',
     pages: [
@@ -121,7 +124,7 @@ export const LIFESAVER_READS = [
   {
     id: 'take-deep-breaths',
     free: true,
-    type: 'read-to-do',
+    // type: 'read-to-do',
     title: 'Take deep breaths',
     type: 'text',
     pages: [
@@ -133,19 +136,19 @@ export const LIFESAVER_READS = [
   {
     id: 'calm-image',
     free: true,
-    type: 'read-to-do',
+    // type: 'read-to-do',
     title: 'Calm image',
     type: 'text',
     pages: [
       'Use a calm image that you have identified and practiced. It might be a sunny tropical beach, a waterfall, a view of the mountains at dusk, a meadow surrounded by forest or a relaxing activity you enjoy.\n\nUse lots of sensory details to make the image stronger.',
       'At the beach - the warmth of the sun on your body, the sound of waves and birds, the feel of the water on your feet, a slight breeze that comes and goes across your skin (cooling then warming), the smell of wild flowers, beach grass and the ocean.',
-      'Your brain thinks in picture images, not just words. A calm image can replace angry or disturbing images, helping you further calm down.'
+      'Your brain thinks in picture images, not just words. A calm image can replace angry or disturbing images, helping you further calm down.',
     ],
   },
   {
     id: 'relaxation',
     free: true,
-    type: 'read-to-do',
+    // type: 'read-to-do',
     title: 'Relaxation',
     type: 'text',
     pages: [

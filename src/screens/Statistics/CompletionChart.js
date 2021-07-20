@@ -54,24 +54,58 @@ const CompletionChart = () => {
       <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>Program completion</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE / 3 }}>
         <View style={{ flex: 1 }} />
-        <View style={{ position: 'absolute' }}>
-          {data && (
-            <ProgressChart
-              data={data}
-              width={SIZE / 3}
-              height={SIZE / 3}
-              strokeWidth={12}
-              radius={SIZE / 8}
-              hideLegend
-              chartConfig={chartConfig}
-            />
-          )}
-        </View>
-        <View
-          style={{ position: 'absolute', width: SIZE, height: SIZE, alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Paragraph style={{ fontSize: 40, lineHeight: 40, color: '#FFF' }}>{progress}%</Paragraph>
-        </View>
+        {progress === 0 && (
+          <View
+            style={{
+              position: 'absolute',
+              width: SIZE,
+              height: SIZE,
+              alignItems: 'center',
+              justifyContent: 'center',
+              // flexWrap: 'wrap',
+            }}
+          >
+            <Paragraph
+              style={{
+                ...theme.fonts.heading2,
+                fontSize: 20,
+                color: '#FFF',
+                textAlign: 'center',
+                maxWidth: '50%',
+              }}
+            >
+              Complete your daily activity to see progress here
+            </Paragraph>
+          </View>
+        )}
+        {progress !== 0 && (
+          <>
+            <View style={{ position: 'absolute' }}>
+              {data && (
+                <ProgressChart
+                  data={data}
+                  width={SIZE / 3}
+                  height={SIZE / 3}
+                  strokeWidth={12}
+                  radius={SIZE / 8}
+                  hideLegend
+                  chartConfig={chartConfig}
+                />
+              )}
+            </View>
+            <View
+              style={{
+                position: 'absolute',
+                width: SIZE,
+                height: SIZE,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Paragraph style={{ fontSize: 40, lineHeight: 40, color: '#FFF' }}>{progress}%</Paragraph>
+            </View>
+          </>
+        )}
       </View>
     </View>
   );

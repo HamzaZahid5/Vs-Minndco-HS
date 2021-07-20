@@ -39,7 +39,7 @@ const Statistics = ({ navigation }) => {
   const cRef = useRef();
   const journal = useJournal() || [];
   const frequentTriggers = getFrequentTriggersFromJournal(journal);
-  const avgStressLevel = journal.reduce((r, i) => r + i.level, 0) / journal.length;
+  const avgStressLevel = journal.reduce((r, i) => r + i.level, 0) / Number(journal.length) || 0;
   const chartData = journal.map(r => r.level).reverse();
 
   usePathEndingBarButton(navigation, {

@@ -1,4 +1,4 @@
-import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 //@ts-ignore
 import obfuscate from '../../utils/emailObfuscator';
 //@ts-ignore
@@ -6,23 +6,24 @@ import firestore from '../../services/Firestore';
 // import { FirebaseTimestamp } from '../../../types';
 
 export type UserStatistics = {
-  last_completed_activity_at?: firestore.Timestamp,
-  activity_days_in_a_row: number,
-}
+  last_completed_activity_at?: firestore.Timestamp;
+  activity_days_in_a_row: number;
+};
 export type UserState = {
   data: {
     flags?: {
-      show_basics_tutorial: boolean,
-    },
-    progress: Array<string>,
-    kit_id: string,
-    treatment_module: number,
-    treatment_level: number,
-    statistics: UserStatistics,
-  },
-  auth: any,
+      show_basics_tutorial: boolean;
+    };
+    progress: Array<string>;
+    kit_id: string;
+    treatment_module: number;
+    treatment_level: number;
+    statistics: UserStatistics;
+    language: string;
+    gender: string;
+  };
+  auth: any;
 };
-
 
 const initialState: UserState = {
   data: {
@@ -49,7 +50,7 @@ const user = createSlice({
           uid: action.payload.uid,
           email: obfuscate(action.payload.email),
         },
-      }
+      };
     },
     setUser: (state, action) => {
       state.data = action.payload;

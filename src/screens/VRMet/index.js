@@ -55,7 +55,11 @@ true;
 `;
 
 const JS_PLAY_VIDEO = `
-enterVrAndPlay();
+// enterVrAndPlay();
+window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
+  alert("Can't enter VR. Please close the app completely and open it again in order to get persmission requested one more time.");
+  window.ReactNativeWebView.postMessage("PanoViewer:denied")
+});
 true;`;
 
 const getMessageEventsHandler = (webViewRef, onCancel, onComplete) => event => {
@@ -65,7 +69,7 @@ const getMessageEventsHandler = (webViewRef, onCancel, onComplete) => event => {
   if (event.nativeEvent.data === 'Video:ended') {
     onComplete();
   }
-  if (event.nativeEvent.data === 'PanoViewer:exit-vr') {
+  if (event.nativeEvent.data === 'PanoViewer:exit-vr' || event.nativeEvent.data === 'PanoViewer:denied') {
     onCancel();
   }
   if (event.nativeEvent.data.indexOf('log:') === 0) {
@@ -78,6 +82,7 @@ const VRPlayer = ({ route }) => {
   const webViewRef = useRef();
   const uri = `https://mindco-web-vr-player-ios.web.app?video=${encodeURIComponent(assetUrl)}`;
   // useKeepAwake();
+  console.log({uri});
 
   return (
     <View style={styles.container}>

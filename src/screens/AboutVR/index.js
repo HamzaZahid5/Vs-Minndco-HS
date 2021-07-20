@@ -28,7 +28,7 @@ const KitFinish = ({ navigation }) => {
   return (
     <ScreenDecorator>
       <GenericPageLayout
-        onClose={() => navigation.back()}
+        onClose={() => navigation.goBack()}
         fullScroll
         header={
           <View style={styles.hero}>

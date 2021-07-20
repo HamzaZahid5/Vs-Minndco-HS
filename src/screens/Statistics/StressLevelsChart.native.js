@@ -7,17 +7,21 @@ import Color from 'color';
 
 const StressLevelChart = ({ data = [] }) => {
   const [segments, setSegments] = useState(1);
+  const [chartData, setChartData] = useState([0]);
+  const [isEmpty, setIsEmpty] = useState(true);
   const theme = useTheme();
   useEffect(() => {
     if (data.length) {
       setSegments(Math.max(...data) - Math.min(...data));
+      setChartData(data);
+      setIsEmpty(false);
     }
   }, [data]);
   const HEIGHT = Dimensions.get('window').height;
   const WIDTH = Dimensions.get('window').width;
   const cardColor = Color('#F79337').lighten(0).toString();
   return (
-    !!data.length && (
+    !!chartData.length && (
       <View
         style={{
           backgroundColor: cardColor,
@@ -36,51 +40,56 @@ const StressLevelChart = ({ data = [] }) => {
       >
         <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFFFFF' }}>Level trending</Paragraph>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: WIDTH - WIDTH * 0.12 }}>
-          <LineChart
-            data={{
-              // labels: [],
-              datasets: [
-                {
-                  data,
+          {isEmpty && (
+            <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFFFFFAA' }}>No trending</Paragraph>
+          )}
+          {!isEmpty && (
+            <LineChart
+              data={{
+                // labels: [],
+                datasets: [
+                  {
+                    data: chartData,
+                  },
+                ],
+              }}
+              segments={segments}
+              width={WIDTH - WIDTH * 0.05}
+              height={HEIGHT / 3}
+              yAxisInterval={1} // optional, defaults to 1
+              // withVerticalLabels={false}
+              withVerticalLines={false}
+              getDotColor={() => cardColor}
+              chartConfig={{
+                backgroundColor: 'transparent',
+                backgroundGradientFrom: '#fff',
+                backgroundGradientTo: '#fff',
+                backgroundGradientFromOpacity: 0,
+                backgroundGradientToOpacity: 0,
+                decimalPlaces: 0, // optional, defaults to 2dp
+                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                style: {
+                  // borderRadius: 16
+                  // width: SIZE/3,
                 },
-              ],
-            }}
-            segments={segments}
-            width={WIDTH - WIDTH * 0.05}
-            height={HEIGHT / 3}
-            yAxisInterval={1} // optional, defaults to 1
-            // withVerticalLabels={false}
-            withVerticalLines={false}
-            getDotColor={() => cardColor}
-            chartConfig={{
-              backgroundColor: 'transparent',
-              backgroundGradientFrom: '#fff',
-              backgroundGradientTo: '#fff',
-              backgroundGradientFromOpacity: 0,
-              backgroundGradientToOpacity: 0,
-              decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              style: {
+                propsForDots: {
+                  r: '6',
+                  strokeWidth: '2',
+                  stroke: '#fff',
+                },
+              }}
+              bezier
+              style={{
+                marginLeft: Dimensions.get('window').width * -0.05,
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: Dimensions.get('window').width - Dimensions.get('window').width * 0.05,
+                // marginVertical: 8,
                 // borderRadius: 16
-                // width: SIZE/3,
-              },
-              propsForDots: {
-                r: '6',
-                strokeWidth: '2',
-                stroke: '#fff',
-              },
-            }}
-            bezier
-            style={{
-              marginLeft: Dimensions.get('window').width * -0.05,
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: Dimensions.get('window').width - Dimensions.get('window').width * 0.05,
-              // marginVertical: 8,
-              // borderRadius: 16
-            }}
-          />
+              }}
+            />
+          )}
         </View>
       </View>
     )

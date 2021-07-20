@@ -10,6 +10,7 @@ export const useStorageDownloadURL = (path: string): string | undefined => {
     } catch (e) {
       setUrl(undefined);
       // eslint-disable-next-line no-console
+      console.log(resource)
       console.error(e);
     }
   };

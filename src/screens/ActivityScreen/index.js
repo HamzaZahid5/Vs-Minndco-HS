@@ -13,6 +13,10 @@ import { Header as FormHeader, Body as FormBody } from './FormActivity';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import useNextActivity from '../../utils/hooks/useNextActivity';
 import useActivityActions from '../../appActionHooks/useActivityActions';
+import { useStorageDownloadURL } from '../../services/Storage';
+import { formatAsset } from '../../utils/helpers';
+import { useSelector } from 'react-redux';
+import { USER_PROFILE } from '../../store/selectors';
 
 const getWhatContentIs = (act = {}) => ({
   video: act.type === '2d-video',
@@ -23,6 +27,9 @@ const getWhatContentIs = (act = {}) => ({
 
 const ActivityScreen = ({ navigation }) => {
   const [nextActivity, nextActivityKey] = useNextActivity();
+  const { language, gender } = useSelector(USER_PROFILE);
+  const asset = nextActivity ? formatAsset(nextActivity?.asset, language, gender) : null;
+  const assetUrl = useStorageDownloadURL(asset ? asset : null);
 
   const { saveActivityDone } = useActivityActions();
   const IS = getWhatContentIs(nextActivity);
@@ -64,6 +71,9 @@ const ActivityScreen = ({ navigation }) => {
                   onPlay={() =>
                     navigation.push('VRMet', {
                       activityKey: nextActivityKey,
+                      assetUrl,
+                      onCancel: navigation.goBack,
+                      onComplete: handleActivityComplete,
                     })
                   }
                 />

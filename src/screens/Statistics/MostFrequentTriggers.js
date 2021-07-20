@@ -24,6 +24,11 @@ const MostFrequentTriggers = ({ triggers }) => {
     >
       <Paragraph style={{ fontSize: 20 }}>Frequent triggers</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {!triggers.length && (
+          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, color: '#0006' }}>
+            No triggers
+          </Paragraph>
+        )}
         {triggers[0] && (
           <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[0]}</Paragraph>
         )}
