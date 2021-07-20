@@ -10,7 +10,7 @@ import useVRPlayerCTA from '../../utils/hooks/useVRPlayerCTA';
 const KitFinish = ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
-  const resourceId = 'contents/01_What is Stress_2k.mp4';
+  const resourceId = 'contents/00_welcome_to_relief_EN.mp4';
   const openVRPlayer = useVRPlayerCTA({
     resourceId,
     onCancel: () => {
