@@ -7,7 +7,7 @@ export type RootStackParamList = {
   StressRate: undefined;
   StressTrigger: undefined;
   StressActivityType: undefined;
-  Activity: undefined;
+  Activity: { activityId: string } | undefined;
   Modal: undefined;
   Tutorial: undefined;
   KitActivation: undefined;
