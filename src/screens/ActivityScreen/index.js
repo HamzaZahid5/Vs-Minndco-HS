@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, StyleSheet } from 'react-native';
-import template from 'lodash.template';
+import { useSelector } from 'react-redux';
 
 import GenericPageLayout from '../../components/GenericPageLayout';
 
@@ -13,10 +13,9 @@ import { Header as FormHeader, Body as FormBody } from './FormActivity';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import useNextActivity from '../../utils/hooks/useNextActivity';
 import useActivityActions from '../../appActionHooks/useActivityActions';
-import { useStorageDownloadURL } from '../../services/Storage';
 import { formatAsset } from '../../utils/helpers';
-import { useSelector } from 'react-redux';
 import { USER_PROFILE } from '../../store/selectors';
+import useVRPlayerCTA from '../../utils/hooks/useVRPlayerCTA';
 
 const getWhatContentIs = (act = {}) => ({
   video: act.type === '2d-video',
@@ -25,14 +24,14 @@ const getWhatContentIs = (act = {}) => ({
   form: act.type === 'reflection',
 });
 
-const ActivityScreen = ({ navigation }) => {
-  const [nextActivity, nextActivityKey] = useNextActivity();
+const ActivityScreen = ({ navigation, route }) => {
+  const { activityId } = route.params || {};
+  const [nextActivity, nextActivityKey] = useNextActivity(activityId);
+  const IS = getWhatContentIs(nextActivity);
   const { language, gender } = useSelector(USER_PROFILE);
   const asset = nextActivity ? formatAsset(nextActivity?.asset, language, gender) : null;
-  const assetUrl = useStorageDownloadURL(asset ? asset : null);
 
   const { saveActivityDone } = useActivityActions();
-  const IS = getWhatContentIs(nextActivity);
 
   const routeParams = {
     header: {
@@ -49,6 +48,20 @@ const ActivityScreen = ({ navigation }) => {
     saveActivityDone(nextActivityKey, answer);
     resetPathTo('PathEnding', routeParams);
   };
+
+  const openVRPlayer = useVRPlayerCTA({
+    resourceId: IS.vr ? asset : '',
+    onCancel: () => {
+      // eslint-disable-next-line no-console
+      console.log('cancel');
+      navigation.goBack();
+    },
+    onComplete: () => {
+      // eslint-disable-next-line no-console
+      console.log('complete');
+      handleActivityComplete();
+    },
+  });
   return (
     <ScreenDecorator>
       <GenericPageLayout
@@ -58,32 +71,11 @@ const ActivityScreen = ({ navigation }) => {
           <View style={styles.hero}>
             <View style={{ position: 'absolute' }}>
               {IS.video && (
-                <VideoHeader
-                  title={nextActivity.name}
-                  storeAsset={template(nextActivity.asset)({ language: 'EN' })}
-                  onComplete={handleActivityComplete}
-                />
+                <VideoHeader title={nextActivity.name} storeAsset={asset} onComplete={handleActivityComplete} />
               )}
-              {IS.vr && (
-                <VRHeader
-                  title={nextActivity.name}
-                  id={'some_id'}
-                  onPlay={() =>
-                    navigation.push('VRMet', {
-                      activityKey: nextActivityKey,
-                      assetUrl,
-                      onCancel: navigation.goBack,
-                      onComplete: handleActivityComplete,
-                    })
-                  }
-                />
-              )}
+              {IS.vr && <VRHeader title={nextActivity.name} id={'some_id'} onPlay={openVRPlayer} />}
               {IS.audio && (
-                <AudioHeader
-                  title={nextActivity.name}
-                  storeAsset={template(nextActivity.asset)({ language: 'EN' })}
-                  onComplete={handleActivityComplete}
-                />
+                <AudioHeader title={nextActivity.name} storeAsset={asset} onComplete={handleActivityComplete} />
               )}
               {IS.form && <FormHeader title={nextActivity.name} />}
             </View>
@@ -120,6 +112,7 @@ const ActivityScreen = ({ navigation }) => {
 
 ActivityScreen.propTypes = {
   navigation: PropTypes.object,
+  route: PropTypes.object,
 };
 
 export default ActivityScreen;
