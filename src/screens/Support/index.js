@@ -7,9 +7,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import KeyboardSpacer from '../../utils/KeyboardSpacer';
 // import Firebase from '../../services/Firebase';
 
-const URL_UI_SUPPORT =
-  'https://www.mindcotine.com/wp-content/assets/support/index.html';
-const URL_UI_COACHING = 'https://app.mindcotine.com/support/coach/';
+const URL_UI_SUPPORT = 'https://www.mindcotine.com/wp-content/assets/support/index.html';
+const URL_UI_COACHING = 'https://mindco-relief-support.web.app/support/coach';
 
 const Support = ({
   navigation,
@@ -37,18 +36,15 @@ const Support = ({
   const [currentCrispSessionId] = useState(crispSessionId);
 
   useEffect(() => {
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        // AWFUL HACK TO MAKE CRISP CHAT TO EXPAN ON KEYBOARD CLOSE
-        // otherwise iOS 14 shows a blank space where keyboard was visible.
-        webViewRef.current.injectJavaScript(`
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      // AWFUL HACK TO MAKE CRISP CHAT TO EXPAN ON KEYBOARD CLOSE
+      // otherwise iOS 14 shows a blank space where keyboard was visible.
+      webViewRef.current.injectJavaScript(`
           $crisp.push(["do", "chat:hide"]);
           $crisp.push(["do", "chat:show"]);
           true;
         `);
-      },
-    );
+    });
 
     // flag user as pending message read on DB
     if (hasCoachMessages && isCoachingSupport) {
@@ -65,7 +61,7 @@ const Support = ({
   const activationMessage = 'Hi there, I´m starting my coaching support';
   // first message template from Coach to user
   const welcomeMessage = template(
-    'Hi ${display_name}, I’m Emilio, your Personal Coach. I’m here to help on your quitting process, and guide you throughout your experience here. You can ask me any question, whenever you feel like. Would you like to hear my first advice?',
+    'Hi ${display_name}, I’m your Personal Coach. I’m here to help on your relief process, and guide you throughout your experience here. You can ask me any question, whenever you feel like.\n\nHere is my first advice:\nForm a new habit takes at least 18 days. Make you stress management practices a habit, perform an activity a day, consistently, for this behavior to become automatic. Can you do your first activity today?',
   )({ display_name: displayName });
 
   // Note this message is printed into Crisp event session:loaded callback.
@@ -95,16 +91,12 @@ const Support = ({
         onMessage={event => {
           // navigate back on chat close
           if (event.nativeEvent.data === 'chat:closed') {
-            navigation.goBack()
+            navigation.goBack();
           }
           // on crisp ready actions
           if (event.nativeEvent.data === 'chat:opened') {
             // show automatic 2 messages conversation
-            if (
-              showWelcomeMessageOnChat &&
-              isCoachingSupport &&
-              !currentCrispSessionId
-            ) {
+            if (showWelcomeMessageOnChat && isCoachingSupport && !currentCrispSessionId) {
               webViewRef.current.injectJavaScript(welcomeMessageCommand);
             }
             // updates session id if changed and triggers readyness event to hide overlay
@@ -133,10 +125,7 @@ const Support = ({
             setWebViewVisible(true);
           }
           // updates session id if is coaching screen
-          if (
-            event.nativeEvent.data.includes('session:loaded:') &&
-            isCoachingSupport
-          ) {
+          if (event.nativeEvent.data.includes('session:loaded:') && isCoachingSupport) {
             const session_id = event.nativeEvent.data.split(':').pop();
             if (session_id !== currentCrispSessionId) {
               // Firebase.updateUser({ crisp_session_id: session_id });
@@ -155,8 +144,7 @@ const Support = ({
         // to generate a new session id.
         source={{
           uri: isCoachingSupport
-            ? `${URL_UI_COACHING}?crisp_sid=${currentCrispSessionId ||
-                'session_fake_to_destroy_previous_one'}`
+            ? `${URL_UI_COACHING}?crisp_sid=${currentCrispSessionId || 'session_fake_to_destroy_previous_one'}`
             : URL_UI_SUPPORT,
         }}
         injectedJavaScriptBeforeContentLoaded={runFirst}
@@ -166,15 +154,8 @@ const Support = ({
         }}
       />
       {!webViewVisible && (
-        <View
-          style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}
-        >
-          <Text>
-            {isCoachingSupport
-              ? 'Starting Coach chat'
-              : 'Starting support chat'
-            }
-          </Text>
+        <View style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}>
+          <Text>{isCoachingSupport ? 'Starting Coach chat' : 'Starting support chat'}</Text>
         </View>
       )}
       <KeyboardSpacer />
@@ -196,27 +177,28 @@ const Support = ({
 // });
 export default Support;
 
-const getStyles = theme => StyleSheet.create({
-  container: {
-    flex: 1,
-    // minHeight: '100%',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // paddingBottom: Platform.OS === 'ios' ? 45 : 0,
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: theme.colors.secondary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  overlayHidden: {
-    height: 0,
-    overflow: 'hidden',
-    display: 'none',
-  },
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      // minHeight: '100%',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      // paddingBottom: Platform.OS === 'ios' ? 45 : 0,
+    },
+    overlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: theme.colors.secondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    overlayHidden: {
+      height: 0,
+      overflow: 'hidden',
+      display: 'none',
+    },
+  });
