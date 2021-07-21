@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import useProgram from './useProgram';
 import { useSelector } from 'react-redux';
-import { findNextActivity, buildActivityKey } from '../helpers';
+import { findNextActivity, getAllActivities, buildActivityKey } from '../helpers';
 import { PROGRESS, KIT_ACTIVATED, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors';
 
-export default () => {
+export default fixedActivityId => {
   // STATE
   const [nextActivity, setNextActivity] = useState();
   const [nextActivityKey, setNextActivityKey] = useState();
@@ -19,11 +19,13 @@ export default () => {
 
   useEffect(() => {
     if (program && progress) {
-      const nextActivity = findNextActivity(program, [...progress].pop(), includeVR);
+      const nextActivity = fixedActivityId
+        ? getAllActivities(program, includeVR).find(a => a.id === fixedActivityId)
+        : findNextActivity(program, [...progress].pop(), includeVR);
       setNextActivity(nextActivity);
       setNextActivityKey(buildActivityKey(mId, lId, nextActivity.id));
     }
-  }, [program, progress, includeVR, mId, lId]);
+  }, [program, progress, includeVR, mId, lId, fixedActivityId]);
 
   return [nextActivity, nextActivityKey];
 };
