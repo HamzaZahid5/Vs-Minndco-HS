@@ -16,7 +16,7 @@ export const Header = ({ title }) => {
       {action === 'INIT' && (
         <>
           <Headline style={styles.headline}>{title}</Headline>
-          <Paragraph style={styles.paragraph}>Read, think about and answer</Paragraph>
+          <Paragraph style={styles.paragraph}>Read, think and answer</Paragraph>
         </>
       )}
     </>
