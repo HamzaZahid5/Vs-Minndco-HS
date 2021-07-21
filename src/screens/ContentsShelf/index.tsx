@@ -47,7 +47,7 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
         text={locked ? 'unlocks from Daily Activity screen' : 'tap to replay'}
         locked={locked}
         // reverse
-        onPress={() => navigation.push('HowItWorks')}
+        onPress={() => navigation.navigate('Activity', { activityId: act.id })}
       />
     );
   };
