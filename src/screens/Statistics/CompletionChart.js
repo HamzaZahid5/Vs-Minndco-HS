@@ -28,7 +28,7 @@ const CompletionChart = () => {
       setData({
         labels: ['completion'], // optional
         // looks like a bug with decimals for circle chart
-        data: [Math.floor(progress)],
+        data: [Math.floor(progress) / 100],
       });
     }
   }, [progress]);
