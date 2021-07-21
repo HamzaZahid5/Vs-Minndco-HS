@@ -24,7 +24,7 @@ const VideoPlayer = ({ videoURI, didJustFinish }) => {
         // style={StyleSheet.absoluteFillObject}
         onPress={() => {
           // console.log('playing?', status.isPlaying);
-          status.isPlaying ? video.current.pauseAsync() : video.current.playAsync();
+          // status.isPlaying ? video.current.pauseAsync() : video.current.playAsync();
         }}
       >
         <Video
@@ -35,6 +35,7 @@ const VideoPlayer = ({ videoURI, didJustFinish }) => {
           }}
           useNativeControls
           resizeMode="contain"
+          shouldPlay={true}
           // isLooping
           onPlaybackStatusUpdate={status => setStatus(() => status)}
         />
@@ -59,8 +60,8 @@ export default VideoPlayer;
 const styles = StyleSheet.create({
   videoContainer: {
     height: 232,
-    width: '100%',
-    borderWidth: 1,
+    minWidth: '100%',
+    borderWidth: 0,
     borderColor: 'red',
   },
   video: {
