@@ -1,5 +1,6 @@
 import * as Localization from 'expo-localization';
 
+import { DICTYONARY_PATH } from './config';
 import i18n from 'i18n-js';
 import { memoize } from 'lodash';
 import storage from '@react-native-firebase/storage';
@@ -10,7 +11,7 @@ const getDictionaryFile = async (lang: string): Promise<Record<string, unknown>>
     url = await storage()
       .ref()
       // @TODO move file name to config
-      .child(`dictionaries/v0.1.0_${lang}.json`)
+      .child(`${DICTYONARY_PATH}${lang}.json`)
       .getDownloadURL();
   } catch (e) {
     // eslint-disable-next-line no-console
