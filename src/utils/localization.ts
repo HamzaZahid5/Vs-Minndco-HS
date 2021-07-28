@@ -10,7 +10,7 @@ const getDictionaryFile = async (lang: string): Promise<Record<string, unknown>>
     url = await storage()
       .ref()
       // @TODO move file name to config
-      .child(`dictionaries/v4.16.3_${lang}.json`)
+      .child(`dictionaries/v0.1.0_${lang}.json`)
       .getDownloadURL();
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -30,8 +30,8 @@ const translationGetters = {
 };
 
 export const translate = memoize(
-  (key, config) => i18n.t(key, config),
-  (key, config) => (config ? key + JSON.stringify(config) : key),
+  (key, config?) => i18n.t(key, config),
+  (key, config?) => (config ? key + JSON.stringify(config) : key),
 );
 
 export const getLocale = (): string => i18n.locale;
@@ -52,11 +52,13 @@ export const isPastParticiplePluralizable = (locale: string = getLocale()) =>
     es: true,
   }[locale]);
 
-export const setI18nConfig = async (callback: (value: boolean) => undefined) => {
+export const setI18nConfig = async (callback: (value: boolean) => void) => {
   // fallback if no available language fits
   const fallback = 'en';
 
-  let { locale } = await Localization.getLocalizationAsync();
+  const { locale: localeComplete } = await Localization.getLocalizationAsync();
+  let locale = localeComplete.split('-')[0]; // It comes in the form xx-XX, we only need the first two letters
+
   if (!Object.keys(translationGetters).includes(locale)) locale = fallback;
 
   const languageTag: keyof typeof translationGetters = locale as keyof typeof translationGetters;
