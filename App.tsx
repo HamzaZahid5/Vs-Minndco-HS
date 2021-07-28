@@ -56,6 +56,7 @@ import MainComponent from './src/screens/Home/DrawerNavigator';
 import KitAssembleScreen from './src/screens/KitAssemble';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
+import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
 
 import ThemeInspector from './src/utils/ThemeInspector';
 import { RootStackParamList } from './types';
@@ -68,11 +69,7 @@ const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme
 
 export default function App() {
   const userToken = useAuth();
-  const [i18nReady, setI18nReady] = useState();
-
-  useEffect(() => {
-    setI18nConfig(setI18nReady);
-  }, []);
+  const i18nReady = useBootUpI18n();
 
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
