@@ -68,6 +68,12 @@ const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme
 
 export default function App() {
   const userToken = useAuth();
+  const [i18nReady, setI18nReady] = useState();
+
+  useEffect(() => {
+    setI18nConfig(setI18nReady);
+  }, []);
+
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
   }
@@ -82,7 +88,7 @@ export default function App() {
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
   const [fontsLoaded] = useFontLoader();
-  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded) {
+  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady) {
     return (
       <View>
         <Text>Loading...</Text>
