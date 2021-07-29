@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   view: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });
 
-//const easingFunction: EasingFunction = (t: number): number => t;
 const sigmoidalEasingGenerator = (p: number, s: number): EasingFunction => {
   const c = 2 / (1 - s) - 1;
   const f = (t: number, n: number): number => Math.pow(t, c) / Math.pow(n, c - 1);
