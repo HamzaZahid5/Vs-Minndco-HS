@@ -85,7 +85,7 @@ export default function App() {
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
   const [fontsLoaded] = useFontLoader();
-  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || true) {
+  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady) {
     return <LoadingScreen />;
   }
 
