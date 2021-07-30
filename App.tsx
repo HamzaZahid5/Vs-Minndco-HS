@@ -1,66 +1,66 @@
+import { Appearance, SafeAreaView, Text, View } from 'react-native';
+import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
+import { Theme as NavTheme, NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Appearance, View, Text, SafeAreaView } from 'react-native';
 // import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 // @ts-ignore: non-ts file
-import { useAuth, auth } from './src/services/Auth';
-import { NavigationContainer, Theme as NavTheme } from '@react-navigation/native';
-import { Theme as PaperTheme } from 'react-native-paper/src/types';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Provider } from 'react-redux';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
-// import * as eva from '@eva-design/eva';
-// import { ApplicationProvider } from '@ui-kitten/components';
-import configureStore from './src/store';
-// @ts-ignore: non-ts file
-import { useFirestoreListener } from './src/services/Firestore';
+import { auth, useAuth } from './src/services/Auth';
 
-import RegistrationScreen from './src/screens/Register';
-import LoginScreen from './src/screens/Login';
-import LibraryScreen from './src/screens/Library';
+// @ts-ignore: non-ts file
+import AboutVRScreen from './src/screens/AboutVR';
+// @ts-ignore: non-ts file
+import ActivityScreen from './src/screens/ActivityScreen';
+import Color from 'color';
 import ContentsShelfScreen from './src/screens/ContentsShelf';
+// @ts-ignore: non-ts file
+import HowItWorksScreen from './src/screens/HowItWorks';
+// @ts-ignore: non-ts file
+import KitActivationScreen from './src/screens/KitActivation';
+// @ts-ignore: non-ts file
+import KitAssembleScreen from './src/screens/KitAssemble';
+import LibraryScreen from './src/screens/Library';
+import LoadingScreen from './src/screens/Loading';
+import LoginScreen from './src/screens/Login';
+// @ts-ignore: non-ts file
+import MainComponent from './src/screens/Home/DrawerNavigator';
+// @ts-ignore: non-ts file
+import ModalScreen from './src/screens/ModalScreen';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Theme as PaperTheme } from 'react-native-paper/src/types';
+// @ts-ignore: non-ts file
+import PathEndingScreen from './src/screens/PathEnding';
+// @ts-ignore: non-ts file
+import ProfileScreen from './src/screens/Profile';
+import { Provider } from 'react-redux';
+import RegistrationScreen from './src/screens/Register';
+import { RootStackParamList } from './types';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+// @ts-ignore: non-ts file
+import StatisticsScreen from './src/screens/Statistics';
+// @ts-ignore: non-ts file
+import StressActivityToDoScreen from './src/screens/StressActivityScreen';
+// @ts-ignore: non-ts file
+import StressActivityTypeScreen from './src/screens/StressActivityType';
 // @ts-ignore: non-ts file
 import StressRateScreen from './src/screens/StressRate';
 // @ts-ignore: non-ts file
 import StressTriggerScreen from './src/screens/StressTrigger';
 // @ts-ignore: non-ts file
-import StressActivityTypeScreen from './src/screens/StressActivityType';
-// @ts-ignore: non-ts file
-import StressActivityToDoScreen from './src/screens/StressActivityScreen';
-// @ts-ignore: non-ts file
-import ActivityScreen from './src/screens/ActivityScreen';
-// @ts-ignore: non-ts file
-import ModalScreen from './src/screens/ModalScreen';
-// @ts-ignore: non-ts file
-import WelcomeWizardScreen from './src/screens/WelcomeWizard';
-// @ts-ignore: non-ts file
-import KitActivationScreen from './src/screens/KitActivation';
-// @ts-ignore: non-ts file
-import AboutVRScreen from './src/screens/AboutVR';
+import SupportScreen from './src/screens/Support';
+import ThemeInspector from './src/utils/ThemeInspector';
 // @ts-ignore: non-ts file
 import VRMetScreen from './src/screens/VRMet';
 // @ts-ignore: non-ts file
-import SupportScreen from './src/screens/Support';
+import WelcomeWizardScreen from './src/screens/WelcomeWizard';
+// import * as eva from '@eva-design/eva';
+// import { ApplicationProvider } from '@ui-kitten/components';
+import configureStore from './src/store';
+import { createStackNavigator } from '@react-navigation/stack';
+import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
 // @ts-ignore: non-ts file
-import PathEndingScreen from './src/screens/PathEnding';
-// @ts-ignore: non-ts file
-import ProfileScreen from './src/screens/Profile';
-// @ts-ignore: non-ts file
-import StatisticsScreen from './src/screens/Statistics';
-// @ts-ignore: non-ts file
-import HowItWorksScreen from './src/screens/HowItWorks';
-// @ts-ignore: non-ts file
-import MainComponent from './src/screens/Home/DrawerNavigator';
-// @ts-ignore: non-ts file
-import KitAssembleScreen from './src/screens/KitAssemble';
+import { useFirestoreListener } from './src/services/Firestore';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
-import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
-
-import ThemeInspector from './src/utils/ThemeInspector';
-import { RootStackParamList } from './types';
-import Color from 'color';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -86,11 +86,7 @@ export default function App() {
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
   const [fontsLoaded] = useFontLoader();
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   // replace Main by Tutorial as initialRoute if show_basic_tutorial
