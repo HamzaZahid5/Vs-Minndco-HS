@@ -18,13 +18,14 @@ const DetailRow = ({ text, label }) => {
           name="email"
           size={20}
           style={styles.itemRowIcon}
+          color={theme.colors.ligth}
         />
-        <Paragraph theme={{ colors: { text: theme.colors.dark } }} style={styles.itemRowLabel}>
+        <Paragraph theme={{ colors: { text: theme.colors.ligth } }} style={styles.itemRowLabel}>
           {label}
         </Paragraph>
       </View>
       <View style={[styles.itemRowValue]}>
-        <Paragraph theme={{ colors: { text: theme.colors.text } }}>{text}</Paragraph>
+        <Paragraph theme={{ colors: { text: theme.colors.ligth } }}>{text}</Paragraph>
       </View>
     </View>
   );
