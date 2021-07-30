@@ -1,7 +1,7 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
-//@ts-ignore
+//@ts-ignore not implemented
 import obfuscate from '../../utils/emailObfuscator';
-//@ts-ignore
+//@ts-ignore not implemented
 import firestore from '../../services/Firestore';
 // import { FirebaseTimestamp } from '../../../types';
 
@@ -34,6 +34,8 @@ const initialState: UserState = {
     statistics: {
       activity_days_in_a_row: 0,
     },
+    language: '',
+    gender: '',
   },
   auth: {},
 };
