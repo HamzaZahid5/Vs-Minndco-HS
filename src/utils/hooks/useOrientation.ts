@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import Orientation, { orientation } from 'react-native-orientation';
+const getWebOrientation = () => {
+  const orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+  switch (orientation) {
+    case 'portrait-primary':
+    default:
+      return 'PORTRAIT';
+    case 'landscape-primary':
+      return 'LANDSCAPE';
+  }
+};
 
 const useOrientation = () => {
-  const [currentOrientation, setOrientation] = useState(Orientation.getInitialOrientation());
+  const [currentOrientation] = useState(getWebOrientation());
 
-  const onOrientationChange = (newOrientation: orientation) => {
-    setOrientation(newOrientation);
-  };
-
-  useEffect(() => {
-    Orientation.addOrientationListener(onOrientationChange);
-    return () => Orientation.removeOrientationListener(onOrientationChange);
-  }, []);
+  //@TODO implement orientation change
 
   return currentOrientation;
 };

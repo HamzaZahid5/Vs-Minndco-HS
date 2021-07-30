@@ -41,4 +41,15 @@ declare global {
   interface Window {
     firebase: any;
   }
+  interface Screen {
+    readonly mozOrientation: string;
+    readonly msOrientation: string;
+    readonly availHeight: number;
+    readonly availWidth: number;
+    readonly colorDepth: number;
+    readonly height: number;
+    readonly orientation: ScreenOrientation;
+    readonly pixelDepth: number;
+    readonly width: number;
+  }
 }
