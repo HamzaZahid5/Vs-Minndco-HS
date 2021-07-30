@@ -1,11 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
+import { StyleSheet, Text, View } from 'react-native';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const AverageStressLevel = ({ level }) => {
   const theme = useTheme();
+  const fixedLevel = Math.round(10 * level) / 10;
   return (
     <View
       style={{
@@ -27,7 +29,7 @@ const AverageStressLevel = ({ level }) => {
           <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50, color: '#0006' }}>-</Paragraph>
         )}
         {level !== 0 && (
-          <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50 }}>{level}</Paragraph>
+          <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50 }}>{fixedLevel}</Paragraph>
         )}
       </View>
     </View>
