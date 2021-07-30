@@ -12,7 +12,7 @@ const LoadingScreen = () => {
       toValue: 1,
       duration: 1000,
       easing: sigmoidalEasingGenerator(0.5, 0.5),
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(startAnimation);
   };
 
