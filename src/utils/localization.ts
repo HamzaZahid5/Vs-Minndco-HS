@@ -3,7 +3,7 @@ import * as Localization from 'expo-localization';
 import { DICTYONARY_PATH } from './config';
 import i18n from 'i18n-js';
 import { memoize } from 'lodash';
-import storage from '@react-native-firebase/storage';
+import storage from '../services/Storage';
 
 const getDictionaryFile = async (lang: string): Promise<Record<string, unknown>> => {
   let url: string;
