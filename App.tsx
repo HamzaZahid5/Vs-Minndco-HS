@@ -1,6 +1,7 @@
 import { Appearance, SafeAreaView, Text, View } from 'react-native';
 import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
 import { Theme as NavTheme, NavigationContainer } from '@react-navigation/native';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import React, { useEffect, useState } from 'react';
 // import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 // @ts-ignore: non-ts file
@@ -79,6 +80,21 @@ export default function App() {
   if (userData) {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
+
+  useEffect(() => {
+    dynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        // eslint-disable-next-line no-console
+        console.log('SEEEEEEEE HERE');
+        if (link) {
+          // eslint-disable-next-line no-console
+          console.log('DYNAMIC LINK USAGE');
+          // eslint-disable-next-line no-console
+          console.log(link);
+        }
+      });
+  }, []);
 
   // while not ready
   const isWaitingForAuth = userToken === undefined; // waiting for auth response
