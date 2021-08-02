@@ -62,6 +62,7 @@ import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
 import { useFirestoreListener } from './src/services/Firestore';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
+import useDeepLinking from './src/utils/hooks/useDeepLinking';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -71,6 +72,7 @@ const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme
 export default function App() {
   const userToken = useAuth();
   const i18nReady = useBootUpI18n();
+  const deepLink = useDeepLinking();
 
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
@@ -81,30 +83,18 @@ export default function App() {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
 
-  useEffect(() => {
-    dynamicLinks()
-      .getInitialLink()
-      .then(link => {
-        // eslint-disable-next-line no-console
-        console.log('SEEEEEEEE HERE');
-        if (link) {
-          // eslint-disable-next-line no-console
-          console.log('DYNAMIC LINK USAGE');
-          // eslint-disable-next-line no-console
-          console.log(link);
-        }
-      });
-  }, []);
-
   // while not ready
   const isWaitingForAuth = userToken === undefined; // waiting for auth response
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
   const [fontsLoaded] = useFontLoader();
-  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady) {
+  if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
     return <LoadingScreen />;
   }
-
+  // eslint-disable-next-line no-console
+  if (deepLink !== null) console.log(`Deep link loaded: ${deepLink}`);
+  // eslint-disable-next-line no-console
+  else console.log('No deep link loaded');
   // replace Main by Tutorial as initialRoute if show_basic_tutorial
   // eslint-disable-next-line camelcase
   const protectedInitialRouteName = userData?.flags?.show_basics_tutorial ? 'Tutorial' : 'Main';

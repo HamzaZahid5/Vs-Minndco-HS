@@ -16,7 +16,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "mindcorelief.page.link",
+              "host": "app.relief.the-mind.company",
               "pathPrefix": "/"
             }
           ],
