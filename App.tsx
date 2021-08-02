@@ -91,10 +91,6 @@ export default function App() {
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
     return <LoadingScreen />;
   }
-  // eslint-disable-next-line no-console
-  if (deepLink !== null) console.log(`Deep link loaded: ${deepLink}`);
-  // eslint-disable-next-line no-console
-  else console.log('No deep link loaded');
   // replace Main by Tutorial as initialRoute if show_basic_tutorial
   // eslint-disable-next-line camelcase
   const protectedInitialRouteName = userData?.flags?.show_basics_tutorial ? 'Tutorial' : 'Main';
