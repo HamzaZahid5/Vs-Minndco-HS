@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 // @ts-ignore: non-ts file
-import { updateDeviceInfo } from './../services/Firebase';
+import { updateDeviceInfo } from './../services/Firestore';
 import { isArray, isObject } from 'lodash';
 
 const handle = () => {
