@@ -6,8 +6,6 @@ import { isArray, isObject } from 'lodash';
 const handle = () => {
   const setToken = (token: Array<string> | string | undefined) => {
     const safeToken = isArray(token) ? token.join('') : isObject(token) ? Object.values(token).join('') : token;
-    // eslint-disable-next-line no-console
-    console.log('TOKEN', safeToken);
     updateDeviceInfo({ token: safeToken });
   };
 
@@ -18,18 +16,10 @@ const handle = () => {
     let token;
     const hasPermissions = await messaging().hasPermission();
     if (hasPermissions) {
-      await messaging().registerDeviceForRemoteMessages();
-      await new Promise(resolve => setTimeout(() => resolve(0), 1000));
-
       token = await messaging().getToken();
     } else {
       const authorizationStatus = await messaging().requestPermission({ alert: true, sound: true });
       if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-        await messaging().registerDeviceForRemoteMessages();
-        await new Promise(resolve => {
-          setTimeout(() => resolve(0), 1000);
-        });
-
         token = await messaging().getToken();
       } else if (authorizationStatus === messaging.AuthorizationStatus.PROVISIONAL) {
         // eslint-disable-next-line no-console
