@@ -67,6 +67,7 @@ const MindCoReliefDefaulTheme = {
     // secondary: '#31CCCC',
     secondary: '#2F8DCE',
     dark: Color('#31CCCC').darken(0.3).toString(),
+    ligth: '#dedede',
     accent: Color('#F79337').darken(0.2).toString(),
     surface: '#31CCCC',
     notification: '#33BC7E',

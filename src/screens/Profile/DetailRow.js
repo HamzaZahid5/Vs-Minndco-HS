@@ -18,13 +18,14 @@ const DetailRow = ({ text, label }) => {
           name="email"
           size={20}
           style={styles.itemRowIcon}
+          color={theme.colors.ligth}
         />
-        <Paragraph theme={{ colors: { text: theme.colors.dark } }} style={styles.itemRowLabel}>
+        <Paragraph theme={{ colors: { text: theme.colors.ligth } }} style={styles.itemRowLabel}>
           {label}
         </Paragraph>
       </View>
       <View style={[styles.itemRowValue]}>
-        <Paragraph theme={{ colors: { text: theme.colors.text } }}>{text}</Paragraph>
+        <Paragraph theme={{ colors: { text: theme.colors.ligth } }}>{text}</Paragraph>
       </View>
     </View>
   );
@@ -41,7 +42,7 @@ const getStyles = theme =>
   StyleSheet.create({
     itemRow: {
       borderBottomWidth: 1,
-      borderBottomColor: theme.colors.dark,
+      borderBottomColor: theme.colors.ligth,
       minHeight: 60,
       width: '100%',
       flexDirection: 'row',
