@@ -42,7 +42,7 @@ const getStyles = theme =>
   StyleSheet.create({
     itemRow: {
       borderBottomWidth: 1,
-      borderBottomColor: theme.colors.dark,
+      borderBottomColor: theme.colors.ligth,
       minHeight: 60,
       width: '100%',
       flexDirection: 'row',
