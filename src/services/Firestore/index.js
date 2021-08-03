@@ -53,8 +53,10 @@ export const useFirestoreListener = (collection, id) => {
   return snapshotData;
 };
 
+const updateProfile = updateObject => firestore().collection('users').doc(auth().currentUser.uid).update(updateObject);
+
 export const updateBasicTutorialCompleted = () =>
-  firestore().collection('users').doc(auth().currentUser.uid).update({
+  updateProfile({
     'flags.show_basics_tutorial': false,
   });
 
@@ -92,6 +94,11 @@ export const saveActivityDone = ({ treatment_module, treatment_level, activityKe
     });
 
 export const resetUserStreak = () =>
-  firestore().collection('users').doc(auth().currentUser.uid).update({
+  updateProfile({
     'statistics.activity_days_in_a_row': 0,
+  });
+
+export const updateDeviceInfo = ({ token }) =>
+  updateProfile({
+    pn_tokens: firestore.FieldValue.arrayUnion(token),
   });
