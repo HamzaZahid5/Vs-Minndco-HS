@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Linking } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
 import GenericPageLayout from '../../components/GenericPageLayout';
 import ScreenDecorator from '../../components/ScreenDecorator';
@@ -37,7 +37,7 @@ const Profile = () => {
             Sign out
           </BigButton>
           <Text
-            // onPress={() => incrementDebugCount(debugCount + 1)}
+            onPress={() => Linking.openURL('https://app.relief.the-mind.company/dlinks/test')}
             style={styles.app_version}
           >
             v{config.APP_VERSION}

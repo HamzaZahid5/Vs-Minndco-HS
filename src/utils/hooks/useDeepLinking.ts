@@ -10,6 +10,8 @@ export default function useDeepLinking(initialValue: string | undefined = undefi
   useEffect(() => {
     if (dynamicLink?.url === 'https://www.mindcotine.com/coach') {
       setDynamicLinkDL('mindcotine_mobile.Support');
+    } else if (dynamicLink?.url === 'https://www.mindcotine.com/test') {
+      setDynamicLinkDL('Support');
     } else if (dynamicLink?.url === 'https://www.mindcotine.com/activation') {
       setDynamicLinkDL('mindcotine_mobile.KitActivation');
     } else if (dynamicLink?.url.includes('https://www.mindcotine.com/')) {

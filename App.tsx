@@ -1,8 +1,13 @@
-import { Appearance, SafeAreaView, Text, View } from 'react-native';
+/* eslint-disable no-console */
+import { Appearance, SafeAreaView, Text, View, AppState } from 'react-native';
 import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
-import { Theme as NavTheme, NavigationContainer } from '@react-navigation/native';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import React, { useEffect, useState } from 'react';
+import {
+  Theme as NavTheme,
+  NavigationContainer,
+  NavigationContainerRef,
+  useNavigation,
+} from '@react-navigation/native';
+import React, { useEffect, useState, useRef, RefObject } from 'react';
 // import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 // @ts-ignore: non-ts file
 import { auth, useAuth } from './src/services/Auth';
@@ -63,17 +68,22 @@ import { useFirestoreListener } from './src/services/Firestore';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
 import useDeepLinking from './src/utils/hooks/useDeepLinking';
+import navigateToDeepLink from './src/utils/navigateToDeepLink';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
 const store = configureStore();
 const theme = DefaultTheme; //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
+// very lab option to avoid writing anoying code to reset navigation route
+// import { useEffect, useState } from 'react';
+
 export default function App() {
   const userToken = useAuth();
   const i18nReady = useBootUpI18n();
   const deepLink = useDeepLinking();
-
+  const navigatorRef: RefObject<NavigationContainerRef> = useRef(null);
+  const [navigatorReady, setNavigatorReady] = useState(false);
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
   }
@@ -91,6 +101,9 @@ export default function App() {
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
     return <LoadingScreen />;
   }
+  if (navigatorReady && navigatorRef.current && deepLink) {
+    navigateToDeepLink(deepLink, navigatorRef.current);
+  }
   // replace Main by Tutorial as initialRoute if show_basic_tutorial
   // eslint-disable-next-line camelcase
   const protectedInitialRouteName = userData?.flags?.show_basics_tutorial ? 'Tutorial' : 'Main';
@@ -99,7 +112,13 @@ export default function App() {
     <Provider store={store}>
       <PaperProvider theme={theme as PaperTheme}>
         <SafeAreaProvider>
-          <NavigationContainer theme={theme as NavTheme}>
+          <NavigationContainer
+            theme={theme as NavTheme}
+            onReady={() => {
+              setNavigatorReady(true);
+            }}
+            ref={navigatorRef}
+          >
             <Stack.Navigator
               initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
               mode="modal"
