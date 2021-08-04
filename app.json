@@ -9,7 +9,23 @@
       "**/*"
     ],
     "android": {
-      "package": "com.mindcorelief"
+      "package": "com.mindcorelief",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "app.relief.the-mind.company",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "ios": {
       "supportsTablet": true,
