@@ -22,21 +22,21 @@ const MostFrequentTriggers = ({ triggers }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 20 }}>Frequent triggers</Paragraph>
+      <Paragraph style={{ fontSize: 20, textAlign: 'center' }}>Frequent triggers</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {!triggers.length && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, color: '#0006' }}>
+          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, color: '#0006', textAlign: 'center' }}>
             No triggers
           </Paragraph>
         )}
         {triggers[0] && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[0]}</Paragraph>
+          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, textAlign: 'center' }}>{triggers[0]}</Paragraph>
         )}
         {triggers[1] && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[1]}</Paragraph>
+          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, textAlign: 'center' }}>{triggers[1]}</Paragraph>
         )}
         {triggers[2] && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[2]}</Paragraph>
+          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, textAlign: 'center' }}>{triggers[2]}</Paragraph>
         )}
       </View>
     </View>
