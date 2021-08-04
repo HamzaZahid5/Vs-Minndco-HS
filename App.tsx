@@ -1,11 +1,15 @@
-import { Appearance, SafeAreaView, Text, View } from 'react-native';
-import { DarkTheme, DefaultTheme } from './src/utils/OriginalTheme';
+import React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Theme as PaperTheme } from 'react-native-paper/src/types';
+import { Provider } from 'react-redux';
+import { View } from 'react-native';
 import { Theme as NavTheme, NavigationContainer } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-// import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-// @ts-ignore: non-ts file
-import { auth, useAuth } from './src/services/Auth';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { createStackNavigator } from '@react-navigation/stack';
 
+import { DefaultTheme } from './src/utils/OriginalTheme';
+// @ts-ignore: non-ts file
+import { useAuth } from './src/services/Auth';
 // @ts-ignore: non-ts file
 import AboutVRScreen from './src/screens/AboutVR';
 // @ts-ignore: non-ts file
@@ -25,16 +29,12 @@ import LoginScreen from './src/screens/Login';
 import MainComponent from './src/screens/Home/DrawerNavigator';
 // @ts-ignore: non-ts file
 import ModalScreen from './src/screens/ModalScreen';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { Theme as PaperTheme } from 'react-native-paper/src/types';
 // @ts-ignore: non-ts file
 import PathEndingScreen from './src/screens/PathEnding';
 // @ts-ignore: non-ts file
 import ProfileScreen from './src/screens/Profile';
-import { Provider } from 'react-redux';
 import RegistrationScreen from './src/screens/Register';
 import { RootStackParamList } from './types';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 // @ts-ignore: non-ts file
 import StatisticsScreen from './src/screens/Statistics';
 // @ts-ignore: non-ts file
@@ -55,12 +55,12 @@ import WelcomeWizardScreen from './src/screens/WelcomeWizard';
 // import * as eva from '@eva-design/eva';
 // import { ApplicationProvider } from '@ui-kitten/components';
 import configureStore from './src/store';
-import { createStackNavigator } from '@react-navigation/stack';
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
 // @ts-ignore: non-ts file
 import { useFirestoreListener } from './src/services/Firestore';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
+import handleMessaging from './src/utils/RemoteMessagingHandler';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -88,6 +88,7 @@ export default function App() {
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady) {
     return <LoadingScreen />;
   }
+  handleMessaging();
 
   // replace Main by Tutorial as initialRoute if show_basic_tutorial
   // eslint-disable-next-line camelcase
