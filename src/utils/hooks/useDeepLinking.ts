@@ -1,11 +1,26 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import useDynamicLinks from './useDynamicLinks';
+import usePushNotifications from './usePushNotifications';
 
 export default function useDeepLinking(initialValue: string | undefined = undefined): string | null | undefined {
   const dynamicLink = useDynamicLinks();
+  const remoteMessage = usePushNotifications();
+  const [remoteMessageDL, setRemoteMessageDL] = useState<string | null>();
   const [dynamicLinkDL, setDynamicLinkDL] = useState<string | null>();
   const [deepLink, setDeepLink] = useState<string | null | undefined>(initialValue);
+
+  useEffect(() => {
+    const remoteDeepLink = remoteMessage?.data?.deepLinking;
+    if (remoteDeepLink) {
+      // remote message resolved with route
+      setRemoteMessageDL(remoteDeepLink);
+    } else if (remoteMessage !== undefined) {
+      // remote message resolved with no deep link
+      setRemoteMessageDL(null);
+    }
+    // otherwise keep deepLink as unresolved
+  }, [remoteMessage]);
 
   useEffect(() => {
     // wildcard to handle navigation from dynamic link.
@@ -27,11 +42,11 @@ export default function useDeepLinking(initialValue: string | undefined = undefi
 
   useEffect(() => {
     // once both have resolved
-    if (dynamicLinkDL !== undefined) {
+    if (dynamicLinkDL !== undefined && remoteMessageDL !== undefined) {
       // save the valid one or falsy if any is a truthy value.
-      setDeepLink(dynamicLinkDL);
+      setDeepLink(dynamicLinkDL || remoteMessageDL);
     }
-  }, [dynamicLinkDL]);
+  }, [dynamicLinkDL, remoteMessageDL]);
 
   return deepLink;
 }
