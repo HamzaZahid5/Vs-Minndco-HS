@@ -8,17 +8,19 @@ export default function useDeepLinking(initialValue: string | undefined = undefi
   const [deepLink, setDeepLink] = useState<string | null | undefined>(initialValue);
 
   useEffect(() => {
-    if (dynamicLink?.url === 'https://www.mindcotine.com/coach') {
-      setDynamicLinkDL('mindcotine_mobile.Support');
-    } else if (dynamicLink?.url === 'https://www.mindcotine.com/activation') {
-      setDynamicLinkDL('mindcotine_mobile.KitActivation');
-    } else if (dynamicLink?.url.includes('https://www.mindcotine.com/')) {
-      // convert this https://www.mindcotine.com/mindcotine_mobile.KitActivation
-      // into => mindcotine_mobile.KitActivation
-      setDynamicLinkDL(dynamicLink.url.replace('https://www.mindcotine.com/', ''));
-    } else if (dynamicLink !== undefined) {
-      // dynamic link resolved with null
-      setDynamicLinkDL(null);
+    // wildcard to handle navigation from dynamic link.
+    if (dynamicLink?.url.includes('https://relief.the-mind.company/nav/')) {
+      // converts something like https://relief.the-mind.company/nav/KitActivation
+      // into => KitActivation
+      const screen = dynamicLink.url.replace('https://relief.the-mind.company/nav/', '');
+      setDynamicLinkDL(screen);
+    } else {
+      // add custom dlink resolution here.
+
+      if (dynamicLink !== undefined) {
+        // dynamic link resolved with null
+        setDynamicLinkDL(null);
+      }
     }
     // otherwise keep dynamic link as unresolved
   }, [dynamicLink]);
