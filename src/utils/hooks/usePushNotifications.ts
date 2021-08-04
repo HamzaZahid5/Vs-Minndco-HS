@@ -10,13 +10,7 @@ export default function usePushNotifications() {
       setMessage(remoteMessage);
     });
 
-    // On notification received with app in foreground
-    const onMessageListener = messaging().onMessage(remoteMessage => {
-      // PN is not displayed by OS, silent PN received.
-      // TEST OK ON ANDROID
-      // TEST OK ON IOS 14
-      setMessage(remoteMessage);
-    });
+    // Do nothing if app is in foreground
 
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       // PN received on background
@@ -38,10 +32,9 @@ export default function usePushNotifications() {
         }
       });
 
-    return () => {
+    /*return () => {
       onNotificationListener();
-      onMessageListener();
-    };
+    };*/
   }, [message]);
 
   return message;
