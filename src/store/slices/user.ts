@@ -57,6 +57,17 @@ const user = createSlice({
     setUser: (state, action) => {
       state.data = action.payload;
     },
+    setLastActivityAt: (state, action) => {
+      const newStatistics = { ...state.data.statistics };
+      newStatistics.last_completed_activity_at = action.payload;
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          statistics: newStatistics,
+        },
+      };
+    },
   },
 });
 
