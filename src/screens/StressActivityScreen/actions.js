@@ -14,6 +14,7 @@ const useAppActions = () => {
         activity_id: activity.id,
         level: stressLevel,
         reason: triggerActivity,
+        activity_type: activity.type,
       });
     },
   };
