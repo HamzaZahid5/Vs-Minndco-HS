@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useHeaderHeight } from '@react-navigation/stack';
+import { useWindowDimensions } from 'react-native';
 
 const BubblesBackground = ({ withHeader }) => {
+  const windowDimensions = useWindowDimensions();
   const CONFIGS = [
     [
       {
@@ -52,7 +54,7 @@ const BubblesBackground = ({ withHeader }) => {
         position: 'absolute',
         flex: 1,
         width: '100%',
-        height: Dimensions.get('window').height - headerHeight,
+        height: windowDimensions.height - headerHeight,
         // backgroundColor: theme.colors.primary,
         overflow: 'hidden',
       }}
