@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { LinearGradient } from 'expo-linear-gradient';
 import Color from 'color';
 
 const MostFrequentTriggers = ({ triggers }) => {
   const theme = useTheme();
+  const bgColor = Color('#87B1E3').lighten(0).toString();
+  const itemFGColor = Color(theme.colors.ligth).alpha(0.5).toString();
   return (
     <View
       style={{
-        backgroundColor: Color('#87B1E3').lighten(0).toString(),
+        backgroundColor: bgColor,
         borderRadius: 24,
         padding: 14,
         height: '100%',
@@ -22,21 +24,63 @@ const MostFrequentTriggers = ({ triggers }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 20 }}>Frequent triggers</Paragraph>
+      <Paragraph style={{ fontSize: 20, textAlign: 'center' }}>Frequent triggers</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {!triggers.length && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20, color: '#0006' }}>
-            No triggers
-          </Paragraph>
+          <Paragraph style={{ fontSize: 15, color: '#0006', textAlign: 'center' }}>No triggers</Paragraph>
         )}
         {triggers[0] && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[0]}</Paragraph>
+          <LinearGradient
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 1 }}
+            colors={[bgColor, itemFGColor, itemFGColor, bgColor]}
+            style={{
+              width: '100%',
+              height: '20%',
+              margin: 5,
+              justifyContent: 'center',
+            }}
+          >
+            <Paragraph style={{ fontSize: 15, textAlign: 'center' }}>{triggers[0]}</Paragraph>
+          </LinearGradient>
         )}
         {triggers[1] && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[1]}</Paragraph>
+          <LinearGradient
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 1 }}
+            colors={[bgColor, itemFGColor, itemFGColor, bgColor]}
+            style={{
+              width: '100%',
+              height: '20%',
+              margin: 5,
+              justifyContent: 'center',
+            }}
+          >
+            <Paragraph style={{ fontSize: 15, textAlign: 'center' }}>{triggers[1]}</Paragraph>
+          </LinearGradient>
         )}
         {triggers[2] && (
-          <Paragraph style={{ ...theme.fontsHelper.heading1, fontSize: 15, lineHeight: 20 }}>{triggers[2]}</Paragraph>
+          <LinearGradient
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 1 }}
+            colors={[bgColor, itemFGColor, itemFGColor, bgColor]}
+            style={{
+              width: '100%',
+              height: '20%',
+              margin: 5,
+              justifyContent: 'center',
+            }}
+          >
+            <Paragraph
+              style={{
+                fontSize: 15,
+                textAlign: 'center',
+                textAlignVertical: 'center',
+              }}
+            >
+              {triggers[2]}
+            </Paragraph>
+          </LinearGradient>
         )}
       </View>
     </View>
