@@ -10,7 +10,7 @@ const StorageLoader = ({ path = 'lifesaver/LS_HOME_calm_en.mp3', children }) => 
 
 StorageLoader.propTypes = {
   path: PropTypes.string,
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
 };
 
 export default StorageLoader;

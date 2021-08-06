@@ -12,7 +12,7 @@ const ScreenDecorator = ({ children }) => (
 );
 
 ScreenDecorator.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
 };
 
 export default ScreenDecorator;
