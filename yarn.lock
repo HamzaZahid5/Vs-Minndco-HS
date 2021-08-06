@@ -2269,6 +2269,11 @@
   dependencies:
     stacktrace-js "^2.0.0"
 
+"@react-native-firebase/dynamic-links@11.5.0":
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-11.5.0.tgz#e8d89a17ac726197a61529858f17e6f523a4f427"
+  integrity sha512-YzRiCazX2Gggs97+bAmSB/jGtafJqlPJvAPQ8YtNZw2UxWQ7crC25L2ueRj6+OJN9YcE4iPCYfrwYCerVJ8wnQ==
+
 "@react-native-firebase/firestore@11.5.0":
   version "11.5.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-11.5.0.tgz#3e0349891cb908fe7d24f9b3c1315ff6ffd8e3d6"
@@ -9121,10 +9126,10 @@ react-native-keyboard-aware-scroll-view@^0.9.3:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
-react-native-orientation@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-orientation/-/react-native-orientation-3.1.3.tgz#d45803841fe94b6cce9acbe904fd5ca191a3711e"
-  integrity sha512-A0h0E+2f95X4avmhaBG1ZT8WDxBACA/q//JN2eF1E7kq8AJVxt5XDiavv+aSBkBlqFsfF3bIS+T/DB5mXmnxuA==
+react-native-orientation-locker@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.3.1.tgz#e47cfdd4a7390df6ccdbc748a6eca9e8be953b0d"
+  integrity sha512-BJPe/GvGO8nNdtqQat30CS9H2o+Qt8hv9AMYCxLS5l5k5+BP3FLScU2+GBg2DizDQCOnTtA24o8heI7kwy+rvw==
 
 react-native-paper@^4.7.2:
   version "4.7.2"

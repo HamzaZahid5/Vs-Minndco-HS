@@ -22,6 +22,7 @@ import expo.modules.constants.ConstantsPackage;
 import expo.modules.permissions.PermissionsPackage;
 import expo.modules.filesystem.FileSystemPackage;
 import expo.modules.updates.UpdatesController;
+import org.wonday.orientation.OrientationActivityLifecycle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -79,6 +80,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    registerActivityLifecycleCallbacks(OrientationActivityLifecycle.getInstance());
 
     if (!BuildConfig.DEBUG) {
       UpdatesController.initialize(this);
