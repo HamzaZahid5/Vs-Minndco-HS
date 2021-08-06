@@ -102,3 +102,5 @@ export const updateDeviceInfo = ({ token }) =>
   updateProfile({
     pn_tokens: firestore.FieldValue.arrayUnion(token),
   });
+
+export const getFirestoreTimestamp = (date = new Date()) => firestore.Timestamp.fromDate(date);

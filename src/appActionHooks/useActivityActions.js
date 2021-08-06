@@ -1,8 +1,10 @@
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import {
   saveActivityDone as saveActivityDoneIntoDB,
   resetUserStreak as resetUserStreakIntoDB,
+  getFirestoreTimestamp,
 } from '../services/Firestore';
 import functions from '../services/Functions';
 import { LAST_ACTIVITY_AT, ACTIVITY_DAYS_IN_A_ROW } from '../store/selectors';
@@ -14,6 +16,7 @@ const useActivityActions = () => {
   const [nextActivity] = useNextActivity();
   const lastActivityDate = useSelector(LAST_ACTIVITY_AT);
   const streakCount = useSelector(ACTIVITY_DAYS_IN_A_ROW);
+  const dispatch = useDispatch();
 
   const lastActivityAt = moment(lastActivityDate).format('YYYY-MM-DD');
   const lastActivityNotToday = lastActivityAt !== moment().format('YYYY-MM-DD');
@@ -26,6 +29,9 @@ const useActivityActions = () => {
 
   return {
     saveActivityDone: async (activityKey, answer = '') => {
+      //Dispatch here, so when the PathEnding screen is loaded, useTodaysActivityDone have the correct date.
+      dispatch({ type: 'user/setLastActivityAt', payload: getFirestoreTimestamp() });
+
       const treatment_module = getModuleNumberFromKey(activityKey);
       const treatment_level = getLevelNumberFromKey(activityKey);
 
