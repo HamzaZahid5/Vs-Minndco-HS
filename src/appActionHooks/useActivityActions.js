@@ -6,7 +6,6 @@ import {
   resetUserStreak as resetUserStreakIntoDB,
   getFirestoreTimestamp,
 } from '../services/Firestore';
-import firestore from '@react-native-firebase/firestore';
 import functions from '../services/Functions';
 import { LAST_ACTIVITY_AT, ACTIVITY_DAYS_IN_A_ROW } from '../store/selectors';
 import { getModuleNumberFromKey, getLevelNumberFromKey } from '../utils/helpers';
