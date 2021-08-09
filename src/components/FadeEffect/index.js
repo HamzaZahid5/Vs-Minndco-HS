@@ -50,7 +50,7 @@ const FadeEffect = ({ show, children, duration = 400, style }) => {
 
 FadeEffect.propTypes = {
   show: PropTypes.bool,
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
   duration: PropTypes.number,
   style: PropTypes.object,
 };

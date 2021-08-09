@@ -26,6 +26,6 @@ export const Slide = ({ title, size, children }) => {
 Slide.propTypes = {
   title: PropTypes.string,
   size: PropTypes.number,
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
 };
 export default Slide;

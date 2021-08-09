@@ -100,7 +100,7 @@ const GenericPageLayout = ({
 
 GenericPageLayout.propTypes = {
   header: PropTypes.oneOf(PropTypes.object, PropTypes.bool),
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
   noScrollContent: PropTypes.bool,
   fullScroll: PropTypes.bool,
   thinContent: PropTypes.bool,

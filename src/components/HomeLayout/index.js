@@ -11,23 +11,23 @@ import styles from './styles.js';
 // import useOrientation from '../../hooks/useOrientation';
 
 const TopLeft = ({ children }) => <>{children}</>;
-TopLeft.propTypes = { children: PropTypes.object };
+TopLeft.propTypes = { children: PropTypes.element };
 const TopCenter = ({ children }) => <>{children}</>;
-TopCenter.propTypes = { children: PropTypes.object };
+TopCenter.propTypes = { children: PropTypes.element };
 const TopRight = ({ children }) => <>{children}</>;
-TopRight.propTypes = { children: PropTypes.object };
+TopRight.propTypes = { children: PropTypes.element };
 const MiddleTop = ({ children }) => <>{children}</>;
-MiddleTop.propTypes = { children: PropTypes.object };
+MiddleTop.propTypes = { children: PropTypes.element };
 const MiddleCenter = ({ children }) => <>{children}</>;
-MiddleCenter.propTypes = { children: PropTypes.object };
+MiddleCenter.propTypes = { children: PropTypes.element };
 const MiddleBottom = ({ children }) => <>{children}</>;
-MiddleBottom.propTypes = { children: PropTypes.object };
+MiddleBottom.propTypes = { children: PropTypes.element };
 const BottomLeft = ({ children }) => <>{children}</>;
-BottomLeft.propTypes = { children: PropTypes.object };
+BottomLeft.propTypes = { children: PropTypes.element };
 const BottomCenter = ({ children }) => <>{children}</>;
-BottomCenter.propTypes = { children: PropTypes.object };
+BottomCenter.propTypes = { children: PropTypes.element };
 const BottomRight = ({ children }) => <>{children}</>;
-BottomRight.propTypes = { children: PropTypes.object };
+BottomRight.propTypes = { children: PropTypes.element };
 
 const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, withDecoration }) => {
   const theme = useTheme();
@@ -177,7 +177,7 @@ HomeLayout.BottomCenter = BottomCenter;
 HomeLayout.BottomRight = BottomRight;
 
 HomeLayout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]),
   rowTopStyle: PropTypes.object,
   rowBottomStyle: PropTypes.object,
   debug: PropTypes.bool,
