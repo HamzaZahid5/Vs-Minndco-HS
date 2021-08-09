@@ -22,7 +22,6 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
 import useNextActivity from '../../utils/hooks/useNextActivity';
 // @ts-ignore: non-ts file
 import useCompletion from '../../utils/hooks/useCompletion';
-import { Badge } from 'react-native-paper';
 import { HAS_COUCH_MESSAGES } from '../../store/selectors';
 import { useSelector } from 'react-redux';
 
