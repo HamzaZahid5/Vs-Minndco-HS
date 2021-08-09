@@ -12,7 +12,6 @@ const flagger = createSlice({
   initialState,
   reducers: {
     setIsLoading: (state, action) => {
-      console.log(state, action);
       state.isLoading += action.payload;
     },
   },
