@@ -1,31 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import { WebView } from 'react-native-webview';
 import template from 'lodash.template';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import { updateProfile } from '../../services/Firestore';
 import KeyboardSpacer from '../../utils/KeyboardSpacer';
-// import Firebase from '../../services/Firebase';
+import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 
 const URL_UI_SUPPORT = 'https://www.mindcotine.com/wp-content/assets/support/index.html';
 const URL_UI_COACHING = 'https://mindco-relief-support.web.app/support/coach';
 
 const Support = ({
   navigation,
-  email = 'noone@email.com',
-  displayName = '',
-  source = '',
-  userProfile = '',
-  isPremium = false,
-  kitId = '',
-  uid = '',
-  hasCoachMessages = false,
-  showWelcomeMessageOnChat = '',
-  crispSessionId = '',
-  // // flag to determine if user comes from support or coach.
-  // // this flag is set at navigation level
+  // flag to determine if user comes from support or coach.
+  // this flag is set at navigation level
   isCoachingSupport = true,
 }) => {
+  const {
+    crisp_session_id: crispSessionId,
+    display_name: displayName,
+    has_coach_messages: hasCoachMessages,
+    group,
+    kit_id: kitId,
+    show_welcome_message_on_chat: showWelcomeMessageOnChat,
+    uid,
+  } = useSelector(USER_SUPPORT_PROFILE);
   const theme = useTheme();
   const styles = getStyles(theme);
   // ref to inject JS on demand
@@ -37,7 +39,7 @@ const Support = ({
 
   useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      // AWFUL HACK TO MAKE CRISP CHAT TO EXPAN ON KEYBOARD CLOSE
+      // AWFUL HACK TO MAKE CRISP CHAT TO EXPAND ON KEYBOARD CLOSE
       // otherwise iOS 14 shows a blank space where keyboard was visible.
       webViewRef.current.injectJavaScript(`
           $crisp.push(["do", "chat:hide"]);
@@ -48,7 +50,7 @@ const Support = ({
 
     // flag user as pending message read on DB
     if (hasCoachMessages && isCoachingSupport) {
-      // Firebase.updateUser({ flag_has_coach_messages: false });
+      updateProfile({ 'flags.has_coach_messages': false });
     }
 
     return () => {
@@ -66,26 +68,23 @@ const Support = ({
 
   // Note this message is printed into Crisp event session:loaded callback.
   const welcomeMessageCommand = `
-      window.$crisp.push(["do", "message:send", ["text", "${activationMessage}"]]);
+      window.$crisp.push(["do", "message:send", ["text", \`${activationMessage}\`]]);
       window.setTimeout(() => {
-        window.$crisp.push(["do", "message:show", ["text", "${welcomeMessage}"]]);
+        window.$crisp.push(["do", "message:show", ["text", \`${welcomeMessage}\`]]);
         window.ReactNativeWebView.postMessage("welcome_message:shown");
         true;
       }, 3000);
       true;
   `;
   const runFirst = `
-    window.injectedEmail = '${email}';
+    window.injectedEmail = 'private@gmail.com';
     window.startingText = 'starting chat...';
-    document.body.style.backgroundColor = 'teal';
   `;
 
   return (
     <SafeAreaView style={styles.container}>
       <WebView
         ref={webViewRef}
-        // userAgent={`Mozilla/5.0 (Linux; Android 8.1.0; Android SDK built for x86 Build/OSM1.180201.021; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/MindCotineMobile.0.3163.98 Mobile Safari/537.36 DemoApp/1.1.0`}
-        // applicationNameForUserAgent={`MindCotineMobile/${config.APP_VERSION}`}
         scrollEnabled={false}
         style={{ flex: 1, height: '100%' }}
         onMessage={event => {
@@ -96,7 +95,7 @@ const Support = ({
           // on crisp ready actions
           if (event.nativeEvent.data === 'chat:opened') {
             // show automatic 2 messages conversation
-            if (showWelcomeMessageOnChat && isCoachingSupport && !currentCrispSessionId) {
+            if (showWelcomeMessageOnChat && isCoachingSupport) {
               webViewRef.current.injectJavaScript(welcomeMessageCommand);
             }
             // updates session id if changed and triggers readyness event to hide overlay
@@ -109,12 +108,10 @@ const Support = ({
 
               window.$crisp.push(["set", "user:nickname", ["${displayName}"]])
               window.$crisp.push(["set", "session:data", [[
-                ["user-profile", "${userProfile}"],
+                ["user-profile", "${group}"],
                 ["user-name", "${displayName}"],
-                ["user-is-premium", "${isPremium}"],
                 ["user-kit-id", "${kitId}"],
                 ["user-id", "${uid}"],
-                ["user-source", "${source}"],
                 ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
               ]]]);
               true;
@@ -129,13 +126,14 @@ const Support = ({
             const session_id = event.nativeEvent.data.split(':').pop();
             if (session_id !== currentCrispSessionId) {
               // Firebase.updateUser({ crisp_session_id: session_id });
+              updateProfile({ crisp_session_id: session_id });
             }
           }
 
           // flag user into DB to avoid welcome messages in the future.
           if (event.nativeEvent.data === 'welcome_message:shown') {
             if (showWelcomeMessageOnChat && isCoachingSupport) {
-              // Firebase.updateUser({ flag_show_welcome_message_on_chat: false });
+              updateProfile({ 'flags.show_welcome_message_on_chat': false });
             }
           }
         }}
@@ -150,6 +148,7 @@ const Support = ({
         injectedJavaScriptBeforeContentLoaded={runFirst}
         onError={syntheticEvent => {
           const { nativeEvent } = syntheticEvent;
+          // eslint-disable-next-line no-console
           console.warn('WebView error: ', nativeEvent);
         }}
       />
@@ -163,28 +162,17 @@ const Support = ({
   );
 };
 
-// const mapStateToProps = state => ({
-//   userProfile: state.app?.user?.profile,
-//   source: state.app?.user?.source,
-//   isPremium: userIsPremium(state),
-//   kitId: state.app?.user?.kit_id,
-//   uid: state.app?.user?.uid,
-//   email: state.app?.user?.email,
-//   displayName: state.app?.user?.display_name.replace(/['"]+/g, ''),
-//   hasCoachMessages: state?.app?.hasCoachMessages,
-//   showWelcomeMessageOnChat: state?.app?.showWelcomeMessageOnChat,
-//   crispSessionId: state?.app?.crispSessionId,
-// });
+Support.propTypes = {
+  navigation: PropTypes.object,
+  isCoachingSupport: PropTypes.bool,
+};
+
 export default Support;
 
 const getStyles = theme =>
   StyleSheet.create({
     container: {
       flex: 1,
-      // minHeight: '100%',
-      // alignItems: 'center',
-      // justifyContent: 'center',
-      // paddingBottom: Platform.OS === 'ios' ? 45 : 0,
     },
     overlay: {
       position: 'absolute',
