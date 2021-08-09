@@ -69,7 +69,7 @@ const HomeScreen = ({ navigation }: Props) => {
           icon="account-heart"
           informativeText="Coach"
           onPress={() => navigation.push('Support')}
-          showBadge={hasCouchMessage}
+          showAlert={hasCouchMessage}
         />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
