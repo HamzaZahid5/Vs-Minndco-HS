@@ -1,6 +1,6 @@
 import React from 'react';
 // import { useSelector, useStore, useDispatch } from 'react-redux';
-import { Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import Props from './types';
 // @ts-ignore: non-ts file
 import HomeLayout from '../../components/HomeLayout';
@@ -22,11 +22,14 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
 import useNextActivity from '../../utils/hooks/useNextActivity';
 // @ts-ignore: non-ts file
 import useCompletion from '../../utils/hooks/useCompletion';
+import { HAS_COUCH_MESSAGES } from '../../store/selectors';
+import { useSelector } from 'react-redux';
 
 const HomeScreen = ({ navigation }: Props) => {
   const [nextActivity] = useNextActivity();
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
+  const hasCouchMessage = useSelector(HAS_COUCH_MESSAGES);
   // const nextActivity = {
   //   id: 'body-scan',
   //   name: '',
@@ -61,7 +64,12 @@ const HomeScreen = ({ navigation }: Props) => {
         {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
-        <FABButton icon="account-heart" informativeText="Coach" onPress={() => navigation.push('Support')} />
+        <FABButton
+          icon="account-heart"
+          informativeText="Coach"
+          onPress={() => navigation.push('Support')}
+          showAlert={hasCouchMessage}
+        />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
         <FABButton icon="head-check" informativeText="Reliever" onPress={() => navigation.push('StressRate')} />
