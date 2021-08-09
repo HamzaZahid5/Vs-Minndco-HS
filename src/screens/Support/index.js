@@ -50,7 +50,6 @@ const Support = ({
 
     // flag user as pending message read on DB
     if (hasCoachMessages && isCoachingSupport) {
-      // Firebase.updateUser({ flag_has_coach_messages: false });
       updateProfile({ 'flags.has_coach_messages': false });
     }
 
@@ -80,15 +79,12 @@ const Support = ({
   const runFirst = `
     window.injectedEmail = 'private@gmail.com';
     window.startingText = 'starting chat...';
-    // document.body.style.backgroundColor = 'teal';
   `;
 
   return (
     <SafeAreaView style={styles.container}>
       <WebView
         ref={webViewRef}
-        // userAgent={`Mozilla/5.0 (Linux; Android 8.1.0; Android SDK built for x86 Build/OSM1.180201.021; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/MindCotineMobile.0.3163.98 Mobile Safari/537.36 DemoApp/1.1.0`}
-        // applicationNameForUserAgent={`MindCotineMobile/${config.APP_VERSION}`}
         scrollEnabled={false}
         style={{ flex: 1, height: '100%' }}
         onMessage={event => {
@@ -137,7 +133,6 @@ const Support = ({
           // flag user into DB to avoid welcome messages in the future.
           if (event.nativeEvent.data === 'welcome_message:shown') {
             if (showWelcomeMessageOnChat && isCoachingSupport) {
-              // Firebase.updateUser({ flag_show_welcome_message_on_chat: false });
               updateProfile({ 'flags.show_welcome_message_on_chat': false });
             }
           }
@@ -178,10 +173,6 @@ const getStyles = theme =>
   StyleSheet.create({
     container: {
       flex: 1,
-      // minHeight: '100%',
-      // alignItems: 'center',
-      // justifyContent: 'center',
-      // paddingBottom: Platform.OS === 'ios' ? 45 : 0,
     },
     overlay: {
       position: 'absolute',
