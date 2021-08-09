@@ -43,6 +43,7 @@ const getStyles = theme =>
     mainContainer: {
       marginVertical: 20,
       marginHorizontal: 20,
+      zIndex: 0,
     },
     defaulFAB: {},
     infoText: {
