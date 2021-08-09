@@ -1,31 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import { WebView } from 'react-native-webview';
 import template from 'lodash.template';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import KeyboardSpacer from '../../utils/KeyboardSpacer';
-// import Firebase from '../../services/Firebase';
+import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 
 const URL_UI_SUPPORT = 'https://www.mindcotine.com/wp-content/assets/support/index.html';
 const URL_UI_COACHING = 'https://mindco-relief-support.web.app/support/coach';
 
 const Support = ({
   navigation,
-  email = 'noone@email.com',
-  displayName = '',
-  source = '',
-  userProfile = '',
-  isPremium = false,
-  kitId = '',
-  uid = '',
-  hasCoachMessages = false,
-  showWelcomeMessageOnChat = '',
-  crispSessionId = '',
-  // // flag to determine if user comes from support or coach.
-  // // this flag is set at navigation level
+  // flag to determine if user comes from support or coach.
+  // this flag is set at navigation level
   isCoachingSupport = true,
 }) => {
+  const { crisp_session_id: crispSessionId, flag_has_coach_messages: hasCoachMessages } =
+    useSelector(USER_SUPPORT_PROFILE);
   const theme = useTheme();
   const styles = getStyles(theme);
   // ref to inject JS on demand
@@ -163,18 +157,11 @@ const Support = ({
   );
 };
 
-// const mapStateToProps = state => ({
-//   userProfile: state.app?.user?.profile,
-//   source: state.app?.user?.source,
-//   isPremium: userIsPremium(state),
-//   kitId: state.app?.user?.kit_id,
-//   uid: state.app?.user?.uid,
-//   email: state.app?.user?.email,
-//   displayName: state.app?.user?.display_name.replace(/['"]+/g, ''),
-//   hasCoachMessages: state?.app?.hasCoachMessages,
-//   showWelcomeMessageOnChat: state?.app?.showWelcomeMessageOnChat,
-//   crispSessionId: state?.app?.crispSessionId,
-// });
+Support.propTypes = {
+  navigation: PropTypes.object,
+  isCoachingSupport: PropTypes.bool,
+};
+
 export default Support;
 
 const getStyles = theme =>
