@@ -15,3 +15,7 @@ export const USER_PROFILE = (store: RootState) => {
   const { language, gender } = store?.user?.data;
   return { language, gender };
 };
+export const USER_SUPPORT_PROFILE = (store: RootState) => {
+  const { crisp_session_id, flag_has_coach_messages } = store?.user?.data;
+  return { crisp_session_id, flag_has_coach_messages };
+};
