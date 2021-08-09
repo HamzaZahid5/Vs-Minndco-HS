@@ -65,8 +65,12 @@ const HomeScreen = ({ navigation }: Props) => {
         {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
-        <FABButton icon="account-heart" informativeText="Coach" onPress={() => navigation.push('Support')} />
-        <Badge style={styles.menuItemBadge} size={12} visible={hasCouchMessage} />
+        <FABButton
+          icon="account-heart"
+          informativeText="Coach"
+          onPress={() => navigation.push('Support')}
+          showBadge={hasCouchMessage}
+        />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
         <FABButton icon="head-check" informativeText="Reliever" onPress={() => navigation.push('StressRate')} />
@@ -74,15 +78,5 @@ const HomeScreen = ({ navigation }: Props) => {
     </HomeLayout>
   );
 };
-
-const styles = StyleSheet.create({
-  menuItemBadge: {
-    position: 'absolute',
-    backgroundColor: '#cc1100',
-    right: 28,
-    top: 28,
-    zIndex: 100,
-  },
-});
 
 export default HomeScreen;
