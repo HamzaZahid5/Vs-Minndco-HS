@@ -11,33 +11,34 @@ export type UserStatistics = {
 };
 export type UserState = {
   data: {
+    crisp_session_id?: string;
     flags?: {
       show_basics_tutorial: boolean;
     };
-    progress: Array<string>;
+    gender: string;
     kit_id: string;
+    language: string;
+    progress: Array<string>;
+    statistics: UserStatistics;
     treatment_module: number;
     treatment_level: number;
-    statistics: UserStatistics;
-    language: string;
-    gender: string;
   };
   auth: any;
 };
 
 const initialState: UserState = {
+  auth: {},
   data: {
-    progress: [],
+    gender: '',
     kit_id: '',
-    treatment_module: 1,
-    treatment_level: 1,
+    language: '',
+    progress: [],
     statistics: {
       activity_days_in_a_row: 0,
     },
-    language: '',
-    gender: '',
+    treatment_module: 1,
+    treatment_level: 1,
   },
-  auth: {},
 };
 // const setFlag = createAction('flags/set')
 
