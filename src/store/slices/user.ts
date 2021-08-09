@@ -14,6 +14,7 @@ export type UserState = {
     crisp_session_id?: string;
     flags?: {
       show_basics_tutorial: boolean;
+      flag_has_coach_messages: boolean;
     };
     gender: string;
     kit_id: string;
