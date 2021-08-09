@@ -18,8 +18,15 @@ const Support = ({
   // this flag is set at navigation level
   isCoachingSupport = true,
 }) => {
-  const { crisp_session_id: crispSessionId, flag_has_coach_messages: hasCoachMessages } =
-    useSelector(USER_SUPPORT_PROFILE);
+  const {
+    crisp_session_id: crispSessionId,
+    display_name: displayName,
+    has_coach_messages: hasCoachMessages,
+    group,
+    kit_id: kitId,
+    show_welcome_message_on_chat: showWelcomeMessageOnChat,
+    uid,
+  } = useSelector(USER_SUPPORT_PROFILE);
   const theme = useTheme();
   const styles = getStyles(theme);
   // ref to inject JS on demand
@@ -69,9 +76,9 @@ const Support = ({
       true;
   `;
   const runFirst = `
-    window.injectedEmail = '${email}';
+    window.injectedEmail = 'private@gmail.com';
     window.startingText = 'starting chat...';
-    document.body.style.backgroundColor = 'teal';
+    // document.body.style.backgroundColor = 'teal';
   `;
 
   return (
@@ -103,12 +110,10 @@ const Support = ({
 
               window.$crisp.push(["set", "user:nickname", ["${displayName}"]])
               window.$crisp.push(["set", "session:data", [[
-                ["user-profile", "${userProfile}"],
+                ["user-profile", "${group}"],
                 ["user-name", "${displayName}"],
-                ["user-is-premium", "${isPremium}"],
                 ["user-kit-id", "${kitId}"],
                 ["user-id", "${uid}"],
-                ["user-source", "${source}"],
                 ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
               ]]]);
               true;
@@ -144,6 +149,7 @@ const Support = ({
         injectedJavaScriptBeforeContentLoaded={runFirst}
         onError={syntheticEvent => {
           const { nativeEvent } = syntheticEvent;
+          // eslint-disable-next-line no-console
           console.warn('WebView error: ', nativeEvent);
         }}
       />

@@ -18,7 +18,11 @@ export const USER_PROFILE = (store: RootState) => {
 export const USER_SUPPORT_PROFILE = (store: RootState) => {
   const {
     crisp_session_id,
-    flags: { has_coach_messages },
+    display_name,
+    flags: { has_coach_messages, show_welcome_message_on_chat },
+    group,
+    kit_id,
   } = store?.user?.data;
-  return { crisp_session_id, has_coach_messages };
+  const { uid } = store?.user?.auth;
+  return { crisp_session_id, has_coach_messages, show_welcome_message_on_chat, display_name, group, kit_id, uid };
 };

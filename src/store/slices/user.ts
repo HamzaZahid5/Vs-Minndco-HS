@@ -12,11 +12,14 @@ export type UserStatistics = {
 export type UserState = {
   data: {
     crisp_session_id?: string;
+    display_name: string;
     flags: {
       show_basics_tutorial?: boolean;
       has_coach_messages?: boolean;
+      show_welcome_message_on_chat?: boolean;
     };
     gender: string;
+    group?: string;
     kit_id: string;
     language: string;
     progress: Array<string>;
@@ -30,6 +33,7 @@ export type UserState = {
 const initialState: UserState = {
   auth: {},
   data: {
+    display_name: '',
     flags: {},
     gender: '',
     kit_id: '',
