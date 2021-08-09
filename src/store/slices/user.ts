@@ -13,6 +13,7 @@ export type UserState = {
   data: {
     flags?: {
       show_basics_tutorial: boolean;
+      has_couch_messages: boolean;
     };
     progress: Array<string>;
     kit_id: string;
