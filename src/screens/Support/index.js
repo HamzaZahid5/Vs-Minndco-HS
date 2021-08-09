@@ -6,6 +6,7 @@ import template from 'lodash.template';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import { updateProfile } from '../../services/Firestore';
 import KeyboardSpacer from '../../utils/KeyboardSpacer';
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 
@@ -38,7 +39,7 @@ const Support = ({
 
   useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      // AWFUL HACK TO MAKE CRISP CHAT TO EXPAN ON KEYBOARD CLOSE
+      // AWFUL HACK TO MAKE CRISP CHAT TO EXPAND ON KEYBOARD CLOSE
       // otherwise iOS 14 shows a blank space where keyboard was visible.
       webViewRef.current.injectJavaScript(`
           $crisp.push(["do", "chat:hide"]);
@@ -50,6 +51,7 @@ const Support = ({
     // flag user as pending message read on DB
     if (hasCoachMessages && isCoachingSupport) {
       // Firebase.updateUser({ flag_has_coach_messages: false });
+      updateProfile({ 'flags.has_coach_messages': false });
     }
 
     return () => {
@@ -67,9 +69,9 @@ const Support = ({
 
   // Note this message is printed into Crisp event session:loaded callback.
   const welcomeMessageCommand = `
-      window.$crisp.push(["do", "message:send", ["text", "${activationMessage}"]]);
+      window.$crisp.push(["do", "message:send", ["text", \`${activationMessage}\`]]);
       window.setTimeout(() => {
-        window.$crisp.push(["do", "message:show", ["text", "${welcomeMessage}"]]);
+        window.$crisp.push(["do", "message:show", ["text", \`${welcomeMessage}\`]]);
         window.ReactNativeWebView.postMessage("welcome_message:shown");
         true;
       }, 3000);
@@ -97,7 +99,7 @@ const Support = ({
           // on crisp ready actions
           if (event.nativeEvent.data === 'chat:opened') {
             // show automatic 2 messages conversation
-            if (showWelcomeMessageOnChat && isCoachingSupport && !currentCrispSessionId) {
+            if (showWelcomeMessageOnChat && isCoachingSupport) {
               webViewRef.current.injectJavaScript(welcomeMessageCommand);
             }
             // updates session id if changed and triggers readyness event to hide overlay
@@ -128,6 +130,7 @@ const Support = ({
             const session_id = event.nativeEvent.data.split(':').pop();
             if (session_id !== currentCrispSessionId) {
               // Firebase.updateUser({ crisp_session_id: session_id });
+              updateProfile({ crisp_session_id: session_id });
             }
           }
 
@@ -135,6 +138,7 @@ const Support = ({
           if (event.nativeEvent.data === 'welcome_message:shown') {
             if (showWelcomeMessageOnChat && isCoachingSupport) {
               // Firebase.updateUser({ flag_show_welcome_message_on_chat: false });
+              updateProfile({ 'flags.show_welcome_message_on_chat': false });
             }
           }
         }}
