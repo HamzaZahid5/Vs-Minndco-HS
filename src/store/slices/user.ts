@@ -12,9 +12,9 @@ export type UserStatistics = {
 export type UserState = {
   data: {
     crisp_session_id?: string;
-    flags?: {
-      show_basics_tutorial: boolean;
-      has_couch_messages: boolean;
+    flags: {
+      show_basics_tutorial?: boolean;
+      has_coach_messages?: boolean;
     };
     gender: string;
     kit_id: string;
@@ -30,6 +30,7 @@ export type UserState = {
 const initialState: UserState = {
   auth: {},
   data: {
+    flags: {},
     gender: '',
     kit_id: '',
     language: '',
