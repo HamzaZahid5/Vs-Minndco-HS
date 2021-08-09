@@ -28,7 +28,7 @@ const MindCoFAABButton = ({ icon = 'crown', informativeText = '', onPress = () =
 
         <Text style={styles.infoText}>{informativeText}</Text>
       </View>
-      <Badge style={styles.menuItemBadge} size={12} visible={showAlert} />
+      <Badge style={styles.menuItemBadge} size={15} visible={showAlert} />
     </>
   );
 };
@@ -58,8 +58,8 @@ const getStyles = theme =>
     menuItemBadge: {
       position: 'absolute',
       backgroundColor: '#cc1100',
-      right: 28,
-      top: 28,
+      right: 18,
+      top: 20,
       zIndex: 100,
     },
   });
