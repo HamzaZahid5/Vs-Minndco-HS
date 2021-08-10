@@ -29,7 +29,7 @@ export const Header = ({ onPlay, title }: { onPlay: () => void; title: string })
           <Headline style={styles.headline}>{title}</Headline>
           <View style={{ marginTop: 20, height: 40 }}>
             <BigButton variant="accent" onPress={onPlay}>
-              {translate('start')}
+              {translate('commons.general.start')}
             </BigButton>
           </View>
         </>

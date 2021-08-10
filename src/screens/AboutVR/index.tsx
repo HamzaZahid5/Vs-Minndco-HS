@@ -40,10 +40,10 @@ const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
           <View style={styles.hero}>
             <View style={styles.heroView}>
               <Headline style={styles.headline}>
-                {translate('VR-MET')}
+                {translate('screens.AboutVR.VR-MET')}
                 <Text style={styles.heroText}>®</Text>
               </Headline>
-              <Paragraph style={styles.description}>{translate('program-description')}</Paragraph>
+              <Paragraph style={styles.description}>{translate('screens.AboutVR.program-description')}</Paragraph>
             </View>
             <Image
               style={styles.topImage}
@@ -54,19 +54,19 @@ const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
         }
       >
         <View style={styles.contentWrapper}>
-          <Text>{translate('content-text')}</Text>
+          <Text>{translate('screens.AboutVR.content-text')}</Text>
           <View style={styles.wrapperView}>
             <RowItem
-              title={translate('setup-button-tittle')}
-              text={translate('setup-button-text')}
+              title={translate('screens.AboutVR.setup-button-tittle')}
+              text={translate('screens.AboutVR.setup-button-text')}
               reverse
               onPress={() => navigation.push('KitAssemble')}
             />
           </View>
           <View style={styles.contentWrapper}>
             <RowItem
-              title={translate('govr-title')}
-              text={translate('govr-text')}
+              title={translate('screens.AboutVR.govr-title')}
+              text={translate('screens.AboutVR.govr-text')}
               reverse
               // onPress={() => navigation.push('VRMet')}
               onPress={openVRPlayer}

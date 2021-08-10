@@ -33,7 +33,7 @@ export const Header = ({
           <Headline style={styles.headline}>{title}</Headline>
           <View style={{ marginTop: 20, height: 40 }}>
             <BigButton variant="accent" onPress={() => setAction('PLAY_VIDEO')}>
-              {translate('start')}
+              {translate('commons.general.start')}
             </BigButton>
           </View>
         </>

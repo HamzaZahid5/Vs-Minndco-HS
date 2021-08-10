@@ -21,7 +21,7 @@ export const Header = ({ title }: { title: string }) => {
       {action === 'INIT' && (
         <>
           <Headline style={styles.headline}>{title}</Headline>
-          <Paragraph style={styles.paragraph}>{translate('form-header-paragraph')}</Paragraph>
+          <Paragraph style={styles.paragraph}>{translate('screens.Activity.form-header-paragraph')}</Paragraph>
         </>
       )}
     </>
