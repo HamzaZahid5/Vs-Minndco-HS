@@ -90,7 +90,7 @@ export const Body = ({ type, duration, description }: activityType) => {
       </View>
       <Divider style={styles.divider} />
       <View style={styles.content}>
-        <Title style={styles.title}>Some tips before start</Title>
+        <Title style={styles.title}>{translate('screens.Activity.tipsTitle')}</Title>
         <Paragraph style={styles.description}>{getTipsByActivityType(type)}</Paragraph>
       </View>
     </>
