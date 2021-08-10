@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
-import AudioPlayer from '../../components/AudioPlayer';
+// @ts-ignore: non-ts file
+import VRPlayer from '../../components/VRPlayer';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
-import { useStorageDownloadURL } from '../../services/Storage';
+import { activityType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-export const Header = (onComplete, storeAsset, title) => {
-  const theme = useTheme();
+const activity = {
+  type: 'vr-met',
+  duration: 10,
+  description: '',
+};
+
+export const Header = ({ onPlay, title }: { onPlay: () => void; title: string }) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
-  const assetURI = useStorageDownloadURL(storeAsset);
 
   return (
     <>
@@ -19,42 +28,34 @@ export const Header = (onComplete, storeAsset, title) => {
         <>
           <Headline style={styles.headline}>{title}</Headline>
           <View style={{ marginTop: 20, height: 40 }}>
-            <BigButton variant="accent" onPress={() => setAction('PLAY')}>
-              Start
+            <BigButton variant="accent" onPress={onPlay}>
+              {translate('start')}
             </BigButton>
           </View>
         </>
-      )}
-      {action === 'PLAY' && (
-        <View style={{ flex: 1, width: '100%' }}>
-          <AudioPlayer
-            audioURI={assetURI}
-            didJustFinish={onComplete}
-            // src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938"
-          />
-        </View>
       )}
     </>
   );
 };
 
 Header.propTypes = {
-  onComplete: PropTypes.func,
-  storeAsset: PropTypes.string,
+  onPlay: PropTypes.func,
+  duration: PropTypes.string,
   title: PropTypes.string,
+  description: PropTypes.string,
 };
 
-const getHeaderStyles = theme =>
+const getHeaderStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     headline: {
       ...theme.fonts.headline,
-      // fontWeight: 'bold',
       color: 'white',
+      textAlign: 'center',
     },
   });
 
-export const Body = ({ type, duration, description }) => {
-  const theme = useTheme();
+export const Body = ({ type, duration, description }: activityType) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getBodyStyles(theme);
   return (
     <>
@@ -93,7 +94,7 @@ Body.propTypes = {
   description: PropTypes.string,
 };
 
-const getBodyStyles = theme =>
+const getBodyStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     content: {
       marginHorizontal: 4,

@@ -2,13 +2,26 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import VideoPlayer from '../../components/VideoPlayer';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
 import { useStorageDownloadURL } from '../../services/Storage';
+import { activityType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-export const Header = ({ onComplete, storeAsset, title }) => {
-  const theme = useTheme();
+export const Header = ({
+  onComplete,
+  storeAsset,
+  title,
+}: {
+  onComplete: (anwser?: string) => void;
+  storeAsset: string;
+  title: string;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
   const assetURI = useStorageDownloadURL(storeAsset);
@@ -20,7 +33,7 @@ export const Header = ({ onComplete, storeAsset, title }) => {
           <Headline style={styles.headline}>{title}</Headline>
           <View style={{ marginTop: 20, height: 40 }}>
             <BigButton variant="accent" onPress={() => setAction('PLAY_VIDEO')}>
-              Start
+              {translate('start')}
             </BigButton>
           </View>
         </>
@@ -36,7 +49,7 @@ Header.propTypes = {
   title: PropTypes.string,
 };
 
-const getHeaderStyles = theme =>
+const getHeaderStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     headline: {
       ...theme.fontsHelper.heading1,
@@ -44,8 +57,8 @@ const getHeaderStyles = theme =>
     },
   });
 
-export const Body = ({ type, duration, description }) => {
-  const theme = useTheme();
+export const Body = ({ type, duration, description }: activityType) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getBodyStyles(theme);
   return (
     <>
@@ -84,7 +97,7 @@ Body.propTypes = {
   description: PropTypes.string,
 };
 
-const getBodyStyles = theme =>
+const getBodyStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     content: {
       marginHorizontal: 4,

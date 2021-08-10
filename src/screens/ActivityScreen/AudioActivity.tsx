@@ -2,55 +2,74 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
-import VRPlayer from '../../components/VRPlayer';
+// @ts-ignore: non-ts file
+import AudioPlayer from '../../components/AudioPlayer';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
+import { useStorageDownloadURL } from '../../services/Storage';
+import { activityType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-const activity = {
-  type: 'vr-met',
-  duration: 10,
-  description: '',
-};
-
-export const Header = ({ onPlay, title, duration, description }) => {
-  const theme = useTheme();
+export const Header = ({
+  onComplete,
+  storeAsset,
+  title,
+}: {
+  onComplete: (anwser?: string) => void;
+  storeAsset: string;
+  title: string;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
+  const assetURI = useStorageDownloadURL(storeAsset);
 
   return (
     <>
       {action === 'INIT' && (
         <>
           <Headline style={styles.headline}>{title}</Headline>
-          <View style={{ marginTop: 20, height: 40 }}>
-            <BigButton variant="accent" onPress={onPlay}>
-              Start
+          <View style={styles.headView}>
+            <BigButton variant="accent" onPress={() => setAction('PLAY')}>
+              {translate('start')}
             </BigButton>
           </View>
         </>
+      )}
+      {action === 'PLAY' && (
+        <View style={styles.actionView}>
+          <AudioPlayer
+            audioURI={assetURI}
+            didJustFinish={onComplete}
+            // src="https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/lifesaver%2FAudio_VAS_1_EN.mp3?alt=media&token=59841ed4-446e-4b0f-b168-e0a1f3f1f938"
+          />
+        </View>
       )}
     </>
   );
 };
 
 Header.propTypes = {
-  onPlay: PropTypes.func,
-  duration: PropTypes.string,
+  onComplete: PropTypes.func,
+  storeAsset: PropTypes.string,
   title: PropTypes.string,
-  description: PropTypes.string,
 };
 
-const getHeaderStyles = theme =>
+const getHeaderStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     headline: {
       ...theme.fonts.headline,
+      // fontWeight: 'bold',
       color: 'white',
-      textAlign: 'center',
     },
+    headView: { marginTop: 20, height: 40 },
+    actionView: { flex: 1, width: '100%' },
   });
 
-export const Body = ({ type, duration, description }) => {
-  const theme = useTheme();
+export const Body = ({ type, duration, description }: activityType) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getBodyStyles(theme);
   return (
     <>
@@ -65,16 +84,11 @@ export const Body = ({ type, duration, description }) => {
           {duration}
           {' min.'}
         </Title>
-        <Paragraph style={[styles.description, , { ...theme.fonts.small, color: theme.colors.backdrop }]}>
+        <Paragraph style={[styles.description, { ...theme.fonts.small, color: theme.colors.backdrop }]}>
           {description}
         </Paragraph>
       </View>
-      <Divider
-        style={{
-          marginTop: 24,
-          backgroundColor: theme.colors.backdrop,
-        }}
-      />
+      <Divider style={styles.divider} />
       <View style={styles.content}>
         <Title style={styles.title}>Some tips before start</Title>
         <Paragraph style={styles.description}>{getTipsByActivityType(type)}</Paragraph>
@@ -89,7 +103,7 @@ Body.propTypes = {
   description: PropTypes.string,
 };
 
-const getBodyStyles = theme =>
+const getBodyStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     content: {
       marginHorizontal: 4,
@@ -104,4 +118,8 @@ const getBodyStyles = theme =>
       textTransform: 'uppercase',
     },
     description: {},
+    divider: {
+      marginTop: 24,
+      backgroundColor: theme.colors.backdrop,
+    },
   });
