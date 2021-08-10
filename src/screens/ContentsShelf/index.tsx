@@ -16,6 +16,7 @@ import { PROGRESS } from '../../store/selectors';
 // @ts-ignore: non-ts file
 import { getActivityFromKey } from '../../utils/helpers';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
   const theme = useTheme() as CustomThemeType;
@@ -23,11 +24,11 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
   const contentCategory = route.params.category;
   const descriptionByCategory =
     contentCategory === 'education'
-      ? 'VR contents for learning about stress and coping skills'
+      ? translate('contentCategory-education')
       : contentCategory === 'relaxation'
-      ? 'VR contents to stay calm and relax your mind'
+      ? translate('contentCategory-relaxation')
       : contentCategory === 'mindfulness'
-      ? 'Enhance your innate resilience, health, and contentment'
+      ? translate('contentCategory-mindfulness')
       : '';
   const activities = useProgramActivitiesByCategory(contentCategory) || [];
   const uniqueActivities = activities.reduce((r: Record<string, ProgramActivity>, a: ProgramActivity) => {
@@ -44,7 +45,7 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
       <RowItem
         key={act.id}
         title={act.name}
-        text={locked ? 'unlocks from Daily Activity screen' : 'tap to replay'}
+        text={locked ? translate('repeatButton-locked') : translate('repeatButton-unlocked')}
         locked={locked}
         // reverse
         onPress={() => navigation.navigate('Activity', { activityId: act.id })}
@@ -60,9 +61,7 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
             <Headline style={styles.headline}>{contentCategory}</Headline>
             <Paragraph style={styles.paragraph}>{descriptionByCategory}</Paragraph>
             <View style={styles.infoContainer}>
-              <Text style={[styles.infoText, { color: theme.colors.dark }]}>
-                contents unlock from your daily activities
-              </Text>
+              <Text style={[styles.infoText, { color: theme.colors.dark }]}>{translate('contents-unlock-text')}</Text>
             </View>
           </View>
         }
