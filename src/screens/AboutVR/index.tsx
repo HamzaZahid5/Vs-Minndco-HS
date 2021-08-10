@@ -2,14 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import { Headline, Paragraph, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+// @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
+// @ts-ignore: non-ts file
 import RowItem from '../../components/RowItem';
-import useVRPlayerCTA from '../../utils/hooks/useVRPlayerCTA';
+import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
+import { DefaultScreenPropType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-const KitFinish = ({ navigation }) => {
+const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
   const theme = useTheme();
-  const styles = getStyles(theme);
+  const styles = getStyles(theme as CustomThemeType);
   const resourceId = 'contents/00_welcome_to_relief_EN.mp4';
   const openVRPlayer = useVRPlayerCTA({
     resourceId,
@@ -23,7 +29,7 @@ const KitFinish = ({ navigation }) => {
       console.log('complete');
       navigation.navigate('Main');
     },
-  });
+  } as VRPlayerCTAPropType);
 
   return (
     <ScreenDecorator>
@@ -32,14 +38,12 @@ const KitFinish = ({ navigation }) => {
         fullScroll
         header={
           <View style={styles.hero}>
-            <View style={{ position: 'absolute' }}>
+            <View style={styles.heroView}>
               <Headline style={styles.headline}>
-                VR-MET<Text style={{ fontSize: 13, lineHeight: 25, textAlignVertical: 'top' }}>®</Text>
+                {translate('VR-MET')}
+                <Text style={styles.heroText}>®</Text>
               </Headline>
-              <Paragraph style={styles.description}>
-                Is a program that combines Virtual Reality, Mindfulness based self-control and cue-exposure therapy for
-                a high efficiency in behaviour change.
-              </Paragraph>
+              <Paragraph style={styles.description}>{translate('program-description')}</Paragraph>
             </View>
             <Image
               style={styles.topImage}
@@ -50,19 +54,19 @@ const KitFinish = ({ navigation }) => {
         }
       >
         <View style={styles.contentWrapper}>
-          <Text>Pave the way for VR-MET</Text>
-          <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
+          <Text>{translate('content-text')}</Text>
+          <View style={styles.wrapperView}>
             <RowItem
-              title="Set up my VR headset"
-              text="You need your gear ready to go"
+              title={translate('setup-button-tittle')}
+              text={translate('setup-button-text')}
               reverse
               onPress={() => navigation.push('KitAssemble')}
             />
           </View>
-          <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
+          <View style={styles.contentWrapper}>
             <RowItem
-              title="Take me to the VR screen"
-              text="Ready to try VR?"
+              title={translate('govr-title')}
+              text={translate('govr-text')}
               reverse
               // onPress={() => navigation.push('VRMet')}
               onPress={openVRPlayer}
@@ -80,7 +84,7 @@ KitFinish.propTypes = {
 
 export default KitFinish;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',
@@ -142,4 +146,13 @@ const getStyles = theme =>
       position: 'absolute',
       zIndex: -1,
     },
+    heroView: {
+      position: 'absolute',
+    },
+    heroText: {
+      fontSize: 13,
+      lineHeight: 25,
+      textAlignVertical: 'top',
+    },
+    wrapperView: { width: '100%', marginTop: 40, alignItems: 'center' },
   });

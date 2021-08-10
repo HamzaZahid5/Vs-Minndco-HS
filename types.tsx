@@ -1,3 +1,5 @@
+import { StackNavigationProp } from '@react-navigation/stack';
+
 export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
@@ -53,3 +55,17 @@ declare global {
     readonly width: number;
   }
 }
+
+export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {
+  navigation: StackNavigationProp<RootStackParamList, Type>;
+}
+
+export type activityType = {
+  type?: string;
+  id?: string;
+  name?: string;
+  description?: string;
+  asset?: string;
+  category?: string;
+  duration?: number;
+};
