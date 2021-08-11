@@ -25,9 +25,11 @@ import useCompletion from '../../utils/hooks/useCompletion';
 import { Badge } from 'react-native-paper';
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { useSelector } from 'react-redux';
+import { activityType } from '../../../types';
 
 const HomeScreen = ({ navigation }: Props) => {
-  const [nextActivity] = useNextActivity();
+  let [nextActivity] = useNextActivity();
+  nextActivity = nextActivity as activityType; // @TODO migrate useNextActivity to typescript
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
   const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);

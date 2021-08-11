@@ -60,8 +60,10 @@ export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {
   navigation: StackNavigationProp<RootStackParamList, Type>;
 }
 
+export type activityTypesType = '2d-video' | 'vr-met' | 'audio' | 'reflection';
+
 export type activityType = {
-  type?: string;
+  type?: activityTypesType;
   id?: string;
   name?: string;
   description?: string;

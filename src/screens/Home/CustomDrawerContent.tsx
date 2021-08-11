@@ -5,8 +5,17 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'react-native-paper';
+import { KIT_ACTIVATED } from '../../store/selectors';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const CustomDrawerItem = ({ name, icon, color, onPress }) => (
+type CustomDrawerItemPropType = {
+  name: string;
+  icon: string;
+  color: string;
+  onPress: () => void;
+};
+
+const CustomDrawerItem = ({ name, icon, color, onPress }: CustomDrawerItemPropType) => (
   <TouchableOpacity onPress={onPress} style={{ flex: 1, marginVertical: 20 }}>
     <View
       style={{
@@ -29,9 +38,8 @@ CustomDrawerItem.propTypes = {
 
 const CustomDrawerContent = props => {
   const { navigation } = props;
-  const theme = useTheme();
-  const kitId = useSelector(store => store.user.data.kit_id) || '';
-  const kitActivated = kitId.length > 0;
+  const theme = useTheme() as CustomThemeType;
+  const kitActivated = useSelector(KIT_ACTIVATED);
   return (
     <DrawerContentScrollView {...props}>
       <CustomDrawerItem
