@@ -1,10 +1,8 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { View, Image, StyleSheet } from 'react-native';
 
 const HeaderEmpty = () => {
-  const theme = useTheme();
-  const styles = getStyles(theme);
+  const styles = getStyles();
   return (
     <View style={styles.container}>
       <Image style={styles.topImage} source={require('../../../assets/images/blank_header_1.png')} />
@@ -14,7 +12,7 @@ const HeaderEmpty = () => {
 
 export default HeaderEmpty;
 
-const getStyles = theme =>
+const getStyles = () =>
   StyleSheet.create({
     container: {
       height: '100%',

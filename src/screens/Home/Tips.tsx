@@ -2,9 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Color from 'color';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
 const Tips = () => {
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
     <View style={styles.container}>
@@ -17,7 +18,7 @@ const Tips = () => {
 
 export default Tips;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     container: {
       borderRadius: 10,

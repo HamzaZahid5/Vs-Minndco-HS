@@ -1,17 +1,19 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { StyleSheet, View, Text, Image } from 'react-native';
 import { TextInput, Headline, useTheme, Paragraph } from 'react-native-paper';
-import analytics from '../../services/Analytics';
+// @ts-ignore: non-ts file
 import { getKitById, burnCode } from '../../services/Firestore';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import GenericPageLayout from './../../components/GenericPageLayout';
 // import OnboardingParagraph from '../../components/OnboardingParagraph';
 // import OnboardingTitle from '../../components/OnboardingTitle';
 // import Firebase from './../../services/Firebase';
 // import { connector } from './../../redux/connector';
+// @ts-ignore: non-ts file
 import DefaultDialog from './../../components/DefaultDialog';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 // import { getLocale } from '../../utils/localization';
 // import {
@@ -25,8 +27,11 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import Color from 'color';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { DefaultScreenPropType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { FLAGS } from '../../store/selectors';
 
-const validate = async code => {
+const validate = async (code: string) => {
   const kitDoc = await getKitById(code);
   if (!kitDoc.exists) {
     return [false, 'Invalid activation code'];
@@ -39,9 +44,9 @@ const validate = async code => {
   return [true];
 };
 
-const CodeForm = ({ onSubmit, isLoading }) => {
+const CodeForm = ({ onSubmit, isLoading }: { onSubmit: (code: string) => void; isLoading: boolean }) => {
   const [code, setCode] = useState('');
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
     <>
@@ -65,7 +70,7 @@ const CodeForm = ({ onSubmit, isLoading }) => {
           label="CODE"
           returnKeyType="done"
           value={code}
-          type="flat"
+          //type="flat"
           onChangeText={text => setCode(text)}
           keyboardType="number-pad"
           dense={false}
@@ -95,19 +100,19 @@ CodeForm.propTypes = {
   isLoading: PropTypes.bool,
 };
 
-const KitActivation = ({ navigation }) => {
-  const theme = useTheme();
+const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const inputRef = useRef();
-  const isLoading = useSelector(store => store.flags.isloading);
+  const { isLoading } = useSelector(FLAGS);
   const dispatch = useDispatch();
 
-  const [helpVisible, setHelpVisible] = useState();
+  const [helpVisible, setHelpVisible] = useState<boolean>();
 
   const helpImageSrc =
     'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/images%2Factivation_code_scheme_en.png?alt=media&token=52c9d0e1-a105-4b61-bcf7-c04b25aa1e3f';
 
-  const onFormSubmit = async code => {
+  const onFormSubmit = async (code: string) => {
     dispatch({ type: 'flags/setIsLoading', payload: 1 });
     const [valid, codeErr] = await validate(code);
     if (valid !== true) {
@@ -151,9 +156,10 @@ const KitActivation = ({ navigation }) => {
           </View>
         }
       >
-        <View style={styles.contentWrapper}>
+        {/*<View style={styles.contentWrapper}> This style does not exist*/}
+        <View>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-            <CodeForm onSubmit={onFormSubmit} isLoading={isLoading} />
+            <CodeForm onSubmit={onFormSubmit} isLoading={isLoading !== 0 ? true : false} />
           </View>
           <DefaultDialog
             show={helpVisible}
@@ -165,12 +171,8 @@ const KitActivation = ({ navigation }) => {
             title="Open you box and look into the back cover for the code as the following image."
             content={
               <Image
-                style={{
-                  width: '100%',
-                  height: 200,
-                  borderBottomColor: 'gray',
-                  borderBottomWidth: 1,
-                }}
+                // eslint-disable-next-line react-native/no-inline-styles
+                style={styles.image}
                 source={{
                   uri: helpImageSrc,
                 }}
@@ -195,7 +197,7 @@ KitActivation.propTypes = {
 
 export default KitActivation;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',
@@ -247,5 +249,11 @@ const getStyles = theme =>
       fontSize: 14,
       color: '#664AB9',
       textDecorationLine: 'underline',
+    },
+    image: {
+      width: '100%',
+      height: 200,
+      borderBottomColor: 'gray',
+      borderBottomWidth: 1,
     },
   });

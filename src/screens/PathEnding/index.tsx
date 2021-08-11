@@ -1,10 +1,13 @@
 import React, { useLayoutEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme, Button, Headline } from 'react-native-paper';
 import Color from 'color';
+// @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+// @ts-ignore: non-ts file
 import RowItem from '../../components/RowItem';
 import HeaderRating from './HeaderRating';
 import HeaderStatistics from './HeaderStatistics';
@@ -12,13 +15,22 @@ import HeaderEmpty from './HeaderEmpty';
 import HeaderPoll from './HeaderPoll';
 import HeaderVote from './HeaderVote';
 import HeaderPerformance from './HeaderPerformance';
+// @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
+// @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
+// @ts-ignore: non-ts file
 import ChipButton from '../../components/ChipButton';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { DefaultScreenPropType, DefaultScreenRouteType, RootStackParamList } from '../../../types';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams = {} } = {}) => {
+export const usePathEndingBarButton = (
+  navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>,
+  { text = 'Done', routeParams = {} } = {},
+) => {
   const resetTo = useNavigationResetPathTo(navigation);
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   useLayoutEffect(() => {
     const headerRight = () => (
       <ChipButton
@@ -46,7 +58,7 @@ export const usePathEndingBarButton = (navigation, { text = 'Done', routeParams 
   }, [navigation, routeParams]);
 };
 
-const getHeaderByParam = param => {
+const getHeaderByParam = (param: RootStackParamList['PathEnding']['header']) => {
   if (param.type === 'statistics') {
     return <HeaderStatistics />;
   }
@@ -65,8 +77,11 @@ const getHeaderByParam = param => {
   return <HeaderEmpty />;
 };
 
-const PathEnding = ({ navigation, route }) => {
-  const theme = useTheme();
+const PathEnding = ({
+  navigation,
+  route,
+}: DefaultScreenPropType<'PathEnding'> & DefaultScreenRouteType<'PathEnding'>) => {
+  const theme = useTheme() as CustomThemeType;
   const todaysActivityDone = useTodaysActivityDone();
   const styles = getStyles(theme);
   const resetPathTo = useNavigationResetPathTo(navigation);
@@ -178,7 +193,7 @@ PathEnding.propTypes = {
 
 export default PathEnding;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',

@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
-const HeaderKitActivated = ({ onVote }) => {
-  const theme = useTheme();
-  const styles = getStyles(theme);
+const HeaderKitActivated = ({ onVote }: { onVote: () => void }) => {
+  const styles = getStyles();
   return (
     <View style={styles.container}>
       <Text>Congratulations!</Text>
@@ -22,7 +20,7 @@ HeaderKitActivated.propTypes = {
 
 export default HeaderKitActivated;
 
-const getStyles = theme =>
+const getStyles = () =>
   StyleSheet.create({
     container: {
       height: '100%',

@@ -11,6 +11,7 @@ export const LAST_ACTIVITY_AT = (store: RootState) => {
   return fireBaseDate ? fireBaseDate.toDate() : undefined;
 };
 export const ACTIVITY_DAYS_IN_A_ROW = (store: RootState) => store?.user?.data?.statistics?.activity_days_in_a_row;
+export const SHOW_BASIC_TUTORIAL = (store: RootState) => store?.user?.data?.flags?.show_basics_tutorial;
 export const USER_PROFILE = (store: RootState) => {
   const { language, gender } = store?.user?.data;
   return { language, gender };
@@ -26,3 +27,5 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
   const { uid } = store?.user?.auth;
   return { crisp_session_id, has_coach_messages, show_welcome_message_on_chat, display_name, group, kit_id, uid };
 };
+
+export const FLAGS = (store: RootState) => store?.flags;

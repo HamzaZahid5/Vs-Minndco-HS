@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import useValuationActions from '../../appActionHooks/useValuationActions';
 
-const HeaderPoll = ({ asset }) => {
-  const [vote, setVote] = useState();
+const HeaderPoll = ({ asset }: { asset: string }) => {
+  const [vote, setVote] = useState<'stressed' | 'bored' | 'angry' | 'happy'>();
   const { voteMood } = useValuationActions();
 
-  const onVote = rate => {
+  const onVote = (rate: 'stressed' | 'bored' | 'angry' | 'happy') => {
     voteMood(asset, rate);
   };
 
@@ -20,8 +21,7 @@ const HeaderPoll = ({ asset }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vote]);
 
-  const theme = useTheme();
-  const styles = getStyles(theme);
+  const styles = getStyles();
   return (
     <View style={styles.pollContainer}>
       <Text>Now tell me, how do you feel?</Text>
@@ -73,7 +73,7 @@ HeaderPoll.propTypes = {
 
 export default HeaderPoll;
 
-const getStyles = theme =>
+const getStyles = () =>
   StyleSheet.create({
     pollContainer: {
       height: '100%',

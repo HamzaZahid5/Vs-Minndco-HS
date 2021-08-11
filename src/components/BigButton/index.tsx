@@ -10,7 +10,7 @@ import Color from 'color';
 
 import { CustomThemeType } from '../../utils/OriginalTheme';
 type Props = {
-  variant: string;
+  variant?: string;
   style?: ViewStyle;
   labelStyle?: ViewStyle;
   onlyPremium?: boolean;

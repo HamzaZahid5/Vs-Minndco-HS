@@ -22,7 +22,7 @@ import useActivityActions from '../../appActionHooks/useActivityActions';
 import { formatAsset } from '../../utils/helpers';
 import { USER_PROFILE } from '../../store/selectors';
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
-import { DefaultScreenPropType } from '../../../types';
+import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types';
 
 const getWhatContentIs = (act: activityType | { type: string } = { type: '' }) => ({
   video: act.type === '2d-video',
@@ -31,15 +31,10 @@ const getWhatContentIs = (act: activityType | { type: string } = { type: '' }) =
   form: act.type === 'reflection',
 });
 
-interface ActivityScreenPropType extends DefaultScreenPropType<'Activity'> {
-  route: {
-    params?: {
-      activityId?: string;
-    };
-  };
-}
-
-const ActivityScreen = ({ navigation, route }: ActivityScreenPropType) => {
+const ActivityScreen = ({
+  navigation,
+  route,
+}: DefaultScreenPropType<'Activity'> & DefaultScreenRouteType<'Activity'>) => {
   const { activityId } = route.params || {};
   const [nextActivity, nextActivityKey] = useNextActivity(activityId);
   const IS = getWhatContentIs(nextActivity);

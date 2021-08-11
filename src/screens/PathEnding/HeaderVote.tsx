@@ -2,26 +2,29 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Platform } from 'react-native';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { Headline, Paragraph, useTheme } from 'react-native-paper';
+import { Headline, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import useValuationActions from '../../appActionHooks/useValuationActions';
 import FadeEffect from '../../components/FadeEffect';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
 const HeaderVote = ({ asset = '' }) => {
-  const [vote, setVote] = useState(-1);
+  const [vote, setVote] = useState<-1 | 0 | 1>(-1);
   const { voteYesNo } = useValuationActions();
 
   useEffect(() => {
+    //Check here, negative votes wont be sent
     if (vote > 0) {
       onVote(vote);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vote]);
 
-  const onVote = rate => {
+  const onVote = (rate: -1 | 0 | 1) => {
     voteYesNo(asset, rate);
   };
 
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const charVoteYes = Platform.OS === 'ios' ? 'YES' : '👍';
   const charVoteNo = Platform.OS === 'ios' ? 'NO' : '👎';
@@ -58,7 +61,7 @@ HeaderVote.propTypes = {
 
 export default HeaderVote;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     pollContainer: {
       height: '100%',
