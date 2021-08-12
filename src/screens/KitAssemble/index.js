@@ -44,11 +44,7 @@ const KitAssemble = ({ navigation }) => {
         }
       >
         <View style={styles.contentWrapper}>
-          <Paragraph style={styles.description}>
-            {translate(
-              'Follow the steps from the video above. Play, pause, rewind if you need it.\nMake your headset ready to put your phone in it.\n\nNow, press the button below to load your first VR-MET content.',
-            )}
-          </Paragraph>
+          <Paragraph style={styles.description}>{translate('screens.KitAssemble.vr-guiade')}</Paragraph>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
               style={{
@@ -56,7 +52,7 @@ const KitAssemble = ({ navigation }) => {
               }}
               onPress={() => navigation.push('VRDemo')}
             >
-              {translate('Load VR-MET')}
+              {translate('screens.KitAssemble.load-vr-met')}
             </BigButton>
           </View>
         </View>

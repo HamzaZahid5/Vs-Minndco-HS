@@ -18,18 +18,18 @@ const HeaderPerfromance = () => {
   const avgStressLevel = journal.reduce((r: number, i) => r + i.level, 0) / journal.length;
   return (
     <View style={styles.container}>
-      <Headline>{translate('A glimpse to your progress')}</Headline>
+      <Headline>{translate('screens.PathEnding.glimpse')}</Headline>
       <View style={styles.main}>
         <View style={styles.row}>
-          <Paragraph>{translate('Completion')}</Paragraph>
+          <Paragraph>{translate('screens.PathEnding.completion')}</Paragraph>
           <ProgressBar progress={progress / 100} />
         </View>
         <View style={styles.row}>
-          <Paragraph>{translate('Habit')}</Paragraph>
+          <Paragraph>{translate('screens.PathEnding.habit')}</Paragraph>
           <ProgressBar progress={(streakCount * 10) / 180} />
         </View>
         <View style={styles.row}>
-          <Paragraph>{translate('Stress avg level')}</Paragraph>
+          <Paragraph>{translate('screens.PathEnding.stress-avg-level')}</Paragraph>
           <ProgressBar progress={(avgStressLevel * 10) / 100} />
         </View>
       </View>

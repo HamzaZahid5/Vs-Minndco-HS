@@ -97,80 +97,80 @@ const PathEnding = ({
 
   const DailyActivityRow = (
     <RowItem
-      title={translate('Do your daily activity')}
-      text={translate('Ready to train?')}
+      title={translate('screens.PathEnding.do-your-daily-activity')}
+      text={translate('screens.PathEnding.ready-to-train')}
       reverse
       onPress={() => resetPathTo('Activity')}
     />
   );
   const StressManagementRow = (
     <RowItem
-      title={translate('Use the reliever')}
-      text={translate('Feeling stressed?')}
+      title={translate('screens.PathEnding.use-the-reliever')}
+      text={translate('screens.PathEnding.feeling-stressed')}
       reverse
       onPress={() => resetPathTo('StressRate')}
     />
   );
   const StressManagementRowAgain = (
     <RowItem
-      title={translate('Use the reliever again')}
-      text={translate('Still feeling stressed?')}
+      title={translate('screens.PathEnding.use-the-reliever-again')}
+      text={translate('screens.PathEnding.still-feeling-stressed')}
       reverse
       onPress={() => resetPathTo('StressRate')}
     />
   );
   const CoachRow = (
     <RowItem
-      title={translate('Message your coach')}
-      text={translate('Looking for some advises?')}
+      title={translate('screens.PathEnding.message-your-coach')}
+      text={translate('screens.PathEnding.looking-for-some-advises')}
       reverse
       onPress={() => resetPathTo('Support')}
     />
   );
   const TutorialRow = (
     <RowItem
-      title={translate('See the app tutorial')}
-      text={translate('Want to review the app features?')}
+      title={translate('screens.PathEnding.see-the-app-tutorial')}
+      text={translate('screens.PathEnding.want-to-review-the-app-features')}
       reverse
       onPress={() => resetPathTo('Tutorial')}
     />
   );
   const HowToProgram = (
     <RowItem
-      title={translate('Check out the program overview')}
-      text={translate('Wondering how this work?')}
+      title={translate('screens.PathEnding.check-out-the-program-overview')}
+      text={translate('screens.PathEnding.wondering-how-this-work')}
       reverse
       onPress={() => resetPathTo('HowItWorks')}
     />
   );
   const VRDemoRow = (
     <RowItem
-      title={translate('Take the first VR experience')}
-      text={translate('Ready to try VR?')}
+      title={translate('screens.PathEnding.take-the-first-vr-experience')}
+      text={translate('screens.PathEnding.ready-to-try-vr')}
       reverse
       onPress={() => resetPathTo('VRDemo')}
     />
   );
   const ViewerAssembleRow = (
     <RowItem
-      title={translate('How to assemble my VR headset')}
-      text={translate('Get ready for VR')}
+      title={translate('screens.PathEnding.how-to-assemble-my-vr-headset')}
+      text={translate('screens.PathEnding.get-ready-for-vr')}
       reverse
       onPress={() => resetPathTo('KitAssemble')}
     />
   );
   const StatsRow = (
     <RowItem
-      title={translate('See your performance')}
-      text={translate('Willing to know you better?')}
+      title={translate('screens.PathEnding.see-your-performance')}
+      text={translate('screens.PathEnding.willing-to-know-you-better')}
       reverse
       onPress={() => resetPathTo('Statistics')}
     />
   );
   const LearnRow = (
     <RowItem
-      title={translate("Let's visit the library")}
-      text={translate('Ready to learn everything about stress?')}
+      title={translate('screens.PathEnding.lets-visit-the-library')}
+      text={translate('screens.PathEnding.ready-to-learn-everything-about-stress')}
       reverse
       onPress={() => resetPathTo('Library')}
     />
@@ -179,7 +179,7 @@ const PathEnding = ({
   return (
     <ScreenDecorator>
       <GenericPageLayout fullScroll header={getHeaderByParam(headerParam)}>
-        <Headline style={styles.bodyTitle}>{translate("What's next?")}</Headline>
+        <Headline style={styles.bodyTitle}>{translate('screens.PathEnding.whats-next')}</Headline>
         <View style={styles.bodyContainer}>
           {rowOptions.includes('DailyActivityRow') && DailyActivityRow}
           {rowOptions.includes('LearnRow') && LearnRow}

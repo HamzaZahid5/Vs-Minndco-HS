@@ -169,7 +169,7 @@ const Login = ({ navigation }: Props) => {
                 style={{ margin: 10, marginTop: -30 }}
                 // onPress={() => navigateToPasswordRecovery(componentId)}
               >
-                {translate('forgot password?')}
+                {translate('screens.Login.forgot-password')}
               </BigButton>
               {/* @ts-ignore: unimplemented */}
               <BigButton
@@ -179,7 +179,7 @@ const Login = ({ navigation }: Props) => {
                 disabled={loading}
                 onPress={() => navigation.push('Registration')}
               >
-                {translate('Create an account')}
+                {translate('screens.Login.create-an-account')}
               </BigButton>
             </View>
           </View>
@@ -204,7 +204,7 @@ const Login = ({ navigation }: Props) => {
               disabled={loading}
               onPress={() => showLoginForm(true)}
             >
-              {translate('Enter')}
+              {translate('screens.Login.enter')}
             </BigButton>
           </View>
           <View>
@@ -217,7 +217,7 @@ const Login = ({ navigation }: Props) => {
               disabled={loading}
               onPress={() => navigation.push('Registration')}
             >
-              {translate('Create an account')}
+              {translate('screens.Login.create-an-account')}
             </BigButton>
           </View>
         </FadeEffect>

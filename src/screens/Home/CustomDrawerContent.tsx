@@ -55,7 +55,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation.closeDrawer();
         }}
         icon="teach"
-        name={translate('Learning')}
+        name={translate('screens.Home.learning')}
         color={theme.colors.secondary}
       />
 
@@ -66,7 +66,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation.closeDrawer();
         }}
         icon="account"
-        name={translate('Profile')}
+        name={translate('screens.Home.profile')}
         color={theme.colors.secondary}
       />
 
@@ -76,7 +76,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation.closeDrawer();
         }}
         icon="heart-pulse"
-        name={translate('Statistics')}
+        name={translate('screens.Home.statistics')}
         color={theme.colors.secondary}
       />
 
@@ -87,7 +87,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             navigation.closeDrawer();
           }}
           icon="google-cardboard"
-          name={translate('Activation')}
+          name={translate('screens.Home.activation')}
           color={theme.colors.secondary}
         />
       )}
@@ -98,7 +98,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             navigation.closeDrawer();
           }}
           icon="google-cardboard"
-          name={translate('About VR')}
+          name={translate('screens.Home.about-vr')}
           color={theme.colors.secondary}
         />
       )}

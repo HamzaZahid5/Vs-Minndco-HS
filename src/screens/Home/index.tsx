@@ -56,13 +56,13 @@ const HomeScreen = ({ navigation }: Props) => {
         {typeof nextActivity === 'object' ? (
           <CircularContent
             title={nextActivity?.name}
-            informativeText={nextActivity ? translate('Tap the circle for your next activity') : ' '}
+            informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
             type={nextActivity?.type}
             instructionsText={
               nextActivity
                 ? todaysActivityDone
-                  ? translate("Tomorrow's activity")
-                  : translate("Today's activity")
+                  ? translate('screens.Home.tomorrows-activity')
+                  : translate('screens.Home.todays-activity')
                 : ''
             }
             progress={progress}
@@ -74,7 +74,7 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.BottomLeft>
         <FABButton
           icon="account-heart"
-          informativeText={translate('Coach')}
+          informativeText={translate('screens.Home.coach')}
           onPress={() => navigation.push('Support')}
           showAlert={hasCouchMessage}
         />
@@ -82,7 +82,7 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.BottomRight>
         <FABButton
           icon="head-check"
-          informativeText={translate('Reliever')}
+          informativeText={translate('screens.Home.reliever')}
           onPress={() => navigation.push('StressRate')}
         />
       </HomeLayout.BottomRight>
