@@ -47,7 +47,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-                    error={touched.email !== undefined && Boolean(errors.email)}
+                    error={touched.email !== undefined ? errors.email : null}
                     label={translate('Email address')}
                     value={values.email}
                     onChangeText={handleChange('email')}
@@ -60,7 +60,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-                    error={touched.password !== undefined && Boolean(errors.password)}
+                    error={touched.password !== undefined ? errors.password : null}
                     label={translate('Password')}
                     value={values.password}
                     onChangeText={handleChange('password')}
