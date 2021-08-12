@@ -54,18 +54,18 @@ const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivit
     <ScreenDecorator>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around', padding: 20 }}>
         <RowItem
-          title={translate('Reading activity')}
-          text={translate('Testimonies and facts about stress')}
+          title={translate('screens.StressActivityType.reading-activity')}
+          text={translate('screens.StressActivityType.reading-activity-text')}
           onPress={() => (!selected ? setSelection(1) : null)}
         />
         <RowItem
-          title={translate('Multimedia activity')}
-          text={translate('Audio and video to learn and do')}
+          title={translate('screens.StressActivityType.multimedia-activity')}
+          text={translate('screens.StressActivityType.multimedia-activity-text')}
           onPress={() => (!selected ? setSelection(2) : null)}
         />
         <RowItem
-          title={translate('Guided activity')}
-          text={translate('Breath sync and interactive content to relax')}
+          title={translate('screens.StressActivityType.guided-activity')}
+          text={translate('screens.StressActivityType.guided-activity-text')}
           onPress={() => (!selected ? setSelection(3) : null)}
         />
       </View>

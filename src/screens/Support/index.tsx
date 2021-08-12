@@ -66,7 +66,7 @@ const Support = ({
   }, []);
 
   // first user message to activate channel
-  const activationMessage = translate('Hi there, I´m starting my coaching support');
+  const activationMessage = translate('screens.Support.starting-coach');
   // first message template from Coach to user
   const welcomeMessage = template(
     translate(
@@ -86,7 +86,7 @@ const Support = ({
   `;
   const runFirst = `
     window.injectedEmail = 'private@gmail.com';
-    window.startingText = ${translate('starting chat...')};
+    window.startingText = ${translate('screens.Support.starting-chat')};
   `;
 
   return (
@@ -162,7 +162,7 @@ const Support = ({
       />
       {!webViewVisible && (
         <View style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}>
-          <Text>{isCoachingSupport ? translate('Starting Coach chat') : translate('Starting support chat')}</Text>
+          <Text>{isCoachingSupport ? translate('screens.Support.starting-coach-chat') : translate('screens.Support.starting-support-chat')}</Text>
         </View>
       )}
       <KeyboardSpacer />

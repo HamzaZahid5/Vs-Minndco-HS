@@ -31,7 +31,7 @@ const Profile = () => {
         }
       >
         <View style={styles.bodyContainer}>
-          <Row label={translate('Email')} text={email} />
+          <Row label={translate('screens.Profile.email')} text={email} />
         </View>
 
         <View style={styles.footer}>
@@ -41,7 +41,7 @@ const Profile = () => {
               auth().signOut();
             }}
           >
-            {translate('Sign out')}
+            {translate('screens.Profile.sign-out')}
           </BigButton>
           <Text
             // onPress={() => incrementDebugCount(debugCount + 1)}

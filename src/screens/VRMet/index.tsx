@@ -60,9 +60,7 @@ true;
 const JS_PLAY_VIDEO = () => `
 // enterVrAndPlay();
 window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
-  alert(${translate(
-    "Can't enter VR. Please close the app completely and open it again in order to get persmission requested one more time.",
-  )});
+  alert(${translate('screens.VRMet.error-enter-vr')});
   window.ReactNativeWebView.postMessage("PanoViewer:denied")
 });
 true;`;
