@@ -10,6 +10,7 @@ import TextInputStyled from './../TextInputStyled';
 import BigButton from './../BigButton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { translate } from '../../utils/localization';
 
 Yup.addMethod(Yup.string, 'complianceE146', function (onErrorMessage) {
   const message = onErrorMessage;
@@ -64,7 +65,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   // borderWidth: 1,
                   // borderColor: 'green',
                 }}
-                label="Name"
+                label={translate('Name')}
                 value={values.name}
                 type="flat"
                 onChangeText={handleChange('name')}
@@ -77,7 +78,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   // borderWidth: 1,
                   // borderColor: 'green',
                 }}
-                label="Last name"
+                label={translate('Last name')}
                 value={values.lastname}
                 type="flat"
                 onChangeText={handleChange('lastname')}
@@ -87,7 +88,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             <View style={styles.rowForm} key="row5">
               <TextInputStyled
                 style={{ flex: 1 }}
-                label="Email address"
+                label={translate('Email address')}
                 value={values.email}
                 type="flat"
                 keyboardType="email-address"
@@ -99,7 +100,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             <View style={styles.rowForm} key="row2">
               <TextInputStyled
                 style={{ flex: 1 }}
-                label="Password"
+                label={translate('Password')}
                 value={values.password}
                 type="flat"
                 onChangeText={handleChange('password')}
@@ -111,7 +112,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             <View style={styles.rowForm} key="row3">
               <TextInputStyled
                 style={{ flex: 1 }}
-                label="Repeat password"
+                label={translate('Repeat password')}
                 value={values.confirmpassword}
                 type="flat"
                 onChangeText={handleChange('confirmpassword')}
@@ -130,7 +131,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               disabled={loading}
               onPress={submitForm}
             >
-              Create account
+              {translate('Create account')}
             </BigButton>
           </React.Fragment>
         )}

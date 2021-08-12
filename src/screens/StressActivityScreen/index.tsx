@@ -23,6 +23,7 @@ import useAppActions from './actions';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
 import { CURRENT_STRESS_INPUT } from '../../store/selectors';
+import { translate } from '../../utils/localization';
 
 export type contentType = {
   id: string;

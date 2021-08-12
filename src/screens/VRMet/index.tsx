@@ -6,6 +6,7 @@ import WebView, { WebViewMessageEvent } from 'react-native-webview';
 // @ts-ignore: non-ts file
 import template from 'lodash.template';
 import { DefaultScreenRouteType } from '../../../types';
+import { translate } from '../../utils/localization';
 
 const DEBUGGING = `
      // Debug
@@ -56,10 +57,12 @@ const enterVrAndPlay = async () => {
 true;
 `;
 
-const JS_PLAY_VIDEO = `
+const JS_PLAY_VIDEO = () => `
 // enterVrAndPlay();
 window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
-  alert("Can't enter VR. Please close the app completely and open it again in order to get persmission requested one more time.");
+  alert(${translate(
+    "Can't enter VR. Please close the app completely and open it again in order to get persmission requested one more time.",
+  )});
   window.ReactNativeWebView.postMessage("PanoViewer:denied")
 });
 true;`;
@@ -68,7 +71,7 @@ const getMessageEventsHandler =
   (webViewRef: MutableRefObject<WebView | null>, onCancel: () => void, onComplete: () => void) =>
   (event: WebViewMessageEvent) => {
     if (event.nativeEvent.data === 'PanoViewer:ready') {
-      webViewRef.current?.injectJavaScript(JS_PLAY_VIDEO);
+      webViewRef.current?.injectJavaScript(JS_PLAY_VIDEO());
     }
     if (event.nativeEvent.data === 'Video:ended') {
       onComplete();

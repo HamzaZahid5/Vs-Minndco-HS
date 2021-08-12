@@ -7,6 +7,7 @@ import RowItem from '../../components/RowItem';
 // @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 import { DefaultScreenPropType } from '../../../types';
+import { translate } from '../../utils/localization';
 
 //This component is not used
 const Row = ({ title, subtitle }: { title: string; subtitle: string }) => {
@@ -53,18 +54,18 @@ const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivit
     <ScreenDecorator>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around', padding: 20 }}>
         <RowItem
-          title="Reading activity"
-          text="Testimonies and facts about stress"
+          title={translate('Reading activity')}
+          text={translate('Testimonies and facts about stress')}
           onPress={() => (!selected ? setSelection(1) : null)}
         />
         <RowItem
-          title="Multimedia activity"
-          text="Audio and video to learn and do"
+          title={translate('Multimedia activity')}
+          text={translate('Audio and video to learn and do')}
           onPress={() => (!selected ? setSelection(2) : null)}
         />
         <RowItem
-          title="Guided activity"
-          text="Breath sync and interactive content to relax"
+          title={translate('Guided activity')}
+          text={translate('Breath sync and interactive content to relax')}
           onPress={() => (!selected ? setSelection(3) : null)}
         />
       </View>
