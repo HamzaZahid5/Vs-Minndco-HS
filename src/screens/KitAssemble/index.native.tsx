@@ -11,6 +11,7 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
 import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
   const theme = useTheme() as CustomThemeType;
@@ -65,9 +66,9 @@ const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
         <View style={styles.contentWrapper}>
           {/*<Paragraph style={styles.description}> description style does not exist*/}
           <Paragraph>
-            {
-              'Follow the steps from the video above. Play, pause, rewind if you need it.\nMake your headset ready to put your phone in it.\n\nNow, press the button below to load your first VR-MET content.'
-            }
+            {translate(
+              'Follow the steps from the video above. Play, pause, rewind if you need it.\nMake your headset ready to put your phone in it.\n\nNow, press the button below to load your first VR-MET content.',
+            )}
           </Paragraph>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
@@ -76,7 +77,7 @@ const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
               }}
               onPress={openVRPlayer}
             >
-              Load VR-MET
+              {translate('Load VR-MET')}
             </BigButton>
           </View>
         </View>

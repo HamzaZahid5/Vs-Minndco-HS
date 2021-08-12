@@ -10,6 +10,7 @@ import { CustomThemeType } from '../../utils/OriginalTheme';
 import { HomeScreenNavigationProp } from './types';
 import { HomeScreenDrawerNavigationProp } from './DrawerNavigator';
 import { useNavigation } from '@react-navigation/native';
+import { translate } from '../../utils/localization';
 
 type CustomDrawerItemPropType = {
   name: string;
@@ -42,7 +43,8 @@ CustomDrawerItem.propTypes = {
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   // In order to typecheck is needed to use useNavigation, because if navigation field inside prop is used,
   // it is assumes as be only a drawer navigator
-  const navigation = useNavigation<HomeScreenNavigationProp & HomeScreenDrawerNavigationProp>();
+  //const navigation = useNavigation<HomeScreenNavigationProp & HomeScreenDrawerNavigationProp>();
+  const { navigation } = props;
   const theme = useTheme() as CustomThemeType;
   const kitActivated = useSelector(KIT_ACTIVATED);
   return (
@@ -53,7 +55,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation.closeDrawer();
         }}
         icon="teach"
-        name="Learning"
+        name={translate('Learning')}
         color={theme.colors.secondary}
       />
 
@@ -64,7 +66,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation.closeDrawer();
         }}
         icon="account"
-        name="Profile"
+        name={translate('Profile')}
         color={theme.colors.secondary}
       />
 
@@ -74,7 +76,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation.closeDrawer();
         }}
         icon="heart-pulse"
-        name="Statistics"
+        name={translate('Statistics')}
         color={theme.colors.secondary}
       />
 
@@ -85,7 +87,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             navigation.closeDrawer();
           }}
           icon="google-cardboard"
-          name="Activation"
+          name={translate('Activation')}
           color={theme.colors.secondary}
         />
       )}
@@ -96,7 +98,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             navigation.closeDrawer();
           }}
           icon="google-cardboard"
-          name="About VR"
+          name={translate('About VR')}
           color={theme.colors.secondary}
         />
       )}

@@ -3,6 +3,7 @@ import { View, Image, Dimensions, StyleSheet } from 'react-native';
 import { Headline, Paragraph, useTheme } from 'react-native-paper';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import Color from 'color';
+import { translate } from '../../utils/localization';
 
 const HeaderStatistics = () => {
   const theme = useTheme() as CustomThemeType;
@@ -10,10 +11,10 @@ const HeaderStatistics = () => {
   return (
     <View style={styles.container}>
       <View style={{ position: 'absolute' }}>
-        <Headline style={styles.headline}>Keep an eye on your statistics</Headline>
+        <Headline style={styles.headline}>{translate('Keep an eye on your statistics')}</Headline>
         <View style={styles.main}>
           <Paragraph style={styles.paragraph}>
-            They are a valuable source of personal infromation about your behavioral change.
+            {translate('They are a valuable source of personal infromation about your behavioral change.')}
           </Paragraph>
         </View>
       </View>

@@ -6,6 +6,7 @@ import { Paragraph, useTheme } from 'react-native-paper';
 import GenericPageLayout from './../../components/GenericPageLayout';
 import BigButton from '../../components/BigButton';
 import ScreenDecorator from '../../components/ScreenDecorator';
+import { translate } from '../../utils/localization';
 
 const KitAssemble = ({ navigation }) => {
   const theme = useTheme();
@@ -44,9 +45,9 @@ const KitAssemble = ({ navigation }) => {
       >
         <View style={styles.contentWrapper}>
           <Paragraph style={styles.description}>
-            {
-              'Follow the steps from the video above. Play, pause, rewind if you need it.\nMake your headset ready to put your phone in it.\n\nNow, press the button below to load your first VR-MET content.'
-            }
+            {translate(
+              'Follow the steps from the video above. Play, pause, rewind if you need it.\nMake your headset ready to put your phone in it.\n\nNow, press the button below to load your first VR-MET content.',
+            )}
           </Paragraph>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
@@ -55,7 +56,7 @@ const KitAssemble = ({ navigation }) => {
               }}
               onPress={() => navigation.push('VRDemo')}
             >
-              Load VR-MET
+              {translate('Load VR-MET')}
             </BigButton>
           </View>
         </View>

@@ -7,6 +7,7 @@ import { Headline, useTheme } from 'react-native-paper';
 import useValuationActions from '../../appActionHooks/useValuationActions';
 import FadeEffect from '../../components/FadeEffect';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const HeaderVote = ({ asset = '' }) => {
   const [vote, setVote] = useState<-1 | 0 | 1>(-1);
@@ -30,7 +31,7 @@ const HeaderVote = ({ asset = '' }) => {
   const charVoteNo = Platform.OS === 'ios' ? 'NO' : '👎';
   return (
     <View style={styles.pollContainer}>
-      <Headline style={{ textAlign: 'center' }}>It was a useful activity for you?</Headline>
+      <Headline style={{ textAlign: 'center' }}>{translate('It was a useful activity for you?')}</Headline>
       <View style={styles.options}>
         <Pressable style={{}} onPress={() => setVote(0)}>
           <Text
@@ -49,7 +50,7 @@ const HeaderVote = ({ asset = '' }) => {
         </Pressable>
       </View>
       <FadeEffect show={vote >= 0}>
-        <Text style={styles.title}>Thanks for voting</Text>
+        <Text style={styles.title}>{translate('Thanks for voting')}</Text>
       </FadeEffect>
     </View>
   );

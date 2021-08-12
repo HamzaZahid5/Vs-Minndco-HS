@@ -10,7 +10,7 @@ const ModalScreen = ({ navigation }: DefaultScreenPropType<'Modal'>) => (
     onClose={() => navigation.pop()}
     onButtonPress={() => navigation.pop()}
     icon="calendar"
-    title="HolKeAse"
+    title="HolaKeAse" //I think that this screen is not needed
     text="Testing modal messages."
     buttons={[
       {

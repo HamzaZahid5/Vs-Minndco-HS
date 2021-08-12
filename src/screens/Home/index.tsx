@@ -24,6 +24,7 @@ import { Badge } from 'react-native-paper';
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { useSelector } from 'react-redux';
 import { activityType } from '../../../types';
+import { translate } from '../../utils/localization';
 
 const HomeScreen = ({ navigation }: Props) => {
   let [nextActivity] = useNextActivity();
@@ -55,9 +56,15 @@ const HomeScreen = ({ navigation }: Props) => {
         {typeof nextActivity === 'object' ? (
           <CircularContent
             title={nextActivity?.name}
-            informativeText={nextActivity ? 'Tap the circle for your next activity' : ' '}
+            informativeText={nextActivity ? translate('Tap the circle for your next activity') : ' '}
             type={nextActivity?.type}
-            instructionsText={nextActivity ? (todaysActivityDone ? "Tomorrow's activity" : "Today's activity") : ''}
+            instructionsText={
+              nextActivity
+                ? todaysActivityDone
+                  ? translate("Tomorrow's activity")
+                  : translate("Today's activity")
+                : ''
+            }
             progress={progress}
             onPress={() => navigation.push('Activity')}
           />
@@ -67,13 +74,17 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.BottomLeft>
         <FABButton
           icon="account-heart"
-          informativeText="Coach"
+          informativeText={translate('Coach')}
           onPress={() => navigation.push('Support')}
           showAlert={hasCouchMessage}
         />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
-        <FABButton icon="head-check" informativeText="Reliever" onPress={() => navigation.push('StressRate')} />
+        <FABButton
+          icon="head-check"
+          informativeText={translate('Reliever')}
+          onPress={() => navigation.push('StressRate')}
+        />
       </HomeLayout.BottomRight>
     </HomeLayout>
   );
