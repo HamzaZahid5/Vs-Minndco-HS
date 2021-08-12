@@ -1,9 +1,14 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import { ProgressChart } from 'react-native-chart-kit';
 import Color from 'color';
+// @ts-ignore: non-ts file
 import useCompletion from '../../utils/hooks/useCompletion';
+import { ProgressChartData } from 'react-native-chart-kit/dist/ProgressChart';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const chartConfig = {
   backgroundGradientFrom: 'transparent',
@@ -20,9 +25,9 @@ const chartConfig = {
   // useShadowColorFromDataset: false // optional
 };
 const CompletionChart = () => {
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const progress = useCompletion();
-  const [data, setData] = useState();
+  const [data, setData] = useState<ProgressChartData>();
   useEffect(() => {
     if (progress) {
       setData({
@@ -51,7 +56,9 @@ const CompletionChart = () => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>Program completion</Paragraph>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>
+        {translate('screens.Statistics.program-completion')}
+      </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE / 3 }}>
         <View style={{ flex: 1 }} />
         {progress === 0 && (
@@ -74,7 +81,7 @@ const CompletionChart = () => {
                 maxWidth: '50%',
               }}
             >
-              Complete your daily activity to see progress here
+              {translate('screens.Statistics.completition-label')}
             </Paragraph>
           </View>
         )}

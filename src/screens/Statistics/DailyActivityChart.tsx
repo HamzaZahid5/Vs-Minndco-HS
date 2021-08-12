@@ -1,11 +1,14 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import { LineChart } from 'react-native-chart-kit';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const DailyActivityChart = ({ data = [] }) => {
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   return (
     <View
       style={{
@@ -16,7 +19,9 @@ const DailyActivityChart = ({ data = [] }) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>Days with activities</Paragraph>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>
+        {translate('screens.Statistics.days-with-activities')}
+      </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <LineChart
           data={{
