@@ -28,8 +28,9 @@ import { translate } from '../../utils/localization';
 
 export const usePathEndingBarButton = (
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>,
-  { text = 'Done', routeParams = {} } = {},
+  { text = '', routeParams = {} } = {},
 ) => {
+  const buttonText = text.length ? text : translate('screens.PathEnding.done');
   const resetTo = useNavigationResetPathTo(navigation);
   const theme = useTheme() as CustomThemeType;
   useLayoutEffect(() => {
@@ -49,7 +50,7 @@ export const usePathEndingBarButton = (
           borderColor: Color(theme.colors.dark).darken(0.3).toString(),
         }}
       >
-        {text}
+        {buttonText}
       </ChipButton>
     );
     navigation.setOptions({
