@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Paragraph, useTheme } from 'react-native-paper';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const DetailRow = ({ text, label }) => {
-  const theme = useTheme();
+const DetailRow = ({ text, label }: { text: string; label: string }) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
-  {
-    /* EMAIL */
-  }
   return (
     <View style={styles.itemRow}>
       <View style={[styles.itemRowTitle]}>
@@ -20,12 +18,10 @@ const DetailRow = ({ text, label }) => {
           style={styles.itemRowIcon}
           color={theme.colors.ligth}
         />
-        <Paragraph theme={{ colors: { text: theme.colors.ligth } }} style={styles.itemRowLabel}>
-          {label}
-        </Paragraph>
+        <Paragraph style={styles.itemRowLabel}>{label}</Paragraph>
       </View>
       <View style={[styles.itemRowValue]}>
-        <Paragraph theme={{ colors: { text: theme.colors.ligth } }}>{text}</Paragraph>
+        <Paragraph style={styles.itemRowValueParagraph}>{text}</Paragraph>
       </View>
     </View>
   );
@@ -38,7 +34,7 @@ DetailRow.propTypes = {
 
 export default DetailRow;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     itemRow: {
       borderBottomWidth: 1,
@@ -66,9 +62,13 @@ const getStyles = theme =>
     },
     itemRowLabel: {
       marginRight: 10,
+      color: theme.colors.ligth,
     },
     itemRowValue: {
       textAlign: 'right',
       margin: 'auto',
+    },
+    itemRowValueParagraph: {
+      color: theme.colors.ligth,
     },
   });

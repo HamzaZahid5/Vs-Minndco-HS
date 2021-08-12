@@ -1,25 +1,31 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 import BigButton from '../../components/BigButton';
 import Row from './DetailRow';
+// @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
+// @ts-ignore: non-ts file
 import config from './../../../env';
 import { useSelector } from 'react-redux';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { AUTH_INFO } from '../../store/selectors';
 
 const Profile = () => {
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
-  const email = useSelector(store => store.user.auth.email);
+  const { email } = useSelector(AUTH_INFO);
   return (
     <ScreenDecorator>
       <GenericPageLayout
         fullScroll
         header={
           <View style={styles.hero}>
-            <Avatar.Text labelStyle={styles.avatarLabel} size={100} label={'M'} />
+            <Avatar.Text size={100} label={'M'} />
           </View>
         }
       >
@@ -50,7 +56,7 @@ const Profile = () => {
 
 export default Profile;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',
