@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Linking } from 'react-native';
+import { View, StyleSheet, Linking, StyleProp, TextStyle } from 'react-native';
 import { Surface, Text, Title, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
+// @ts-ignore: non-ts file
 import functions from '../../services/Functions';
+// @ts-ignore: non-ts file
 import RegisterForm from './../../components/RegisterForm';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import RoundedBackButton from './../../components/RoundedBackButton';
-// import ChipButton from './../../components/ChipButton';
-// import * as RNLocalize from 'react-native-localize';
-// import { navigateToAuth, navigateBack } from './../../utils/navigationActions';
 
-const getLegalContent = styles => {
+type formikValueType = {
+  name: string;
+  lastname: string;
+  password?: string;
+  confirmpassword?: string;
+  email: string;
+};
+
+const getLegalContent = (styles: Record<string, StyleProp<TextStyle>>) => {
   const result = [];
   let interest;
   let partial;
@@ -33,9 +41,9 @@ const getLegalContent = styles => {
 };
 const Register = () => {
   const [busy, setBusy] = useState(false);
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
-  const onFormSubmit = async form => {
+  const onFormSubmit = async (form: formikValueType & { tz_offset: number }) => {
     if (!busy) {
       setBusy(true);
       // console.log(form);
@@ -50,6 +58,7 @@ const Register = () => {
 
         // navigation occurs on auth state change.
       } catch (e) {
+        // eslint-disable-next-line no-alert
         alert(e);
 
         // keep this line here to avoid update of unmounted component.
@@ -63,7 +72,7 @@ const Register = () => {
       contentInsetAdjustmentBehavior="automatic"
       keyboardShouldPersistTaps={'handled'}
       extraScrollHeight={160}
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={styles.KeyboardAwareScrollStyle}
     >
       {/* <ScrollView
         contentInsetAdjustmentBehavior="automatic"
@@ -83,7 +92,7 @@ const Register = () => {
 
 export default Register;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     absolutScrollView: {
       // borderWidth: 1, borderColor: 'red',
@@ -119,4 +128,5 @@ const getStyles = theme =>
       color: theme.colors.placeholder,
       textDecorationLine: 'underline',
     },
+    KeyboardAwareScrollStyle: { flexGrow: 1 },
   });
