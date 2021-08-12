@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import ChipButton from '../../components/ChipButton';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const NextStepButton = ({ onPress, isLast }) => {
-  const theme = useTheme();
+const NextStepButton = ({ onPress, isLast }: { onPress: () => void; isLast?: boolean }) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
     <ChipButton style={styles.mainStyle} labelStyle={styles.labelStyle} onPress={() => onPress()}>
@@ -14,7 +16,7 @@ const NextStepButton = ({ onPress, isLast }) => {
 };
 export default NextStepButton;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     mainStyle: {
       backgroundColor: theme.colors.secondary,
@@ -22,6 +24,6 @@ const getStyles = theme =>
     },
     labelStyle: {
       // color: theme.colors.text,
-      color: 'white'
+      color: 'white',
     },
   });

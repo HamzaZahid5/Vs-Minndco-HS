@@ -1,24 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Animated } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { View, StyleSheet, Text, Image } from 'react-native';
+// import FastImage from 'react-native-fast-image';
+
 import CircularContent from '../Home/CircularContent';
-import HomeLayout from './../../components/HomeLayout';
-import SkipTutorialButton from './SkipTutorialButton';
+import { useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
+import HomeLayout from '../../components/HomeLayout';
 import NextStepButton from './NextStepButton';
+// @ts-ignore: non-ts file
 import anime from '../../utils/anime';
 import FadeEffect from '../../components/FadeEffect';
+// @ts-ignore: non-ts file
 import FABButton from '../../components/MindCoFABButton';
-import ArrowIndicator from './ArrowIndicator';
 import { Platform } from 'react-native';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const FullScreenHomeMessage = ({ message = 'a third message', next, end }) => {
-  const theme = useTheme();
+const FullScreenHomeMessage = ({
+  message = '' + '\n',
+  end,
+}: {
+  message?: React.Component | string;
+  end: () => void;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [messgeIsVisible, showMessage] = useState(false);
   const [actionsAreVisible, showActions] = useState(false);
-  const [newElementIsVisible, showNewElement] = useState(false);
-  const [indicatorIsVisible, showIndicator] = useState(false);
-  const content = typeof message === 'string' ? <Text style={styles.messageText}>{message}</Text> : message;
+  const image =
+    'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/images%2Fvr_activation_ios_en.png?alt=media&token=160d9951-8127-4642-84c7-4f06d07d606b';
+  const content =
+    typeof message === 'string' ? (
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.messageText}>{message}</Text>
+        <Image
+          style={{
+            width: 200,
+            height: 300,
+          }}
+          source={{
+            uri: image,
+          }}
+          resizeMode="contain"
+        />
+      </View>
+    ) : (
+      message
+    );
   useEffect(() => {
     const transformation = {
       opacity: 0,
@@ -28,18 +55,6 @@ const FullScreenHomeMessage = ({ message = 'a third message', next, end }) => {
         easing: 'linear',
         duration: 0,
         // delay: 1000,
-      })
-      .add({
-        duration: 0,
-        complete: function () {
-          showNewElement(true);
-        },
-      })
-      .add({
-        duration: 500,
-        complete: function () {
-          showIndicator(true);
-        },
       })
       .add({
         duration: 500,
@@ -54,7 +69,6 @@ const FullScreenHomeMessage = ({ message = 'a third message', next, end }) => {
         },
       });
     return () => anime.remove(transformation);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // useEffect(() => {
   //   Navigation.mergeOptions(componentId, {
@@ -84,19 +98,11 @@ const FullScreenHomeMessage = ({ message = 'a third message', next, end }) => {
           </FadeEffect>
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
-              <SkipTutorialButton onPress={end} />
-              <NextStepButton onPress={next} />
+              <NextStepButton onPress={end} isLast />
             </FadeEffect>
           </View>
         </View>
-        <FadeEffect show={newElementIsVisible}>
-          <CircularContent progress={0} />
-        </FadeEffect>
-        <View style={styles.centerIndicator}>
-          <FadeEffect show={indicatorIsVisible}>
-            <ArrowIndicator name="arrow-up-bold" />
-          </FadeEffect>
-        </View>
+        <CircularContent progress={0} />
       </HomeLayout.MiddleCenter>
       <HomeLayout.MiddleBottom>
         {/* <BigButton
@@ -121,7 +127,7 @@ const FullScreenHomeMessage = ({ message = 'a third message', next, end }) => {
 
 export default FullScreenHomeMessage;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     contentWrapper: {
       height: 'auto',
@@ -131,7 +137,7 @@ const getStyles = theme =>
       minWidth: '100%',
       alignContent: 'center',
       justifyContent: 'center',
-      zIndex: 10,
+      zIndex: 15,
     },
     messageContainer: {
       backgroundColor: '#fffa',
