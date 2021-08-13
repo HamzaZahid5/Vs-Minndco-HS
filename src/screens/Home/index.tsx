@@ -23,14 +23,14 @@ import useNextActivity from '../../utils/hooks/useNextActivity';
 // @ts-ignore: non-ts file
 import useCompletion from '../../utils/hooks/useCompletion';
 import { Badge } from 'react-native-paper';
-import { HAS_COUCH_MESSAGES } from '../../store/selectors';
+import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { useSelector } from 'react-redux';
 
 const HomeScreen = ({ navigation }: Props) => {
   const [nextActivity] = useNextActivity();
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
-  const hasCouchMessage = useSelector(HAS_COUCH_MESSAGES);
+  const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);
   // const nextActivity = {
   //   id: 'body-scan',
   //   name: '',

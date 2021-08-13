@@ -48,12 +48,14 @@ export const useFirestoreListener = (collection, id) => {
     }
 
     return () => unsubscribe;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return snapshotData;
 };
 
-const updateProfile = updateObject => firestore().collection('users').doc(auth().currentUser.uid).update(updateObject);
+export const updateProfile = updateObject =>
+  firestore().collection('users').doc(auth().currentUser.uid).update(updateObject);
 
 export const updateBasicTutorialCompleted = () =>
   updateProfile({
