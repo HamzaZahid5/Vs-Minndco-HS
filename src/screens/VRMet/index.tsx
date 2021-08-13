@@ -60,7 +60,7 @@ true;
 const JS_PLAY_VIDEO = () => `
 // enterVrAndPlay();
 window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
-  alert(${translate('screens.VRMet.error-enter-vr')});
+  alert(\`${translate('screens.VRMet.error-enter-vr')}\`);
   window.ReactNativeWebView.postMessage("PanoViewer:denied")
 });
 true;`;
