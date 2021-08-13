@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import Color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useTheme } from 'react-native-paper';
 import { Dimensions } from 'react-native';
 import { Platform } from 'react-native';
 
-const AnimatedRateRow = ({ selected, onSelected, delay, value = 0 }) => {
-  const theme = useTheme();
-  const [highlight, setHighlight] = useState();
+const AnimatedRateRow = ({
+  selected,
+  onSelected,
+  delay,
+  value = 0,
+}: {
+  selected: boolean;
+  onSelected: () => void;
+  delay: number;
+  value: number;
+}) => {
+  const [highlight, setHighlight] = useState<boolean>();
   useEffect(() => {
     if (selected) {
       setTimeout(() => {
