@@ -1,45 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
-// import FastImage from 'react-native-fast-image';
-
-import CircularContent from '../Home/CircularContent';
+import PropTypes from 'prop-types';
+import { View, StyleSheet, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import HomeLayout from '../../components/HomeLayout';
+// @ts-ignore: non-ts file
+import HomeLayout from './../../components/HomeLayout';
 import SkipTutorialButton from './SkipTutorialButton';
-import GenericChipButton from './GenericChipButton';
+import NextStepButton from './NextStepButton';
+// @ts-ignore: non-ts file
 import anime from '../../utils/anime';
 import FadeEffect from '../../components/FadeEffect';
-import FABButton from '../../components/MindCoFABButton';
-import { Platform } from 'react-native';
+// @ts-ignore: non-ts file
+import SmokeRecordButton from '../../containers/SmokeRecord/SmokeRecordButton';
+// import DaysWidget from '../Statistics/DaysWidget';
+// @ts-ignore: non-ts file
+import MoneyWidget from '../Statistics/MoneyWidget';
+import ArrowIndicator from './ArrowIndicator';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const FullScreenHomeMessage = ({ message = '' + '\n', end }) => {
-  const theme = useTheme();
+const FullScreenHomeMessage = ({
+  message = 'a third message',
+  next,
+  end,
+}: {
+  message?: React.Component | string;
+  next: (arg?: number) => void;
+  end: () => void;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [messgeIsVisible, showMessage] = useState(false);
   const [actionsAreVisible, showActions] = useState(false);
-  const image =
-    'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/images%2Factivation_code_scheme_en.png?alt=media&token=52c9d0e1-a105-4b61-bcf7-c04b25aa1e3f';
-
-  const content =
-    typeof message === 'string' ? (
-      <View style={{ alignItems: 'center' }}>
-        <Text style={styles.messageText}>{message}</Text>
-        <Image
-          style={{
-            width: '100%',
-            height: 200,
-            borderBottomColor: 'gray',
-            borderBottomWidth: 1,
-          }}
-          source={{
-            uri: image,
-          }}
-          resizeMode="contain"
-        />
-      </View>
-    ) : (
-      message
-    );
+  const [newElementIsVisible, showNewElement] = useState(false);
+  const [indicatorIsVisible, showIndicator] = useState(false);
+  const content = typeof message === 'string' ? <Text style={styles.messageText}>{message}</Text> : message;
   useEffect(() => {
     const transformation = {
       opacity: 0,
@@ -49,6 +42,18 @@ const FullScreenHomeMessage = ({ message = '' + '\n', end }) => {
         easing: 'linear',
         duration: 0,
         // delay: 1000,
+      })
+      .add({
+        duration: 0,
+        complete: function () {
+          showNewElement(true);
+        },
+      })
+      .add({
+        duration: 500,
+        complete: function () {
+          showIndicator(true);
+        },
       })
       .add({
         duration: 500,
@@ -63,7 +68,6 @@ const FullScreenHomeMessage = ({ message = '' + '\n', end }) => {
         },
       });
     return () => anime.remove(transformation);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // useEffect(() => {
   //   Navigation.mergeOptions(componentId, {
@@ -85,7 +89,16 @@ const FullScreenHomeMessage = ({ message = '' + '\n', end }) => {
   // }, [componentId]);
   return (
     <HomeLayout rowTopStyle={styles.rowTop} rowBottomStyle={styles.rowBottom}>
-      <HomeLayout.TopRight />
+      <HomeLayout.TopRight>
+        <FadeEffect show={newElementIsVisible}>
+          <MoneyWidget />
+        </FadeEffect>
+        <View style={styles.topRightIndicator}>
+          <FadeEffect show={indicatorIsVisible}>
+            <ArrowIndicator />
+          </FadeEffect>
+        </View>
+      </HomeLayout.TopRight>
       <HomeLayout.MiddleCenter>
         <View style={styles.contentWrapper}>
           <FadeEffect style={styles.messageContainer} show={messgeIsVisible}>
@@ -94,11 +107,10 @@ const FullScreenHomeMessage = ({ message = '' + '\n', end }) => {
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
               <SkipTutorialButton onPress={end} />
-              <GenericChipButton onPress={() => end()} text="Proceed with activation" accent />
+              <NextStepButton onPress={next} />
             </FadeEffect>
           </View>
         </View>
-        <CircularContent progress={0} />
       </HomeLayout.MiddleCenter>
       <HomeLayout.MiddleBottom>
         {/* <BigButton
@@ -112,28 +124,27 @@ const FullScreenHomeMessage = ({ message = '' + '\n', end }) => {
         </BigButton> */}
       </HomeLayout.MiddleBottom>
       <HomeLayout.BottomLeft>
-        <FABButton icon="account-heart" />
+        <SmokeRecordButton />
       </HomeLayout.BottomLeft>
-      <HomeLayout.BottomRight>
-        <FABButton icon="head-check" />
-      </HomeLayout.BottomRight>
     </HomeLayout>
   );
 };
 
+FullScreenHomeMessage.propTypes = {
+  message: PropTypes.string,
+  next: PropTypes.func,
+  end: PropTypes.func,
+};
+
 export default FullScreenHomeMessage;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     contentWrapper: {
-      height: 'auto',
-      position: 'absolute',
-      width: Platform.OS === 'web' ? '100vw' : '100%',
-      top: -90,
+      height: 250,
       minWidth: '100%',
       alignContent: 'center',
       justifyContent: 'center',
-      zIndex: 15,
     },
     messageContainer: {
       backgroundColor: '#fffa',
@@ -178,15 +189,6 @@ const getStyles = theme =>
       right: 90,
       top: 0,
       transform: [{ scaleX: -1 }, { rotateZ: '23deg' }],
-    },
-    bottomRightIndicator: {
-      position: 'absolute',
-      bottom: -5,
-      right: 80,
-    },
-    centerIndicator: {
-      position: 'absolute',
-      bottom: -90,
     },
     messageText: {
       color: theme.colors.primary,

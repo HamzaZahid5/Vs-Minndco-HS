@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import CircularContent from '../Home/CircularContent';
+// @ts-ignore: non-ts file
 import HomeLayout from './../../components/HomeLayout';
-import SkipTutorialButton from './SkipTutorialButton';
-import NextStepButton from './NextStepButton';
-import FABButton from '../../components/MindCoFABButton';
+import GenericChipButton from './GenericChipButton';
+// @ts-ignore: non-ts file
 import anime from '../../utils/anime';
 import FadeEffect from '../../components/FadeEffect';
-import ArrowIndicator from './ArrowIndicator';
+// @ts-ignore: non-ts file
+import FABButton from '../../components/MindCoFABButton';
+import { Platform } from 'react-native';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const FullScreenHomeMessage = ({ message = 'a second message', next, end }) => {
-  const theme = useTheme();
+const FullScreenHomeMessage = ({
+  message = '',
+  next,
+}: {
+  message?: React.Component | string;
+  next: (arg?: number) => void;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [messgeIsVisible, showMessage] = useState(false);
   const [actionsAreVisible, showActions] = useState(false);
-  const [newElementIsVisible, showNewElement] = useState(false);
-  const [indicatorIsVisible, showIndicator] = useState(false);
-
   const content = typeof message === 'string' ? <Text style={styles.messageText}>{message}</Text> : message;
   useEffect(() => {
     const transformation = {
@@ -27,18 +34,6 @@ const FullScreenHomeMessage = ({ message = 'a second message', next, end }) => {
         easing: 'linear',
         duration: 0,
         // delay: 1000,
-      })
-      .add({
-        duration: 0,
-        complete: function () {
-          showNewElement(true);
-        },
-      })
-      .add({
-        duration: 500,
-        complete: function () {
-          showIndicator(true);
-        },
       })
       .add({
         duration: 500,
@@ -75,9 +70,7 @@ const FullScreenHomeMessage = ({ message = 'a second message', next, end }) => {
   // }, [componentId]);
   return (
     <HomeLayout rowTopStyle={styles.rowTop} rowBottomStyle={styles.rowBottom}>
-      <HomeLayout.TopRight>
-        <View style={styles.paddingTop} />
-      </HomeLayout.TopRight>
+      <HomeLayout.TopRight />
       <HomeLayout.MiddleCenter>
         <View style={styles.contentWrapper}>
           <FadeEffect style={styles.messageContainer} show={messgeIsVisible}>
@@ -85,11 +78,12 @@ const FullScreenHomeMessage = ({ message = 'a second message', next, end }) => {
           </FadeEffect>
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
-              <SkipTutorialButton onPress={end} />
-              <NextStepButton onPress={next} />
+              <GenericChipButton onPress={() => next(7)} text="no" />
+              <GenericChipButton onPress={() => next(8)} text="yes" />
             </FadeEffect>
           </View>
         </View>
+        <CircularContent progress={0} />
       </HomeLayout.MiddleCenter>
       <HomeLayout.MiddleBottom>
         {/* <BigButton
@@ -103,28 +97,28 @@ const FullScreenHomeMessage = ({ message = 'a second message', next, end }) => {
         </BigButton> */}
       </HomeLayout.MiddleBottom>
       <HomeLayout.BottomLeft>
-        <FadeEffect show={newElementIsVisible}>
-          <FABButton icon="account-heart" />
-        </FadeEffect>
-        <View style={styles.bottomLeftIndicator}>
-          <FadeEffect show={indicatorIsVisible}>
-            <ArrowIndicator />
-          </FadeEffect>
-        </View>
+        <FABButton icon="account-heart" />
       </HomeLayout.BottomLeft>
+      <HomeLayout.BottomRight>
+        <FABButton icon="head-check" />
+      </HomeLayout.BottomRight>
     </HomeLayout>
   );
 };
 
 export default FullScreenHomeMessage;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     contentWrapper: {
-      height: 250,
+      height: 'auto',
+      position: 'absolute',
+      width: Platform.OS === 'web' ? '100vw' : '100%',
+      top: -90,
       minWidth: '100%',
       alignContent: 'center',
       justifyContent: 'center',
+      zIndex: 15,
     },
     messageContainer: {
       backgroundColor: '#fffa',
@@ -161,8 +155,23 @@ const getStyles = theme =>
     bottomLeftIndicator: {
       position: 'absolute',
       left: 90,
-      bottom: 15,
+      bottom: 0,
       transform: [{ scaleY: -1 }],
+    },
+    topRightIndicator: {
+      position: 'absolute',
+      right: 90,
+      top: 0,
+      transform: [{ scaleX: -1 }, { rotateZ: '23deg' }],
+    },
+    bottomRightIndicator: {
+      position: 'absolute',
+      bottom: -5,
+      right: 80,
+    },
+    centerIndicator: {
+      position: 'absolute',
+      bottom: -90,
     },
     messageText: {
       color: theme.colors.primary,

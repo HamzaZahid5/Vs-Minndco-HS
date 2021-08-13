@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { BackHandler, StyleSheet } from 'react-native';
-import { useSelector, useStore, useDispatch } from 'react-redux';
+import { StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+// @ts-ignore: non-ts file
 import { updateBasicTutorialCompleted } from '../../services/Firestore';
+// @ts-ignore: non-ts file
 import analytics from '../../services/Analytics';
+// @ts-ignore: non-ts file
 import HomeLayout from './../../components/HomeLayout';
 import Step1 from './Step1';
 import Step2 from './Step2';
@@ -13,22 +16,24 @@ import Step5 from './Step5';
 import Step6 from './Step6';
 import Step6No from './Step6-no';
 import Step6Yes from './Step6-yes';
-
-// import Firebase from '../../services/Firebase';
+// @ts-ignore: non-ts file
 import { ANALYTICS_EVENTS } from '../../utils/constants';
+// @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
+import { DefaultScreenPropType, RootStackParamList } from '../../../types';
+import { TUTORIALS_STATE } from '../../store/selectors';
 
-const WelcomeWizard = ({ navigation }) => {
+const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
   const dispatch = useDispatch();
-  const currentStep = useSelector(state => state.tutorials.welcome_tutorial_current_step);
+  const { welcome_tutorial_current_step: currentStep } = useSelector(TUTORIALS_STATE);
   const resetTo = useNavigationResetPathTo(navigation);
 
-  function nextStep(step) {
+  function nextStep(step?: number) {
     dispatch({ type: 'tutorials/setWelcomeTutorialStep', payload: step || currentStep + 1 });
     // actions.moveTutorialToStep(step || currentStep + 1);
     analytics().logEvent('basic_wizard_next_step');
   }
-  function finishWizard(navigateTo) {
+  function finishWizard(navigateTo?: keyof RootStackParamList) {
     updateBasicTutorialCompleted();
     dispatch({ type: 'tutorials/finishWelcomeTutorialStep' });
     // actions.finishTutorial();
@@ -44,10 +49,6 @@ const WelcomeWizard = ({ navigation }) => {
     } else {
       navigation.navigate(navigateTo || 'Main');
     }
-  }
-  function backPressed() {
-    finishWizard();
-    return true;
   }
   useEffect(() => {
     setTimeout(nextStep, 1000);
@@ -129,7 +130,6 @@ const WelcomeWizard = ({ navigation }) => {
       {currentStep === 5 && (
         <Step6
           next={nextStep}
-          end={finishWizard}
           message={"Now, let's talk about VR\n\nDo you have your MindCo Relief Kit in your hands?"}
         />
       )}
@@ -139,7 +139,6 @@ const WelcomeWizard = ({ navigation }) => {
           message={
             'Ok, no problem.\nOnce you have it, you will activate it by opening the app, accessing the left panel and selecting the last option as is shown in the following picture.'
           }
-          isLast
         />
       )}
       {currentStep === 8 && (
@@ -148,7 +147,6 @@ const WelcomeWizard = ({ navigation }) => {
           message={
             'Great!\nTake the Kit, open it and look into the inner side of the cover. Find the Activation Code in the upper left corner.\nFollow the image below for orientation.'
           }
-          isLast
         />
       )}
     </>

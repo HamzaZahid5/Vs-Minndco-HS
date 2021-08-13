@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
@@ -13,15 +13,22 @@ import { activityTypesType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 
 type propType = {
-  title: string;
-  type: activityTypesType;
-  instructionsText: string;
-  informativeText: string;
+  title?: string;
+  type?: activityTypesType;
+  instructionsText?: string;
+  informativeText?: string;
   progress: number;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
-const CircularContent = ({ title, type, instructionsText, informativeText, progress = 0, onPress }: propType) => {
+const CircularContent = ({
+  title,
+  type,
+  instructionsText,
+  informativeText,
+  progress = 0,
+  onPress = Function,
+}: propType) => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (

@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import CircularContent from '../Home/CircularContent';
+// @ts-ignore: non-ts file
 import HomeLayout from './../../components/HomeLayout';
 import SkipTutorialButton from './SkipTutorialButton';
 import NextStepButton from './NextStepButton';
+// @ts-ignore: non-ts file
 import anime from '../../utils/anime';
 import FadeEffect from '../../components/FadeEffect';
+// @ts-ignore: non-ts file
 import FABButton from '../../components/MindCoFABButton';
 import ArrowIndicator from './ArrowIndicator';
+import { Platform } from 'react-native';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const FullScreenHomeMessage = ({ componentId, message = 'a third message', next, end }) => {
-  const theme = useTheme();
+const FullScreenHomeMessage = ({
+  message = 'a third message',
+  next,
+  end,
+}: {
+  message?: React.Component | string;
+  next: (arg?: number) => void;
+  end: () => void;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [messgeIsVisible, showMessage] = useState(false);
   const [actionsAreVisible, showActions] = useState(false);
@@ -52,7 +66,6 @@ const FullScreenHomeMessage = ({ componentId, message = 'a third message', next,
         },
       });
     return () => anime.remove(transformation);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // useEffect(() => {
   //   Navigation.mergeOptions(componentId, {
@@ -87,6 +100,14 @@ const FullScreenHomeMessage = ({ componentId, message = 'a third message', next,
             </FadeEffect>
           </View>
         </View>
+        <FadeEffect show={newElementIsVisible}>
+          <CircularContent progress={0} />
+        </FadeEffect>
+        <View style={styles.centerIndicator}>
+          <FadeEffect show={indicatorIsVisible}>
+            <ArrowIndicator name="arrow-up-bold" />
+          </FadeEffect>
+        </View>
       </HomeLayout.MiddleCenter>
       <HomeLayout.MiddleBottom>
         {/* <BigButton
@@ -103,14 +124,7 @@ const FullScreenHomeMessage = ({ componentId, message = 'a third message', next,
         <FABButton icon="account-heart" />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
-        <FadeEffect show={newElementIsVisible}>
-          <FABButton icon="head-check" />
-        </FadeEffect>
-        <View style={styles.bottomRightIndicator}>
-          <FadeEffect show={indicatorIsVisible}>
-            <ArrowIndicator />
-          </FadeEffect>
-        </View>
+        <FABButton icon="head-check" />
       </HomeLayout.BottomRight>
     </HomeLayout>
   );
@@ -118,13 +132,17 @@ const FullScreenHomeMessage = ({ componentId, message = 'a third message', next,
 
 export default FullScreenHomeMessage;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     contentWrapper: {
-      height: 250,
+      height: 'auto',
+      position: 'absolute',
+      width: Platform.OS === 'web' ? '100vw' : '100%',
+      top: -90,
       minWidth: '100%',
       alignContent: 'center',
       justifyContent: 'center',
+      zIndex: 10,
     },
     messageContainer: {
       backgroundColor: '#fffa',
@@ -136,7 +154,7 @@ const getStyles = theme =>
     },
     mainCTA: {
       margin: 25,
-      backgroundColor: theme.colors.Primary,
+      backgroundColor: theme.colors.primary,
       width: 200,
     },
     mainCTALabelStyle: {
@@ -172,9 +190,12 @@ const getStyles = theme =>
     },
     bottomRightIndicator: {
       position: 'absolute',
-      bottom: 15,
+      bottom: -5,
       right: 80,
-      transform: [{ scaleX: -1 }, { scaleY: -1 }],
+    },
+    centerIndicator: {
+      position: 'absolute',
+      bottom: -90,
     },
     messageText: {
       color: theme.colors.primary,
