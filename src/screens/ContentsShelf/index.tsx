@@ -62,7 +62,9 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
         fullScroll
         header={
           <View style={styles.container}>
-            <Headline style={styles.headline}>{contentCategory}</Headline>
+            <Headline style={styles.headline}>
+              {translate(`screens.ContentsShelf.category-${contentCategory.toLocaleLowerCase()}`)}
+            </Headline>
             <Paragraph style={styles.paragraph}>{descriptionByCategory}</Paragraph>
             <View style={styles.infoContainer}>
               <Text style={[styles.infoText, { color: theme.colors.dark }]}>

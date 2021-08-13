@@ -63,6 +63,7 @@ import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler';
 import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
+import { translate } from './src/utils/localization';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -130,42 +131,54 @@ export default function App() {
                   <Stack.Screen
                     name="StressRate"
                     component={StressRateScreen}
-                    options={{ headerShown: true, title: 'Rate your current stress' }}
+                    options={{ headerShown: true, title: translate('main.rate-your-current-stress') }}
                   />
                   <Stack.Screen
                     name="StressTrigger"
                     component={StressTriggerScreen}
-                    options={{ headerShown: true, title: 'What you were doing?' }}
+                    options={{ headerShown: true, title: translate('main.what-you-were-doing') }}
                   />
                   <Stack.Screen
                     name="StressActivityType"
                     component={StressActivityTypeScreen}
-                    options={{ title: 'Choose your preference' }}
+                    options={{ title: translate('main.choose-your-preference') }}
                   />
                   <Stack.Screen
                     name="StressActivityToDo"
                     component={StressActivityToDoScreen}
                     options={{ title: '' }}
                   />
-                  <Stack.Screen name="Activity" component={ActivityScreen} options={{ title: 'Next activity' }} />
+                  <Stack.Screen
+                    name="Activity"
+                    component={ActivityScreen}
+                    options={{ title: translate('main.next-activity') }}
+                  />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
-                  <Stack.Screen name="AboutVR" component={AboutVRScreen} options={{ title: 'About VR' }} />
+                  <Stack.Screen
+                    name="AboutVR"
+                    component={AboutVRScreen}
+                    options={{ title: translate('main.about-vr') }}
+                  />
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="PathEnding" component={PathEndingScreen} options={{ title: '' }} />
                   <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: '' }} />
-                  <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ title: 'Your insights' }} />
+                  <Stack.Screen
+                    name="Statistics"
+                    component={StatisticsScreen}
+                    options={{ title: translate('main.your-insights') }}
+                  />
                   <Stack.Screen name="ContentsShelf" component={ContentsShelfScreen} options={{ title: '' }} />
                   <Stack.Screen
                     name="KitAssemble"
                     component={KitAssembleScreen}
-                    options={{ title: 'Assemble your VR Headset' }}
+                    options={{ title: translate('main.assemble-your-vr-headset') }}
                   />
                   <Stack.Screen name="Library" component={LibraryScreen} options={{ title: '' }} />
                   <Stack.Screen
                     name="HowItWorks"
                     component={HowItWorksScreen}
-                    options={{ title: 'How MindCo Relief Works' }}
+                    options={{ title: translate('main.how-mindco-relief-works') }}
                   />
                 </>
               ) : (
