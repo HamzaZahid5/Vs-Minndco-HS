@@ -2,29 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-
+import { activityType } from '../../../types';
+// @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
-
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 import { Header as VideoHeader, Body as VideoBody } from './VideoActivity';
 import { Header as AudioHeader, Body as AudioBody } from './AudioActivity';
 import { Header as VRHeader, Body as VRBody } from './VRActivity';
+
 import { Header as FormHeader, Body as FormBody } from './FormActivity';
+// @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
+// @ts-ignore: non-ts file
 import useNextActivity from '../../utils/hooks/useNextActivity';
+// @ts-ignore: non-ts file
 import useActivityActions from '../../appActionHooks/useActivityActions';
+// @ts-ignore: non-ts file
 import { formatAsset } from '../../utils/helpers';
 import { USER_PROFILE } from '../../store/selectors';
-import useVRPlayerCTA from '../../utils/hooks/useVRPlayerCTA';
+import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
+import { DefaultScreenPropType } from '../../../types';
 
-const getWhatContentIs = (act = {}) => ({
+const getWhatContentIs = (act: activityType | { type: string } = { type: '' }) => ({
   video: act.type === '2d-video',
   vr: act.type === 'vr-met',
   audio: act.type === 'audio',
   form: act.type === 'reflection',
 });
 
-const ActivityScreen = ({ navigation, route }) => {
+interface ActivityScreenPropType extends DefaultScreenPropType<'Activity'> {
+  route: {
+    params?: {
+      activityId?: string;
+    };
+  };
+}
+
+const ActivityScreen = ({ navigation, route }: ActivityScreenPropType) => {
   const { activityId } = route.params || {};
   const [nextActivity, nextActivityKey] = useNextActivity(activityId);
   const IS = getWhatContentIs(nextActivity);
@@ -44,7 +59,7 @@ const ActivityScreen = ({ navigation, route }) => {
   };
   const resetPathTo = useNavigationResetPathTo(navigation);
 
-  const handleActivityComplete = answer => {
+  const handleActivityComplete = (answer?: string) => {
     saveActivityDone(nextActivityKey, answer);
     resetPathTo('PathEnding', routeParams);
   };
@@ -61,7 +76,7 @@ const ActivityScreen = ({ navigation, route }) => {
       console.log('complete');
       handleActivityComplete();
     },
-  });
+  } as VRPlayerCTAPropType);
   return (
     <ScreenDecorator>
       <GenericPageLayout
@@ -69,11 +84,11 @@ const ActivityScreen = ({ navigation, route }) => {
         // withKeyboard={true}
         header={
           <View style={styles.hero}>
-            <View style={{ position: 'absolute' }}>
+            <View style={styles.heroView}>
               {IS.video && (
                 <VideoHeader title={nextActivity.name} storeAsset={asset} onComplete={handleActivityComplete} />
               )}
-              {IS.vr && <VRHeader title={nextActivity.name} id={'some_id'} onPlay={openVRPlayer} />}
+              {IS.vr && <VRHeader title={nextActivity.name} onPlay={openVRPlayer} />}
               {IS.audio && (
                 <AudioHeader title={nextActivity.name} storeAsset={asset} onComplete={handleActivityComplete} />
               )}
@@ -124,6 +139,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
+  heroView: { position: 'absolute' },
   topImage: {
     opacity: 0.75,
     position: 'absolute',

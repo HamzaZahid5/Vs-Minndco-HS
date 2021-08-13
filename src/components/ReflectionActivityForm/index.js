@@ -7,6 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import { Title, Snackbar, useTheme } from 'react-native-paper';
 import TextInputStyled from './../TextInputStyled';
 import BigButton from './../BigButton';
+import { translate } from '../../utils/localization';
 
 const validateInput = form => {
   return (form.answer || '').trim() === '' ? ['Please, complete the answer form'] : [];
@@ -37,7 +38,7 @@ const ActivityPlayerReflectionForm = ({ onEnd = null, question = '' }) => {
         <Title style={styles.title}>{question}</Title>
         <TextInputStyled
           multiline
-          placeholder={'type your answer'}
+          placeholder={translate('answer-placeholder')}
           mode="outlined"
           value={state.othertext}
           onChangeText={handleTextChange}
@@ -58,7 +59,7 @@ const ActivityPlayerReflectionForm = ({ onEnd = null, question = '' }) => {
       </View>
       <View style={styles.ctaWrapper}>
         <BigButton variant="accent" onPress={onFormSubmit} disabled={submitting} loading={submitting}>
-          {submitting ? 'Submitting' : 'Submit'}
+          {submitting ? translate('submitting') : translate('submit')}
         </BigButton>
       </View>
       <Snackbar

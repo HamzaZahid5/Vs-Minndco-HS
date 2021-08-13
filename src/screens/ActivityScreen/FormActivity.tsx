@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton, Title, Paragraph, Divider, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import ReflectionActivityForm from '../../components/ReflectionActivityForm';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import { getTipsByActivityType, getIconByActivityType } from '../../utils/helpers';
+import { activityType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-export const Header = ({ title }) => {
-  const theme = useTheme();
+export const Header = ({ title }: { title: string }) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getHeaderStyles(theme);
   const [action, setAction] = useState('INIT');
 
@@ -16,7 +21,7 @@ export const Header = ({ title }) => {
       {action === 'INIT' && (
         <>
           <Headline style={styles.headline}>{title}</Headline>
-          <Paragraph style={styles.paragraph}>Read, think and answer</Paragraph>
+          <Paragraph style={styles.paragraph}>{translate('form-header-paragraph')}</Paragraph>
         </>
       )}
     </>
@@ -27,7 +32,7 @@ Header.propTypes = {
   title: PropTypes.string,
 };
 
-const getHeaderStyles = theme =>
+const getHeaderStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     headline: {
       ...theme.fonts.headline,
@@ -39,8 +44,16 @@ const getHeaderStyles = theme =>
     },
   });
 
-export const Body = ({ type, duration, description, asset, onComplete }) => {
-  const theme = useTheme();
+export const Body = ({
+  type,
+  duration,
+  description,
+  asset,
+  onComplete,
+}: activityType & {
+  onComplete: (anwser?: string) => void;
+}) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getBodyStyles(theme);
 
   return (
@@ -81,7 +94,7 @@ Body.propTypes = {
   onComplete: PropTypes.func,
 };
 
-const getBodyStyles = theme =>
+const getBodyStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     content: {
       marginHorizontal: 4,
