@@ -10,7 +10,7 @@ import Color from 'color';
 
 import { CustomThemeType } from '../../utils/OriginalTheme';
 type Props = {
-  variant: string;
+  variant?: string;
   style?: ViewStyle;
   labelStyle?: ViewStyle;
   onlyPremium?: boolean;
@@ -22,7 +22,7 @@ const BigButton = ({
   labelStyle = {},
   onlyPremium = false,
   ...props
-}: Props & any) => {
+}: Props & Record<string, unknown>) => {
   const theme = useTheme() as CustomThemeType;
   const bgColor =
     variant === 'link' ? 'transparent' : variant === 'accent' ? theme.colors.accent : theme.colors.background;

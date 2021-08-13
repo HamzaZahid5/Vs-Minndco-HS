@@ -2,55 +2,78 @@ import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
-// import YoutubePlayer from 'react-native-youtube-iframe';
-import GenericPageLayout from './../../components/GenericPageLayout';
+import YoutubePlayer, { YoutubeIframeRef } from 'react-native-youtube-iframe';
+// @ts-ignore: non-ts file
+import GenericPageLayout from '../../components/GenericPageLayout';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
+import { DefaultScreenPropType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 import { translate } from '../../utils/localization';
 
-const KitAssemble = ({ navigation }) => {
-  const theme = useTheme();
+const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [playing, setPlaying] = useState(true);
-  const playerRef = useRef();
+  const playerRef = useRef<YoutubeIframeRef | null>(null);
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
-      playerRef.current.seekTo(0);
+      playerRef.current?.seekTo(0, false);
     }
   }, []);
   const togglePlaying = useCallback(() => {
     setPlaying(prev => !prev);
   }, []);
 
+  const resourceId = 'contents/00_welcome_to_relief_EN.mp4';
+  const openVRPlayer = useVRPlayerCTA({
+    resourceId,
+    onCancel: () => {
+      // eslint-disable-next-line no-console
+      console.log('cancel');
+      navigation.navigate('Main');
+    },
+    onComplete: () => {
+      // eslint-disable-next-line no-console
+      console.log('complete');
+      navigation.navigate('Main');
+    },
+  } as VRPlayerCTAPropType);
+
   return (
     <ScreenDecorator>
+      {/*onClose={() => navigation.popTo('Main')}  Here popTo does not exist in react navigation, it a wix navigation feature*/}
       <GenericPageLayout
-        onClose={() => navigation.popTo('Main')}
+        onClose={() => navigation.popToTop()}
         fullScroll
         header={
           <View style={styles.hero}>
-            {/* <YoutubePlayer
+            {/*width={'auto'} Strings are not allowed in width prop, same as undefined */}
+            <YoutubePlayer
               ref={playerRef}
               height={232}
-              width={'auto'}
               play={playing}
-              controls={false}
-              modestbranding={true}
+              initialPlayerParams={{ controls: false, modestbranding: true }}
               videoId={'Keh3svyVAwo'}
               onChangeState={onStateChange}
-            /> */}
+            />
           </View>
         }
       >
         <View style={styles.contentWrapper}>
-          <Paragraph style={styles.description}>{translate('screens.KitAssemble.vr-guiade')}</Paragraph>
+          {/*<Paragraph style={styles.description}> description style does not exist*/}
+          <Paragraph>
+            {translate('screens.KitAssemble.vr-guiade')}
+          </Paragraph>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
               style={{
                 marginBottom: 20,
               }}
-              onPress={() => navigation.push('VRDemo')}
+              onPress={openVRPlayer}
             >
               {translate('screens.KitAssemble.load-vr-met')}
             </BigButton>
@@ -67,7 +90,7 @@ KitAssemble.propTypes = {
 
 export default KitAssemble;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',

@@ -24,11 +24,11 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
   const contentCategory = route.params.category;
   const descriptionByCategory =
     contentCategory === 'education'
-      ? translate('contentCategory-education')
+      ? translate('screens.ContentsShelf.contentCategory-education')
       : contentCategory === 'relaxation'
-      ? translate('contentCategory-relaxation')
+      ? translate('screens.ContentsShelf.contentCategory-relaxation')
       : contentCategory === 'mindfulness'
-      ? translate('contentCategory-mindfulness')
+      ? translate('screens.ContentsShelf.contentCategory-mindfulness')
       : '';
   const activities = useProgramActivitiesByCategory(contentCategory) || [];
   const uniqueActivities = activities.reduce((r: Record<string, ProgramActivity>, a: ProgramActivity) => {
@@ -45,7 +45,11 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
       <RowItem
         key={act.id}
         title={act.name}
-        text={locked ? translate('repeatButton-locked') : translate('repeatButton-unlocked')}
+        text={
+          locked
+            ? translate('screens.ContentsShelf.repeatButton-locked')
+            : translate('screens.ContentsShelf.repeatButton-unlocked')
+        }
         locked={locked}
         // reverse
         onPress={() => navigation.navigate('Activity', { activityId: act.id })}
@@ -58,10 +62,14 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
         fullScroll
         header={
           <View style={styles.container}>
-            <Headline style={styles.headline}>{contentCategory}</Headline>
+            <Headline style={styles.headline}>
+              {translate(`screens.ContentsShelf.category-${contentCategory.toLocaleLowerCase()}`)}
+            </Headline>
             <Paragraph style={styles.paragraph}>{descriptionByCategory}</Paragraph>
             <View style={styles.infoContainer}>
-              <Text style={[styles.infoText, { color: theme.colors.dark }]}>{translate('contents-unlock-text')}</Text>
+              <Text style={[styles.infoText, { color: theme.colors.dark }]}>
+                {translate('screens.ContentsShelf.contents-unlock-text')}
+              </Text>
             </View>
           </View>
         }

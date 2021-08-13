@@ -6,6 +6,8 @@ import { Surface, Title, Button, useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { translate } from '../../utils/localization';
+
 // import {
 //   navigateToAuth,
 //   navigateToSignUp,
@@ -167,7 +169,7 @@ const Login = ({ navigation }: Props) => {
                 style={{ margin: 10, marginTop: -30 }}
                 // onPress={() => navigateToPasswordRecovery(componentId)}
               >
-                forgot password?
+                {translate('screens.Login.forgot-password')}
               </BigButton>
               {/* @ts-ignore: unimplemented */}
               <BigButton
@@ -177,7 +179,7 @@ const Login = ({ navigation }: Props) => {
                 disabled={loading}
                 onPress={() => navigation.push('Registration')}
               >
-                Create an account
+                {translate('screens.Login.create-an-account')}
               </BigButton>
             </View>
           </View>
@@ -202,7 +204,7 @@ const Login = ({ navigation }: Props) => {
               disabled={loading}
               onPress={() => showLoginForm(true)}
             >
-              Enter
+              {translate('screens.Login.enter')}
             </BigButton>
           </View>
           <View>
@@ -215,7 +217,7 @@ const Login = ({ navigation }: Props) => {
               disabled={loading}
               onPress={() => navigation.push('Registration')}
             >
-              Create an account
+              {translate('screens.Login.create-an-account')}
             </BigButton>
           </View>
         </FadeEffect>

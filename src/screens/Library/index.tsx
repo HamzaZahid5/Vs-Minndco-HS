@@ -10,6 +10,7 @@ import GenericPageLayout from '../../components/GenericPageLayout';
 import RowItem from '../../components/RowItem';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import Props from './types';
+import { translate } from '../../utils/localization';
 
 const Library = ({ navigation }: Props): JSX.Element => {
   const theme = useTheme() as CustomThemeType;
@@ -21,10 +22,8 @@ const Library = ({ navigation }: Props): JSX.Element => {
         header={
           <View style={styles.container}>
             <View style={{ position: 'absolute' }}>
-              <Headline style={styles.headline}>Your personal library</Headline>
-              <Paragraph style={styles.paragraph}>
-                Review the contents any time you need to refresh some knowledge
-              </Paragraph>
+              <Headline style={styles.headline}>{translate('screens.Library.your-personal-library')}</Headline>
+              <Paragraph style={styles.paragraph}>{translate('screens.Library.header-paragraph')}</Paragraph>
             </View>
             <Image
               style={styles.topImage}
@@ -36,26 +35,26 @@ const Library = ({ navigation }: Props): JSX.Element => {
       >
         <View style={styles.bodyContainer}>
           <RowItem
-            title="How the program Works"
-            text="Overview the key concepts of MindCo Relief"
+            title={translate('screens.Library.how-the-program-works')}
+            text={translate('screens.Library.how-work-paragraph')}
             // reverse
             onPress={() => navigation.push('HowItWorks')}
           />
           <RowItem
-            title="Mindfulness"
-            text="Enhance your innate resilience, health, and contentment"
+            title={translate('screens.Library.mindfulness')}
+            text={translate('screens.Library.mindfulness-paragraph')}
             // reverse
             onPress={() => navigation.push('ContentsShelf', { category: 'mindfulness' })}
           />
           <RowItem
-            title="VR Education"
-            text="VR contents for learning about stress and coping skills"
+            title={translate('screens.Library.vr-education')}
+            text={translate('screens.Library.vr-education--paragraph')}
             // reverse
             onPress={() => navigation.push('ContentsShelf', { category: 'education' })}
           />
           <RowItem
-            title="VR Relaxations"
-            text="VR contents to stay calm and relax your mind"
+            title={translate('screens.Library.vr-relaxations')}
+            text={translate('screens.Library.vr-relaxations-paragraph')}
             // reverse
             onPress={() => navigation.push('ContentsShelf', { category: 'relaxation' })}
           />

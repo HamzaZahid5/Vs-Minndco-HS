@@ -8,13 +8,11 @@ import HomeLayout from '../../components/HomeLayout';
 import MenuButton from '../../components/MenuHandlerButton';
 // @ts-ignore: non-ts file
 import FABButton from '../../components/MindCoFABButton';
-// @ts-ignore: non-ts file
 import CircularContent from './CircularContent';
 // @ts-ignore: non-ts file
 import GoalWidget from '../../containers/GoalWidget';
 // @ts-ignore: non-ts file
 import FadeEffect from '../../components/FadeEffect';
-// @ts-ignore: non-ts file
 import Tips from './Tips';
 // @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
@@ -25,9 +23,12 @@ import useCompletion from '../../utils/hooks/useCompletion';
 import { Badge } from 'react-native-paper';
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { useSelector } from 'react-redux';
+import { activityType } from '../../../types';
+import { translate } from '../../utils/localization';
 
 const HomeScreen = ({ navigation }: Props) => {
-  const [nextActivity] = useNextActivity();
+  let [nextActivity] = useNextActivity();
+  nextActivity = nextActivity as activityType; // @TODO migrate useNextActivity to typescript
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
   const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);
@@ -55,9 +56,15 @@ const HomeScreen = ({ navigation }: Props) => {
         {typeof nextActivity === 'object' ? (
           <CircularContent
             title={nextActivity?.name}
-            informativeText={nextActivity ? 'Tap the circle for your next activity' : ' '}
+            informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
             type={nextActivity?.type}
-            instructionsText={nextActivity ? (todaysActivityDone ? "Tomorrow's activity" : "Today's activity") : ''}
+            instructionsText={
+              nextActivity
+                ? todaysActivityDone
+                  ? translate('screens.Home.tomorrows-activity')
+                  : translate('screens.Home.todays-activity')
+                : ''
+            }
             progress={progress}
             onPress={() => navigation.push('Activity')}
           />
@@ -67,13 +74,17 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.BottomLeft>
         <FABButton
           icon="account-heart"
-          informativeText="Coach"
+          informativeText={translate('screens.Home.coach')}
           onPress={() => navigation.push('Support')}
           showAlert={hasCouchMessage}
         />
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
-        <FABButton icon="head-check" informativeText="Reliever" onPress={() => navigation.push('StressRate')} />
+        <FABButton
+          icon="head-check"
+          informativeText={translate('screens.Home.reliever')}
+          onPress={() => navigation.push('StressRate')}
+        />
       </HomeLayout.BottomRight>
     </HomeLayout>
   );

@@ -1,3 +1,8 @@
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+//@ts-ignore not implemented
+import firestore from './src/services/Firestore';
+
 export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
@@ -12,10 +17,24 @@ export type RootStackParamList = {
   Tutorial: undefined;
   KitActivation: undefined;
   AboutVR: undefined;
-  StressActivityToDo: undefined;
-  VRMet: undefined;
+  StressActivityToDo: {
+    type?: string;
+  };
+  VRMet: {
+    assetUrl: string;
+    onCancel: () => void;
+    onComplete: () => void;
+  };
   Support: undefined;
-  PathEnding: undefined;
+  PathEnding: {
+    header: {
+      type: string;
+      asset: string;
+    };
+    body: {
+      options: string[];
+    };
+  };
   Profile: undefined;
   Statistics: undefined;
   HowItWorks: undefined;
@@ -24,7 +43,12 @@ export type RootStackParamList = {
   Library: undefined;
   ContentsShelf: { category: ProgramActivityCategories };
 };
-
+export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {
+  navigation: StackNavigationProp<RootStackParamList, Type>;
+}
+export interface DefaultScreenRouteType<RouteName extends keyof RootStackParamList> {
+  route: RouteProp<RootStackParamList, RouteName>;
+}
 export type ProgramActivityType = '2d-video' | 'vr-met' | 'audio' | 'reflection';
 export type ProgramActivityCategories = 'mindfulness' | 'relaxation' | 'education';
 export type ProgramActivity = {
@@ -53,3 +77,22 @@ declare global {
     readonly width: number;
   }
 }
+
+export type activityTypesType = '2d-video' | 'vr-met' | 'audio' | 'reflection';
+
+export type activityType = {
+  type?: activityTypesType;
+  id?: string;
+  name?: string;
+  description?: string;
+  asset?: string;
+  category?: string;
+  duration?: number;
+};
+
+export type journalType = {
+  activity_id: string;
+  date: firestore.Timestamp;
+  level: number;
+  reason: string;
+};

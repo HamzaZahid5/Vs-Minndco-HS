@@ -8,8 +8,9 @@ import { usePathEndingBarButton } from '../PathEnding';
 import { useTheme } from 'react-native-paper';
 // import { BlurView, VibrancyView } from '@react-native-community/blur';
 import { Platform } from 'react-native';
+import { translate } from '../../utils/localization';
 
-const slide1 = `
+const slide1 = (paragraph1, paragraph2) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -17,25 +18,17 @@ const slide1 = `
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
   </head>
   <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center">
-    <div style={{ color: 'black' }}>
-      <b>MindCo Relief</b> is a program developed by behavioral change experts to help you ease your anxiety and
-      stress levels<br/><br/>
+    
+    <div>
+    ${paragraph1}
     </div>
     <div>
-      You will learn about <i>anxiety</i> and <i>stress</i> through <b>informational</b> and <b>educational</b> lessons, getting to
-      know all there is to know about it.
-      <br/><br/>
-    </div>
-    <div>
-      <u>Less than 10 minutes a day</u> to: <br/>
-        <br/>👉 &nbsp; Identify triggers
-        <br/>👉 &nbsp; Map stress-related habits
-        <br/>👉 &nbsp; Deconstruct behaviors and learn coping skills
+    ${paragraph2}
     </div>
   </body>
 </html>
 `;
-const slide2 = `
+const slide2 = (paragraph1, paragraph2, paragraph3) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -44,30 +37,20 @@ const slide2 = `
   </head>
   <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center;">
     <div style={{ color: 'black' }}>
-      <b>First,  do a 8 week training plan</b>
+    ${paragraph1}
       <br/><br/>
     </div>
     <div>
-      In order to map your habits, you need to keep track of your triggers and moods. That's what the Journal is for. It help you to acknowledge and log, moment to moment, day by day, the anxiety pattern, and collect information related to statistics.
-    <br/><br/>
+    ${paragraph2}
     </div>
     <div style="line-height: 24px">
-      <u>The Program</u> includes: <br/>
-        <br/>1️⃣ <b>VR Mindful Exposure Therapy & education</b>
-        <br/>&nbsp;&nbsp;📌 &nbsp; 140 minutes of VR therapy exercises, using VR-MET
-        <br/>&nbsp;&nbsp;📌 &nbsp; 50 minutes of VR education
-        <br/><br/>2️⃣ <b>Formal mindfulness exercises</b>
-        <br/>&nbsp;&nbsp;📌 &nbsp; 80 minutes of video in 8 exercises
-        <br/>&nbsp;&nbsp;📌 &nbsp; 50 minutes of audio in 8 exercises
-        <br/><br/>3️⃣ <b>JOURNAL</b>
-        <br/>&nbsp;&nbsp;📌 &nbsp; 24 self-reflective CBT questions 
-        
+    ${paragraph3}
     </div>
   </body>
 </html>
 `;
 
-const slide3 = `
+const slide3 = (paragraph1, paragraph2) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -76,25 +59,15 @@ const slide3 = `
   </head>
   <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center;">
     <div style={{ color: 'black' }}>
-      <b>YOUR JOURNEY WITH MINDCO RELIEF</b>
-      <br/><br/>
+    ${paragraph1}
     </div>
     <div style="line-height: 24px">
-        <br/><b>- Set up stage</b>: 8 weeks
-        <br/><b>Goals</b>
-        <br/>&nbsp;&nbsp;⭐ &nbsp; LEARN ABOUT YOUR HABITS
-        <br/>&nbsp;&nbsp;⭐ &nbsp; CHALLENGE YOUR BELIEFS
-        <br/>&nbsp;&nbsp;⭐ &nbsp; EASE YOUR ANXIETY
-        <br/><br/><b>- Maintenance stage</b>: 9 months
-        <br/><b>Goals</b>
-        <br/>&nbsp;&nbsp;⭐ &nbsp; STRENGTHEN YOUR COPING SKILLS 
-        <br/>&nbsp;&nbsp;⭐ &nbsp; CHANGE YOUR IDENTIFIED HABITS 
-        <br/>&nbsp;&nbsp;⭐ &nbsp; BECOME A MORE BALANCED AND RELAXED PERSON  
-        
+    ${paragraph2}
     </div>
   </body>
 </html>
 `;
+
 const HowItWorks = ({ navigation }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
@@ -136,7 +109,12 @@ const HowItWorks = ({ navigation }) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{ html: slide1 }}
+                    source={{
+                      html: slide1(
+                        translate('screens.HowItWorks.slide1-p1'),
+                        translate('screens.HowItWorks.slide1-p2'),
+                      ),
+                    }}
                   />
                 </View>
               </View>
@@ -172,7 +150,13 @@ const HowItWorks = ({ navigation }) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{ html: slide2 }}
+                    source={{
+                      html: slide2(
+                        translate('screens.HowItWorks.slide2-p1'),
+                        translate('screens.HowItWorks.slide2-p2'),
+                        translate('screens.HowItWorks.slide2-p3'),
+                      ),
+                    }}
                   />
                 </View>
               </View>
@@ -208,7 +192,10 @@ const HowItWorks = ({ navigation }) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{ html: slide3 }}
+                    source={{ html: slide3(
+                      translate('screens.HowItWorks.slide3-p1'),
+                      translate('screens.HowItWorks.slide3-p2'),
+                    ) }}
                   />
                 </View>
               </View>
