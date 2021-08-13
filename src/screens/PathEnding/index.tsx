@@ -24,6 +24,7 @@ import ChipButton from '../../components/ChipButton';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { DefaultScreenPropType, DefaultScreenRouteType, RootStackParamList } from '../../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { translate } from '../../utils/localization';
 
 export const usePathEndingBarButton = (
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>,
@@ -95,71 +96,81 @@ const PathEnding = ({
   }
 
   const DailyActivityRow = (
-    <RowItem title="Do your daily activity" text="Ready to train?" reverse onPress={() => resetPathTo('Activity')} />
+    <RowItem
+      title={translate('Do your daily activity')}
+      text={translate('Ready to train?')}
+      reverse
+      onPress={() => resetPathTo('Activity')}
+    />
   );
   const StressManagementRow = (
-    <RowItem title="Use the reliever" text="Feeling stressed?" reverse onPress={() => resetPathTo('StressRate')} />
+    <RowItem
+      title={translate('Use the reliever')}
+      text={translate('Feeling stressed?')}
+      reverse
+      onPress={() => resetPathTo('StressRate')}
+    />
   );
   const StressManagementRowAgain = (
     <RowItem
-      title="Use the reliever again"
-      text="Still feeling stressed?"
+      title={translate('Use the reliever again')}
+      text={translate('Still feeling stressed?')}
       reverse
       onPress={() => resetPathTo('StressRate')}
     />
   );
   const CoachRow = (
     <RowItem
-      title="Message your coach"
-      text="Looking for some advises?"
+      title={translate('Message your coach')}
+      text={translate('Looking for some advises?')}
       reverse
       onPress={() => resetPathTo('Support')}
     />
   );
   const TutorialRow = (
     <RowItem
-      title="See the app tutorial"
-      text="Want to review the app features?"
+      title={translate('See the app tutorial')}
+      text={translate('Want to review the app features?')}
       reverse
       onPress={() => resetPathTo('Tutorial')}
     />
   );
   const HowToProgram = (
     <RowItem
-      title="Check out the program overview"
-      text="Wondering how this work?"
+      title={translate('Check out the program overview')}
+      text={translate('Wondering how this work?')}
       reverse
       onPress={() => resetPathTo('HowItWorks')}
     />
   );
   const VRDemoRow = (
     <RowItem
-      title="Take the first VR experience"
-      text="Ready to try VR?"
+      title={translate('Take the first VR experience')}
+      text={translate('Ready to try VR?')}
       reverse
       onPress={() => resetPathTo('VRDemo')}
     />
   );
   const ViewerAssembleRow = (
     <RowItem
-      title="How to assemble my VR headset"
-      text="Get ready for VR"
+      title={translate('How to assemble my VR headset')}
+      text={translate('Get ready for VR')}
       reverse
       onPress={() => resetPathTo('KitAssemble')}
     />
   );
   const StatsRow = (
     <RowItem
-      title="See your performance"
-      text="Willing to know you better?"
+      title={translate('See your performance')}
+      text={translate('Willing to know you better?')}
       reverse
       onPress={() => resetPathTo('Statistics')}
     />
   );
   const LearnRow = (
     <RowItem
-      title="Let's visit the library"
-      text="Ready to learn everything about stress?"
+      title={translate("Let's visit the library")}
+      text={translate('Ready to learn everything about stress?')}
       reverse
       onPress={() => resetPathTo('Library')}
     />
@@ -168,7 +179,7 @@ const PathEnding = ({
   return (
     <ScreenDecorator>
       <GenericPageLayout fullScroll header={getHeaderByParam(headerParam)}>
-        <Headline style={styles.bodyTitle}>{"What's next?"}</Headline>
+        <Headline style={styles.bodyTitle}>{translate("What's next?")}</Headline>
         <View style={styles.bodyContainer}>
           {rowOptions.includes('DailyActivityRow') && DailyActivityRow}
           {rowOptions.includes('LearnRow') && LearnRow}

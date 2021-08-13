@@ -8,6 +8,7 @@ import useCompletion from '../../utils/hooks/useCompletion';
 // @ts-ignore: non-ts file
 import useJournal from '../../utils/hooks/useJournal';
 import { journalType } from '../../../types';
+import { translate } from '../../utils/localization';
 
 const HeaderPerfromance = () => {
   const styles = getStyles();
@@ -17,18 +18,18 @@ const HeaderPerfromance = () => {
   const avgStressLevel = journal.reduce((r: number, i) => r + i.level, 0) / journal.length;
   return (
     <View style={styles.container}>
-      <Headline>A glimpse to your progress</Headline>
+      <Headline>{translate('A glimpse to your progress')}</Headline>
       <View style={styles.main}>
         <View style={styles.row}>
-          <Paragraph>Completion</Paragraph>
+          <Paragraph>{translate('Completion')}</Paragraph>
           <ProgressBar progress={progress / 100} />
         </View>
         <View style={styles.row}>
-          <Paragraph>Habit</Paragraph>
+          <Paragraph>{translate('Habit')}</Paragraph>
           <ProgressBar progress={(streakCount * 10) / 180} />
         </View>
         <View style={styles.row}>
-          <Paragraph>Stress avg level</Paragraph>
+          <Paragraph>{translate('Stress avg level')}</Paragraph>
           <ProgressBar progress={(avgStressLevel * 10) / 100} />
         </View>
       </View>

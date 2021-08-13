@@ -4,6 +4,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 // @ts-ignore: non-ts file
 import useValuationActions from '../../appActionHooks/useValuationActions';
+import { translate } from '../../utils/localization';
 
 const HeaderPoll = ({ asset }: { asset: string }) => {
   const [vote, setVote] = useState<'stressed' | 'bored' | 'angry' | 'happy'>();
@@ -24,7 +25,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
   const styles = getStyles();
   return (
     <View style={styles.pollContainer}>
-      <Text>Now tell me, how do you feel?</Text>
+      <Text>{translate('Now tell me, how do you feel?')}</Text>
       <View style={styles.options}>
         <Pressable
           style={{
@@ -33,7 +34,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('stressed')}
         >
           <Text style={{}}>😩</Text>
-          <Text style={{}}>Stressed</Text>
+          <Text style={{}}>{translate('Stressed')}</Text>
         </Pressable>
         <Pressable
           style={{
@@ -42,7 +43,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('bored')}
         >
           <Text style={{}}>😕</Text>
-          <Text style={{}}>Bored</Text>
+          <Text style={{}}>{translate('Bored')}</Text>
         </Pressable>
         <Pressable
           style={{
@@ -51,7 +52,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('angry')}
         >
           <Text style={{}}>😡</Text>
-          <Text style={{}}>Angry</Text>
+          <Text style={{}}>{translate('Angry')}</Text>
         </Pressable>
         <Pressable
           style={{
@@ -60,7 +61,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('happy')}
         >
           <Text style={{}}>😄</Text>
-          <Text style={{}}>Happy</Text>
+          <Text style={{}}>{translate('Happy')}</Text>
         </Pressable>
       </View>
     </View>

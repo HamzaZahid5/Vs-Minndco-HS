@@ -9,6 +9,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 // @ts-ignore: not implemented
 import TextInputStyled from '../TextInputStyled';
+import { translate } from '../../utils/localization';
 // import { translate } from './../../utils/localization';
 
 export interface LoginFormValues {
@@ -47,7 +48,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
                     error={touched.email !== undefined && Boolean(errors.email)}
-                    label="Email address"
+                    label={translate('Email address')}
                     value={values.email}
                     onChangeText={handleChange('email')}
                     textContentType="username"
@@ -60,7 +61,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
                     error={touched.password !== undefined && Boolean(errors.password)}
-                    label="Password"
+                    label={translate('Password')}
                     value={values.password}
                     onChangeText={handleChange('password')}
                     textContentType="password"
@@ -80,7 +81,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 disabled={isSubmitting || loading}
                 onPress={submitForm}
               >
-                Sign In
+                {translate('Sign In')}
               </BigButton>
             </React.Fragment>
           );
