@@ -2,10 +2,14 @@ import Color from 'color';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { FAB, useTheme } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import RowItem from '../../components/RowItem';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+import { DefaultScreenPropType } from '../../../types';
 
-const Row = ({ title, subtitle }) => {
+//This component is not used
+const Row = ({ title, subtitle }: { title: string; subtitle: string }) => {
   const theme = useTheme();
   return (
     <View style={styles.rowOption}>
@@ -28,9 +32,9 @@ const Row = ({ title, subtitle }) => {
   );
 };
 
-export default ({ navigation }) => {
+const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivityType'>) => {
   const theme = useTheme();
-  const [selected, setSelection] = useState();
+  const [selected, setSelection] = useState<number>();
 
   useEffect(() => {
     switch (selected) {
@@ -44,7 +48,7 @@ export default ({ navigation }) => {
         navigation.push('StressActivityToDo', { type: 'DO' });
         break;
     }
-  }, [selected]);
+  }, [navigation, selected]);
   return (
     <ScreenDecorator>
       <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-around', padding: 20 }}>
@@ -67,6 +71,8 @@ export default ({ navigation }) => {
     </ScreenDecorator>
   );
 };
+
+export default StressActivityType;
 
 const styles = StyleSheet.create({
   rowOption: {
