@@ -2,13 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, Keyboard } from 'react-native';
 import { WebView } from 'react-native-webview';
+// @ts-ignore: non-ts file
 import template from 'lodash.template';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+// @ts-ignore: non-ts file
 import { updateProfile } from '../../services/Firestore';
+// @ts-ignore: non-ts file
 import KeyboardSpacer from '../../utils/KeyboardSpacer';
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
+import { DefaultScreenPropType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
 const URL_UI_SUPPORT = 'https://www.mindcotine.com/wp-content/assets/support/index.html';
 const URL_UI_COACHING = 'https://mindco-relief-support.web.app/support/coach';
@@ -18,7 +23,7 @@ const Support = ({
   // flag to determine if user comes from support or coach.
   // this flag is set at navigation level
   isCoachingSupport = true,
-}) => {
+}: DefaultScreenPropType<'Support'> & { isCoachingSupport: boolean }) => {
   const {
     crisp_session_id: crispSessionId,
     display_name: displayName,
@@ -28,12 +33,12 @@ const Support = ({
     show_welcome_message_on_chat: showWelcomeMessageOnChat,
     uid,
   } = useSelector(USER_SUPPORT_PROFILE);
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   // ref to inject JS on demand
-  const webViewRef = useRef();
+  const webViewRef = useRef<WebView | null>(null);
   // to hide overlay when Crisp chat is ready
-  const [webViewVisible, setWebViewVisible] = useState();
+  const [webViewVisible, setWebViewVisible] = useState<boolean>();
   // to store Crisp sess id at state leve and avoid refresh screen if sess id is updated.
   const [currentCrispSessionId] = useState(crispSessionId);
 
@@ -41,7 +46,7 @@ const Support = ({
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       // AWFUL HACK TO MAKE CRISP CHAT TO EXPAND ON KEYBOARD CLOSE
       // otherwise iOS 14 shows a blank space where keyboard was visible.
-      webViewRef.current.injectJavaScript(`
+      webViewRef.current?.injectJavaScript(`
           $crisp.push(["do", "chat:hide"]);
           $crisp.push(["do", "chat:show"]);
           true;
@@ -86,7 +91,7 @@ const Support = ({
       <WebView
         ref={webViewRef}
         scrollEnabled={false}
-        style={{ flex: 1, height: '100%' }}
+        style={styles.webView}
         onMessage={event => {
           // navigate back on chat close
           if (event.nativeEvent.data === 'chat:closed') {
@@ -96,10 +101,10 @@ const Support = ({
           if (event.nativeEvent.data === 'chat:opened') {
             // show automatic 2 messages conversation
             if (showWelcomeMessageOnChat && isCoachingSupport) {
-              webViewRef.current.injectJavaScript(welcomeMessageCommand);
+              webViewRef.current?.injectJavaScript(welcomeMessageCommand);
             }
             // updates session id if changed and triggers readyness event to hide overlay
-            webViewRef.current.injectJavaScript(`
+            webViewRef.current?.injectJavaScript(`
               const session_id = window.$crisp.get("session:identifier");
               if (session_id !== "${currentCrispSessionId}") {
                 window.ReactNativeWebView.postMessage("session:loaded:" + session_id);
@@ -169,7 +174,7 @@ Support.propTypes = {
 
 export default Support;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -189,4 +194,5 @@ const getStyles = theme =>
       overflow: 'hidden',
       display: 'none',
     },
+    webView: { flex: 1, height: '100%' },
   });
