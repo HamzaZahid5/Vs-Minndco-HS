@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Image, Dimensions, StyleSheet } from 'react-native';
 import { Headline, Paragraph, useTheme } from 'react-native-paper';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 import Color from 'color';
 
 const HeaderStatistics = () => {
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
     <View style={styles.container}>
@@ -23,7 +24,7 @@ const HeaderStatistics = () => {
 
 export default HeaderStatistics;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     headline: {
       color: Color(theme.colors.dark).darken(0.3).toString(),

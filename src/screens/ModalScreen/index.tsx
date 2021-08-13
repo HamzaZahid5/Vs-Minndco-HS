@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
-import { Modal } from 'react-native-paper';
+// @ts-ignore: non-ts file
 import Dialog from '../../components/DefaultDialog';
+import { DefaultScreenPropType } from '../../../types';
 
-const ModalScreen = ({ navigation }) => (
+const ModalScreen = ({ navigation }: DefaultScreenPropType<'Modal'>) => (
   <Dialog
     show
     onClose={() => navigation.pop()}

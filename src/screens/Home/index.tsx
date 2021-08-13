@@ -8,13 +8,11 @@ import HomeLayout from '../../components/HomeLayout';
 import MenuButton from '../../components/MenuHandlerButton';
 // @ts-ignore: non-ts file
 import FABButton from '../../components/MindCoFABButton';
-// @ts-ignore: non-ts file
 import CircularContent from './CircularContent';
 // @ts-ignore: non-ts file
 import GoalWidget from '../../containers/GoalWidget';
 // @ts-ignore: non-ts file
 import FadeEffect from '../../components/FadeEffect';
-// @ts-ignore: non-ts file
 import Tips from './Tips';
 // @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';

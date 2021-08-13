@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+// @ts-ignore: non-ts file
 import Carousel from '../../components/Carousel';
+// @ts-ignore: non-ts file
 import { usePathEndingBarButton } from '../PathEnding';
-import { useTheme } from 'react-native-paper';
-import { BlurView, VibrancyView } from '@react-native-community/blur';
+import { BlurView } from '@react-native-community/blur';
 import { Platform } from 'react-native';
+import { DefaultScreenPropType } from '../../../types';
 
 const slide1 = `
 <html>
@@ -95,9 +98,8 @@ const slide3 = `
   </body>
 </html>
 `;
-const HowItWorks = ({ navigation }) => {
-  const theme = useTheme();
-  const styles = getStyles(theme);
+const HowItWorks = ({ navigation }: DefaultScreenPropType<'HowItWorks'>) => {
+  const styles = getStyles();
   usePathEndingBarButton(navigation, {
     routeParams: {
       header: {
@@ -114,25 +116,16 @@ const HowItWorks = ({ navigation }) => {
         items={[
           {
             content: (
-              <View style={[styles.container, { borderRadius: 30, overflow: 'hidden' }]}>
+              <View style={styles.container}>
                 <BlurView
                   blurType="light"
                   blurAmount={5}
                   reducedTransparencyFallbackColor="white"
                   // style={[StyleSheet.absoluteFillObject]}
-                  style={{ height: '100%', width: '100%', padding: 20 }}
+                  style={styles.slide1BlurView}
                 >
                   <WebView
-                    style={{
-                      flexDirection: 'column',
-                      backgroundColor: 'transparent',
-                      flex: 1,
-                      height: '100%',
-                      minWidth: '100%',
-                      overflow: 'hidden',
-                      marginLeft: Platform.OS === 'android' ? 20 : 'auto',
-                      marginRight: Platform.OS === 'android' ? -20 : 'auto',
-                    }}
+                    style={styles.slideWebView}
                     overScrollMode="never"
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
@@ -145,31 +138,16 @@ const HowItWorks = ({ navigation }) => {
           },
           {
             content: (
-              <View style={[styles.container, { borderRadius: 30, overflow: 'hidden' }]}>
+              <View style={styles.container}>
                 <BlurView
                   blurType="light"
                   blurAmount={5}
                   reducedTransparencyFallbackColor="white"
                   // style={[StyleSheet.absoluteFillObject]}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    padding: 20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexBasis: '100%',
-                  }}
+                  style={styles.slideBlurView}
                 >
                   <WebView
-                    style={{
-                      flexDirection: 'column',
-                      backgroundColor: 'transparent',
-                      flex: 1,
-                      height: '100%',
-                      minWidth: '100%',
-                      marginLeft: Platform.OS === 'android' ? 20 : 'auto',
-                      marginRight: Platform.OS === 'android' ? -20 : 'auto',
-                    }}
+                    style={styles.slideWebView}
                     overScrollMode="never"
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
@@ -182,31 +160,16 @@ const HowItWorks = ({ navigation }) => {
           },
           {
             content: (
-              <View style={[styles.container, { borderRadius: 30, overflow: 'hidden' }]}>
+              <View style={styles.container}>
                 <BlurView
                   blurType="light"
                   blurAmount={5}
                   reducedTransparencyFallbackColor="white"
                   // style={[StyleSheet.absoluteFillObject]}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    padding: 20,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexBasis: '100%',
-                  }}
+                  style={styles.slide1BlurView}
                 >
                   <WebView
-                    style={{
-                      flexDirection: 'column',
-                      backgroundColor: 'transparent',
-                      flex: 1,
-                      height: '100%',
-                      minWidth: '100%',
-                      marginLeft: Platform.OS === 'android' ? 20 : 'auto',
-                      marginRight: Platform.OS === 'android' ? -20 : 'auto',
-                    }}
+                    style={styles.slideWebView}
                     overScrollMode="never"
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
@@ -229,7 +192,7 @@ HowItWorks.propTypes = {
 
 export default HowItWorks;
 
-const getStyles = theme =>
+const getStyles = () =>
   StyleSheet.create({
     container: {
       flexGrow: 1,
@@ -239,5 +202,25 @@ const getStyles = theme =>
       alignItems: 'center',
       marginHorizontal: 20,
       zIndex: 10,
+      borderRadius: 30,
+      overflow: 'hidden',
     },
+    slideBlurView: {
+      height: '100%',
+      width: '100%',
+      padding: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexBasis: '100%',
+    },
+    slideWebView: {
+      flexDirection: 'column',
+      backgroundColor: 'transparent',
+      flex: 1,
+      height: '100%',
+      minWidth: '100%',
+      marginLeft: Platform.OS === 'android' ? 20 : 'auto',
+      marginRight: Platform.OS === 'android' ? -20 : 'auto',
+    },
+    slide1BlurView: { height: '100%', width: '100%', padding: 20 },
   });

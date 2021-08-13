@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useTheme } from 'react-native-paper';
 import { KIT_ACTIVATED } from '../../store/selectors';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { HomeScreenNavigationProp } from './types';
+import { HomeScreenDrawerNavigationProp } from './DrawerNavigator';
+import { useNavigation } from '@react-navigation/native';
 
 type CustomDrawerItemPropType = {
   name: string;
@@ -36,8 +39,10 @@ CustomDrawerItem.propTypes = {
   onPress: PropTypes.func,
 };
 
-const CustomDrawerContent = props => {
-  const { navigation } = props;
+const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  // In order to typecheck is needed to use useNavigation, because if navigation field inside prop is used,
+  // it is assumes as be only a drawer navigator
+  const navigation = useNavigation<HomeScreenNavigationProp & HomeScreenDrawerNavigationProp>();
   const theme = useTheme() as CustomThemeType;
   const kitActivated = useSelector(KIT_ACTIVATED);
   return (

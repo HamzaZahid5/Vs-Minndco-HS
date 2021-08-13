@@ -7,20 +7,21 @@ import HomeScreen from './index';
 // @ts-ignore: unimplemented
 import useActivityActions from '../../appActionHooks/useActivityActions';
 import useOrientation from '../../utils/hooks/useOrientation';
-
+import { HomeScreenNavigationProp } from './types';
+import { SHOW_BASIC_TUTORIAL } from './../../store/selectors';
 type DrawerParamList = {
   Home: undefined;
 };
 
-type HomeScreenNavigationProp = DrawerNavigationProp<DrawerParamList, 'Home'>;
+export type HomeScreenDrawerNavigationProp = DrawerNavigationProp<DrawerParamList, 'Home'>;
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 const getDrawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />;
 
-const DrawerNavigator = ({ navigation }) => {
+const DrawerNavigator = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const { updateStreak } = useActivityActions();
-  const welcomeTutorial = useSelector(store => store.user.data.flags.show_basics_tutorial);
+  const welcomeTutorial = useSelector(SHOW_BASIC_TUTORIAL);
   const orientation = useOrientation();
 
   useEffect(() => {
