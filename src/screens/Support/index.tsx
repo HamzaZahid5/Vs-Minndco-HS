@@ -85,8 +85,9 @@ const Support = ({
       true;
   `;
   const runFirst = `
+    /* keep this email well formatted for Crisp verification but anonymous */
     window.injectedEmail = 'private@gmail.com';
-    window.startingText = ${translate('screens.Support.starting-chat')};
+    window.startingText = \`${translate('screens.Support.starting-chat')}\`;
   `;
 
   return (
@@ -162,7 +163,11 @@ const Support = ({
       />
       {!webViewVisible && (
         <View style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}>
-          <Text>{isCoachingSupport ? translate('screens.Support.starting-coach-chat') : translate('screens.Support.starting-support-chat')}</Text>
+          <Text>
+            {isCoachingSupport
+              ? translate('screens.Support.starting-coach-chat')
+              : translate('screens.Support.starting-support-chat')}
+          </Text>
         </View>
       )}
       <KeyboardSpacer />
