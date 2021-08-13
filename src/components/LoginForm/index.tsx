@@ -47,13 +47,8 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-<<<<<<< HEAD
                     error={touched.email !== undefined && Boolean(errors.email)}
-                    label={translate('Email address')}
-=======
-                    error={touched.email !== undefined ? errors.email : null}
                     label={translate('screens.Login.email-address')}
->>>>>>> 9436dde (Login form translated)
                     value={values.email}
                     onChangeText={handleChange('email')}
                     textContentType="username"
@@ -65,13 +60,8 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-<<<<<<< HEAD
                     error={touched.password !== undefined && Boolean(errors.password)}
-                    label={translate('Password')}
-=======
-                    error={touched.password !== undefined ? errors.password : null}
                     label={translate('screens.Login.password')}
->>>>>>> 9436dde (Login form translated)
                     value={values.password}
                     onChangeText={handleChange('password')}
                     textContentType="password"
