@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { MutableRefObject, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import WebView from 'react-native-webview';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
 // import { useKeepAwake } from '@sayem314/react-native-keep-awake';
+// @ts-ignore: non-ts file
 import template from 'lodash.template';
+import { DefaultScreenRouteType } from '../../../types';
 
 const DEBUGGING = `
      // Debug
@@ -62,27 +64,30 @@ window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
 });
 true;`;
 
-const getMessageEventsHandler = (webViewRef, onCancel, onComplete) => event => {
-  if (event.nativeEvent.data === 'PanoViewer:ready') {
-    webViewRef.current.injectJavaScript(JS_PLAY_VIDEO);
-  }
-  if (event.nativeEvent.data === 'Video:ended') {
-    onComplete();
-  }
-  if (event.nativeEvent.data === 'PanoViewer:exit-vr' || event.nativeEvent.data === 'PanoViewer:denied') {
-    onCancel();
-  }
-  if (event.nativeEvent.data.indexOf('log:') === 0) {
-    // console.log(event.nativeEvent.data);
-  }
-};
+const getMessageEventsHandler =
+  (webViewRef: MutableRefObject<WebView | null>, onCancel: () => void, onComplete: () => void) =>
+  (event: WebViewMessageEvent) => {
+    if (event.nativeEvent.data === 'PanoViewer:ready') {
+      webViewRef.current?.injectJavaScript(JS_PLAY_VIDEO);
+    }
+    if (event.nativeEvent.data === 'Video:ended') {
+      onComplete();
+    }
+    if (event.nativeEvent.data === 'PanoViewer:exit-vr' || event.nativeEvent.data === 'PanoViewer:denied') {
+      onCancel();
+    }
+    if (event.nativeEvent.data.indexOf('log:') === 0) {
+      // console.log(event.nativeEvent.data);
+    }
+  };
 
-const VRPlayer = ({ route }) => {
+const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
   const { assetUrl, onComplete = Function, onCancel = Function } = route.params || {};
-  const webViewRef = useRef();
+  const webViewRef = useRef<WebView | null>(null);
   const uri = `https://mindco-web-vr-player-ios.web.app?video=${encodeURIComponent(assetUrl)}`;
   // useKeepAwake();
-  console.log({uri});
+  // eslint-disable-next-line no-console
+  console.log({ uri });
 
   return (
     <View style={styles.container}>
@@ -96,10 +101,6 @@ const VRPlayer = ({ route }) => {
         injectedJavaScript={DEBUGGING}
         allowsInlineMediaPlayback
         ignoreSilentHardwareSwitch
-        onError={syntheticEvent => {
-          const { nativeEvent } = syntheticEvent;
-          // console.warn('WebView error: ', nativeEvent);
-        }}
         onMessage={getMessageEventsHandler(webViewRef, onCancel, onComplete)}
         style={{
           backgroundColor: 'red',

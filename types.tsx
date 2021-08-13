@@ -20,7 +20,11 @@ export type RootStackParamList = {
   StressActivityToDo: {
     type?: string;
   };
-  VRMet: undefined;
+  VRMet: {
+    assetUrl: string;
+    onCancel: () => void;
+    onComplete: () => void;
+  };
   Support: undefined;
   PathEnding: {
     header: {
