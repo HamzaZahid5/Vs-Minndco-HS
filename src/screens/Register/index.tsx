@@ -23,19 +23,19 @@ const getLegalContent = (styles: Record<string, StyleProp<TextStyle>>) => {
   const result = [];
   let interest;
   let partial;
-  const text = translate('By creating an account with MindCo Relief, you accept our ${termOfUse}, ${privacyPolicy}.');
+  const text = translate('screens.Register.terms-of-use-label');
   [interest, partial] = text.split('${termOfUse}');
   result.push(<Text key={interest}>{interest}</Text>);
   result.push(
     <Text key="link1" style={styles.hyperlink} onPress={() => Linking.openURL('https://mindcotine.com/terms-of-use')}>
-      {translate('Terms of Use')}
+      {translate('screens.Register.terms-of-use')}
     </Text>,
   );
   [interest, partial] = partial.split('${privacyPolicy}');
   result.push(<Text key={interest}>{interest}</Text>);
   result.push(
     <Text key="link2" style={styles.hyperlink} onPress={() => Linking.openURL('https://mindcotine.com/privacy-policy')}>
-      {translate('Privacy Policy')}
+      {translate('screens.Register.privacy-policy')}
     </Text>,
   );
   return result;

@@ -65,7 +65,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   // borderWidth: 1,
                   // borderColor: 'green',
                 }}
-                label={translate('Name')}
+                label={translate('screens.Register.name')}
                 value={values.name}
                 type="flat"
                 onChangeText={handleChange('name')}
@@ -78,7 +78,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                   // borderWidth: 1,
                   // borderColor: 'green',
                 }}
-                label={translate('Last name')}
+                label={translate('screens.Register.last-name')}
                 value={values.lastname}
                 type="flat"
                 onChangeText={handleChange('lastname')}
@@ -88,7 +88,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             <View style={styles.rowForm} key="row5">
               <TextInputStyled
                 style={{ flex: 1 }}
-                label={translate('Email address')}
+                label={translate('screens.Register.email-address')}
                 value={values.email}
                 type="flat"
                 keyboardType="email-address"
@@ -100,7 +100,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             <View style={styles.rowForm} key="row2">
               <TextInputStyled
                 style={{ flex: 1 }}
-                label={translate('Password')}
+                label={translate('screens.Register.password')}
                 value={values.password}
                 type="flat"
                 onChangeText={handleChange('password')}
@@ -112,7 +112,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
             <View style={styles.rowForm} key="row3">
               <TextInputStyled
                 style={{ flex: 1 }}
-                label={translate('Repeat password')}
+                label={translate('screens.Register.repeat-password')}
                 value={values.confirmpassword}
                 type="flat"
                 onChangeText={handleChange('confirmpassword')}
@@ -131,7 +131,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               disabled={loading}
               onPress={submitForm}
             >
-              {translate('Create account')}
+              {translate('screens.Register.create-account')}
             </BigButton>
           </React.Fragment>
         )}

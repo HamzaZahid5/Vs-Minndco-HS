@@ -25,16 +25,16 @@ export const options = [
   'other',
 ];
 export const labels = () => [
-  translate('Working'),
-  translate('Talking with family'),
-  translate('On a date'),
-  translate('Thinking on relationships'),
-  translate('Studying'),
-  translate('Thinking on financials'),
+  translate('screens.StressTrigger.working'),
+  translate('screens.StressTrigger.talking-with-family'),
+  translate('screens.StressTrigger.on-a-date'),
+  translate('screens.StressTrigger.thinking-on-relationships'),
+  translate('screens.StressTrigger.studying'),
+  translate('screens.StressTrigger.thinking-on-financials'),
   // 'Feeling sick',
   // 'Arguing with someone',
   // 'Driving',
-  translate('Other'),
+  translate('screens.StressTrigger.other'),
 ];
 const StressTrigger = ({ navigation }: DefaultScreenPropType<'StressTrigger'>) => {
   const { saveStressOMeter } = useAppActions();
