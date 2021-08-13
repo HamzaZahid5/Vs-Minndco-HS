@@ -5,12 +5,24 @@ import { Title, useTheme } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Circle } from 'react-native-svg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// @ts-ignore: non-ts file
 import { getIconByActivityType } from '../../utils/helpers';
 // import FadeEffect from '../../components/FadeEffect';
 // import theme from '../../styles/ColoredTheme';
+import { activityTypesType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const CircularContent = ({ title, type, instructionsText, informativeText, progress = 0, onPress }) => {
-  const theme = useTheme();
+type propType = {
+  title: string;
+  type: activityTypesType;
+  instructionsText: string;
+  informativeText: string;
+  progress: number;
+  onPress: () => void;
+};
+
+const CircularContent = ({ title, type, instructionsText, informativeText, progress = 0, onPress }: propType) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={{ zIndex: 10 }}>
@@ -63,7 +75,7 @@ CircularContent.propTypes = {
 
 export default CircularContent;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     container: {
       width: 250,

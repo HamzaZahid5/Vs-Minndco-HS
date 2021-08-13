@@ -61,7 +61,7 @@ const ActivityScreen = ({ navigation, route }: ActivityScreenPropType) => {
 
   const handleActivityComplete = (answer?: string) => {
     saveActivityDone(nextActivityKey, answer);
-    navigation.navigate('PathEnding', routeParams);
+    resetPathTo('PathEnding', routeParams);
   };
 
   const openVRPlayer = useVRPlayerCTA({

@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentComponentProps, DrawerNavigationProp } from '@react-navigation/drawer';
 import CustomDrawerContent from './CustomDrawerContent';
 import HomeScreen from './index';
 // @ts-ignore: unimplemented
 import useActivityActions from '../../appActionHooks/useActivityActions';
 import useOrientation from '../../utils/hooks/useOrientation';
 
-const Drawer = createDrawerNavigator();
+type DrawerParamList = {
+  Home: undefined;
+};
 
-const getDrawerContent = props => <CustomDrawerContent {...props} />;
+type HomeScreenNavigationProp = DrawerNavigationProp<DrawerParamList, 'Home'>;
+
+const Drawer = createDrawerNavigator<DrawerParamList>();
+
+const getDrawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />;
 
 const DrawerNavigator = ({ navigation }) => {
   const { updateStreak } = useActivityActions();
