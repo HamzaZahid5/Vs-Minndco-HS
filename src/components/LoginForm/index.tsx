@@ -48,7 +48,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
                     error={touched.email !== undefined ? errors.email : null}
-                    label={translate('Email address')}
+                    label={translate('screens.Login.email-address')}
                     value={values.email}
                     onChangeText={handleChange('email')}
                     textContentType="username"
@@ -61,7 +61,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
                     error={touched.password !== undefined ? errors.password : null}
-                    label={translate('Password')}
+                    label={translate('screens.Login.password')}
                     value={values.password}
                     onChangeText={handleChange('password')}
                     textContentType="password"
@@ -81,7 +81,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 disabled={isSubmitting || loading}
                 onPress={submitForm}
               >
-                {translate('Sign In')}
+                {translate('screens.Login.sign-in')}
               </BigButton>
             </React.Fragment>
           );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Headline, Paragraph, ProgressBar } from 'react-native-paper';
+import { Headline, Paragraph, ProgressBar, Colors } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { ACTIVITY_DAYS_IN_A_ROW } from '../../store/selectors';
 // @ts-ignore: non-ts file
@@ -22,15 +22,15 @@ const HeaderPerfromance = () => {
       <View style={styles.main}>
         <View style={styles.row}>
           <Paragraph>{translate('screens.PathEnding.completion')}</Paragraph>
-          <ProgressBar progress={progress / 100} />
+          <ProgressBar progress={progress ? progress / 100 : 0} />
         </View>
         <View style={styles.row}>
           <Paragraph>{translate('screens.PathEnding.habit')}</Paragraph>
-          <ProgressBar progress={(streakCount * 10) / 180} />
+          <ProgressBar progress={streakCount ? (streakCount * 10) / 180 : 0} />
         </View>
         <View style={styles.row}>
           <Paragraph>{translate('screens.PathEnding.stress-avg-level')}</Paragraph>
-          <ProgressBar progress={(avgStressLevel * 10) / 100} />
+          <ProgressBar progress={avgStressLevel ? (avgStressLevel * 10) / 100 : 0} />
         </View>
       </View>
     </View>

@@ -175,6 +175,7 @@ export type CustomThemeType = Theme &
       secondary: string;
       dark: string;
       warning: string;
+      ligth: string;
     };
     fonts: any;
     fontsHelper: {

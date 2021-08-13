@@ -17,8 +17,14 @@ export type RootStackParamList = {
   Tutorial: undefined;
   KitActivation: undefined;
   AboutVR: undefined;
-  StressActivityToDo: undefined;
-  VRMet: undefined;
+  StressActivityToDo: {
+    type?: string;
+  };
+  VRMet: {
+    assetUrl: string;
+    onCancel: () => void;
+    onComplete: () => void;
+  };
   Support: undefined;
   PathEnding: {
     header: {
