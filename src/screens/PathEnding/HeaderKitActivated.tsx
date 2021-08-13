@@ -7,9 +7,9 @@ const HeaderKitActivated = ({ onVote }: { onVote: () => void }) => {
   const styles = getStyles();
   return (
     <View style={styles.container}>
-      <Text>{translate('Congratulations!')}</Text>
+      <Text>{translate('screens.PathEnding.congrats')}</Text>
       <View style={styles.main}>
-        <Text>{translate('VR videos are now part of the main program among other activities.')}</Text>
+        <Text>{translate('screens.PathEnding.header-kitactivated-paragraph')}</Text>
       </View>
     </View>
   );

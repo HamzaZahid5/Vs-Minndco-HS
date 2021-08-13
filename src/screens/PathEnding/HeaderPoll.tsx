@@ -25,7 +25,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
   const styles = getStyles();
   return (
     <View style={styles.pollContainer}>
-      <Text>{translate('Now tell me, how do you feel?')}</Text>
+      <Text>{translate('screens.PathEnding.how-do-you-feel')}</Text>
       <View style={styles.options}>
         <Pressable
           style={{
@@ -34,7 +34,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('stressed')}
         >
           <Text style={{}}>😩</Text>
-          <Text style={{}}>{translate('Stressed')}</Text>
+          <Text style={{}}>{translate('screens.PathEnding.stressed')}</Text>
         </Pressable>
         <Pressable
           style={{
@@ -43,7 +43,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('bored')}
         >
           <Text style={{}}>😕</Text>
-          <Text style={{}}>{translate('Bored')}</Text>
+          <Text style={{}}>{translate('screens.PathEnding.bored')}</Text>
         </Pressable>
         <Pressable
           style={{
@@ -52,7 +52,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('angry')}
         >
           <Text style={{}}>😡</Text>
-          <Text style={{}}>{translate('Angry')}</Text>
+          <Text style={{}}>{translate('screens.PathEnding.angry')}</Text>
         </Pressable>
         <Pressable
           style={{
@@ -61,7 +61,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
           onPress={() => setVote('happy')}
         >
           <Text style={{}}>😄</Text>
-          <Text style={{}}>{translate('Happy')}</Text>
+          <Text style={{}}>{translate('screens.PathEnding.happy')}</Text>
         </Pressable>
       </View>
     </View>

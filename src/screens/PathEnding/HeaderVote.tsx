@@ -31,7 +31,7 @@ const HeaderVote = ({ asset = '' }) => {
   const charVoteNo = Platform.OS === 'ios' ? 'NO' : '👎';
   return (
     <View style={styles.pollContainer}>
-      <Headline style={{ textAlign: 'center' }}>{translate('It was a useful activity for you?')}</Headline>
+      <Headline style={{ textAlign: 'center' }}>{translate('screens.PathEnding.useful-activity')}</Headline>
       <View style={styles.options}>
         <Pressable style={{}} onPress={() => setVote(0)}>
           <Text
@@ -50,7 +50,7 @@ const HeaderVote = ({ asset = '' }) => {
         </Pressable>
       </View>
       <FadeEffect show={vote >= 0}>
-        <Text style={styles.title}>{translate('Thanks for voting')}</Text>
+        <Text style={styles.title}>{translate('screens.PathEnding.thanks-for-voting')}</Text>
       </FadeEffect>
     </View>
   );

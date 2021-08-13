@@ -11,11 +11,9 @@ const HeaderStatistics = () => {
   return (
     <View style={styles.container}>
       <View style={{ position: 'absolute' }}>
-        <Headline style={styles.headline}>{translate('Keep an eye on your statistics')}</Headline>
+        <Headline style={styles.headline}>{translate('screens.PathEnding.header-statistics')}</Headline>
         <View style={styles.main}>
-          <Paragraph style={styles.paragraph}>
-            {translate('They are a valuable source of personal infromation about your behavioral change.')}
-          </Paragraph>
+          <Paragraph style={styles.paragraph}>{translate('screens.PathEnding.parag-statistics')}</Paragraph>
         </View>
       </View>
       <Image style={styles.topImage} source={require('../../../assets/images/header_bg_2.png')} resizeMode="cover" />

@@ -29,7 +29,7 @@ const HeaderRating = ({ asset = '' }) => {
   const starChar = Platform.OS === 'ios' ? '★' : '⭐️';
   return (
     <View style={styles.pollContainer}>
-      <Headline style={{ textAlign: 'center' }}>{translate("How useful you've found the activity?")}</Headline>
+      <Headline style={{ textAlign: 'center' }}>{translate('screens.PathEnding.how-usefull')}</Headline>
       <View style={styles.options}>
         <Pressable style={{}} onPress={() => setVote(1)}>
           <Text style={[styles.star, vote < 1 ? styles.unselected : styles.selected]}>{starChar}</Text>
@@ -45,7 +45,7 @@ const HeaderRating = ({ asset = '' }) => {
         </Pressable>
       </View>
       <FadeEffect show={vote > 0}>
-        <Text style={styles.title}>{translate('Thanks for voting')}</Text>
+        <Text style={styles.title}>{translate('screens.PathEnding.thanks-for-voting')}</Text>
       </FadeEffect>
     </View>
   );

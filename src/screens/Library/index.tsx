@@ -22,10 +22,8 @@ const Library = ({ navigation }: Props): JSX.Element => {
         header={
           <View style={styles.container}>
             <View style={{ position: 'absolute' }}>
-              <Headline style={styles.headline}>{translate('Your personal library')}</Headline>
-              <Paragraph style={styles.paragraph}>
-                {translate('Review the contents any time you need to refresh some knowledge')}
-              </Paragraph>
+              <Headline style={styles.headline}>{translate('screens.Library.your-personal-library')}</Headline>
+              <Paragraph style={styles.paragraph}>{translate('screens.Library.header-paragraph')}</Paragraph>
             </View>
             <Image
               style={styles.topImage}
@@ -37,26 +35,26 @@ const Library = ({ navigation }: Props): JSX.Element => {
       >
         <View style={styles.bodyContainer}>
           <RowItem
-            title={translate('How the program Works')}
-            text={translate('Overview the key concepts of MindCo Relief')}
+            title={translate('screens.Library.how-the-program-works')}
+            text={translate('screens.Library.how-work-paragraph')}
             // reverse
             onPress={() => navigation.push('HowItWorks')}
           />
           <RowItem
-            title={translate('Mindfulness')}
-            text={translate('Enhance your innate resilience, health, and contentment')}
+            title={translate('screens.Library.mindfulness')}
+            text={translate('screens.Library.mindfulness-paragraph')}
             // reverse
             onPress={() => navigation.push('ContentsShelf', { category: 'mindfulness' })}
           />
           <RowItem
-            title={translate('VR Education')}
-            text={translate('VR contents for learning about stress and coping skills')}
+            title={translate('screens.Library.vr-education')}
+            text={translate('screens.Library.vr-education--paragraph')}
             // reverse
             onPress={() => navigation.push('ContentsShelf', { category: 'education' })}
           />
           <RowItem
-            title={translate('VR Relaxations')}
-            text={translate('VR contents to stay calm and relax your mind')}
+            title={translate('screens.Library.vr-relaxations')}
+            text={translate('screens.Library.vr-relaxations-paragraph')}
             // reverse
             onPress={() => navigation.push('ContentsShelf', { category: 'relaxation' })}
           />

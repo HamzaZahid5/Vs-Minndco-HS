@@ -66,9 +66,7 @@ const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
         <View style={styles.contentWrapper}>
           {/*<Paragraph style={styles.description}> description style does not exist*/}
           <Paragraph>
-            {translate(
-              'Follow the steps from the video above. Play, pause, rewind if you need it.\nMake your headset ready to put your phone in it.\n\nNow, press the button below to load your first VR-MET content.',
-            )}
+            {translate('screens.KitAssemble.vr-guiade')}
           </Paragraph>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
@@ -77,7 +75,7 @@ const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
               }}
               onPress={openVRPlayer}
             >
-              {translate('Load VR-MET')}
+              {translate('screens.KitAssemble.load-vr-met')}
             </BigButton>
           </View>
         </View>
