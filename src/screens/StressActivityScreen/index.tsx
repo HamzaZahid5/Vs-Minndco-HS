@@ -1,19 +1,35 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+// @ts-ignore: non-ts file
 import ReadActivity from '../../components/ReadActivity';
+// @ts-ignore: non-ts file
 import AudioPlayer from '../../components/AudioPlayer';
+// @ts-ignore: non-ts file
 import BreathSync from '../../components/BreathSync';
+// @ts-ignore: non-ts file
 import DeepBreathSync from '../../components/DeepBreathSync';
+// @ts-ignore: non-ts file
 import BubbleWrapGame from '../../components/BubbleWrapGame';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+// @ts-ignore: non-ts file
 import StorageLoader from '../../components/StorageLoader';
 import { usePathEndingBarButton } from '../PathEnding';
-import { LIFESAVER_READS, LIFESAVER_AUDIOS, LIFESAVER_ACTIVITIES } from '../../utils/constants';
+// @ts-ignore: non-ts file
+import { LIFESAVER_READS, LIFESAVER_AUDIOS, LIFESAVER_ACTIVITIES, ACTIVITIES_TYPES } from '../../utils/constants';
 import useAppActions from './actions';
+// @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
+import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
+import { CURRENT_STRESS_INPUT } from '../../store/selectors';
 
-const getContentByType = type => {
+export type contentType = {
+  id: string;
+  type: ACTIVITIES_TYPES.text | ACTIVITIES_TYPES.audio | ACTIVITIES_TYPES.activity;
+} & { free?: boolean } & Record<string, unknown>;
+
+const getContentByType = (type: string): contentType[] => {
   switch (type) {
     case 'READ':
       return LIFESAVER_READS;
@@ -25,11 +41,14 @@ const getContentByType = type => {
   }
 };
 
-const StressActivity = ({ navigation, route }) => {
-  const [content, setContent] = useState();
+const StressActivity = ({
+  navigation,
+  route,
+}: DefaultScreenPropType<'StressActivityToDo'> & DefaultScreenRouteType<'StressActivityToDo'>) => {
+  const [content, setContent] = useState<contentType>();
   const { type: activityType = 'DO' } = route?.params || {};
   const { resetPerformedLifesaverActivity, addPerformedLifesaverActivity } = useAppActions();
-  const lifesaverActivitiesDone = useSelector(store => store.currentStressInput.activitiesDone);
+  const { activitiesDone: lifesaverActivitiesDone } = useSelector(CURRENT_STRESS_INPUT);
 
   const routeParams = {
     header: {
@@ -46,6 +65,7 @@ const StressActivity = ({ navigation, route }) => {
 
   useEffect(() => {
     const loadContent = async () => {
+      // eslint-disable-next-line no-shadow
       const content = getContentByType(activityType);
       let availableContent = content.filter(a => !lifesaverActivitiesDone.includes(a.id));
       if (availableContent.length === 0) {
@@ -66,7 +86,7 @@ const StressActivity = ({ navigation, route }) => {
       {activityType === 'READ' && content && <ReadActivity content={content} onClose={onCloseActivity} />}
       {activityType === 'LISTEN' && content && (
         <StorageLoader path={content.source}>
-          {url => <AudioPlayer src={url} onClose={onCloseActivity} />}
+          {(url: string) => <AudioPlayer src={url} onClose={onCloseActivity} />}
         </StorageLoader>
       )}
 

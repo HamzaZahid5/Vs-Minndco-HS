@@ -30,3 +30,4 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
 
 export const FLAGS = (store: RootState) => store?.flags;
 export const AUTH_INFO = (store: RootState) => store?.user?.auth;
+export const CURRENT_STRESS_INPUT = (store: RootState) => store?.currentStressInput;
