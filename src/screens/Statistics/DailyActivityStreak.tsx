@@ -1,14 +1,16 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import Color from 'color';
 import { useSelector } from 'react-redux';
 import { ACTIVITY_DAYS_IN_A_ROW } from '../../store/selectors';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-const DaillyActivityStreak = ({ days }) => {
-  const theme = useTheme();
+const DaillyActivityStreak = () => {
+  const theme = useTheme() as CustomThemeType;
   const streakCount = useSelector(ACTIVITY_DAYS_IN_A_ROW);
   return (
     <View
@@ -25,11 +27,13 @@ const DaillyActivityStreak = ({ days }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: 'white' }}>Habit</Paragraph>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: 'white' }}>
+        {translate('screens.Statistics.habit')}
+      </Paragraph>
       {streakCount === 0 && (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Paragraph style={{ ...theme.fonts.regular, color: 'white' }}>
-            Preform one activity a day to make it a habit
+            {translate('screens.Statistics.habit-label')}
           </Paragraph>
         </View>
       )}

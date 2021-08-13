@@ -1,12 +1,15 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import Color from 'color';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-const MostFrequentTriggers = ({ triggers }) => {
-  const theme = useTheme();
+const MostFrequentTriggers = ({ triggers }: { triggers: string[] }) => {
+  const theme = useTheme() as CustomThemeType;
   const bgColor = Color('#87B1E3').lighten(0).toString();
   const itemFGColor = Color(theme.colors.ligth).alpha(0.5).toString();
   return (
@@ -24,10 +27,14 @@ const MostFrequentTriggers = ({ triggers }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 20, textAlign: 'center' }}>Frequent triggers</Paragraph>
+      <Paragraph style={{ fontSize: 20, textAlign: 'center' }}>
+        {translate('screens.Statistics.frequent-triggers')}
+      </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {!triggers.length && (
-          <Paragraph style={{ fontSize: 15, color: '#0006', textAlign: 'center' }}>No triggers</Paragraph>
+          <Paragraph style={{ fontSize: 15, color: '#0006', textAlign: 'center' }}>
+            {translate('screens.Statistics.no-triggers')}
+          </Paragraph>
         )}
         {triggers[0] && (
           <LinearGradient

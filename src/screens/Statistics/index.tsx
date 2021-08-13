@@ -1,10 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
-import { Paragraph, useTheme } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
 
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
+// @ts-ignore: non-ts file
 import Carousel, { nextSlide } from '../../components/Carousel';
 import TodayActivityStatus from './TodayActivityStatus';
 import DailyActivityStreak from './DailyActivityStreak';
@@ -13,34 +15,38 @@ import StressLevelsChart from './StressLevelsChart';
 import AverageStressLevel from './AverageStressLevel';
 import MostFrequentTriggers from './MostFrequentTriggers';
 import { usePathEndingBarButton } from '../PathEnding';
+// @ts-ignore: non-ts file
 import useJournal from '../../utils/hooks/useJournal';
 import { triggerKeyToLabel } from '../StressTrigger';
+import { journalType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { DefaultScreenPropType } from '../../../types';
+import { translate } from '../../utils/localization';
 
-const getFrequentTriggersFromJournal = (journal = []) => {
+const getFrequentTriggersFromJournal = (journal: journalType[] = []) => {
   const triggersWithScores = journal.reduce((r, item) => {
     if (!r.hasOwnProperty(item.reason)) {
       r[item.reason] = 0;
     }
     r[item.reason]++;
     return r;
-  }, {});
+  }, {} as Record<string, number>);
 
   return Object.entries(triggersWithScores)
     .map(i => ({ label: triggerKeyToLabel(i[0]), count: i[1] }))
-    .sort((a, b) => {
+    .sort((a: { label: string; count: number }, b: { label: string; count: number }): number => {
       if (a.count > b.count) return -1;
       if (a.count < b.count) return 1;
+      return 0;
     });
 };
 
-const Statistics = ({ navigation }) => {
-  const theme = useTheme();
-  const styles = getStyles(theme);
+const Statistics = ({ navigation }: DefaultScreenPropType<'Statistics'>) => {
   const cRef = useRef();
   const journal = useJournal() || [];
   const frequentTriggers = getFrequentTriggersFromJournal(journal);
-  const avgStressLevel = journal.reduce((r, i) => r + i.level, 0) / Number(journal.length) || 0;
-  const chartData = journal.map(r => r.level).reverse();
+  const avgStressLevel = journal.reduce((r: number, i: journalType) => r + i.level, 0) / Number(journal.length) || 0;
+  const chartData = journal.map((r: journalType) => r.level).reverse();
 
   usePathEndingBarButton(navigation, {
     routeParams: {
@@ -74,7 +80,7 @@ const Statistics = ({ navigation }) => {
                     <CompletionChart />
                   </View>
                   <View style={{ position: 'absolute', bottom: -30, right: 25, width: '100%', alignItems: 'flex-end' }}>
-                    <BigButton onPress={() => nextSlide(cRef)}>next</BigButton>
+                    <BigButton onPress={() => nextSlide(cRef)}>{translate('screens.Statistics.next')}</BigButton>
                   </View>
                 </View>
               </>
@@ -112,7 +118,7 @@ Statistics.propTypes = {
 
 export default Statistics;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',

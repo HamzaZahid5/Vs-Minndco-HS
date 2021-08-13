@@ -1,11 +1,15 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const TodayActivityStatus = () => {
-  const theme = useTheme();
+  const theme = useTheme() as CustomThemeType;
   const todaysActivityDone = useTodaysActivityDone();
   return (
     <View
@@ -22,10 +26,14 @@ const TodayActivityStatus = () => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>Daily activity</Paragraph>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>
+        {translate('screens.Statistics.daily-activity')}
+      </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Icon name={todaysActivityDone ? 'progress-check' : 'progress-alert'} size={60} color="#F79337" />
-        <Paragraph style={{ ...theme.fonts.regular }}>{todaysActivityDone ? 'done!' : 'pending...'}</Paragraph>
+        <Paragraph style={{ ...theme.fonts.regular }}>
+          {todaysActivityDone ? translate('screens.Statistics.done') : translate('screens.Statistics.pending')}
+        </Paragraph>
       </View>
     </View>
   );

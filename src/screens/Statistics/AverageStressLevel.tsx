@@ -1,12 +1,13 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Paragraph, useTheme } from 'react-native-paper';
-import { StyleSheet, Text, View } from 'react-native';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
-const AverageStressLevel = ({ level }) => {
-  const theme = useTheme();
+const AverageStressLevel = ({ level }: { level: number }) => {
+  const theme = useTheme() as CustomThemeType;
   const fixedLevel = Math.round(10 * level) / 10;
   return (
     <View
@@ -23,7 +24,7 @@ const AverageStressLevel = ({ level }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 20 }}>Avg Stress Level</Paragraph>
+      <Paragraph style={{ fontSize: 20 }}>{translate('screens.Statistics.avg-stress-level')}</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {level === 0 && (
           <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50, color: '#0006' }}>-</Paragraph>
