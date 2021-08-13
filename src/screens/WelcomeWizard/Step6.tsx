@@ -12,6 +12,7 @@ import FadeEffect from '../../components/FadeEffect';
 import FABButton from '../../components/MindCoFABButton';
 import { Platform } from 'react-native';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const FullScreenHomeMessage = ({
   message = '',
@@ -48,7 +49,6 @@ const FullScreenHomeMessage = ({
         },
       });
     return () => anime.remove(transformation);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // useEffect(() => {
   //   Navigation.mergeOptions(componentId, {
@@ -78,8 +78,8 @@ const FullScreenHomeMessage = ({
           </FadeEffect>
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
-              <GenericChipButton onPress={() => next(7)} text="no" />
-              <GenericChipButton onPress={() => next(8)} text="yes" />
+              <GenericChipButton onPress={() => next(7)} text={translate('no')} />
+              <GenericChipButton onPress={() => next(8)} text={translate('yes')} />
             </FadeEffect>
           </View>
         </View>

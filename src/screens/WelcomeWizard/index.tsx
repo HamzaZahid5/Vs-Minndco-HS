@@ -22,6 +22,7 @@ import { ANALYTICS_EVENTS } from '../../utils/constants';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import { DefaultScreenPropType, RootStackParamList } from '../../../types';
 import { TUTORIALS_STATE } from '../../store/selectors';
+import { translate } from '../../utils/localization';
 
 const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
   const dispatch = useDispatch();
@@ -91,15 +92,19 @@ const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
     <>
       {currentStep === 0 && <HomeLayout rowTopStyle={styles.rowTop} rowBottomStyle={styles.rowBottom} />}
       {currentStep === 1 && (
-        <Step1 next={nextStep} end={finishWizard} message="Let's take one step at a time together, shall we?" />
+        <Step1
+          next={nextStep}
+          end={finishWizard}
+          message={translate("Let's take one step at a time together, shall we?")}
+        />
       )}
       {currentStep === 2 && (
         <Step2
           next={nextStep}
           end={finishWizard}
-          message={
-            'You are not alone! Access to chat with your Coach by touching the botton-left action.\nGet guidance and advises from profesionals.\nIf you have new messages from your Coach, a red dot will alert you about it.'
-          }
+          message={translate(
+            'You are not alone! Access to chat with your Coach by touching the botton-left action.\nGet guidance and advises from profesionals.\nIf you have new messages from your Coach, a red dot will alert you about it.',
+          )}
         />
       )}
       {/* {currentStep === 3 && (
@@ -113,40 +118,40 @@ const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
         <Step4
           next={nextStep}
           end={finishWizard}
-          message={
-            'When you notice a craving is creeping in and your mind starts to stress you - come here right away, I got you!\nThis is your reliever. I´ll help you curb that urge with different activities!'
-          }
+          message={translate(
+            'When you notice a craving is creeping in and your mind starts to stress you - come here right away, I got you!\nThis is your reliever. I´ll help you curb that urge with different activities!',
+          )}
         />
       )}
       {currentStep === 4 && (
         <Step5
           next={nextStep}
           end={finishWizard}
-          message={
-            'Your daily training is the most important part of this program. I suggest you practice one activity per day, every day!\nA playlist of VR and audiovisual short exercises to get you ready to manage the stress episodes!'
-          }
+          message={translate(
+            'Your daily training is the most important part of this program. I suggest you practice one activity per day, every day!\nA playlist of VR and audiovisual short exercises to get you ready to manage the stress episodes!',
+          )}
         />
       )}
       {currentStep === 5 && (
         <Step6
           next={nextStep}
-          message={"Now, let's talk about VR\n\nDo you have your MindCo Relief Kit in your hands?"}
+          message={translate("Now, let's talk about VR\n\nDo you have your MindCo Relief Kit in your hands?")}
         />
       )}
       {currentStep === 7 && (
         <Step6No
           end={finishWizard}
-          message={
-            'Ok, no problem.\nOnce you have it, you will activate it by opening the app, accessing the left panel and selecting the last option as is shown in the following picture.'
-          }
+          message={translate(
+            'Ok, no problem.\nOnce you have it, you will activate it by opening the app, accessing the left panel and selecting the last option as is shown in the following picture.',
+          )}
         />
       )}
       {currentStep === 8 && (
         <Step6Yes
           end={() => finishWizard('KitActivation')}
-          message={
-            'Great!\nTake the Kit, open it and look into the inner side of the cover. Find the Activation Code in the upper left corner.\nFollow the image below for orientation.'
-          }
+          message={translate(
+            'Great!\nTake the Kit, open it and look into the inner side of the cover. Find the Activation Code in the upper left corner.\nFollow the image below for orientation.',
+          )}
         />
       )}
     </>

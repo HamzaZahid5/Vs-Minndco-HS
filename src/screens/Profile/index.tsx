@@ -14,6 +14,7 @@ import config from './../../../env';
 import { useSelector } from 'react-redux';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { AUTH_INFO } from '../../store/selectors';
+import { translate } from '../../utils/localization';
 
 const Profile = () => {
   const theme = useTheme() as CustomThemeType;
@@ -30,7 +31,7 @@ const Profile = () => {
         }
       >
         <View style={styles.bodyContainer}>
-          <Row label="Email" text={email} />
+          <Row label={translate('Email')} text={email} />
         </View>
 
         <View style={styles.footer}>
@@ -40,7 +41,7 @@ const Profile = () => {
               auth().signOut();
             }}
           >
-            Sign out
+            {translate('Sign out')}
           </BigButton>
           <Text
             // onPress={() => incrementDebugCount(debugCount + 1)}

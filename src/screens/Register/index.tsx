@@ -9,6 +9,7 @@ import functions from '../../services/Functions';
 import RegisterForm from './../../components/RegisterForm';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { translate } from '../../utils/localization';
 
 type formikValueType = {
   name: string;
@@ -22,19 +23,19 @@ const getLegalContent = (styles: Record<string, StyleProp<TextStyle>>) => {
   const result = [];
   let interest;
   let partial;
-  const text = 'By creating an account with MindCo Relief, you accept our ${termOfUse}, ${privacyPolicy}.';
+  const text = translate('By creating an account with MindCo Relief, you accept our ${termOfUse}, ${privacyPolicy}.');
   [interest, partial] = text.split('${termOfUse}');
   result.push(<Text key={interest}>{interest}</Text>);
   result.push(
     <Text key="link1" style={styles.hyperlink} onPress={() => Linking.openURL('https://mindcotine.com/terms-of-use')}>
-      Terms of Use
+      {translate('Terms of Use')}
     </Text>,
   );
   [interest, partial] = partial.split('${privacyPolicy}');
   result.push(<Text key={interest}>{interest}</Text>);
   result.push(
     <Text key="link2" style={styles.hyperlink} onPress={() => Linking.openURL('https://mindcotine.com/privacy-policy')}>
-      Privacy Policy
+      {translate('Privacy Policy')}
     </Text>,
   );
   return result;

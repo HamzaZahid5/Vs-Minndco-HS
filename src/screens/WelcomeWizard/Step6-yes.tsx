@@ -15,6 +15,7 @@ import FadeEffect from '../../components/FadeEffect';
 import FABButton from '../../components/MindCoFABButton';
 import { Platform } from 'react-native';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const FullScreenHomeMessage = ({
   message = '' + '\n',
@@ -104,7 +105,7 @@ const FullScreenHomeMessage = ({
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
               <SkipTutorialButton onPress={end} />
-              <GenericChipButton onPress={() => end()} text="Proceed with activation" accent />
+              <GenericChipButton onPress={() => end()} text={translate('Proceed with activation')} accent />
             </FadeEffect>
           </View>
         </View>

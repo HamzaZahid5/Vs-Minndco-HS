@@ -14,6 +14,7 @@ import KeyboardSpacer from '../../utils/KeyboardSpacer';
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import { translate } from '../../utils/localization';
 
 const URL_UI_SUPPORT = 'https://www.mindcotine.com/wp-content/assets/support/index.html';
 const URL_UI_COACHING = 'https://mindco-relief-support.web.app/support/coach';
@@ -65,10 +66,12 @@ const Support = ({
   }, []);
 
   // first user message to activate channel
-  const activationMessage = 'Hi there, I´m starting my coaching support';
+  const activationMessage = translate('Hi there, I´m starting my coaching support');
   // first message template from Coach to user
   const welcomeMessage = template(
-    'Hi ${display_name}, I’m your Personal Coach. I’m here to help on your relief process, and guide you throughout your experience here. You can ask me any question, whenever you feel like.\n\nHere is my first advice:\nForm a new habit takes at least 18 days. Make you stress management practices a habit, perform an activity a day, consistently, for this behavior to become automatic. Can you do your first activity today?',
+    translate(
+      'Hi ${display_name}, I’m your Personal Coach. I’m here to help on your relief process, and guide you throughout your experience here. You can ask me any question, whenever you feel like.\n\nHere is my first advice:\nForm a new habit takes at least 18 days. Make you stress management practices a habit, perform an activity a day, consistently, for this behavior to become automatic. Can you do your first activity today?',
+    ),
   )({ display_name: displayName });
 
   // Note this message is printed into Crisp event session:loaded callback.
@@ -83,7 +86,7 @@ const Support = ({
   `;
   const runFirst = `
     window.injectedEmail = 'private@gmail.com';
-    window.startingText = 'starting chat...';
+    window.startingText = ${translate('starting chat...')};
   `;
 
   return (
@@ -159,7 +162,7 @@ const Support = ({
       />
       {!webViewVisible && (
         <View style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}>
-          <Text>{isCoachingSupport ? 'Starting Coach chat' : 'Starting support chat'}</Text>
+          <Text>{isCoachingSupport ? translate('Starting Coach chat') : translate('Starting support chat')}</Text>
         </View>
       )}
       <KeyboardSpacer />

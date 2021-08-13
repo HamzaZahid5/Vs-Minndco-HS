@@ -6,9 +6,10 @@ import ScreenDecorator from '../../components/ScreenDecorator';
 import RowItem from '../../components/RowItem';
 import useAppActions from './actions';
 import { DefaultScreenPropType } from '../../../types';
+import { translate } from '../../utils/localization';
 
 export const triggerKeyToLabel = (key: string) => {
-  return labels[options.findIndex(k => k === key)];
+  return labels()[options.findIndex(k => k === key)];
 };
 
 export const options = [
@@ -23,17 +24,17 @@ export const options = [
   // 'driving',
   'other',
 ];
-export const labels = [
-  'Working',
-  'Talking with family',
-  'On a date',
-  'Thinking on relationships',
-  'Studying',
-  'Thinking on financials',
+export const labels = () => [
+  translate('Working'),
+  translate('Talking with family'),
+  translate('On a date'),
+  translate('Thinking on relationships'),
+  translate('Studying'),
+  translate('Thinking on financials'),
   // 'Feeling sick',
   // 'Arguing with someone',
   // 'Driving',
-  'Other',
+  translate('Other'),
 ];
 const StressTrigger = ({ navigation }: DefaultScreenPropType<'StressTrigger'>) => {
   const { saveStressOMeter } = useAppActions();
@@ -63,7 +64,7 @@ const StressTrigger = ({ navigation }: DefaultScreenPropType<'StressTrigger'>) =
         {options.map((value, i) => (
           <RowItem
             key={`activity_${value}`}
-            title={labels[i]}
+            title={labels()[i]}
             text=""
             onPress={() => (!selected ? setSelection(value) : null)}
           />
