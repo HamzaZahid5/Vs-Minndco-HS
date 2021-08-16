@@ -3,54 +3,29 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 // import YoutubePlayer from 'react-native-youtube-iframe';
-import GenericPageLayout from './../../components/GenericPageLayout';
+// @ts-ignore: non-ts file
+import GenericPageLayout from '../../components/GenericPageLayout';
 import BigButton from '../../components/BigButton';
+// @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 import { translate } from '../../utils/localization';
+import { DefaultScreenPropType } from '../../../types';
+import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const KitAssemble = ({ navigation }) => {
-  const theme = useTheme();
+const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
+  const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
-  const [playing, setPlaying] = useState(true);
-  const playerRef = useRef();
-  const onStateChange = useCallback(state => {
-    if (state === 'ended') {
-      setPlaying(false);
-      playerRef.current.seekTo(0);
-    }
-  }, []);
-  const togglePlaying = useCallback(() => {
-    setPlaying(prev => !prev);
-  }, []);
-
   return (
     <ScreenDecorator>
-      <GenericPageLayout
-        onClose={() => navigation.popTo('Main')}
-        fullScroll
-        header={
-          <View style={styles.hero}>
-            {/* <YoutubePlayer
-              ref={playerRef}
-              height={232}
-              width={'auto'}
-              play={playing}
-              controls={false}
-              modestbranding={true}
-              videoId={'Keh3svyVAwo'}
-              onChangeState={onStateChange}
-            /> */}
-          </View>
-        }
-      >
+      <GenericPageLayout onClose={() => navigation.popToTop()} fullScroll header={<View style={styles.hero} />}>
         <View style={styles.contentWrapper}>
-          <Paragraph style={styles.description}>{translate('screens.KitAssemble.vr-guiade')}</Paragraph>
+          {/* <Paragraph style={styles.description}>{translate('screens.KitAssemble.vr-guiade')}</Paragraph> */}
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
               style={{
                 marginBottom: 20,
               }}
-              onPress={() => navigation.push('VRDemo')}
+              onPress={() => navigation.navigate('VRDemo')}
             >
               {translate('screens.KitAssemble.load-vr-met')}
             </BigButton>
@@ -67,7 +42,7 @@ KitAssemble.propTypes = {
 
 export default KitAssemble;
 
-const getStyles = theme =>
+const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     hero: {
       height: '100%',
