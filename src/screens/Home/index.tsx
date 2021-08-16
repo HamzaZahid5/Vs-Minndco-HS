@@ -66,7 +66,7 @@ const HomeScreen = ({ navigation }: Props) => {
                 : ''
             }
             progress={progress}
-            onPress={() => navigation.push('Activity')}
+            onPress={() => navigation.navigate('Activity')}
           />
         ) : null}
         {/* </FadeEffect> */}
@@ -75,7 +75,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <FABButton
           icon="account-heart"
           informativeText={translate('screens.Home.coach')}
-          onPress={() => navigation.push('Support')}
+          onPress={() => navigation.navigate('Support')}
           showAlert={hasCouchMessage}
         />
       </HomeLayout.BottomLeft>
@@ -83,7 +83,7 @@ const HomeScreen = ({ navigation }: Props) => {
         <FABButton
           icon="head-check"
           informativeText={translate('screens.Home.reliever')}
-          onPress={() => navigation.push('StressRate')}
+          onPress={() => navigation.navigate('StressRate')}
         />
       </HomeLayout.BottomRight>
     </HomeLayout>

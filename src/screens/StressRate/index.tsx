@@ -15,7 +15,7 @@ const StressRate = ({ navigation }: DefaultScreenPropType<'StressRate'>) => {
   const onSelected = (idx: number) => {
     if (idx === selected) {
       dispatch({ type: 'currentStress/setStressLevel', payload: idx });
-      navigation.push('StressTrigger');
+      navigation.navigate('StressTrigger');
     }
   };
 

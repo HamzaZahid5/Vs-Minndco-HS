@@ -38,25 +38,25 @@ const Library = ({ navigation }: Props): JSX.Element => {
             title={translate('screens.Library.how-the-program-works')}
             text={translate('screens.Library.how-work-paragraph')}
             // reverse
-            onPress={() => navigation.push('HowItWorks')}
+            onPress={() => navigation.navigate('HowItWorks')}
           />
           <RowItem
             title={translate('screens.Library.mindfulness')}
             text={translate('screens.Library.mindfulness-paragraph')}
             // reverse
-            onPress={() => navigation.push('ContentsShelf', { category: 'mindfulness' })}
+            onPress={() => navigation.navigate('ContentsShelf', { category: 'mindfulness' })}
           />
           <RowItem
             title={translate('screens.Library.vr-education')}
             text={translate('screens.Library.vr-education--paragraph')}
             // reverse
-            onPress={() => navigation.push('ContentsShelf', { category: 'education' })}
+            onPress={() => navigation.navigate('ContentsShelf', { category: 'education' })}
           />
           <RowItem
             title={translate('screens.Library.vr-relaxations')}
             text={translate('screens.Library.vr-relaxations-paragraph')}
             // reverse
-            onPress={() => navigation.push('ContentsShelf', { category: 'relaxation' })}
+            onPress={() => navigation.navigate('ContentsShelf', { category: 'relaxation' })}
           />
         </View>
       </GenericPageLayout>

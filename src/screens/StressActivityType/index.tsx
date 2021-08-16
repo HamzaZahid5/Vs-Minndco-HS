@@ -40,13 +40,13 @@ const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivit
   useEffect(() => {
     switch (selected) {
       case 1:
-        navigation.push('StressActivityToDo', { type: 'READ' });
+        navigation.navigate('StressActivityToDo', { type: 'READ' });
         break;
       case 2:
-        navigation.push('StressActivityToDo', { type: 'LISTEN' });
+        navigation.navigate('StressActivityToDo', { type: 'LISTEN' });
         break;
       case 3:
-        navigation.push('StressActivityToDo', { type: 'DO' });
+        navigation.navigate('StressActivityToDo', { type: 'DO' });
         break;
     }
   }, [navigation, selected]);

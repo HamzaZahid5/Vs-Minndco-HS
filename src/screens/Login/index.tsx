@@ -177,7 +177,7 @@ const Login = ({ navigation }: Props) => {
                   minWidth: '100%',
                 }}
                 disabled={loading}
-                onPress={() => navigation.push('Registration')}
+                onPress={() => navigation.navigate('Registration')}
               >
                 {translate('screens.Login.create-an-account')}
               </BigButton>
@@ -215,7 +215,7 @@ const Login = ({ navigation }: Props) => {
                 minWidth: '100%',
               }}
               disabled={loading}
-              onPress={() => navigation.push('Registration')}
+              onPress={() => navigation.navigate('Registration')}
             >
               {translate('screens.Login.create-an-account')}
             </BigButton>
