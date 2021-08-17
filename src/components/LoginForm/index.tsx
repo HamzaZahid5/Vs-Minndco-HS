@@ -47,7 +47,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-                    error={touched.email !== undefined ? errors.email : null}
+                    error={touched.email ?? Boolean(errors.email)}
                     label={translate('screens.Login.email-address')}
                     value={values.email}
                     onChangeText={handleChange('email')}
