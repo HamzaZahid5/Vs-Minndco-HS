@@ -35,11 +35,11 @@ import { translate } from '../../utils/localization';
 const validate = async (code: string) => {
   const kitDoc = await getKitById(code);
   if (!kitDoc.exists) {
-    return [false, translate('Invalid activation code')];
+    return [false, translate('screens.KitActivation.invalid-activation-code')];
   }
   // eslint-disable-next-line no-alert, curly
   if (kitDoc.data().used_by) {
-    return [false, translate('Code already in use')];
+    return [false, translate('screens.KitActivation.code-already-in-use')];
   }
 
   return [true];
@@ -68,7 +68,7 @@ const CodeForm = ({ onSubmit, isLoading }: { onSubmit: (code: string) => void; i
             display: 'flex',
           }}
           returnKeyLabel="submit"
-          label={translate('CODE')}
+          label={translate('screens.KitActivation.code')}
           returnKeyType="done"
           value={code}
           //type="flat"
@@ -89,7 +89,7 @@ const CodeForm = ({ onSubmit, isLoading }: { onSubmit: (code: string) => void; i
           disabled={isLoading}
           onPress={() => onSubmit(code)}
         >
-          {translate('Use this code')}
+          {translate('screens.KitActivation.use-this-code')}
         </BigButton>
       </View>
     </>
@@ -144,12 +144,12 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
         header={
           <View style={styles.hero}>
             <View style={styles.heroContent}>
-              <Headline style={styles.headline}>{translate('Activate your KIT')}</Headline>
+              <Headline style={styles.headline}>{translate('screens.KitActivation.activate-your-kit')}</Headline>
               <Paragraph style={styles.description}>
-                {translate('Insert the ACTIVATION CODE printed in your box. ')}
+                {translate('screens.KitActivation.insert-the-activation-code-printed-in-your-box-')}
                 {
                   <Text key="link1" style={styles.hyperlink} onPress={() => setHelpVisible(true)}>
-                    {translate('Where is the code?')}
+                    {translate('screens.KitActivation.where-is-the-code')}
                   </Text>
                 }
               </Paragraph>
@@ -169,7 +169,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
             onButtonPress={() => {
               setHelpVisible(false);
             }}
-            title={translate('Open you box and look into the back cover for the code as the following image.')}
+            title={translate('screens.KitActivation.where-is-the-code-info')}
             content={
               <Image
                 // eslint-disable-next-line react-native/no-inline-styles
@@ -182,7 +182,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
             }
             buttons={[
               {
-                label: translate('Close'),
+                label: translate('screens.KitActivation.close'),
               },
             ]}
           />
