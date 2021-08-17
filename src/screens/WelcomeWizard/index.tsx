@@ -48,7 +48,7 @@ const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
     if (navigateTo === 'KitActivation') {
       resetTo(navigateTo);
     } else {
-      navigation.navigate(navigateTo || 'Main');
+      navigation.popToTop(); // Pop to main.
     }
   }
   useEffect(() => {
