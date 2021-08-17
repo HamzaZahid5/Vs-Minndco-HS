@@ -15,7 +15,7 @@ const HeaderVote = ({ asset = '' }) => {
 
   useEffect(() => {
     //Check here, negative votes wont be sent
-    if (vote > 0) {
+    if (vote >= 0) {
       onVote(vote);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
