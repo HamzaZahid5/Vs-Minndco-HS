@@ -1,4 +1,4 @@
-import React, { useState, useRef, RefObject } from 'react';
+import React, { useState, useRef, RefObject, useEffect } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Theme as PaperTheme } from 'react-native-paper/src/types';
 import { Provider } from 'react-redux';
@@ -57,13 +57,13 @@ import WelcomeWizardScreen from './src/screens/WelcomeWizard';
 import configureStore from './src/store';
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
 // @ts-ignore: non-ts file
-import { useFirestoreListener } from './src/services/Firestore';
+import { useFirestoreListener, updateUserLanguage } from './src/services/Firestore';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler';
 import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
-import { translate } from './src/utils/localization';
+import { translate, getLocale } from './src/utils/localization';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -90,6 +90,13 @@ export default function App() {
   const isNotAuthed = userToken === null; // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed;
   const [fontsLoaded] = useFontLoader();
+
+  useEffect(() => {
+    if (isAuthed && i18nReady) {
+      updateUserLanguage(getLocale());
+    }
+  }, [i18nReady, isAuthed]);
+
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
     return <LoadingScreen />;
   }
