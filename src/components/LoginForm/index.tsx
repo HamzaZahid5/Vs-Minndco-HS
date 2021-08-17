@@ -60,7 +60,7 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-                    error={touched.password !== undefined ? errors.password : null}
+                    error={touched.password ?? Boolean(errors.password)}
                     label={translate('screens.Login.password')}
                     value={values.password}
                     onChangeText={handleChange('password')}
