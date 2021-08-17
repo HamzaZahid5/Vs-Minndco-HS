@@ -9,7 +9,7 @@ import functions from '../../services/Functions';
 import RegisterForm from './../../components/RegisterForm';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { translate } from '../../utils/localization';
+import { translate, getLocale } from '../../utils/localization';
 
 type formikValueType = {
   name: string;
@@ -54,8 +54,8 @@ const Register = () => {
 
         delete form.password;
         delete form.confirmpassword;
-
-        await functions().httpsCallable('registerUser')({ uid: userCredentials.user.uid, ...form });
+        const language = getLocale();
+        await functions().httpsCallable('registerUser')({ uid: userCredentials.user.uid, ...form, language });
 
         // navigation occurs on auth state change.
       } catch (e) {
