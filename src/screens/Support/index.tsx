@@ -170,7 +170,6 @@ const Support = ({
           </Text>
         </View>
       )}
-      <KeyboardSpacer />
     </SafeAreaView>
   );
 };
