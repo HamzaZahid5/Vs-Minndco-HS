@@ -28,7 +28,7 @@ const CustomDrawerItem = ({ name, icon, color, onPress }: CustomDrawerItemPropTy
       }}
     >
       <Icon name={icon} size={30} color={color} />
-      <Text style={{ color }}>{name}</Text>
+      <Text style={{ color, textAlign: 'center' }}>{name}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -51,18 +51,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     <DrawerContentScrollView {...props}>
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('Library');
-          navigation.closeDrawer();
-        }}
-        icon="teach"
-        name={translate('screens.Home.learning')}
-        color={theme.colors.secondary}
-      />
-
-      <CustomDrawerItem
-        onPress={() => {
           // auth().signOut();
-          navigation.push('Profile');
+          navigation.navigate('Profile');
           navigation.closeDrawer();
         }}
         icon="account"
@@ -72,7 +62,17 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
       <CustomDrawerItem
         onPress={() => {
-          navigation.push('Statistics');
+          navigation.navigate('Library');
+          navigation.closeDrawer();
+        }}
+        icon="teach"
+        name={translate('screens.Home.learning')}
+        color={theme.colors.secondary}
+      />
+
+      <CustomDrawerItem
+        onPress={() => {
+          navigation.navigate('Statistics');
           navigation.closeDrawer();
         }}
         icon="heart-pulse"
@@ -83,7 +83,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       {!kitActivated && (
         <CustomDrawerItem
           onPress={() => {
-            navigation.push('KitActivation');
+            navigation.navigate('KitActivation');
             navigation.closeDrawer();
           }}
           icon="google-cardboard"
@@ -94,7 +94,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       {kitActivated && (
         <CustomDrawerItem
           onPress={() => {
-            navigation.push('AboutVR');
+            navigation.navigate('AboutVR');
             navigation.closeDrawer();
           }}
           icon="google-cardboard"

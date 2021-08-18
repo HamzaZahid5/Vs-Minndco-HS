@@ -65,9 +65,7 @@ const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
       >
         <View style={styles.contentWrapper}>
           {/*<Paragraph style={styles.description}> description style does not exist*/}
-          <Paragraph>
-            {translate('screens.KitAssemble.vr-guiade')}
-          </Paragraph>
+          <Paragraph>{translate('screens.KitAssemble.vr-guiade')}</Paragraph>
           <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
             <BigButton
               style={{

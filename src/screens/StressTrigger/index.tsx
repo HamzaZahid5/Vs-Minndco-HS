@@ -45,7 +45,7 @@ const StressTrigger = ({ navigation }: DefaultScreenPropType<'StressTrigger'>) =
     if (selected) {
       saveStressOMeter(selected);
 
-      navigation.push('StressActivityType');
+      navigation.navigate('StressActivityType');
     }
   }, [navigation, saveStressOMeter, selected]);
 

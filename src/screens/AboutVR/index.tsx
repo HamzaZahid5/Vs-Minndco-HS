@@ -60,7 +60,7 @@ const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
               title={translate('screens.AboutVR.setup-button-tittle')}
               text={translate('screens.AboutVR.setup-button-text')}
               reverse
-              onPress={() => navigation.push('KitAssemble')}
+              onPress={() => navigation.navigate('KitAssemble')}
             />
           </View>
           <View style={styles.contentWrapper}>
@@ -68,7 +68,7 @@ const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
               title={translate('screens.AboutVR.govr-title')}
               text={translate('screens.AboutVR.govr-text')}
               reverse
-              // onPress={() => navigation.push('VRMet')}
+              // onPress={() => navigation.navigate('VRMet')}
               onPress={openVRPlayer}
             />
           </View>
