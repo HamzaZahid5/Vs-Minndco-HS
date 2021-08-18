@@ -75,6 +75,18 @@ const user = createSlice({
         },
       };
     },
+    tutorialDone: state => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          flags: {
+            ...state.data.flags,
+            show_basics_tutorial: false,
+          },
+        },
+      };
+    },
   },
 });
 

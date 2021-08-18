@@ -37,6 +37,7 @@ const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
   function finishWizard(navigateTo?: keyof RootStackParamList) {
     updateBasicTutorialCompleted();
     dispatch({ type: 'tutorials/finishWelcomeTutorialStep' });
+    dispatch({ type: 'user/tutorialDone' });
     // actions.finishTutorial();
     analytics().logEvent('basic_wizard_finish');
     if (currentStep >= 7) {
