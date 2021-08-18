@@ -57,6 +57,9 @@ export const useFirestoreListener = (collection, id) => {
 export const updateProfile = updateObject =>
   firestore().collection('users').doc(auth().currentUser.uid).update(updateObject);
 
+export const updateUserLanguage = lang =>
+  firestore().collection('users').doc(auth().currentUser.uid).update({ language: lang });
+
 export const updateBasicTutorialCompleted = () =>
   updateProfile({
     'flags.show_basics_tutorial': false,
