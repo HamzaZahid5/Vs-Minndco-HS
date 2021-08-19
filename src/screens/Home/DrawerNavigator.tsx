@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerNavigationProp } from '@react-navigation/drawer';
@@ -8,6 +9,8 @@ import HomeScreen from './index';
 import useActivityActions from '../../appActionHooks/useActivityActions';
 import useOrientation from '../../utils/hooks/useOrientation';
 import { HomeScreenNavigationProp } from './types';
+// @ts-ignore: non-ts file
+import HomeLayout from './../../components/HomeLayout';
 import { SHOW_BASIC_TUTORIAL } from './../../store/selectors';
 type DrawerParamList = {
   Home: undefined;
@@ -22,11 +25,13 @@ const getDrawerContent = (props: DrawerContentComponentProps) => <CustomDrawerCo
 const DrawerNavigator = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const { updateStreak } = useActivityActions();
   const welcomeTutorial = useSelector(SHOW_BASIC_TUTORIAL);
+  const [loadingTutorial, setLoadingTutorial] = useState<boolean>(true);
   const orientation = useOrientation();
 
   useEffect(() => {
-    if (welcomeTutorial) {
-      navigation.navigate('Tutorial');
+    if (welcomeTutorial !== undefined) {
+      if (welcomeTutorial === true) navigation.navigate('Tutorial');
+      else setLoadingTutorial(false); // Render screen only when tutorial was loaded and doesn't have to be done.
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [welcomeTutorial]);
@@ -35,8 +40,9 @@ const DrawerNavigator = ({ navigation }: { navigation: HomeScreenNavigationProp 
     updateStreak();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  return (
+  return loadingTutorial ? (
+    <HomeLayout /> /*Render a void HomeLayout if it is loading*/
+  ) : (
     <Drawer.Navigator
       // openByDefault
       drawerContent={getDrawerContent}
@@ -52,3 +58,15 @@ DrawerNavigator.propTypes = {
   navigation: PropTypes.object,
 };
 export default DrawerNavigator;
+
+/*
+container: {
+    flex: 1,
+  },
+  gradient: {
+    flex: 1,
+    position: 'relative',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  */
