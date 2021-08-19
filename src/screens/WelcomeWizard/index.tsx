@@ -49,7 +49,7 @@ const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
     if (navigateTo === 'KitActivation') {
       resetTo(navigateTo);
     } else {
-      navigation.navigate(navigateTo || 'Main');
+      navigation.navigate('Main'); // Navigate to main.
     }
   }
   useEffect(() => {

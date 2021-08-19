@@ -107,8 +107,8 @@ export default function App() {
     navigateToDeepLink(deepLink, navigatorRef.current);
   }
 
-  // replace Main by Tutorial as initialRoute if show_basic_tutorial
-  const protectedInitialRouteName = userData?.flags?.show_basics_tutorial ? 'Tutorial' : 'Main';
+  //Go to main as initial route, it should be at the top of the stack. Then check there if it's needed to navigate to Tutorial
+  const protectedInitialRouteName = 'Main';
   const headerBackground = () => <View style={{ height: 64 }} />;
   return (
     <Provider store={store}>
