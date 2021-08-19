@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 // import { useSelector, useStore, useDispatch } from 'react-redux';
 import { Text, StyleSheet } from 'react-native';
@@ -20,7 +21,7 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
 import useNextActivity from '../../utils/hooks/useNextActivity';
 // @ts-ignore: non-ts file
 import useCompletion from '../../utils/hooks/useCompletion';
-import { Badge } from 'react-native-paper';
+
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { useSelector } from 'react-redux';
 import { activityType } from '../../../types';
@@ -53,7 +54,7 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         {/* <FadeEffect show={typeof nextActivity === 'object'}> */}
-        {typeof nextActivity === 'object' ? (
+        <FadeEffect show={typeof nextActivity === 'object'}>
           <CircularContent
             title={nextActivity?.name}
             informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
@@ -68,7 +69,7 @@ const HomeScreen = ({ navigation }: Props) => {
             progress={progress}
             onPress={() => navigation.navigate('Activity')}
           />
-        ) : null}
+        </FadeEffect>
         {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
       <HomeLayout.BottomLeft>
