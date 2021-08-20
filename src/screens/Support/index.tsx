@@ -109,22 +109,22 @@ const Support = ({
             }
             // updates session id if changed and triggers readyness event to hide overlay
             webViewRef.current?.injectJavaScript(`
-                const session_id = window.$crisp.get("session:identifier");
-                if (session_id !== "${currentCrispSessionId}") {
-                  window.ReactNativeWebView.postMessage("session:loaded:" + session_id);
-                }
-                window.ReactNativeWebView.postMessage("session:ready");
+              const session_id = window.$crisp.get("session:identifier");
+              if (session_id !== "${currentCrispSessionId}") {
+                window.ReactNativeWebView.postMessage("session:loaded:" + session_id);
+              }
+              window.ReactNativeWebView.postMessage("session:ready");
 
-                window.$crisp.push(["set", "user:nickname", ["${displayName}"]])
-                window.$crisp.push(["set", "session:data", [[
-                  ["user-profile", "${group}"],
-                  ["user-name", "${displayName}"],
-                  ["user-kit-id", "${kitId}"],
-                  ["user-id", "${uid}"],
-                  ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
-                ]]]);
-                true;
-              `);
+              window.$crisp.push(["set", "user:nickname", ["${displayName}"]])
+              window.$crisp.push(["set", "session:data", [[
+                ["user-profile", "${group}"],
+                ["user-name", "${displayName}"],
+                ["user-kit-id", "${kitId}"],
+                ["user-id", "${uid}"],
+                ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
+              ]]]);
+              true;
+            `);
           }
           // all ready, hide overlay and reveal the chat.
           if (event.nativeEvent.data === 'session:ready') {
