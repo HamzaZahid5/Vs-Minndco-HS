@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 // @ts-ignore: non-ts file
 import template from 'lodash.template';
@@ -170,7 +170,7 @@ const Support = ({
           </Text>
         </View>
       )}
-      <KeyboardSpacer />
+      {Platform.OS === 'ios' && <KeyboardSpacer />}
     </SafeAreaView>
   );
 };
@@ -186,6 +186,8 @@ const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: '#fff',
+      marginBottom: Platform.OS === 'ios' ? -30 : 0,
     },
     overlay: {
       position: 'absolute',
@@ -202,5 +204,8 @@ const getStyles = (theme: CustomThemeType) =>
       overflow: 'hidden',
       display: 'none',
     },
-    webView: { flex: 1, height: '100%' },
+    webView: {
+      flex: 1,
+      height: '100%',
+    },
   });
