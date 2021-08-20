@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, useWindowDimensions, StyleSheet } from 'react-native';
 import SnapCarousel, { Pagination } from 'react-native-snap-carousel';
 
 const renderItem = ({ item, index }) => {
@@ -29,6 +29,7 @@ const Carousel = ({ items }, externalRef) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const ref = externalRef || useRef();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { width } = useWindowDimensions();
 
   return (
     <>
@@ -37,8 +38,8 @@ const Carousel = ({ items }, externalRef) => {
         layout={'default'}
         data={items}
         renderItem={renderItem}
-        sliderWidth={Dimensions.get('window').width}
-        itemWidth={Dimensions.get('window').width}
+        sliderWidth={width}
+        itemWidth={width}
         onLayout={() => ref.current.snapToItem(currentIndex, true)}
         onSnapToItem={index => setCurrentIndex(index)}
       />
