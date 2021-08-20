@@ -1,6 +1,6 @@
 import React, { DOMElement, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { styles } from './styles';
 import { useHeaderHeight } from '@react-navigation/stack';
 
@@ -14,7 +14,8 @@ export const Slide = ({ title, size, children }) => {
   }, [size]);
 
   const headerHeight = useHeaderHeight();
-  const slideHeight = Dimensions.get('window').height - Math.round(headerHeight);
+  const windowDimensions = useWindowDimensions();
+  const slideHeight = windowDimensions.height - Math.round(headerHeight);
   return (
     <View style={[styles.slide, { height: slideHeight }]} ref={slideRef}>
       {title && <Text style={styles.slideText}>{title}</Text>}
