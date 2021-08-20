@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Dimensions, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { Headline, Paragraph, useTheme } from 'react-native-paper';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import Color from 'color';
@@ -43,7 +43,6 @@ const getStyles = (theme: CustomThemeType) =>
       justifyContent: 'center',
     },
     topImage: {
-      // width: Dimensions.get('window').width,
       // backgroundColor: '#f00a',
       opacity: 0.75,
     },

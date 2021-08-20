@@ -1,6 +1,7 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Image, TouchableWithoutFeedback, View, StyleSheet, Dimensions, ImageBackground } from 'react-native';
+import { Image, TouchableWithoutFeedback, View, StyleSheet, useWindowDimensions, ImageBackground } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
 // import Sound from 'react-native-sound';
 // import LinearGradient from 'react-native-linear-gradient';
@@ -33,15 +34,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 //     }
 //   },
 // );
-const { width, height } = Dimensions.get('window');
-// BUBBLE ASSET REAL SIZE: 105x105
-const BUBBLE_COUNT_BY_ROW = 8;
-const bubble_size = width / BUBBLE_COUNT_BY_ROW;
-const topBarHeight = 100;
-const rows = Math.round((height - topBarHeight) / bubble_size);
-const columns = Math.round(width / bubble_size);
-const evenRows = Math.round(rows / 2);
-const totalBubbles = rows * columns - 1 * evenRows;
 const playWinSound = () => {
   // winSound.play();
 };
@@ -52,8 +44,18 @@ const playPopSound = () => {
   // popSound.play();
 };
 const Bubble = ({ onSmash = _ => _ }) => {
+  const { width, height } = useWindowDimensions;
+  // BUBBLE ASSET REAL SIZE: 105x105
+  const BUBBLE_COUNT_BY_ROW = 8;
+  const bubble_size = width / BUBBLE_COUNT_BY_ROW;
+  const topBarHeight = 100;
+  const rows = Math.round((height - topBarHeight) / bubble_size);
+  const columns = Math.round(width / bubble_size);
+  const evenRows = Math.round(rows / 2);
+  const totalBubbles = rows * columns - 1 * evenRows;
+
   const theme = useTheme();
-  const styles = getStyles(theme);
+  const styles = getStyles(theme, bubble_size);
   const [smashed, smash] = useState(false);
   useEffect(() => {
     // return () => popSound.release();
@@ -89,8 +91,18 @@ Bubble.propTypes = {
 };
 
 const BubbleWrapGame = ({ onClose = _ => _ }) => {
+  const { width, height } = useWindowDimensions;
+  // BUBBLE ASSET REAL SIZE: 105x105
+  const BUBBLE_COUNT_BY_ROW = 8;
+  const bubble_size = width / BUBBLE_COUNT_BY_ROW;
+  const topBarHeight = 100;
+  const rows = Math.round((height - topBarHeight) / bubble_size);
+  const columns = Math.round(width / bubble_size);
+  const evenRows = Math.round(rows / 2);
+  const totalBubbles = rows * columns - 1 * evenRows;
+
   const theme = useTheme();
-  const styles = getStyles(theme);
+  const styles = getStyles(theme, bubble_size);
   const [smashed, countSmash] = useState(totalBubbles);
   useEffect(() => {
     if (smashed === 0) {
@@ -158,7 +170,7 @@ BubbleWrapGame.propTypes = {
 
 export default BubbleWrapGame;
 
-const getStyles = theme =>
+const getStyles = (theme, bubble_size) =>
   StyleSheet.create({
     container: {
       overflow: 'hidden',

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, ScrollView, Linking, Platform, Dimensions } from 'react-native';
+import { View, Image, ScrollView, Linking, Platform, useWindowDimensions } from 'react-native';
 // @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
 import { Surface, Title, Button, useTheme } from 'react-native-paper';
@@ -50,6 +50,7 @@ const Login = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
   const [loginFormIsVisible, showLoginForm] = useState(true);
   const theme = useTheme() as CustomThemeType;
+  const { width, height } = useWindowDimensions();
 
   const onFormSubmit = formSubmitHandler(setLoading);
   return (
@@ -66,8 +67,8 @@ const Login = ({ navigation }: Props) => {
           style={{
             // backgroundColor: 'red',
             flex: 1,
-            height: Dimensions.get('window').height * 0.33,
-            width: Dimensions.get('window').width,
+            height: height * 0.33,
+            width,
             position: 'absolute',
             justifyContent: 'flex-start',
             alignItems: 'center',
@@ -76,7 +77,7 @@ const Login = ({ navigation }: Props) => {
           <Image
             source={require('../../../assets/images/logo.png')}
             resizeMode="contain"
-            style={{ height: Dimensions.get('window').height * 0.25 }}
+            style={{ height: height * 0.25 }}
           />
         </View>
         {false && (
@@ -85,13 +86,13 @@ const Login = ({ navigation }: Props) => {
               display: 'none',
               backgroundColor: 'red',
               flex: 1,
-              height: Dimensions.get('window').height * 0.33,
-              width: Dimensions.get('window').width,
+              height: height * 0.33,
+              width,
               position: 'absolute',
             }}
             shadowMap
             // invalidateFrameloop
-            // pixelRatio={Dimensions.get('window').height / Dimensions.get('window').width}
+            // pixelRatio={height / width}
             camera={{ position: [-5, 11, 20], fov: 30 }}
             concurrent
             gl={{ antialias: true }}

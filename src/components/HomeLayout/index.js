@@ -116,7 +116,7 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               position: 'absolute',
               // top: -100,
               zIndex: 0,
-              // margin: -10,
+              // margin: -10
               width: width + 20,
               height: height + 10,
               alignContent: 'center',
@@ -127,8 +127,8 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               source={require('../../../assets/images/home_bg.png')}
               style={{
                 // backgroundColor: '#f00a',
-                width: Dimensions.get('window').width,
-                height: Dimensions.get('window').width * 2,
+                width: windowsDimensions.width,
+                height: windowsDimensions.width * 2,
                 opacity: 0.75,
                 // marginBottom: 50,
               }}

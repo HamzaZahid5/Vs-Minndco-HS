@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import { LineChart } from 'react-native-chart-kit';
 import { CustomThemeType } from '../../utils/OriginalTheme';
@@ -9,6 +9,7 @@ import { translate } from '../../utils/localization';
 
 const DailyActivityChart = ({ data = [] }) => {
   const theme = useTheme() as CustomThemeType;
+  const { width } = useWindowDimensions();
   return (
     <View
       style={{
@@ -32,7 +33,7 @@ const DailyActivityChart = ({ data = [] }) => {
               },
             ],
           }}
-          width={Dimensions.get('window').width - Dimensions.get('window').width * 0.1} // from react-native
+          width={width - width * 0.1} // from react-native
           height={220}
           yAxisInterval={1} // optional, defaults to 1
           withHorizontalLabels={false}
