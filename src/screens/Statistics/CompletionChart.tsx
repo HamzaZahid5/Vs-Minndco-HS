@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import { ProgressChart } from 'react-native-chart-kit';
 import Color from 'color';
@@ -28,6 +28,7 @@ const CompletionChart = () => {
   const theme = useTheme() as CustomThemeType;
   const progress = useCompletion();
   const [data, setData] = useState<ProgressChartData>();
+  const { width, height } = useWindowDimensions();
   useEffect(() => {
     if (progress) {
       setData({
@@ -37,8 +38,8 @@ const CompletionChart = () => {
       });
     }
   }, [progress]);
-  // const SIZE = Math.min(Dimensions.get('window').width, Dimensions.get('window').height);
-  const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
+  // const SIZE = Math.min(width, height);
+  const SIZE = Math.max(width, height);
   return (
     <View
       style={{
