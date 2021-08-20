@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 // @ts-ignore: non-ts file
 import template from 'lodash.template';
@@ -109,22 +109,22 @@ const Support = ({
             }
             // updates session id if changed and triggers readyness event to hide overlay
             webViewRef.current?.injectJavaScript(`
-              const session_id = window.$crisp.get("session:identifier");
-              if (session_id !== "${currentCrispSessionId}") {
-                window.ReactNativeWebView.postMessage("session:loaded:" + session_id);
-              }
-              window.ReactNativeWebView.postMessage("session:ready");
+                const session_id = window.$crisp.get("session:identifier");
+                if (session_id !== "${currentCrispSessionId}") {
+                  window.ReactNativeWebView.postMessage("session:loaded:" + session_id);
+                }
+                window.ReactNativeWebView.postMessage("session:ready");
 
-              window.$crisp.push(["set", "user:nickname", ["${displayName}"]])
-              window.$crisp.push(["set", "session:data", [[
-                ["user-profile", "${group}"],
-                ["user-name", "${displayName}"],
-                ["user-kit-id", "${kitId}"],
-                ["user-id", "${uid}"],
-                ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
-              ]]]);
-              true;
-            `);
+                window.$crisp.push(["set", "user:nickname", ["${displayName}"]])
+                window.$crisp.push(["set", "session:data", [[
+                  ["user-profile", "${group}"],
+                  ["user-name", "${displayName}"],
+                  ["user-kit-id", "${kitId}"],
+                  ["user-id", "${uid}"],
+                  ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
+                ]]]);
+                true;
+              `);
           }
           // all ready, hide overlay and reveal the chat.
           if (event.nativeEvent.data === 'session:ready') {
@@ -170,6 +170,7 @@ const Support = ({
           </Text>
         </View>
       )}
+      {Platform.OS === 'ios' && <KeyboardSpacer />}
     </SafeAreaView>
   );
 };
@@ -185,6 +186,8 @@ const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: '#fff',
+      marginBottom: Platform.OS === 'ios' ? -30 : 0,
     },
     overlay: {
       position: 'absolute',
@@ -201,5 +204,8 @@ const getStyles = (theme: CustomThemeType) =>
       overflow: 'hidden',
       display: 'none',
     },
-    webView: { flex: 1, height: '100%' },
+    webView: {
+      flex: 1,
+      height: '100%',
+    },
   });
