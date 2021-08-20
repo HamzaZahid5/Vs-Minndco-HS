@@ -138,17 +138,17 @@ export default function App() {
                   <Stack.Screen
                     name="StressRate"
                     component={StressRateScreen}
-                    options={{ headerShown: true, title: translate('main.rate-your-current-stress') }}
+                    options={{ headerShown: true, title: translate('screens.StressRate.headerTitle') }}
                   />
                   <Stack.Screen
                     name="StressTrigger"
                     component={StressTriggerScreen}
-                    options={{ headerShown: true, title: translate('main.what-you-were-doing') }}
+                    options={{ headerShown: true, title: translate('screens.StressTrigger.headerTitle') }}
                   />
                   <Stack.Screen
                     name="StressActivityType"
                     component={StressActivityTypeScreen}
-                    options={{ title: translate('main.choose-your-preference') }}
+                    options={{ title: translate('screens.StressActivityType.headerTitle') }}
                   />
                   <Stack.Screen
                     name="StressActivityToDo"
@@ -158,13 +158,13 @@ export default function App() {
                   <Stack.Screen
                     name="Activity"
                     component={ActivityScreen}
-                    options={{ title: translate('main.next-activity') }}
+                    options={{ title: translate('screens.Activity.headerTitle') }}
                   />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
                   <Stack.Screen
                     name="AboutVR"
                     component={AboutVRScreen}
-                    options={{ title: translate('main.about-vr') }}
+                    options={{ title: translate('screens.AboutVR.headerTitle') }}
                   />
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
@@ -173,19 +173,19 @@ export default function App() {
                   <Stack.Screen
                     name="Statistics"
                     component={StatisticsScreen}
-                    options={{ title: translate('main.your-insights') }}
+                    options={{ title: translate('screens.Statistics.headerTitle') }}
                   />
                   <Stack.Screen name="ContentsShelf" component={ContentsShelfScreen} options={{ title: '' }} />
                   <Stack.Screen
                     name="KitAssemble"
                     component={KitAssembleScreen}
-                    options={{ title: translate('main.assemble-your-vr-headset') }}
+                    options={{ title: translate('screens.KitAssemble.headerTitle') }}
                   />
                   <Stack.Screen name="Library" component={LibraryScreen} options={{ title: '' }} />
                   <Stack.Screen
                     name="HowItWorks"
                     component={HowItWorksScreen}
-                    options={{ title: translate('main.how-mindco-relief-works') }}
+                    options={{ title: translate('screens.HowItWorks.headerTitle') }}
                   />
                 </>
               ) : (
