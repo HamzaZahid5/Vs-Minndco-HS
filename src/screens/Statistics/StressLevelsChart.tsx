@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { Paragraph, useTheme } from 'react-native-paper';
 import { LineChart } from 'react-native-chart-kit';
 import Color from 'color';
@@ -13,6 +13,7 @@ const StressLevelsChart = ({ data = [] }: { data: number[] }) => {
   const [chartData, setChartData] = useState([0]);
   const [isEmpty, setIsEmpty] = useState(true);
   const theme = useTheme() as CustomThemeType;
+  const { width, height } = useWindowDimensions();
   useEffect(() => {
     if (data.length) {
       setSegments(Math.max(...data) - Math.min(...data));
@@ -20,7 +21,7 @@ const StressLevelsChart = ({ data = [] }: { data: number[] }) => {
       setIsEmpty(false);
     }
   }, [data]);
-  const SIZE = Math.max(Dimensions.get('window').width, Dimensions.get('window').height);
+  const SIZE = Math.max(width, height);
   const cardColor = Color('#F79337').lighten(0).toString();
   return (
     <>
@@ -61,7 +62,7 @@ const StressLevelsChart = ({ data = [] }: { data: number[] }) => {
                   ],
                 }}
                 segments={segments}
-                width={Dimensions.get('window').width - Dimensions.get('window').width * 0.05}
+                width={width - width * 0.05}
                 height={SIZE / 3}
                 yAxisInterval={1} // optional, defaults to 1
                 // withVerticalLabels={false}
@@ -88,10 +89,10 @@ const StressLevelsChart = ({ data = [] }: { data: number[] }) => {
                 }}
                 bezier
                 style={{
-                  marginLeft: Dimensions.get('window').width * -0.05,
+                  marginLeft: width * -0.05,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: Dimensions.get('window').width - Dimensions.get('window').width * 0.05,
+                  width: width - width * 0.05,
                   // marginVertical: 8,
                   // borderRadius: 16
                 }}
