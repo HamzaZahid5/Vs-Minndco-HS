@@ -86,7 +86,7 @@ const StressActivity = ({
       {activityType === 'READ' && content && <ReadActivity content={content} onClose={onCloseActivity} />}
       {activityType === 'LISTEN' && content && (
         <StorageLoader path={content.source}>
-          {(url: string) => <AudioPlayer src={url} onClose={onCloseActivity} />}
+          {(url: string) => <AudioPlayer audioURI={url} didJustFinish={onCloseActivity} />}
         </StorageLoader>
       )}
 
