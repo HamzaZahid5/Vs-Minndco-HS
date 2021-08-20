@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, useWindowDimensions } from 'react-native';
 import Color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Dimensions } from 'react-native';
 import { Platform } from 'react-native';
 
 const AnimatedRateRow = ({
@@ -18,6 +17,8 @@ const AnimatedRateRow = ({
   value: number;
 }) => {
   const [highlight, setHighlight] = useState<boolean>();
+  const { height } = useWindowDimensions();
+  const styles = getStyles(height);
   useEffect(() => {
     if (selected) {
       setTimeout(() => {
@@ -63,31 +64,32 @@ AnimatedRateRow.propTypes = {
 
 export default AnimatedRateRow;
 
-const styles = StyleSheet.create({
-  rowOption: {
-    flex: 1,
-    justifyContent: 'center',
-    overflow: 'hidden',
-    borderRadius: 10,
-    marginHorizontal: 5,
-    marginVertical: 0.5,
-  },
-  rowNumber: {
-    fontFamily: 'Graphik-Regular',
-    // position: 'absolute',
-    fontSize: (Dimensions.get('window').height / 10) * 1.4,
-    lineHeight: (Dimensions.get('window').height / 10) * (Platform.OS === 'ios' ? 1.2 : 1.6),
-    // fontWeight: 'bold',
-    opacity: 0.75,
-    // backgroundColor: '#f00a',
-    textAlign: 'center',
-  },
-  rowNumberSmall: {
-    fontSize: 30,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    color: 'white',
-    // fontWeight: 'bold',
-  },
-});
+const getStyles = (windowsHeight: number) =>
+  StyleSheet.create({
+    rowOption: {
+      flex: 1,
+      justifyContent: 'center',
+      overflow: 'hidden',
+      borderRadius: 10,
+      marginHorizontal: 5,
+      marginVertical: 0.5,
+    },
+    rowNumber: {
+      fontFamily: 'Graphik-Regular',
+      // position: 'absolute',
+      fontSize: (windowsHeight / 10) * 1.4,
+      lineHeight: (windowsHeight / 10) * (Platform.OS === 'ios' ? 1.2 : 1.6),
+      // fontWeight: 'bold',
+      opacity: 0.75,
+      // backgroundColor: '#f00a',
+      textAlign: 'center',
+    },
+    rowNumberSmall: {
+      fontSize: 30,
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      color: 'white',
+      // fontWeight: 'bold',
+    },
+  });
