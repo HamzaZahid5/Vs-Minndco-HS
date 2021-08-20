@@ -2,14 +2,7 @@
  * Created by andrewhurst on 10/5/15.
  */
 import React, { useRef, useEffect, useState } from 'react';
-import {
-  Keyboard,
-  LayoutAnimation,
-  View,
-  Dimensions,
-  Platform,
-  StyleSheet
-} from 'react-native';
+import { Keyboard, LayoutAnimation, View, useWindowDimensions, Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,24 +18,27 @@ const defaultAnimation = {
   create: {
     duration: 300,
     type: LayoutAnimation.Types.easeInEaseOut,
-    property: LayoutAnimation.Properties.opacity
+    property: LayoutAnimation.Properties.opacity,
   },
   update: {
     type: LayoutAnimation.Types.spring,
-    springDamping: 200
-  }
+    springDamping: 200,
+  },
 };
-export default ({ topSpacing = 0, onToggle = () => null, style }) => {
+const KeyboardSpacer = ({ topSpacing = 0, onToggle = () => null, style }) => {
   const [keyboardSpace, setKeyboardSpace] = useState(0);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const listeners = useRef([]);
+  const { height } = useWindowDimensions();
   useEffect(() => {
     const updateListener = Platform.OS === 'android' ? 'keyboardDidShow' : 'keyboardWillShow';
     const resetListener = Platform.OS === 'android' ? 'keyboardDidHide' : 'keyboardWillHide';
-    listeners.current.push(...[
-      Keyboard.addListener(updateListener, updateKeyboardSpace),
-      Keyboard.addListener(resetListener, resetKeyboardSpace)
-    ]);
+    listeners.current.push(
+      ...[
+        Keyboard.addListener(updateListener, updateKeyboardSpace),
+        Keyboard.addListener(resetListener, resetKeyboardSpace),
+      ],
+    );
 
     return () => listeners.current.forEach(listener => listener.remove());
   }, []);
@@ -63,11 +59,11 @@ export default ({ topSpacing = 0, onToggle = () => null, style }) => {
     LayoutAnimation.configureNext(animationConfig);
 
     // get updated on rotation
-    const screenHeight = Dimensions.get('window').height;
+    const screenHeight = height;
     // when external physical keyboard is connected
     // event.endCoordinates.height still equals virtual keyboard height
     // however only the keyboard toolbar is showing if there should be one
-    const _keyboardSpace = (screenHeight - event.endCoordinates.screenY) + topSpacing;
+    const _keyboardSpace = screenHeight - event.endCoordinates.screenY + topSpacing;
     setKeyboardSpace(_keyboardSpace);
     setIsKeyboardOpen(true);
     onToggle(true, keyboardSpace);
@@ -90,4 +86,6 @@ export default ({ topSpacing = 0, onToggle = () => null, style }) => {
   }
 
   return <View style={[styles.container, { height: keyboardSpace }, style]} />;
-}
+};
+
+export default KeyboardSpacer;
