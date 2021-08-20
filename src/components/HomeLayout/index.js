@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, Image, Platform } from 'react-native';
+import { View, useWindowDimensions, Image, Platform } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -31,6 +31,7 @@ BottomRight.propTypes = { children: PropTypes.element };
 
 const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, withDecoration }) => {
   const theme = useTheme();
+  const windowsDimensions = useWindowDimensions();
   // const orientation = useOrientation();
   // const webViewRef = useRef();
 
@@ -114,8 +115,8 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               // top: -100,
               zIndex: 0,
               // margin: -10,
-              width: Dimensions.get('window').width + 20,
-              height: Dimensions.get('window').height + 10,
+              width: windowsDimensions.width + 20,
+              height: windowsDimensions.height + 10,
               alignContent: 'center',
               justifyContent: 'flex-end',
             }}
@@ -124,8 +125,8 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               source={require('../../../assets/images/home_bg.png')}
               style={{
                 // backgroundColor: '#f00a',
-                width: Dimensions.get('window').width,
-                height: Dimensions.get('window').width * 2,
+                width: windowsDimensions.width,
+                height: windowsDimensions.width * 2,
                 opacity: 0.75,
                 // marginBottom: 50,
               }}
