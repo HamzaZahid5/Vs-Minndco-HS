@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, useWindowDimensions, Image, Platform } from 'react-native';
+import { View, Dimensions, Image, useWindowDimensions } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
+//import useOrientation from '../../utils/hooks/useOrientation';
+
 
 // import { connector } from './../../redux/connector';
 // import theme from './../../styles/ColoredTheme';
@@ -31,9 +33,9 @@ BottomRight.propTypes = { children: PropTypes.element };
 
 const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, withDecoration }) => {
   const theme = useTheme();
-  const windowsDimensions = useWindowDimensions();
   // const orientation = useOrientation();
   // const webViewRef = useRef();
+  const { height, width } = useWindowDimensions();
 
   const TopLeftChildren = [];
   const TopCenterChildren = [];
@@ -114,9 +116,9 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               position: 'absolute',
               // top: -100,
               zIndex: 0,
-              // margin: -10,
-              width: windowsDimensions.width + 20,
-              height: windowsDimensions.height + 10,
+              // margin: -10
+              width: width + 20,
+              height: height + 10,
               alignContent: 'center',
               justifyContent: 'flex-end',
             }}
