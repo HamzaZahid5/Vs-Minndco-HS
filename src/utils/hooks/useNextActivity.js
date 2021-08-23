@@ -8,7 +8,7 @@ export default fixedActivityId => {
   // STATE
   const [nextActivity, setNextActivity] = useState();
   const [nextActivityKey, setNextActivityKey] = useState();
-  const [isLastActivity, setIsLastActivity] = useState();
+  const [isLastActivity, setIsLastActivity] = useState(true);
 
   // REDUX SELECTORS
   const progress = useSelector(PROGRESS);
