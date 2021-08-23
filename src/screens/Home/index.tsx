@@ -28,7 +28,8 @@ import { activityType } from '../../../types';
 import { translate } from '../../utils/localization';
 
 const HomeScreen = ({ navigation }: Props) => {
-  let [nextActivity] = useNextActivity();
+  let { nextActivity, isLastActivity } = useNextActivity();
+  isLastActivity = isLastActivity as boolean;
   nextActivity = nextActivity as activityType; // @TODO migrate useNextActivity to typescript
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
@@ -54,7 +55,7 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         {/* <FadeEffect show={typeof nextActivity === 'object'}> */}
-        <FadeEffect show={typeof nextActivity === 'object'}>
+        <FadeEffect show={!isLastActivity}>
           <CircularContent
             title={nextActivity?.name}
             informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}

@@ -36,7 +36,7 @@ const ActivityScreen = ({
   route,
 }: DefaultScreenPropType<'Activity'> & DefaultScreenRouteType<'Activity'>) => {
   const { activityId } = route.params || {};
-  const [nextActivity, nextActivityKey] = useNextActivity(activityId);
+  const { nextActivity, nextActivityKey } = useNextActivity(activityId);
   const IS = getWhatContentIs(nextActivity);
   const { language, gender } = useSelector(USER_PROFILE);
   const asset = nextActivity ? formatAsset(nextActivity?.asset, language, gender) : null;
