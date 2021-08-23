@@ -79,7 +79,10 @@ export const findNextActivity = (program, maxProgressKey = '', includeVR) => {
 
   const currentActIndex = getActivityPositionByKey(program, maxProgressKey, includeVR);
   // return next or last if theres no more activities to do.
-  return activities[currentActIndex + 1] || activities[currentActIndex];
+  return {
+    nextActivity: activities[currentActIndex + 1] || activities[currentActIndex],
+    isLastActivity: activities[currentActIndex + 1] ? false : true,
+  };
 };
 
 // calculates completion percentage for program, based on last activity into progress.

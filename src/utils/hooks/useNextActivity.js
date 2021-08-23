@@ -8,6 +8,7 @@ export default fixedActivityId => {
   // STATE
   const [nextActivity, setNextActivity] = useState();
   const [nextActivityKey, setNextActivityKey] = useState();
+  const [isLastActivity, setIsLastActivity] = useState();
 
   // REDUX SELECTORS
   const progress = useSelector(PROGRESS);
@@ -19,13 +20,17 @@ export default fixedActivityId => {
 
   useEffect(() => {
     if (program && progress) {
-      const nextActivity = fixedActivityId
+      let nextActivityItem = fixedActivityId
         ? getAllActivities(program, includeVR).find(a => a.id === fixedActivityId)
         : findNextActivity(program, [...progress].pop(), includeVR);
-      setNextActivity(nextActivity);
-      setNextActivityKey(buildActivityKey(mId, lId, nextActivity.id));
+      if (!fixedActivityId) {
+        setIsLastActivity(nextActivityItem.isLastActivity);
+        nextActivityItem = nextActivityItem.nextActivity;
+      }
+      setNextActivity(nextActivityItem);
+      setNextActivityKey(buildActivityKey(mId, lId, nextActivityItem.id));
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId]);
 
-  return [nextActivity, nextActivityKey];
+  return { nextActivity, nextActivityKey, isLastActivity };
 };
