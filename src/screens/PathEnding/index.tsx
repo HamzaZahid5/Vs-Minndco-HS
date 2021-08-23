@@ -18,6 +18,8 @@ import HeaderPerformance from './HeaderPerformance';
 // @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 // @ts-ignore: non-ts file
+import useNextActivity from '../../utils/hooks/useNextActivity';
+// @ts-ignore: non-ts file
 import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
 // @ts-ignore: non-ts file
 import ChipButton from '../../components/ChipButton';
@@ -88,8 +90,9 @@ const PathEnding = ({
   const styles = getStyles(theme);
   const resetPathTo = useNavigationResetPathTo(navigation);
   const { header: headerParam, body: bodyParam } = route.params;
+  const { isLastActivity } = useNextActivity();
   let rowOptions = bodyParam?.options ?? [];
-  if (!todaysActivityDone && !rowOptions.includes('DailyActivityRow')) {
+  if (!todaysActivityDone && !rowOptions.includes('DailyActivityRow') && !isLastActivity) {
     rowOptions.unshift('DailyActivityRow');
   }
   if (rowOptions.length > 3) {
