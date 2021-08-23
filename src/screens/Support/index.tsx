@@ -86,7 +86,7 @@ const Support = ({
   `;
   const runFirst = `
     /* keep this email well formatted for Crisp verification but anonymous */
-    window.injectedEmail = 'private@gmail.com';
+    window.injectedEmail = 'private@mindcotine.com';
     window.startingText = \`${translate('screens.Support.starting-chat')}\`;
   `;
 
