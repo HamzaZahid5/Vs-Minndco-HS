@@ -13,7 +13,7 @@ import useNextActivity from '../utils/hooks/useNextActivity';
 
 const useActivityActions = () => {
   // const dispatch = useDispatch();
-  const [nextActivity] = useNextActivity();
+  const { nextActivity } = useNextActivity();
   const lastActivityDate = useSelector(LAST_ACTIVITY_AT);
   const streakCount = useSelector(ACTIVITY_DAYS_IN_A_ROW);
   const dispatch = useDispatch();
