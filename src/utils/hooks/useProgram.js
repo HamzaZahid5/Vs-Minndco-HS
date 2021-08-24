@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useStorageDownloadURL } from '../../services/Storage';
+import { getLocale } from '../localization';
 // import { getLocale } from '../utils/localization';
 
 let localData = null;
 
 // @TODO move file name to config
 // const getProgramFileByLocale = locale => `quests_8.4.1_${locale}`;
-const getProgramFileByLocale = () => 'program_0.1.0_en';
+const getProgramFileByLocale = () => {
+  const lang = getLocale();
+  return `program_0.1.0_${lang}`;
+};
 
 const useProgram = programName => {
   const [program, setProgram] = useState(localData);
