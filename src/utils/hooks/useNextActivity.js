@@ -36,5 +36,5 @@ export default fixedActivityId => {
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId]);
 
-  return { nextActivityInState, nextActivityKey, isLastActivityInState };
+  return { nextActivity: nextActivityInState, nextActivityKey, isLastActivity: isLastActivityInState };
 };

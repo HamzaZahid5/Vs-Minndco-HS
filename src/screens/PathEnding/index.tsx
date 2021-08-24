@@ -90,7 +90,8 @@ const PathEnding = ({
   const styles = getStyles(theme);
   const resetPathTo = useNavigationResetPathTo(navigation);
   const { header: headerParam, body: bodyParam } = route.params;
-  const { isLastActivity } = useNextActivity();
+  let { isLastActivity } = useNextActivity();
+  isLastActivity = (isLastActivity === undefined ? true : isLastActivity) as boolean;
   let rowOptions = bodyParam?.options ?? [];
   if (!todaysActivityDone && !rowOptions.includes('DailyActivityRow') && !isLastActivity) {
     rowOptions.unshift('DailyActivityRow');

@@ -29,7 +29,7 @@ import { translate } from '../../utils/localization';
 
 const HomeScreen = ({ navigation }: Props) => {
   let { nextActivity, isLastActivity } = useNextActivity();
-  isLastActivity = isLastActivity as boolean;
+  isLastActivity = (isLastActivity === undefined ? true : isLastActivity) as boolean;
   nextActivity = nextActivity as activityType; // @TODO migrate useNextActivity to typescript
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
