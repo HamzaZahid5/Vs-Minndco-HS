@@ -1,4 +1,5 @@
 import template from 'lodash-es/template';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
 import { TIPS_VR, TIPS_VIDEO, TIPS_AUDIO } from './constants';
 export const isFunction = f => typeof f === 'function';
 
@@ -74,7 +75,10 @@ export const unnestedProgram = program => {
 export const findNextActivity = (program, maxProgressKey = '', includeVR) => {
   const activities = getAllActivities(program, includeVR);
   if (!maxProgressKey) {
-    return activities[0];
+    return {
+      nextActivity: activities[0],
+      isLastActivity: activities[1] ? false : true,
+    };
   }
 
   const currentActIndex = getActivityPositionByKey(program, maxProgressKey, includeVR);
