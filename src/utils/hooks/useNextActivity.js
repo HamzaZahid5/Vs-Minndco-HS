@@ -6,9 +6,9 @@ import { PROGRESS, KIT_ACTIVATED, TREATMENT_MODULE_AND_LEVEL } from '../../store
 
 export default fixedActivityId => {
   // STATE
-  const [nextActivity, setNextActivity] = useState();
+  const [nextActivityInState, setNextActivity] = useState();
   const [nextActivityKey, setNextActivityKey] = useState();
-  const [isLastActivity, setIsLastActivity] = useState(true);
+  const [isLastActivityInState, setIsLastActivity] = useState(true);
 
   // REDUX SELECTORS
   const progress = useSelector(PROGRESS);
@@ -20,7 +20,7 @@ export default fixedActivityId => {
 
   useEffect(() => {
     if (program && progress) {
-      let nextActivityItem = fixedActivityId
+      let { nextActivity, isLastActivity } = fixedActivityId
         ? getAllActivities(program, includeVR)
             .map((act, i, allAct) =>
               i === allAct.length - 1
@@ -30,11 +30,11 @@ export default fixedActivityId => {
             .find(a => a.nextActivity.id === fixedActivityId)
         : findNextActivity(program, [...progress].pop(), includeVR);
 
-      setIsLastActivity(nextActivityItem.isLastActivity);
-      setNextActivity(nextActivityItem.nextActivity);
-      setNextActivityKey(buildActivityKey(mId, lId, nextActivityItem.nextActivity.id));
+      setIsLastActivity(isLastActivity);
+      setNextActivity(nextActivity);
+      setNextActivityKey(buildActivityKey(mId, lId, nextActivity.id));
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId]);
 
-  return { nextActivity, nextActivityKey, isLastActivity };
+  return { nextActivityInState, nextActivityKey, isLastActivityInState };
 };
