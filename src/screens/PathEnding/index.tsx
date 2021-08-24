@@ -90,10 +90,14 @@ const PathEnding = ({
   const styles = getStyles(theme);
   const resetPathTo = useNavigationResetPathTo(navigation);
   const { header: headerParam, body: bodyParam } = route.params;
-  let { isLastActivity } = useNextActivity();
-  isLastActivity = (isLastActivity === undefined ? true : isLastActivity) as boolean;
+  const { isLastActivity } = useNextActivity();
   let rowOptions = bodyParam?.options ?? [];
-  if (!todaysActivityDone && !rowOptions.includes('DailyActivityRow') && !isLastActivity) {
+  if (
+    !todaysActivityDone &&
+    !rowOptions.includes('DailyActivityRow') &&
+    /* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */
+    isLastActivity === false
+  ) {
     rowOptions.unshift('DailyActivityRow');
   }
   if (rowOptions.length > 3) {
