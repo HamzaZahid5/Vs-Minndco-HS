@@ -1,5 +1,4 @@
 import template from 'lodash-es/template';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
 import { TIPS_VR, TIPS_VIDEO, TIPS_AUDIO } from './constants';
 export const isFunction = f => typeof f === 'function';
 
