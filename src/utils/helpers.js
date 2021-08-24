@@ -45,9 +45,8 @@ export const getActivityFromKey = (key = '') => {
 
 // returns index of given activity into deep flatten array of activities, considering VR filter.
 export const getActivityPositionByKey = (program, key, includeVR) => {
-  const activities = getAllActivities(program, includeVR);
-  const activityId = getActivityFromKey(key);
-  const index = activities.findIndex(a => a.id === activityId);
+  const activities = getAllActivitiesKey(program, includeVR);
+  const index = activities.findIndex(a => a === key);
   return index;
 };
 
@@ -56,6 +55,19 @@ export const getAllActivities = (program, includeVR) => {
   const activities = unnestedProgram(program);
   const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met');
   return relevantActivities;
+};
+
+export const getAllActivitiesKey = (program, includeVR) => {
+  const activities = program.modules.reduce((count, m) => {
+    return [
+      ...count,
+      ...m.levels.reduce((level_count, l) => {
+        return [...level_count, ...l.activities.map(activity => ({ activity, level: l.id, module: m.id }))];
+      }, []),
+    ];
+  }, []);
+  const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met');
+  return relevantActivities.map(({ activity, module, level }) => buildActivityKey(module, level, activity.id));
 };
 
 // deep flat activities (no level, no module)
