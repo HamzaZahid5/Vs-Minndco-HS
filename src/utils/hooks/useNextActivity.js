@@ -21,14 +21,18 @@ export default fixedActivityId => {
   useEffect(() => {
     if (program && progress) {
       let nextActivityItem = fixedActivityId
-        ? getAllActivities(program, includeVR).find(a => a.id === fixedActivityId)
+        ? getAllActivities(program, includeVR)
+            .map((act, i, allAct) =>
+              i === allAct.length - 1
+                ? { nextActivity: act, isLastActivity: true }
+                : { nextActivity: act, isLastActivity: false },
+            )
+            .find(a => a.nextActivity.id === fixedActivityId)
         : findNextActivity(program, [...progress].pop(), includeVR);
-      if (!fixedActivityId) {
-        setIsLastActivity(nextActivityItem.isLastActivity);
-        nextActivityItem = nextActivityItem.nextActivity;
-      }
-      setNextActivity(nextActivityItem);
-      setNextActivityKey(buildActivityKey(mId, lId, nextActivityItem.id));
+
+      setIsLastActivity(nextActivityItem.isLastActivity);
+      setNextActivity(nextActivityItem.nextActivity);
+      setNextActivityKey(buildActivityKey(mId, lId, nextActivityItem.nextActivity.id));
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId]);
 
