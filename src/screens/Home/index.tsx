@@ -24,13 +24,10 @@ import useCompletion from '../../utils/hooks/useCompletion';
 
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { useSelector } from 'react-redux';
-import { activityType } from '../../../types';
 import { translate } from '../../utils/localization';
 
 const HomeScreen = ({ navigation }: Props) => {
-  let { nextActivity, isLastActivity } = useNextActivity();
-  isLastActivity = (isLastActivity === undefined ? true : isLastActivity) as boolean;
-  nextActivity = nextActivity as activityType; // @TODO migrate useNextActivity to typescript
+  const { nextActivity, isLastActivity } = useNextActivity();
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
   const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);
@@ -54,8 +51,8 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.TopRight>{/* <GoalWidget /> */}</HomeLayout.TopRight>
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
-        {/* <FadeEffect show={typeof nextActivity === 'object'}> */}
-        <FadeEffect show={!isLastActivity}>
+        {/* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */}
+        <FadeEffect show={isLastActivity === false}>
           <CircularContent
             title={nextActivity?.name}
             informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
