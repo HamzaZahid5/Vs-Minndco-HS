@@ -73,18 +73,12 @@ export const unnestedProgram = program => {
 // returns next activity based on program and last activity into progress.
 export const findNextActivity = (program, maxProgressKey = '', includeVR) => {
   const activities = getAllActivities(program, includeVR);
-  if (!maxProgressKey) {
-    return {
-      nextActivity: activities[0],
-      isLastActivity: activities[1] ? false : true,
-    };
-  }
-
   const currentActIndex = getActivityPositionByKey(program, maxProgressKey, includeVR);
+  const nextActivityIndex = currentActIndex + 1;
   // return next or last if theres no more activities to do.
   return {
-    nextActivity: activities[currentActIndex + 1] || activities[currentActIndex],
-    isLastActivity: activities[currentActIndex + 1] ? false : true,
+    nextActivity: activities[nextActivityIndex] || activities[currentActIndex],
+    isLastActivity: activities.length === nextActivityIndex + 1,
   };
 };
 
