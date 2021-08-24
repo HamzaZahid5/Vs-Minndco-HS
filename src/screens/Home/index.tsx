@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import React from 'react';
-// import { useSelector, useStore, useDispatch } from 'react-redux';
 import { Text, StyleSheet } from 'react-native';
 import Props from './types';
 // @ts-ignore: non-ts file
@@ -31,18 +30,7 @@ const HomeScreen = ({ navigation }: Props) => {
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
   const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);
-  // const nextActivity = {
-  //   id: 'body-scan',
-  //   name: '',
-  //   type: '2d-video',
-  //   description: '',
-  //   duration: 10,
-  //   asset: '',
-  //   category: 'mindfulness',
-  // };
-  // // alert(JSON.stringify(nextActivity));
-  // const progress = 50;
-  // const todaysActivityDone = false;
+
   return (
     <HomeLayout withDecoration={true}>
       <HomeLayout.TopLeft>
