@@ -6,7 +6,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 //import useOrientation from '../../utils/hooks/useOrientation';
 
-
 // import { connector } from './../../redux/connector';
 // import theme from './../../styles/ColoredTheme';
 import styles from './styles.js';
@@ -127,8 +126,8 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
               source={require('../../../assets/images/home_bg.png')}
               style={{
                 // backgroundColor: '#f00a',
-                width: windowsDimensions.width,
-                height: windowsDimensions.width * 2,
+                width: width,
+                height: width * 2,
                 opacity: 0.75,
                 // marginBottom: 50,
               }}
