@@ -29,6 +29,11 @@ export const range = (min, max) => Math.random() * (max - min) + min;
 
 // PROGRAM HELPERS
 export const buildActivityKey = (mId, lId, aId) => `M${mId}_L${lId}_${aId}`;
+export const explodeActivityKey = activityKey => ({
+  moduleId: getModuleNumberFromKey(activityKey),
+  levelId: getLevelNumberFromKey(activityKey),
+  activityId: getActivityIdFromKey(activityKey),
+});
 export const getModuleFromKey = (key = '') => key.split('_')[0];
 export const getModuleNumberFromKey = (key = '') => Number(getModuleFromKey(key).replace('M', ''));
 export const formatAsset = (assetTemplate, language, gender) =>
@@ -37,10 +42,18 @@ export const formatAsset = (assetTemplate, language, gender) =>
 export const getLevelFromKey = (key = '') => key.split('_')[1];
 export const getLevelNumberFromKey = (key = '') => Number(getLevelFromKey(key).replace('L', ''));
 
-export const getActivityFromKey = (key = '') => {
+export const getActivityIdFromKey = (key = '') => {
   // support for _ (underscore) into activity id
   const activityKeyChunks = key.split('_').slice(2);
   return activityKeyChunks.join('_');
+};
+
+export const getActivityFromKey = (program, activityKey) => {
+  const { moduleId, levelId, activityId } = explodeActivityKey(activityKey);
+  return program.modules
+    .find(m => m.id === moduleId)
+    .levels.find(l => l.id === levelId)
+    .activities.find(a => a.id === activityId);
 };
 
 // returns index of given activity into deep flatten array of activities, considering VR filter.
@@ -58,11 +71,11 @@ export const getAllActivities = (program, includeVR) => {
 };
 
 export const getAllActivitiesKey = (program, includeVR) => {
-  const activities = program.modules.reduce((count, m) => {
+  const activities = program.modules.reduce((allActivities, m) => {
     return [
-      ...count,
-      ...m.levels.reduce((level_count, l) => {
-        return [...level_count, ...l.activities.map(activity => ({ activity, level: l.id, module: m.id }))];
+      ...allActivities,
+      ...m.levels.reduce((allLevelActivities, l) => {
+        return [...allLevelActivities, ...l.activities.map(activity => ({ activity, level: l.id, module: m.id }))];
       }, []),
     ];
   }, []);
