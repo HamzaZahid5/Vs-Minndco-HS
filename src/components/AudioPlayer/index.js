@@ -170,7 +170,7 @@ export default ActivityPlayerVideo;
 const getStyles = theme =>
   StyleSheet.create({
     playerContainer: {
-      width: '100%',
+      width: 400,
       flex: 1,
       justifyContent: 'center',
       padding: 30,
