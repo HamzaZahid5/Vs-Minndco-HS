@@ -14,7 +14,7 @@ import Props from './types';
 import { ProgramActivity } from '../../../types';
 import { PROGRESS } from '../../store/selectors';
 // @ts-ignore: non-ts file
-import { getActivityFromKey } from '../../utils/helpers';
+import { getActivityIdFromKey } from '../../utils/helpers';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { translate } from '../../utils/localization';
 
@@ -38,7 +38,7 @@ const ContentsShelf = ({ navigation, route }: Props): JSX.Element => {
     return r;
   }, {});
   const progress = useSelector(PROGRESS);
-  const onlyActivityNameProgress = progress?.map(getActivityFromKey);
+  const onlyActivityNameProgress = progress?.map(getActivityIdFromKey);
   const getActivityRowItem = (act: ProgramActivity) => {
     const locked = !onlyActivityNameProgress.includes(act.id);
     return (
