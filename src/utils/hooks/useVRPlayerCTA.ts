@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
 import { useEffect, useState } from 'react';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
+import { getLocale } from '../localization';
 const BASE_URL = 'mindco-relief-support.web.app/support/vrplayer';
 
 export type VRPlayerCTAPropType = {
@@ -23,7 +24,8 @@ const useVRPlayerCTA = ({
 
   const openVRPlayerForAndroid = async () => {
     try {
-      const url = `https://${BASE_URL}/?video=${encodeURIComponent(assetUrl)}`;
+      const lang = getLocale();
+      const url = `https://${BASE_URL}/?lang=${lang}&video=${encodeURIComponent(assetUrl)}`;
       if (await InAppBrowser.isAvailable()) {
         const startTime = Date.now();
         await InAppBrowser.open(url, {
