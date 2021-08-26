@@ -11,12 +11,12 @@ import RowItem from '../../components/RowItem';
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
 import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
-import { translate } from '../../utils/localization';
+import { translate, getLocale } from '../../utils/localization';
 
 const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
   const theme = useTheme();
   const styles = getStyles(theme as CustomThemeType);
-  const resourceId = 'contents/00_welcome_to_relief_EN.mp4';
+  const resourceId = `contents/00_welcome_to_relief_${getLocale().toUpperCase()}.mp4`;
   const openVRPlayer = useVRPlayerCTA({
     resourceId,
     onCancel: () => {
