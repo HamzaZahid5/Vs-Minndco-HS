@@ -1,9 +1,7 @@
-export const TIPS_VR =
-  '· Prepare your VR headset.\n· Put the phone into it while you are in this screen (remove the phone case for a better fit).\n· Press the START button and follow screen indications.';
-export const TIPS_VIDEO =
-  '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Try to reduce ambient light.';
-export const TIPS_AUDIO =
-  '· Find a quiet and comfy place.\n· Better if you get a pair of headphones.\n· Turn up the volume.';
+import { translate } from './localization';
+export const TIPS_VR = () => translate('screens.Activity.tipsVr');
+export const TIPS_VIDEO = () => translate('screens.Activity.tipsVideo');
+export const TIPS_AUDIO = () => translate('screens.Activity.tipsAudio');
 
 export const ANALYTICS_EVENTS = {
   FUNNEL_LOGIN: 'funnel_login',
