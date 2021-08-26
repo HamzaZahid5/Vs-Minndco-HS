@@ -105,7 +105,11 @@ const FullScreenHomeMessage = ({
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
               <SkipTutorialButton onPress={end} />
-              <GenericChipButton onPress={() => end()} text={translate('Proceed with activation')} accent />
+              <GenericChipButton
+                onPress={() => end()}
+                text={translate('screens.WelcomeWizard.proced-with-activation')}
+                accent
+              />
             </FadeEffect>
           </View>
         </View>
