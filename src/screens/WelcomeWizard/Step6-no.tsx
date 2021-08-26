@@ -102,7 +102,10 @@ const FullScreenHomeMessage = ({
             </FadeEffect>
           </View>
         </View>
-        <CircularContent progress={0} />
+        {/*Circular content should not be touched*/}
+        <View pointerEvents="none">
+          <CircularContent progress={0} />
+        </View>
       </HomeLayout.MiddleCenter>
       <HomeLayout.MiddleBottom>
         {/* <BigButton
