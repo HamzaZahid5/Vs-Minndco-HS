@@ -6,7 +6,7 @@ import WebView, { WebViewMessageEvent } from 'react-native-webview';
 // @ts-ignore: non-ts file
 import template from 'lodash.template';
 import { DefaultScreenRouteType } from '../../../types';
-import { translate } from '../../utils/localization';
+import { translate, getLocale } from '../../utils/localization';
 
 const DEBUGGING = `
      // Debug
@@ -85,7 +85,7 @@ const getMessageEventsHandler =
 const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
   const { assetUrl, onComplete = Function, onCancel = Function } = route.params || {};
   const webViewRef = useRef<WebView | null>(null);
-  const uri = `https://mindco-web-vr-player-ios.web.app?video=${encodeURIComponent(assetUrl)}`;
+  const uri = `https://mindco-web-vr-player-ios.web.app?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`;
   // useKeepAwake();
   // eslint-disable-next-line no-console
   console.log({ uri });
