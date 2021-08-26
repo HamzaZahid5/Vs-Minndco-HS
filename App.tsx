@@ -76,6 +76,11 @@ export default function App() {
   const deepLink = useDeepLinking();
   const navigatorRef: RefObject<NavigationContainerRef> = useRef(null);
   const [navigatorReady, setNavigatorReady] = useState(false);
+  useEffect(() => {
+    if (navigatorReady && navigatorRef.current && deepLink) {
+      navigateToDeepLink(deepLink, navigatorRef.current);
+    }
+  }, [deepLink, navigatorReady]);
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
   }
@@ -102,10 +107,6 @@ export default function App() {
   }
 
   handleMessaging();
-
-  if (navigatorReady && navigatorRef.current && deepLink) {
-    navigateToDeepLink(deepLink, navigatorRef.current);
-  }
 
   //Go to main as initial route, it should be at the top of the stack. Then check there if it's needed to navigate to Tutorial
   const protectedInitialRouteName = 'Main';
