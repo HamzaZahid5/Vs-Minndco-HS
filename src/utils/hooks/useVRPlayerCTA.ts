@@ -22,6 +22,24 @@ const useVRPlayerCTA = ({
   const assetUrl = useStorageDownloadURL(resourceId) || '';
   const navigation = useNavigation();
 
+  const openVRPlayerForWeb = async () => {
+    const url = `https://${BASE_URL}/?video=${encodeURIComponent(assetUrl)}`;
+    await (() =>
+      // if user returns to this tab we consider the player as closed
+      // thus, we resolve promise when visibility state returns to "visible"
+      new Promise(res => {
+        const resolve = res;
+        window.document.addEventListener('visibilitychange', ev => {
+          if (document.visibilityState === 'visible') {
+            resolve(true);
+          }
+        });
+        window.open(url, '_blank')?.focus();
+      }))();
+
+    // by default, after interact with player we consider the activity as done
+    onComplete();
+  };
   const openVRPlayerForAndroid = async () => {
     try {
       const lang = getLocale();
@@ -81,7 +99,12 @@ const useVRPlayerCTA = ({
 
   const pleaseWaitAndTryAgain = () => alert('Getting contents, please try again');
 
-  const openVRPlayer = Platform.OS === 'ios' ? openVRPlayerForIOS : openVRPlayerForAndroid;
+  const openVRPlayer =
+    Platform.OS === 'ios'
+      ? openVRPlayerForIOS
+      : Platform.OS === 'android'
+      ? openVRPlayerForAndroid
+      : openVRPlayerForWeb;
 
   return assetUrl ? openVRPlayer : pleaseWaitAndTryAgain;
 };
