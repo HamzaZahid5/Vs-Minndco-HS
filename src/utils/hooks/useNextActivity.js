@@ -23,6 +23,9 @@ export default fixedActivityId => {
       const allActivityKeys = getAllActivitiesKey(program, includeVR);
       const lastCompletedActivity = [...progress].pop();
       const lastCompletedIndex = allActivityKeys.findIndex(aKey => aKey === lastCompletedActivity);
+      // when we got a fixed activity id it doesn't matter if the activity is repeated into another
+      // module or level. The first match we find into array of activities key is enough to let the
+      // user to perform that activity again.
       const fixedActivityIndex = allActivityKeys.findIndex(aKey => aKey.includes(fixedActivityId));
       // if fixed act id, fixed activity index, otherwise the next index from last completed act.
       const activityIndex = fixedActivityId ? fixedActivityIndex : lastCompletedIndex + 1;
