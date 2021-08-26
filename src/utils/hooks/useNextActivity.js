@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import useProgram from './useProgram';
 import { useSelector } from 'react-redux';
-import { findNextActivity, getAllActivities, buildActivityKey } from '../helpers';
+import { getActivityFromKey, getAllActivitiesKey } from '../helpers';
 import { PROGRESS, KIT_ACTIVATED, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors';
 
 export default fixedActivityId => {
@@ -20,21 +20,28 @@ export default fixedActivityId => {
 
   useEffect(() => {
     if (program && progress) {
-      let { nextActivity, isLastActivity } = fixedActivityId
-        ? getAllActivities(program, includeVR)
-            .map((act, i, allAct) =>
-              i === allAct.length - 1
-                ? { nextActivity: act, isLastActivity: true }
-                : { nextActivity: act, isLastActivity: false },
-            )
-            .find(a => a.nextActivity.id === fixedActivityId)
-        : findNextActivity(program, [...progress].pop(), includeVR);
+      const allActivityKeys = getAllActivitiesKey(program, includeVR);
+      const lastCompletedActivity = [...progress].pop();
+      const lastCompletedIndex = allActivityKeys.findIndex(aKey => aKey === lastCompletedActivity);
+      // when we got a fixed activity id it doesn't matter if the activity is repeated into another
+      // module or level. The first match we find into array of activities key is enough to let the
+      // user to perform that activity again.
+      const fixedActivityIndex = allActivityKeys.findIndex(aKey => aKey.includes(fixedActivityId));
+      // if fixed act id, fixed activity index, otherwise the next index from last completed act.
+      const activityIndex = fixedActivityId ? fixedActivityIndex : lastCompletedIndex + 1;
+
+      // if exists, the activity key by index, otherwise the last activity key.
+      const nextActKey = allActivityKeys[activityIndex] || allActivityKeys.pop();
+      // if fixed activity id, it will be the last activity when index + 1 is equal to array length.
+      // if next activity is the last one, index plus 1 it will be equal to array length.
+      // if next activity is unexistent (current activity was the last one), act index plus one will be greather than array length.
+      const isLastActivity = allActivityKeys.length <= activityIndex + 1;
+      const nextActivity = getActivityFromKey(program, nextActKey);
 
       setIsLastActivity(isLastActivity);
       setNextActivity(nextActivity);
-      setNextActivityKey(buildActivityKey(mId, lId, nextActivity.id));
+      setNextActivityKey(nextActKey);
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId]);
-
   return { nextActivity: nextActivityInState, nextActivityKey, isLastActivity: isLastActivityInState };
 };
