@@ -1,11 +1,13 @@
 import React, { useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, Button, Platform, Pressable } from 'react-native';
+import { View, StyleSheet, Button, Platform, Pressable, useWindowDimensions } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
 const VideoPlayer = ({ videoURI, didJustFinish }) => {
   const video = React.useRef(null);
   const [status, setStatus] = useState({});
+  const dimensions = useWindowDimensions();
+  const styles = getStyle(dimensions);
   useLayoutEffect(() => {
     if (status.didJustFinish) {
       didJustFinish();
@@ -57,21 +59,25 @@ VideoPlayer.propTypes = {
 
 export default VideoPlayer;
 
-const styles = StyleSheet.create({
-  videoContainer: {
-    height: 232,
-    minWidth: '100%',
-    borderWidth: 0,
-    borderColor: 'red',
-  },
-  video: {
-    height: 232,
-    flex: 1,
-  },
-  buttons: {
-    display: Platform.OS === 'web' ? 'flex' : 'none',
-    position: 'relative',
-    bottom: -10,
-    zIndex: 999,
-  },
-});
+const getStyle = dimensions =>
+  StyleSheet.create({
+    videoContainer: {
+      height: 232,
+      minWidth: '100%',
+      width: dimensions.width,
+      borderWidth: 0,
+      borderColor: 'red',
+      marginBottom: 20,
+    },
+    video: {
+      height: 232,
+      flex: 1,
+      width: '100%',
+    },
+    buttons: {
+      display: Platform.OS === 'web' ? 'flex' : 'none',
+      position: 'relative',
+      bottom: -10,
+      zIndex: 999,
+    },
+  });
