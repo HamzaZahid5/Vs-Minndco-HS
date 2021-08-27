@@ -27,8 +27,8 @@ const HeaderVote = ({ asset = '' }) => {
 
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
-  const charVoteYes = Platform.OS === 'ios' ? 'YES' : '👍';
-  const charVoteNo = Platform.OS === 'ios' ? 'NO' : '👎';
+  const charVoteYes = Platform.OS === 'ios' ? translate('commons.general.yes').toUpperCase() : '👍';
+  const charVoteNo = Platform.OS === 'ios' ? translate('commons.general.no').toUpperCase() : '👎';
   return (
     <View style={styles.pollContainer}>
       <Headline style={{ textAlign: 'center' }}>{translate('screens.PathEnding.useful-activity')}</Headline>
