@@ -49,7 +49,7 @@ const CircularContent = ({
           }
         >
           {() => (
-            <>
+            <View style={styles.innerContainer}>
               <View style={styles.flexEndContent}>
                 <Text style={styles.nextUpText}>{instructionsText}</Text>
               </View>
@@ -59,7 +59,7 @@ const CircularContent = ({
               <View style={styles.flexStartContent}>
                 {type && <Icon name={getIconByActivityType(type)} size={80} color={theme.colors.secondary} />}
               </View>
-            </>
+            </View>
           )}
         </AnimatedCircularProgress>
         <View style={styles.background} />
@@ -94,6 +94,10 @@ const getStyles = (theme: CustomThemeType) =>
       borderWidth: 10,
       borderColor: 'transparent',
     },
+    innerContainer: {
+      flexBasis: '100%',
+      padding: 20,
+    },
     background: {
       position: 'absolute',
       backgroundColor: '#FFFBC6',
@@ -111,6 +115,7 @@ const getStyles = (theme: CustomThemeType) =>
     nextUpText: {
       color: '#3C828C',
       alignSelf: 'flex-start',
+      textAlign: 'center',
     },
     centeredContent: {
       justifyContent: 'center',
