@@ -15,7 +15,7 @@ import { translate } from '../../utils/localization';
 import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
 import { OrientationLock } from 'expo-screen-orientation';
 
-const slide1 = `
+const slide1 = (paragraph1: string, paragraph2: string) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -25,20 +25,15 @@ const slide1 = `
   <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center">
     
     <div>
-    ${translate(`You will learn about <i>anxiety</i> and <i>stress</i> through <b>informational</b> and <b>educational</b> lessons, getting to
-      know all there is to know about it.
-      <br/><br/>`)}
+    ${paragraph1}
     </div>
     <div>
-    ${translate(`<u>Less than 10 minutes a day</u> to: <br/>
-        <br/>👉 &nbsp; Identify triggers
-        <br/>👉 &nbsp; Map stress-related habits
-        <br/>👉 &nbsp; Deconstruct behaviors and learn coping skills`)}
+    ${paragraph2}
     </div>
   </body>
 </html>
 `;
-const slide2 = `
+const slide2 = (paragraph1: string, paragraph2: string, paragraph3: string) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -47,30 +42,20 @@ const slide2 = `
   </head>
   <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center;">
     <div style={{ color: 'black' }}>
-    ${translate('<b>First,  do a 8 week training plan</b>')}
+    ${paragraph1}
       <br/><br/>
     </div>
     <div>
-    ${translate(`In order to map your habits, you need to keep track of your triggers and moods. That's what the Journal is for. It help you to acknowledge and log, moment to moment, day by day, the anxiety pattern, and collect information related to statistics.
-    <br/><br/>`)}
+    ${paragraph2}
     </div>
     <div style="line-height: 24px">
-    ${translate(`<u>The Program</u> includes: <br/>
-        <br/>1️⃣ <b>VR Mindful Exposure Therapy & education</b>
-        <br/>&nbsp;&nbsp;📌 &nbsp; 140 minutes of VR therapy exercises, using VR-MET
-        <br/>&nbsp;&nbsp;📌 &nbsp; 50 minutes of VR education
-        <br/><br/>2️⃣ <b>Formal mindfulness exercises</b>
-        <br/>&nbsp;&nbsp;📌 &nbsp; 80 minutes of video in 8 exercises
-        <br/>&nbsp;&nbsp;📌 &nbsp; 50 minutes of audio in 8 exercises
-        <br/><br/>3️⃣ <b>JOURNAL</b>
-        <br/>&nbsp;&nbsp;📌 &nbsp; 24 self-reflective CBT questions 
-        `)}
+    ${paragraph3}
     </div>
   </body>
 </html>
 `;
 
-const slide3 = `
+const slide3 = (paragraph1: string, paragraph2: string) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -79,21 +64,10 @@ const slide3 = `
   </head>
   <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center;">
     <div style={{ color: 'black' }}>
-    ${translate(`<b>YOUR JOURNEY WITH MINDCO RELIEF</b>
-      <br/><br/>`)}
+    ${paragraph1}
     </div>
     <div style="line-height: 24px">
-    ${translate(`<br/><b>- Set up stage</b>: 8 weeks
-        <br/><b>Goals</b>
-        <br/>&nbsp;&nbsp;⭐ &nbsp; LEARN ABOUT YOUR HABITS
-        <br/>&nbsp;&nbsp;⭐ &nbsp; CHALLENGE YOUR BELIEFS
-        <br/>&nbsp;&nbsp;⭐ &nbsp; EASE YOUR ANXIETY
-        <br/><br/><b>- Maintenance stage</b>: 9 months
-        <br/><b>Goals</b>
-        <br/>&nbsp;&nbsp;⭐ &nbsp; STRENGTHEN YOUR COPING SKILLS 
-        <br/>&nbsp;&nbsp;⭐ &nbsp; CHANGE YOUR IDENTIFIED HABITS 
-        <br/>&nbsp;&nbsp;⭐ &nbsp; BECOME A MORE BALANCED AND RELAXED PERSON  
-        `)}
+    ${paragraph2}
     </div>
   </body>
 </html>
@@ -132,7 +106,12 @@ const HowItWorks = ({ navigation }: DefaultScreenPropType<'HowItWorks'>) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{ html: slide1 }}
+                    source={{
+                      html: slide1(
+                        translate('screens.HowItWorks.slide1-p1'),
+                        translate('screens.HowItWorks.slide1-p2'),
+                      ),
+                    }}
                   />
                 </BlurView>
               </View>
@@ -154,7 +133,13 @@ const HowItWorks = ({ navigation }: DefaultScreenPropType<'HowItWorks'>) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{ html: slide2 }}
+                    source={{
+                      html: slide2(
+                        translate('screens.HowItWorks.slide2-p1'),
+                        translate('screens.HowItWorks.slide2-p2'),
+                        translate('screens.HowItWorks.slide2-p3'),
+                      ),
+                    }}
                   />
                 </BlurView>
               </View>
@@ -176,7 +161,12 @@ const HowItWorks = ({ navigation }: DefaultScreenPropType<'HowItWorks'>) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{ html: slide3 }}
+                    source={{
+                      html: slide3(
+                        translate('screens.HowItWorks.slide3-p1'),
+                        translate('screens.HowItWorks.slide3-p2'),
+                      ),
+                    }}
                   />
                 </BlurView>
               </View>
