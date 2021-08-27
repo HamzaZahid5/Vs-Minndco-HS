@@ -40,21 +40,32 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
         {/* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */}
-        <FadeEffect show={isLastActivity === false}>
-          <CircularContent
-            title={nextActivity?.name}
-            informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
-            type={nextActivity?.type}
-            instructionsText={
-              nextActivity
-                ? todaysActivityDone
-                  ? translate('screens.Home.tomorrows-activity')
-                  : translate('screens.Home.todays-activity')
-                : ''
-            }
-            progress={progress}
-            onPress={() => navigation.navigate('Activity')}
-          />
+        <FadeEffect show={isLastActivity !== undefined}>
+          {progress === 100 ? (
+            <CircularContent
+              title={'Congratulations!'}
+              informativeText={'Tap the circle to see yout contents library'}
+              type={'star'}
+              instructionsText={'Your training is complete'}
+              progress={progress}
+              onPress={() => navigation.navigate('Library')}
+            />
+          ) : (
+            <CircularContent
+              title={nextActivity?.name}
+              informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
+              type={nextActivity?.type}
+              instructionsText={
+                nextActivity
+                  ? todaysActivityDone
+                    ? translate('screens.Home.tomorrows-activity')
+                    : translate('screens.Home.todays-activity')
+                  : ''
+              }
+              progress={progress}
+              onPress={() => navigation.navigate('Activity')}
+            />
+          )}
         </FadeEffect>
         {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
