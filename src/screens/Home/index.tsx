@@ -43,10 +43,10 @@ const HomeScreen = ({ navigation }: Props) => {
         <FadeEffect show={isLastActivity !== undefined}>
           {progress === 100 ? (
             <CircularContent
-              title={'Congratulations!'}
-              informativeText={'Tap the circle to see yout contents library'}
+              title={translate('screens.Home.program-comple-title')}
+              informativeText={translate('screens.Home.program-complete-information')}
               type={'star'}
-              instructionsText={'Your training is complete'}
+              instructionsText={translate('screens.Home.program-complete-instruction')}
               progress={progress}
               onPress={() => navigation.navigate('Library')}
             />
