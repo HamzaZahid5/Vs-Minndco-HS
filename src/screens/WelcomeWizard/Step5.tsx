@@ -101,7 +101,10 @@ const FullScreenHomeMessage = ({
           </View>
         </View>
         <FadeEffect show={newElementIsVisible}>
-          <CircularContent progress={0} />
+          {/*Circular content should not be touched*/}
+          <View pointerEvents="none">
+            <CircularContent progress={0} />
+          </View>
         </FadeEffect>
         <View style={styles.centerIndicator}>
           <FadeEffect show={indicatorIsVisible}>
