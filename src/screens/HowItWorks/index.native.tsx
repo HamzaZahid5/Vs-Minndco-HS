@@ -15,7 +15,7 @@ import { translate } from '../../utils/localization';
 import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
 import { OrientationLock } from 'expo-screen-orientation';
 
-const slide1 = (paragraph1, paragraph2) => `
+const slide1 = (paragraph1: string, paragraph2: string) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -33,7 +33,7 @@ const slide1 = (paragraph1, paragraph2) => `
   </body>
 </html>
 `;
-const slide2 = (paragraph1, paragraph2, paragraph3) => `
+const slide2 = (paragraph1: string, paragraph2: string, paragraph3: string) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -55,7 +55,7 @@ const slide2 = (paragraph1, paragraph2, paragraph3) => `
 </html>
 `;
 
-const slide3 = (paragraph1, paragraph2) => `
+const slide3 = (paragraph1: string, paragraph2: string) => `
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
