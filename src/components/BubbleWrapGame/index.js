@@ -44,7 +44,7 @@ const playPopSound = () => {
   // popSound.play();
 };
 const Bubble = ({ onSmash = _ => _ }) => {
-  const { width, height } = useWindowDimensions;
+  const { width, height } = useWindowDimensions();
   // BUBBLE ASSET REAL SIZE: 105x105
   const BUBBLE_COUNT_BY_ROW = 8;
   const bubble_size = width / BUBBLE_COUNT_BY_ROW;
@@ -69,7 +69,6 @@ const Bubble = ({ onSmash = _ => _ }) => {
         }
       }
       onPress={() => {
-        // console.log('SMASH')
         if (!smashed) {
           smash(true);
           playPopSound();
@@ -91,7 +90,7 @@ Bubble.propTypes = {
 };
 
 const BubbleWrapGame = ({ onClose = _ => _ }) => {
-  const { width, height } = useWindowDimensions;
+  const { width, height } = useWindowDimensions();
   // BUBBLE ASSET REAL SIZE: 105x105
   const BUBBLE_COUNT_BY_ROW = 8;
   const bubble_size = width / BUBBLE_COUNT_BY_ROW;
@@ -112,16 +111,6 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        {/* <RoundedBackButton
-          style={styles.backButtonStyle}
-          onPress={() => {
-            const completed = smashed === 0;
-            if (!completed) {
-              playLostSound();
-            }
-            onClose(completed);
-          }}
-        /> */}
         <View style={styles.topBarTitle}>
           {smashed === 0 && <Title style={[styles.title, { color: theme.colors.border }]}>{'DONE!'}</Title>}
         </View>
@@ -139,7 +128,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
               <View key={`row_${i}`} style={[styles.row, isEven ? styles.rowEven : null]}>
                 {Array(columns - (isEven ? 1 : 0))
                   .fill(0)
-                  .map((_, j) => (
+                  .map((__, j) => (
                     <Bubble key={`bubble_${i}_${j}`} onSmash={isSmashed => countSmash(smashed - (isSmashed ? 1 : 0))} />
                   ))}
               </View>
@@ -148,7 +137,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
       </View>
       <View style={styles.floatingCover}>
         <LinearGradient
-          colors={[theme.colors.backdrop, '#37b15c99', '#37b15c99', theme.colors.backdrop]}
+          colors={[theme.colors.backdrop, '#3D9AD599', '#3D9AD599', theme.colors.backdrop]}
           locations={[0.1, 0.2, 0.9, 1]}
           style={{
             flex: 1,

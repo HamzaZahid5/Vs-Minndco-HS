@@ -38,6 +38,15 @@ const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivit
   const [selected, setSelection] = useState<number>();
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setSelection(undefined);
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     switch (selected) {
       case 1:
         navigation.navigate('StressActivityToDo', { type: 'READ' });
