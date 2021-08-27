@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.TopRight>{/* <GoalWidget /> */}</HomeLayout.TopRight>
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
-        {/* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */}
+        {/* we wait for isLastActivity hook to resolve in order to fade-in the circle */}
         <FadeEffect show={isLastActivity !== undefined}>
           {progress === 100 ? (
             <CircularContent
