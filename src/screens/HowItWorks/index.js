@@ -192,12 +192,10 @@ const HowItWorks = ({ navigation }) => {
                     showsVerticalScrollIndicator={false}
                     originWhitelist={['*']}
                     textZoom={100}
-                    source={{
-                      html: slide3(
-                        translate('screens.HowItWorks.slide3-p1'),
-                        translate('screens.HowItWorks.slide3-p2'),
-                      ),
-                    }}
+                    source={{ html: slide3(
+                      translate('screens.HowItWorks.slide3-p1'),
+                      translate('screens.HowItWorks.slide3-p2'),
+                    ) }}
                   />
                 </View>
               </View>
