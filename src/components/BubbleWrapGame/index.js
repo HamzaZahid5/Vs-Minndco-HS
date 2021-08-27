@@ -3,48 +3,18 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Image, TouchableWithoutFeedback, View, StyleSheet, useWindowDimensions, ImageBackground } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
-// import Sound from 'react-native-sound';
-// import LinearGradient from 'react-native-linear-gradient';
+import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import RoundedBackButton from './../../components/RoundedBackButton';
-// import { translate } from './../../utils/localization';
-// import theme from './../../styles/BasicNewTheme';
-// const popSound = new Sound(
-//   require('./../../styles/sounds/BubbleWrapPop.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-// const winSound = new Sound(
-//   require('./../../styles/sounds/MicroGameWin.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-// const lostSound = new Sound(
-//   require('./../../styles/sounds/MicroGameLost.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-const playWinSound = () => {
-  // winSound.play();
-};
-const playLostSound = () => {
-  // lostSound.play();
-};
-const playPopSound = () => {
-  // popSound.play();
-};
+
+import popSoundAsset from '../../../assets/sounds/BubbleWrapPop.mp3';
+import winSoundAsset from '../../../assets/sounds/MicroGameWin.mp3';
+import lostSoundAsset from '../../../assets/sounds/MicroGameLost.mp3';
+import { translate } from './../../utils/localization';
+
 const Bubble = ({ onSmash = _ => _ }) => {
   const { width, height } = useWindowDimensions();
+
   // BUBBLE ASSET REAL SIZE: 105x105
   const BUBBLE_COUNT_BY_ROW = 8;
   const bubble_size = width / BUBBLE_COUNT_BY_ROW;
@@ -57,9 +27,7 @@ const Bubble = ({ onSmash = _ => _ }) => {
   const theme = useTheme();
   const styles = getStyles(theme, bubble_size);
   const [smashed, smash] = useState(false);
-  useEffect(() => {
-    // return () => popSound.release();
-  }, []);
+
   return (
     <TouchableWithoutFeedback
       style={
@@ -71,7 +39,6 @@ const Bubble = ({ onSmash = _ => _ }) => {
       onPress={() => {
         if (!smashed) {
           smash(true);
-          playPopSound();
           onSmash(true);
         }
       }}
@@ -91,6 +58,32 @@ Bubble.propTypes = {
 
 const BubbleWrapGame = ({ onClose = _ => _ }) => {
   const { width, height } = useWindowDimensions();
+  const [popSound, setPopSound] = useState();
+  const [winSound, setWinSound] = useState();
+  const [lostSound, setLostSound] = useState();
+
+  useEffect(() => {
+    const loadSounds = async () => {
+      const { sound: popSound } = await Audio.Sound.createAsync(popSoundAsset);
+      popSound.playAsync({ volume: 0 });
+      setPopSound(popSound);
+      const { sound: winSound } = await Audio.Sound.createAsync(winSoundAsset);
+      setWinSound(winSound);
+      const { sound: lostSound } = await Audio.Sound.createAsync(lostSoundAsset);
+      setLostSound(lostSound);
+    };
+    loadSounds();
+  }, []);
+  useEffect(() => {
+    return () => {
+      try {
+        popSound?.unloadAsync();
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+      }
+    };
+  }, [popSound]);
   // BUBBLE ASSET REAL SIZE: 105x105
   const BUBBLE_COUNT_BY_ROW = 8;
   const bubble_size = width / BUBBLE_COUNT_BY_ROW;
@@ -102,20 +95,22 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
 
   const theme = useTheme();
   const styles = getStyles(theme, bubble_size);
-  const [smashed, countSmash] = useState(totalBubbles);
+  const [notSmashed, countSmash] = useState(totalBubbles);
   useEffect(() => {
-    if (smashed === 0) {
-      playWinSound();
+    if (notSmashed === 0) {
+      winSound.playAsync();
     }
-  }, [smashed]);
+  }, [notSmashed, winSound]);
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.topBarTitle}>
-          {smashed === 0 && <Title style={[styles.title, { color: theme.colors.border }]}>{'DONE!'}</Title>}
+          {notSmashed === 0 && (
+            <Title style={[styles.title, { color: theme.colors.border }]}>{translate('commons.general.done')}</Title>
+          )}
         </View>
         <View style={styles.scoreContainer}>
-          <Title style={[styles.title, { color: theme.colors.border }]}>{smashed}</Title>
+          <Title style={[styles.title, { color: theme.colors.border }]}>{notSmashed}</Title>
           <Icon name="blur-radial" size={40} color={theme.colors.border} />
         </View>
       </View>
@@ -129,7 +124,13 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
                 {Array(columns - (isEven ? 1 : 0))
                   .fill(0)
                   .map((__, j) => (
-                    <Bubble key={`bubble_${i}_${j}`} onSmash={isSmashed => countSmash(smashed - (isSmashed ? 1 : 0))} />
+                    <Bubble
+                      key={`bubble_${i}_${j}`}
+                      onSmash={isSmashed => {
+                        popSound?.replayAsync({ volume: 1 });
+                        countSmash(notSmashed - (isSmashed ? 1 : 0));
+                      }}
+                    />
                   ))}
               </View>
             );
