@@ -32,7 +32,7 @@ export type contentType = {
 const getContentByType = (type: string): contentType[] => {
   switch (type) {
     case 'READ':
-      return LIFESAVER_READS;
+      return LIFESAVER_READS();
     default:
     case 'LISTEN':
       return LIFESAVER_AUDIOS;
