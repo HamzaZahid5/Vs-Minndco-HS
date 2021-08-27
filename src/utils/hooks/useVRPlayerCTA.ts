@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
 import { useEffect, useState } from 'react';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
-import { getLocale } from '../localization';
+import { getLocale, translate } from '../localization';
 const BASE_URL = 'mindco-relief-support.web.app/support/vrplayer';
 
 export type VRPlayerCTAPropType = {
@@ -97,7 +97,7 @@ const useVRPlayerCTA = ({
     });
   };
 
-  const pleaseWaitAndTryAgain = () => alert('Getting contents, please try again');
+  const pleaseWaitAndTryAgain = () => alert(translate('commons.messages.gettingContents'));
 
   const openVRPlayer =
     Platform.OS === 'ios'

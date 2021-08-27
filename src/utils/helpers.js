@@ -4,9 +4,9 @@ export const isFunction = f => typeof f === 'function';
 
 export const getTipsByActivityType = type => {
   return {
-    'vr-met': TIPS_VR,
-    '2d-video': TIPS_VIDEO,
-    audio: TIPS_AUDIO,
+    'vr-met': TIPS_VR(),
+    '2d-video': TIPS_VIDEO(),
+    audio: TIPS_AUDIO(),
   }[type];
 };
 
