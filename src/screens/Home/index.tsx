@@ -39,22 +39,33 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.TopRight>{/* <GoalWidget /> */}</HomeLayout.TopRight>
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
       <HomeLayout.MiddleCenter>
-        {/* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */}
-        <FadeEffect show={isLastActivity === false}>
-          <CircularContent
-            title={nextActivity?.name}
-            informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
-            type={nextActivity?.type}
-            instructionsText={
-              nextActivity
-                ? todaysActivityDone
-                  ? translate('screens.Home.tomorrows-activity')
-                  : translate('screens.Home.todays-activity')
-                : ''
-            }
-            progress={progress}
-            onPress={() => navigation.navigate('Activity')}
-          />
+        {/* we wait for isLastActivity hook to resolve in order to fade-in the circle */}
+        <FadeEffect show={isLastActivity !== undefined}>
+          {progress === 100 ? (
+            <CircularContent
+              title={translate('screens.Home.program-comple-title')}
+              informativeText={translate('screens.Home.program-complete-information')}
+              type={'star'}
+              instructionsText={translate('screens.Home.program-complete-instruction')}
+              progress={progress}
+              onPress={() => navigation.navigate('Library')}
+            />
+          ) : (
+            <CircularContent
+              title={nextActivity?.name}
+              informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
+              type={nextActivity?.type}
+              instructionsText={
+                nextActivity
+                  ? todaysActivityDone
+                    ? translate('screens.Home.tomorrows-activity')
+                    : translate('screens.Home.todays-activity')
+                  : ''
+              }
+              progress={progress}
+              onPress={() => navigation.navigate('Activity')}
+            />
+          )}
         </FadeEffect>
         {/* </FadeEffect> */}
       </HomeLayout.MiddleCenter>
