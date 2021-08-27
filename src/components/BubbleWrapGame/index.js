@@ -69,7 +69,6 @@ const Bubble = ({ onSmash = _ => _ }) => {
         }
       }
       onPress={() => {
-        // console.log('SMASH')
         if (!smashed) {
           smash(true);
           playPopSound();
@@ -104,7 +103,6 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
   const theme = useTheme();
   const styles = getStyles(theme, bubble_size);
   const [smashed, countSmash] = useState(totalBubbles);
-  // console.log(Array(rows).fill(0))
   useEffect(() => {
     if (smashed === 0) {
       playWinSound();
@@ -113,16 +111,6 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        {/* <RoundedBackButton
-          style={styles.backButtonStyle}
-          onPress={() => {
-            const completed = smashed === 0;
-            if (!completed) {
-              playLostSound();
-            }
-            onClose(completed);
-          }}
-        /> */}
         <View style={styles.topBarTitle}>
           {smashed === 0 && <Title style={[styles.title, { color: theme.colors.border }]}>{'DONE!'}</Title>}
         </View>
