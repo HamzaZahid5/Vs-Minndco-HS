@@ -14,7 +14,7 @@ import { CustomThemeType } from '../../utils/OriginalTheme';
 
 type propType = {
   title?: string;
-  type?: activityTypesType;
+  type?: activityTypesType | 'star';
   instructionsText?: string;
   informativeText?: string;
   progress: number;
