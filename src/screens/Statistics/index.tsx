@@ -22,6 +22,8 @@ import { journalType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { DefaultScreenPropType } from '../../../types';
 import { translate } from '../../utils/localization';
+import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
+import { OrientationLock } from 'expo-screen-orientation';
 
 const getFrequentTriggersFromJournal = (journal: journalType[] = []) => {
   const triggersWithScores = journal.reduce((r, item) => {
@@ -43,6 +45,7 @@ const getFrequentTriggersFromJournal = (journal: journalType[] = []) => {
 
 const Statistics = ({ navigation }: DefaultScreenPropType<'Statistics'>) => {
   const cRef = useRef();
+  useOrientationLocker(OrientationLock.PORTRAIT_UP);
   const journal = useJournal() || [];
   const frequentTriggers = getFrequentTriggersFromJournal(journal);
   const avgStressLevel = journal.reduce((r: number, i: journalType) => r + i.level, 0) / Number(journal.length) || 0;

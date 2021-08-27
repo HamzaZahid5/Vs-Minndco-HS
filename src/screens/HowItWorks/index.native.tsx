@@ -12,6 +12,8 @@ import { BlurView } from '@react-native-community/blur';
 import { Platform } from 'react-native';
 import { DefaultScreenPropType } from '../../../types';
 import { translate } from '../../utils/localization';
+import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
+import { OrientationLock } from 'expo-screen-orientation';
 
 const slide1 = `
 <html>
@@ -98,6 +100,7 @@ const slide3 = `
 `;
 
 const HowItWorks = ({ navigation }: DefaultScreenPropType<'HowItWorks'>) => {
+  const locked = useOrientationLocker(OrientationLock.PORTRAIT_UP);
   const styles = getStyles();
   usePathEndingBarButton(navigation, {
     routeParams: {
