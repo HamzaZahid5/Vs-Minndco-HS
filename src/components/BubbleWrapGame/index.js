@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import popSoundAsset from '../../../assets/sounds/BubbleWrapPop.mp3';
 import winSoundAsset from '../../../assets/sounds/MicroGameWin.mp3';
 import lostSoundAsset from '../../../assets/sounds/MicroGameLost.mp3';
-// import { translate } from './../../utils/localization';
+import { translate } from './../../utils/localization';
 
 const Bubble = ({ onSmash = _ => _ }) => {
   const { width, height } = useWindowDimensions();
@@ -65,6 +65,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
   useEffect(() => {
     const loadSounds = async () => {
       const { sound: popSound } = await Audio.Sound.createAsync(popSoundAsset);
+      popSound.playAsync({ volume: 0 });
       setPopSound(popSound);
       const { sound: winSound } = await Audio.Sound.createAsync(winSoundAsset);
       setWinSound(winSound);
@@ -74,7 +75,14 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
     loadSounds();
   }, []);
   useEffect(() => {
-    return popSound?.unloadAsync;
+    return () => {
+      try {
+        popSound?.unloadAsync();
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+      }
+    };
   }, [popSound]);
   // BUBBLE ASSET REAL SIZE: 105x105
   const BUBBLE_COUNT_BY_ROW = 8;
@@ -87,20 +95,22 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
 
   const theme = useTheme();
   const styles = getStyles(theme, bubble_size);
-  const [smashed, countSmash] = useState(totalBubbles);
+  const [notSmashed, countSmash] = useState(totalBubbles);
   useEffect(() => {
-    if (smashed === 0) {
+    if (notSmashed === 0) {
       winSound.playAsync();
     }
-  }, [smashed, winSound]);
+  }, [notSmashed, winSound]);
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={styles.topBarTitle}>
-          {smashed === 0 && <Title style={[styles.title, { color: theme.colors.border }]}>{'DONE!'}</Title>}
+          {notSmashed === 0 && (
+            <Title style={[styles.title, { color: theme.colors.border }]}>{translate('commons.general.done')}</Title>
+          )}
         </View>
         <View style={styles.scoreContainer}>
-          <Title style={[styles.title, { color: theme.colors.border }]}>{smashed}</Title>
+          <Title style={[styles.title, { color: theme.colors.border }]}>{notSmashed}</Title>
           <Icon name="blur-radial" size={40} color={theme.colors.border} />
         </View>
       </View>
@@ -117,8 +127,8 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
                     <Bubble
                       key={`bubble_${i}_${j}`}
                       onSmash={isSmashed => {
-                        popSound?.replayAsync();
-                        countSmash(smashed - (isSmashed ? 1 : 0));
+                        popSound?.replayAsync({ volume: 1 });
+                        countSmash(notSmashed - (isSmashed ? 1 : 0));
                       }}
                     />
                   ))}
