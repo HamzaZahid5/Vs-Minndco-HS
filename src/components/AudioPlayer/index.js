@@ -10,8 +10,6 @@ import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import Color from 'color';
 
-const AnimatedIconButton = Animated.createAnimatedComponent(IconButton);
-
 let tId;
 const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   const statusTId = useRef();
@@ -25,6 +23,28 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   const [currentBuffering, setBuffering] = useState(false);
   const theme = useTheme();
   const styles = getStyles(theme);
+
+  const rotateValueHolder = useRef(new Animated.Value(0)).current;
+
+  const startAnimation = () => {
+    rotateValueHolder.setValue(0);
+    Animated.timing(rotateValueHolder, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start(startAnimation);
+  };
+
+  const animatedStyle = {
+    transform: [
+      {
+        rotate: rotateValueHolder.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '360deg'],
+        }),
+      },
+    ],
+  };
 
   const onPlaybackStatusUpdate = status => {
     // didJustFinish: false
@@ -109,6 +129,11 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentBuffering, isLoaded]);
 
+  useEffect(() => {
+    startAnimation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const seekTo = val => {
     if (!sound) return;
     setCurrentTime(val);
@@ -143,24 +168,45 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   }
   return (
     <View style={styles.playerContainer}>
-      <View style={styles.controls}>
-        <IconButton
-          icon={isLoaded === true && currentBuffering === false ? (isPlaying ? 'pause' : 'play') : 'loading'}
-          size={30}
-          color="white"
-          style={{ ...styles.playIcon }}
-          onPress={() => {
-            if (isLoaded === false || currentBuffering === true) return;
-            shouldPlay.current = !shouldPlay.current;
-            if (shouldPlay.current && !isPlaying) {
-              playSound();
-            }
-            if (!shouldPlay.current && isPlaying) {
-              pauseSound();
-            }
-          }}
-        />
-      </View>
+      {isLoaded === true && currentBuffering === false ? (
+        <View style={styles.controls}>
+          <IconButton
+            icon={isPlaying ? 'pause' : 'play'}
+            size={30}
+            color="white"
+            style={{ ...styles.playIcon }}
+            onPress={() => {
+              if (isLoaded === false || currentBuffering === true) return;
+              shouldPlay.current = !shouldPlay.current;
+              if (shouldPlay.current && !isPlaying) {
+                playSound();
+              }
+              if (!shouldPlay.current && isPlaying) {
+                pauseSound();
+              }
+            }}
+          />
+        </View>
+      ) : (
+        <Animated.View style={{ ...styles.controls, ...animatedStyle }}>
+          <IconButton
+            icon={'loading'}
+            size={30}
+            color="white"
+            style={{ ...styles.playIcon }}
+            onPress={() => {
+              if (isLoaded === false || currentBuffering === true) return;
+              shouldPlay.current = !shouldPlay.current;
+              if (shouldPlay.current && !isPlaying) {
+                playSound();
+              }
+              if (!shouldPlay.current && isPlaying) {
+                pauseSound();
+              }
+            }}
+          />
+        </Animated.View>
+      )}
       <Slider
         style={styles.progressSlider}
         minimumValue={0}
