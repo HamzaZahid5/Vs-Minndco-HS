@@ -9,6 +9,7 @@ import { IconButton, useTheme } from 'react-native-paper';
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import Color from 'color';
+import Loading from '../Loading';
 
 let tId;
 const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
@@ -188,24 +189,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
           />
         </View>
       ) : (
-        <Animated.View style={{ ...styles.controls, ...animatedStyle }}>
-          <IconButton
-            icon={'loading'}
-            size={30}
-            color="white"
-            style={{ ...styles.playIcon }}
-            onPress={() => {
-              if (isLoaded === false || currentBuffering === true) return;
-              shouldPlay.current = !shouldPlay.current;
-              if (shouldPlay.current && !isPlaying) {
-                playSound();
-              }
-              if (!shouldPlay.current && isPlaying) {
-                pauseSound();
-              }
-            }}
-          />
-        </Animated.View>
+        <Loading style={styles.controls} iconStyle={styles.playIcon} />
       )}
       <Slider
         style={styles.progressSlider}
