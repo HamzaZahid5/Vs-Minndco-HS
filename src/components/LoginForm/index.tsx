@@ -1,7 +1,7 @@
 /**
  * FORM FOR SIGN IN SCREEN. THE VERY FIRST OF ALL SCREENS.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Surface, TextInput, HelperText } from 'react-native-paper';
 import BigButton from '../BigButton';
@@ -28,6 +28,7 @@ type Props = {
 };
 
 const LoginForm = ({ onSubmit, loading }: Props) => {
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const _onSubmit = (values: LoginFormValues, actions: any) => {
     onSubmit(values);
     actions.setSubmitting(false);
@@ -39,18 +40,20 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
         initialValues={initialValues}
         onSubmit={(values, actions) => _onSubmit(values, actions)}
         validationSchema={getLogInSchema()}
-        validateOnChange={true}
       >
-        {({ handleChange, isSubmitting, submitForm, values, errors, touched }) => {
+        {({ handleChange, isSubmitting, submitForm, values, errors, touched, validateField, validateForm }) => {
           return (
             <React.Fragment>
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-                    error={touched.email ?? Boolean(errors.email)}
+                    error={values.email.length > 0 && Boolean(errors.email)}
                     label={translate('screens.Login.email-address')}
                     value={values.email}
-                    onChangeText={handleChange('email')}
+                    onChangeText={(e: string | React.ChangeEvent) => {
+                      handleChange('email')(e);
+                      validateField('email');
+                    }}
                     textContentType="username"
                     autoCompleteType="email"
                     keyboardType="email-address"
@@ -60,10 +63,18 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
               <View style={styles.rowForm}>
                 <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
                   <TextInputStyled
-                    error={touched.password ?? Boolean(errors.password)}
+                    error={isPasswordEmpty || (values.password.length > 0 && Boolean(errors.password))}
                     label={translate('screens.Login.password')}
                     value={values.password}
-                    onChangeText={handleChange('password')}
+                    onChangeText={(e: string) => {
+                      if (e.length === 0) {
+                        setIsPasswordEmpty(true);
+                      } else if (isPasswordEmpty) {
+                        setIsPasswordEmpty(false);
+                      }
+                      handleChange('password')(e);
+                      validateField('password');
+                    }}
                     textContentType="password"
                     autoCompleteType="password"
                     secureTextEntry
@@ -79,7 +90,13 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
                 }}
                 loading={isSubmitting || loading}
                 disabled={isSubmitting || loading}
-                onPress={submitForm}
+                onPress={() => {
+                  if (values.password.length === 0) {
+                    setIsPasswordEmpty(true);
+                    return;
+                  }
+                  validateForm().then(submitForm);
+                }}
               >
                 {translate('screens.Login.sign-in')}
               </BigButton>
