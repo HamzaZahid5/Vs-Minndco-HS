@@ -39,7 +39,6 @@ const getStyles = (theme: CustomThemeType) =>
     itemRow: {
       borderBottomWidth: 1,
       borderBottomColor: theme.colors.ligth,
-      minHeight: 60,
       width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
@@ -47,15 +46,12 @@ const getStyles = (theme: CustomThemeType) =>
       maxWidth: 500,
       paddingHorizontal: 10,
       flexWrap: 'wrap',
-      // borderWidth: 1,
-      // borderColor: 'green',
+      flexBasis: '100%',
     },
     itemRowTitle: {
       flexDirection: 'row',
-      height: '100%',
       alignItems: 'center',
-      // borderWidth: 1,
-      // borderColor: 'red',
+      flexGrow: 1,
     },
     itemRowIcon: {
       marginRight: 10,
@@ -67,6 +63,8 @@ const getStyles = (theme: CustomThemeType) =>
     itemRowValue: {
       textAlign: 'right',
       margin: 'auto',
+      alignItems: 'flex-end',
+      flexGrow: 1,
     },
     itemRowValueParagraph: {
       color: theme.colors.ligth,
