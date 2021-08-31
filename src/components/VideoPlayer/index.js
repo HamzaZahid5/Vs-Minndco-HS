@@ -2,12 +2,21 @@ import React, { useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, Button, Platform, Pressable, useWindowDimensions } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
+import Loading from '../Loading';
 
 const VideoPlayer = ({ videoURI, didJustFinish }) => {
   const video = React.useRef(null);
   const [status, setStatus] = useState({});
   const dimensions = useWindowDimensions();
   const styles = getStyle(dimensions);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(true);
+  const onPlaybackStatusUpdate = status => {
+    setStatus(() => status);
+    setIsBuffering(isBuffering => (isBuffering !== status.isBuffering ? status.isBuffering : isBuffering));
+
+    setIsLoaded(isLoaded => (isLoaded !== status.isLoaded ? status.isLoaded : isLoaded));
+  };
   useLayoutEffect(() => {
     if (status.didJustFinish) {
       didJustFinish();
@@ -17,12 +26,7 @@ const VideoPlayer = ({ videoURI, didJustFinish }) => {
   return (
     <View style={styles.videoContainer}>
       <Pressable
-        style={({ pressed }) => [
-          {
-            opacity: pressed ? 0.5 : 1,
-          },
-          StyleSheet.absoluteFillObject,
-        ]}
+        style={StyleSheet.absoluteFillObject}
         // style={StyleSheet.absoluteFillObject}
         onPress={() => {
           // console.log('playing?', status.isPlaying);
@@ -35,13 +39,19 @@ const VideoPlayer = ({ videoURI, didJustFinish }) => {
           source={{
             uri: videoURI,
           }}
-          useNativeControls
+          useNativeControls={isLoaded === true && isBuffering === false}
           resizeMode="contain"
           shouldPlay={true}
           // isLooping
-          onPlaybackStatusUpdate={status => setStatus(() => status)}
+          onPlaybackStatusUpdate={onPlaybackStatusUpdate}
         />
       </Pressable>
+      {(isBuffering === true || isLoaded === false) && (
+        <View pointerEvents="none" style={styles.loading}>
+          <Loading iconSize={45} iconStyle={{ backgroundColor: '#00000070' }} />
+        </View>
+      )}
+
       <View style={styles.buttons}>
         <Button
           title={status.isPlaying ? 'Pause' : 'Play'}
@@ -79,5 +89,14 @@ const getStyle = dimensions =>
       position: 'relative',
       bottom: -10,
       zIndex: 999,
+    },
+    loading: {
+      display: 'flex',
+      position: 'relative',
+      zIndex: 999,
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+      flex: 1,
     },
   });

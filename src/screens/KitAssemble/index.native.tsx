@@ -12,22 +12,29 @@ import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlay
 import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { translate } from '../../utils/localization';
+import Loading from '../../components/Loading';
 
 const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [playing, setPlaying] = useState(true);
   const playerRef = useRef<YoutubeIframeRef | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [buffering, setBuffering] = useState(true);
   const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
       playerRef.current?.seekTo(0, false);
     }
+    if (state === 'unstarted' || state === 'buffering') {
+      setBuffering(buffering => (buffering ? buffering : true));
+    } else {
+      setBuffering(buffering => (buffering ? false : buffering));
+    }
   }, []);
   const togglePlaying = useCallback(() => {
     setPlaying(prev => !prev);
   }, []);
-
   const resourceId = 'contents/00_welcome_to_relief_EN.mp4';
   const openVRPlayer = useVRPlayerCTA({
     resourceId,
@@ -52,14 +59,22 @@ const KitAssemble = ({ navigation }: DefaultScreenPropType<'KitAssemble'>) => {
         header={
           <View style={styles.hero}>
             {/*width={'auto'} Strings are not allowed in width prop, same as undefined */}
-            <YoutubePlayer
-              ref={playerRef}
-              height={232}
-              play={playing}
-              initialPlayerParams={{ controls: false, modestbranding: true }}
-              videoId={'Keh3svyVAwo'}
-              onChangeState={onStateChange}
-            />
+            <View style={StyleSheet.absoluteFillObject}>
+              <YoutubePlayer
+                ref={playerRef}
+                height={232}
+                play={playing}
+                initialPlayerParams={{ controls: false, modestbranding: true }}
+                videoId={'Keh3svyVAwo'}
+                onChangeState={onStateChange}
+                onReady={() => setLoading(false)}
+              />
+            </View>
+            {(buffering === true || loading === true) && (
+              <View pointerEvents="none" style={styles.loading}>
+                <Loading iconSize={45} iconStyle={{ backgroundColor: '#00000070' }} />
+              </View>
+            )}
           </View>
         }
       >
@@ -93,6 +108,15 @@ const getStyles = (theme: CustomThemeType) =>
     hero: {
       height: '100%',
       justifyContent: 'center',
+    },
+    loading: {
+      display: 'flex',
+      position: 'relative',
+      zIndex: 999,
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+      flex: 1,
     },
     floatingImageContent: {
       height: '100%',
