@@ -27,7 +27,7 @@ const DaillyActivityStreak = () => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: 'white' }}>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 18, color: 'white' }}>
         {translate('screens.Statistics.habit')}
       </Paragraph>
       {streakCount === 0 && (
