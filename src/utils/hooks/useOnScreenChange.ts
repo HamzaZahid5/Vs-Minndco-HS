@@ -1,15 +1,17 @@
 import { NavigationContainerRef } from '@react-navigation/native';
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import Smartlook from 'smartlook-react-native-wrapper';
 import { RootStackParamList } from '../../../types';
 
 const useOnScreenChange = (
+  navigatorRef: RefObject<NavigationContainerRef>,
   onScreenChange: (change: { oldScreen: keyof RootStackParamList | null; newScreen: keyof RootStackParamList }) => void,
 ) => {
   const lastScreen = useRef<keyof RootStackParamList>();
-  const navigatorRef = useRef<NavigationContainerRef>();
+  const [firstScreenSet, setFirstScreenSet] = useState(false);
   useEffect(() => {
-    if (navigatorRef.current) {
+    if (navigatorRef.current && firstScreenSet === false) {
+      setFirstScreenSet(true);
       lastScreen.current = navigatorRef.current.getCurrentRoute()?.name as keyof RootStackParamList;
       onScreenChange({
         oldScreen: null,
@@ -30,7 +32,6 @@ const useOnScreenChange = (
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigatorRef.current]);
-  return navigatorRef;
 };
 
 export default useOnScreenChange;

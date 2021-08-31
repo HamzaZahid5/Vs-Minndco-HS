@@ -82,7 +82,7 @@ export default function App() {
   const i18nReady = useBootUpI18n();
   const deepLink = useDeepLinking();
   const navigatorRef: RefObject<NavigationContainerRef> = useRef(null);
-  const navRef = useOnScreenChange(({ oldScreen, newScreen }) => {
+  useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
     if (oldScreen) Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
     Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
   });
@@ -132,7 +132,6 @@ export default function App() {
             theme={theme as NavTheme}
             onReady={() => {
               setNavigatorReady(true);
-              if (navigatorRef.current) navRef.current = navigatorRef.current;
             }}
             ref={navigatorRef}
           >
