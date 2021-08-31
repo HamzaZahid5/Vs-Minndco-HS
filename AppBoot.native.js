@@ -9,7 +9,6 @@ if (Platform.OS === 'android') {
   }
 }
 Smartlook.setupAndStartRecording('ef7b65fc05cee7e87d7014619355120f7a8a47e6'); //Should use env
-Smartlook.resetSession(true);
 import App from './App';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
