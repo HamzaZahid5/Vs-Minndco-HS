@@ -13,20 +13,21 @@ import { auth } from '../../services/Auth';
 import config from './../../../env';
 import { useSelector } from 'react-redux';
 import { CustomThemeType } from '../../utils/OriginalTheme';
-import { AUTH_INFO } from '../../store/selectors';
+import { AUTH_INFO, USER_SUPPORT_PROFILE } from '../../store/selectors';
 import { translate } from '../../utils/localization';
 
 const Profile = () => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const { email } = useSelector(AUTH_INFO);
+  const { display_name } = useSelector(USER_SUPPORT_PROFILE);
   return (
     <ScreenDecorator>
       <GenericPageLayout
         fullScroll
         header={
           <View style={styles.hero}>
-            <Avatar.Text size={100} label={'M'} />
+            <Avatar.Text size={100} label={display_name.substr(0, 2)} />
           </View>
         }
       >
