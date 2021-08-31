@@ -20,7 +20,7 @@ const DailyActivityChart = ({ data = [] }) => {
         justifyContent: 'flex-start',
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 19 }}>
         {translate('screens.Statistics.days-with-activities')}
       </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -24,7 +24,7 @@ const AverageStressLevel = ({ level }: { level: number }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 20 }}>{translate('screens.Statistics.avg-stress-level')}</Paragraph>
+      <Paragraph style={{ fontSize: 18 }}>{translate('screens.Statistics.avg-stress-level')}</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         {level === 0 && (
           <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50, color: '#0006' }}>-</Paragraph>

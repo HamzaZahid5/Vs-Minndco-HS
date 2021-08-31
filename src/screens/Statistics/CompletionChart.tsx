@@ -57,7 +57,7 @@ const CompletionChart = () => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFF' }}>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 18, color: '#FFF' }}>
         {translate('screens.Statistics.program-completion')}
       </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: SIZE / 3 }}>
@@ -76,7 +76,7 @@ const CompletionChart = () => {
             <Paragraph
               style={{
                 ...theme.fonts.heading2,
-                fontSize: 20,
+                fontSize: 18,
                 color: '#FFF',
                 textAlign: 'center',
                 maxWidth: '50%',

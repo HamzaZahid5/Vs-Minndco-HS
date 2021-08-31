@@ -26,7 +26,7 @@ const TodayActivityStatus = () => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20 }}>
+      <Paragraph style={{ ...theme.fonts.heading2, fontSize: 18 }}>
         {translate('screens.Statistics.daily-activity')}
       </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

@@ -42,12 +42,12 @@ const StressLevelChart = ({ data = [] }: { data: number[] }) => {
             elevation: 2,
           }}
         >
-          <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFFFFF' }}>
+          <Paragraph style={{ ...theme.fonts.heading2, fontSize: 18, color: '#FFFFFF', textAlign: 'center' }}>
             {translate('screens.Statistics.level-trending')}
           </Paragraph>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: WIDTH - WIDTH * 0.12 }}>
             {isEmpty && (
-              <Paragraph style={{ ...theme.fonts.heading2, fontSize: 20, color: '#FFFFFFAA' }}>
+              <Paragraph style={{ ...theme.fonts.heading2, fontSize: 18, color: '#FFFFFFAA' }}>
                 {translate('screens.Statistics.no-trending')}
               </Paragraph>
             )}

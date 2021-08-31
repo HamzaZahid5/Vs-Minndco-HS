@@ -27,7 +27,7 @@ const MostFrequentTriggers = ({ triggers }: { triggers: string[] }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 20, textAlign: 'center' }}>
+      <Paragraph style={{ fontSize: 18, textAlign: 'left' }}>
         {translate('screens.Statistics.frequent-triggers')}
       </Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -43,7 +43,7 @@ const MostFrequentTriggers = ({ triggers }: { triggers: string[] }) => {
             colors={[bgColor, itemFGColor, itemFGColor, bgColor]}
             style={{
               width: '100%',
-              height: '20%',
+              minHeight: '20%',
               margin: 5,
               justifyContent: 'center',
             }}
@@ -58,7 +58,7 @@ const MostFrequentTriggers = ({ triggers }: { triggers: string[] }) => {
             colors={[bgColor, itemFGColor, itemFGColor, bgColor]}
             style={{
               width: '100%',
-              height: '20%',
+              minHeight: '20%',
               margin: 5,
               justifyContent: 'center',
             }}
@@ -73,7 +73,7 @@ const MostFrequentTriggers = ({ triggers }: { triggers: string[] }) => {
             colors={[bgColor, itemFGColor, itemFGColor, bgColor]}
             style={{
               width: '100%',
-              height: '20%',
+              minHeight: '20%',
               margin: 5,
               justifyContent: 'center',
             }}
