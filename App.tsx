@@ -87,7 +87,7 @@ export default function App() {
     if (oldScreen) Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
     Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
   });
-  useOnScreenChange(navigatorRef, async ({ oldScreen, newScreen }) => {
+  useOnScreenChange(navigatorRef, async ({ newScreen }) => {
     await analytics().logScreenView({
       screen_name: newScreen,
       screen_class: newScreen,
