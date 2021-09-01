@@ -1,4 +1,5 @@
-import analytics from '@react-native-firebase/analytics';
+// @ts-ignore: non-ts file
+import analytics from '../services/Analytics';
 import { AnalyticEventType } from '../../types';
 
 const AnalyticEvent = async <T extends keyof AnalyticEventType>(
