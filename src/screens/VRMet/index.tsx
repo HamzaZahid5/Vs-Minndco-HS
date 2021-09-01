@@ -7,6 +7,7 @@ import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import template from 'lodash.template';
 import { DefaultScreenRouteType } from '../../../types';
 import { translate, getLocale } from '../../utils/localization';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 const DEBUGGING = `
      // Debug
@@ -66,9 +67,10 @@ window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
 true;`;
 
 const getMessageEventsHandler =
-  (webViewRef: MutableRefObject<WebView | null>, onCancel: () => void, onComplete: () => void) =>
+  (webViewRef: MutableRefObject<WebView | null>, onCancel: () => void, onComplete: () => void, resourceId: string) =>
   (event: WebViewMessageEvent) => {
     if (event.nativeEvent.data === 'PanoViewer:ready') {
+      AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
       webViewRef.current?.injectJavaScript(JS_PLAY_VIDEO());
     }
     if (event.nativeEvent.data === 'Video:ended') {
@@ -102,7 +104,7 @@ const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
         injectedJavaScript={DEBUGGING}
         allowsInlineMediaPlayback
         ignoreSilentHardwareSwitch
-        onMessage={getMessageEventsHandler(webViewRef, onCancel, onComplete)}
+        onMessage={getMessageEventsHandler(webViewRef, onCancel, onComplete, assetUrl)}
         style={{
           backgroundColor: 'red',
         }}
