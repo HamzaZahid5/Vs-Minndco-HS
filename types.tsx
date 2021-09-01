@@ -96,3 +96,31 @@ export type journalType = {
   level: number;
   reason: string;
 };
+
+export type AnalyticEventType = {
+  path_ending: {
+    path: string;
+  };
+  tutorial_begin: undefined;
+  tutorial_complete: undefined;
+  tutorial_drop: { step: number };
+  video_start: {
+    video_type: string;
+    video_id: string;
+  };
+  video_end: {
+    video_type: string;
+    video_id: string;
+  };
+  select_content: {
+    content_type: string;
+    item_id: string;
+  };
+  reliever_activity_do: undefined;
+  reliever_activity_read: undefined;
+  reliever_activity_listen: undefined;
+  reliever_activity_complete: undefined;
+  reliever_activity_drop: undefined;
+  ui_nav_close_btn_stats: undefined;
+  ui_nav_close_btn_read_act: undefined;
+};
