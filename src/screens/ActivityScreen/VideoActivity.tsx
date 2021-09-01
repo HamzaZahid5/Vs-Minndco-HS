@@ -11,6 +11,7 @@ import { useStorageDownloadURL } from '../../services/Storage';
 import { activityType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { translate } from '../../utils/localization';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 export const Header = ({
   onComplete,
@@ -32,13 +33,27 @@ export const Header = ({
         <>
           <Headline style={styles.headline}>{title}</Headline>
           <View style={{ marginTop: 20, height: 40 }}>
-            <BigButton variant="accent" onPress={() => setAction('PLAY_VIDEO')}>
+            <BigButton
+              variant="accent"
+              onPress={() => {
+                AnalyticEvent('video_start', { video_type: '2d', video_id: storeAsset });
+                setAction('PLAY_VIDEO');
+              }}
+            >
               {translate('commons.general.start')}
             </BigButton>
           </View>
         </>
       )}
-      {action === 'PLAY_VIDEO' && <VideoPlayer videoURI={assetURI} didJustFinish={onComplete} />}
+      {action === 'PLAY_VIDEO' && (
+        <VideoPlayer
+          videoURI={assetURI}
+          didJustFinish={() => {
+            AnalyticEvent('video_end', { video_type: '2d', video_id: storeAsset });
+            onComplete;
+          }}
+        />
+      )}
     </>
   );
 };
