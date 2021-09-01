@@ -23,6 +23,7 @@ import useAppActions from './actions';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
 import { CURRENT_STRESS_INPUT } from '../../store/selectors';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 export type contentType = {
   id: string;
@@ -61,7 +62,10 @@ const StressActivity = ({
   };
   usePathEndingBarButton(navigation, { routeParams });
   const resetTo = useNavigationResetPathTo(navigation);
-  const onCloseActivity = () => resetTo('PathEnding', routeParams);
+  const onCloseActivity = () => {
+    AnalyticEvent('reliever_activity_complete');
+    resetTo('PathEnding', routeParams);
+  };
 
   useEffect(() => {
     const loadContent = async () => {
