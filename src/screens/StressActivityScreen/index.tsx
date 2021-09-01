@@ -61,7 +61,9 @@ const StressActivity = ({
       options: ['LearnRow', 'CoachRow', 'StressManagementRowAgain'],
     },
   };
-  usePathEndingBarButton(navigation, { routeParams });
+  usePathEndingBarButton(navigation, { routeParams }, () => {
+    if (activityType === 'READ') AnalyticEvent('ui_nav_close_btn_read_act');
+  });
   useSetDefaultBackOnPress(navigation, defaultOnPress => () => {
     AnalyticEvent('reliever_activity_drop');
     if (defaultOnPress) defaultOnPress();
