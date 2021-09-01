@@ -2244,10 +2244,10 @@
   dependencies:
     flow-bin "0.113.0"
 
-"@react-native-firebase/analytics@11.5.0":
-  version "11.5.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-11.5.0.tgz#7a4388a264ff7799ab3a257906a4fd965a92660a"
-  integrity sha512-54RZBZmnSQRmuyPH2EcLfGJB4dn/VEUyd75xkEC3SKO4A68763myKtc8PAgZxcfsnEApA6LTJN/CqoZwEGG9Bg==
+"@react-native-firebase/analytics@^12.7.4":
+  version "12.7.4"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-12.7.4.tgz#48bac327afad129246cb0b86b679f1c576a9a202"
+  integrity sha512-dYQf03bxqB/ODZ4jvVaALHTr85hAdQaoiM4hKxk8+dlw9rGODYBFgZ9CWuDLLvfpb2vHDfKY7Gnb43i8f6Z+YQ==
 
 "@react-native-firebase/app@11.5.0":
   version "11.5.0"
