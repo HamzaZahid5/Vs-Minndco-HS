@@ -2,13 +2,14 @@ import 'react-native-gesture-handler';
 // import { registerRootComponent } from 'expo';
 import Smartlook from 'smartlook-react-native-wrapper';
 import { AppRegistry, Platform, UIManager } from 'react-native';
+import env from './env'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-Smartlook.setupAndStartRecording('ef7b65fc05cee7e87d7014619355120f7a8a47e6'); //Should use env
+if (env.name === 'production') Smartlook.setupAndStartRecording(env.SmartlookApiKey); //Should use env
 import App from './App';
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
