@@ -2347,6 +2347,11 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
+"@seznam/compose-react-refs@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@seznam/compose-react-refs/-/compose-react-refs-1.0.6.tgz#6ec4e70bdd6e32f8e70b4100f27267cf306bd8df"
+  integrity sha512-izzOXQfeQLonzrIQb8u6LQ8dk+ymz3WXTIXjvOlTXHq6sbzROg3NWU+9TTAOpEoK9Bth24/6F/XrfHJ5yR5n6Q==
+
 "@sideway/address@^4.1.0":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.2.tgz#811b84333a335739d3969cfc434736268170cad1"
@@ -10030,6 +10035,13 @@ slugify@^1.3.4:
   version "1.4.7"
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.4.7.tgz#e42359d505afd84a44513280868e31202a79a628"
   integrity sha512-tf+h5W1IrjNm/9rKKj0JU2MDMruiopx0jjVA5zCdBtcGjfp0+c5rHw/zADLC3IeKlGHtVbHtpfzvYA0OYT+HKg==
+
+smartlook-react-native-wrapper@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/smartlook-react-native-wrapper/-/smartlook-react-native-wrapper-1.2.1.tgz#8a120cd7d4f538881a53eaa807f9513a7e271688"
+  integrity sha512-LVLyH+V1SHfBWQOm8ZYESebWk99TUYvD6dj+N0hPZ5dJgOh0TkLBxWCv4VCW2gDwN3b34WUvinodUYwUre84tQ==
+  dependencies:
+    "@seznam/compose-react-refs" "^1.0.6"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

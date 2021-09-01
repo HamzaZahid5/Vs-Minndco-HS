@@ -3,7 +3,12 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { Theme as PaperTheme } from 'react-native-paper/src/types';
 import { Provider } from 'react-redux';
 import { View } from 'react-native';
-import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import {
+  Theme as NavTheme,
+  NavigationContainer,
+  NavigationContainerRef,
+  NavigationContainerEventMap,
+} from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -64,6 +69,8 @@ import handleMessaging from './src/utils/RemoteMessagingHandler';
 import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
+import Smartlook from 'smartlook-react-native-wrapper';
+import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -75,6 +82,10 @@ export default function App() {
   const i18nReady = useBootUpI18n();
   const deepLink = useDeepLinking();
   const navigatorRef: RefObject<NavigationContainerRef> = useRef(null);
+  useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
+    if (oldScreen) Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
+    Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
+  });
   const [navigatorReady, setNavigatorReady] = useState(false);
   useEffect(() => {
     if (navigatorReady && navigatorRef.current && deepLink) {
@@ -84,11 +95,13 @@ export default function App() {
   if (userToken) {
     store.dispatch({ type: 'user/setAuth', payload: userToken });
   }
-
   const userData = useFirestoreListener('users', userToken?.uid ?? null);
   if (userData) {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
+  useEffect(() => {
+    if (userToken) Smartlook.setUserIdentifier(userToken.uid);
+  }, [userToken]);
 
   // while not ready
   const isWaitingForAuth = userToken === undefined; // waiting for auth response
