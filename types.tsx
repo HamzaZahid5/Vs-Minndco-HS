@@ -105,15 +105,15 @@ export type AnalyticEventType = {
   tutorial_complete: undefined;
   tutorial_drop: { step: number };
   video_start: {
-    video_type: string;
+    video_type: '2d' | 'vr';
     video_id: string;
   };
   video_end: {
-    video_type: string;
+    video_type: '2d' | 'vr';
     video_id: string;
   };
   select_content: {
-    content_type: string;
+    content_type: activityTypesType;
     item_id: string;
   };
   reliever_activity_do: undefined;
