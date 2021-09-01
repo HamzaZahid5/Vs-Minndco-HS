@@ -70,6 +70,7 @@ import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
 import Smartlook from 'smartlook-react-native-wrapper';
+import analytics from '@react-native-firebase/analytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -85,6 +86,12 @@ export default function App() {
   useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
     if (oldScreen) Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
     Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
+  });
+  useOnScreenChange(navigatorRef, async ({ oldScreen, newScreen }) => {
+    await analytics().logScreenView({
+      screen_name: newScreen,
+      screen_class: newScreen,
+    });
   });
   const [navigatorReady, setNavigatorReady] = useState(false);
   useEffect(() => {
