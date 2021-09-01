@@ -24,6 +24,7 @@ import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo
 import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
 import { CURRENT_STRESS_INPUT } from '../../store/selectors';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
+import useSetDefaultBackOnPress from '../../utils/hooks/useSetDefaultBackOnPress';
 
 export type contentType = {
   id: string;
@@ -61,6 +62,10 @@ const StressActivity = ({
     },
   };
   usePathEndingBarButton(navigation, { routeParams });
+  useSetDefaultBackOnPress(navigation, defaultOnPress => () => {
+    AnalyticEvent('reliever_activity_drop');
+    if (defaultOnPress) defaultOnPress();
+  });
   const resetTo = useNavigationResetPathTo(navigation);
   const onCloseActivity = () => {
     AnalyticEvent('reliever_activity_complete');
