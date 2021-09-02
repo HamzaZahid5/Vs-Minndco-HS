@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { useState, useEffect } from 'react';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 import {
   Orientation as expoOrientation,
@@ -29,7 +30,7 @@ const useOrientation = () => {
         setOrientation(castOrientationToString(orientation));
       })
       .catch(error => {
-        console.error('Error getting orientation: ', error);
+        crashlytics().recordError(error);
       });
 
     const unsubscribe = addOrientationChangeListener(changeOrientationEvent => {

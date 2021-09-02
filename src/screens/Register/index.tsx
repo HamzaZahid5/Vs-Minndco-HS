@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Linking, StyleProp, TextStyle } from 'react-native';
 import { Surface, Text, Title, useTheme } from 'react-native-paper';
+import crashlytics from '@react-native-firebase/crashlytics';
 // @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
 // @ts-ignore: non-ts file
@@ -59,8 +60,7 @@ const Register = () => {
 
         // navigation occurs on auth state change.
       } catch (e) {
-        // eslint-disable-next-line no-alert
-        alert(e);
+        crashlytics().recordError(e);
 
         // keep this line here to avoid update of unmounted component.
         setBusy(false);

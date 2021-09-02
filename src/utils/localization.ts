@@ -1,5 +1,5 @@
 import * as Localization from 'expo-localization';
-
+import crashlytics from '@react-native-firebase/crashlytics';
 import { DICTYONARY_PATH } from './config';
 import i18n from 'i18n-js';
 import { memoize } from 'lodash';
@@ -14,8 +14,7 @@ const getDictionaryFile = async (lang: string): Promise<Record<string, unknown>>
       .child(`${DICTYONARY_PATH}${lang}.json`)
       .getDownloadURL();
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
+    crashlytics().recordError(e);
   }
   return new Promise(resolve => {
     fetch(url).then(response => {

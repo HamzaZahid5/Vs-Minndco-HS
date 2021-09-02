@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { View, Image, ScrollView, Linking, Platform, useWindowDimensions } from 'react-native';
-// @ts-ignore: non-ts file
-import { auth } from '../../services/Auth';
-import { Surface, Title, Button, useTheme } from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, Image, Platform, useWindowDimensions } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import crashlytics from '@react-native-firebase/crashlytics';
+// @ts-ignore: non-ts file
+import { auth } from '../../services/Auth';
 import { translate } from '../../utils/localization';
 
 // import {
@@ -38,8 +38,7 @@ const formSubmitHandler = (setLoading: (val: boolean) => void) => async (form: L
     // await Firebase.signInUser(form);
     // navigateToAuth(componentId);
   } catch (e) {
-    // const exp = /\[(.*?)\]/;
-    // const errMessage = exp.exec(e.message)[1];
+    crashlytics().recordError(e);
     const errMessage = e.message;
     alert(`firebase.errormessages.${errMessage}`);
     setLoading(false);

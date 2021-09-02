@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { useStorageDownloadURL } from '../../services/Storage';
 import { getLocale } from '../localization';
 // import { getLocale } from '../utils/localization';
@@ -23,9 +24,8 @@ const useProgram = programName => {
       const data = await response.json();
       setProgram(data);
       localData = data;
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
+    } catch (e) {
+      crashlytics().recordError(e);
     }
   };
   useEffect(() => {

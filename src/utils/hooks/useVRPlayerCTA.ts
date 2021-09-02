@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
-import { useEffect, useState } from 'react';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { getLocale, translate } from '../localization';
 const BASE_URL = 'mindco-relief-support.web.app/support/vrplayer';
@@ -86,6 +86,7 @@ const useVRPlayerCTA = ({
         onError('Cannot open url');
       }
     } catch (error) {
+      crashlytics().recordError(error);
       onError(error.message);
     }
   };

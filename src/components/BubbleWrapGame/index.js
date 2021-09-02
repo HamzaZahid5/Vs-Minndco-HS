@@ -6,6 +6,7 @@ import { Title, useTheme } from 'react-native-paper';
 import { Audio } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 import popSoundAsset from '../../../assets/sounds/BubbleWrapPop.mp3';
 import winSoundAsset from '../../../assets/sounds/MicroGameWin.mp3';
@@ -79,8 +80,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
       try {
         popSound?.unloadAsync();
       } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error(e);
+        crashlytics().recordError(e);
       }
     };
   }, [popSound]);
