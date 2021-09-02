@@ -7,6 +7,7 @@ import { View, Text, Pressable, Animated, LayoutAnimation, StyleSheet } from 're
 import { Title, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Color from 'color';
+import { useKeepAwake } from 'expo-keep-awake';
 import { translate } from './../../utils/localization';
 import FadeEffect from '../FadeEffect';
 let tId;
@@ -20,7 +21,7 @@ const BreathSync = ({ onClose = Function }) => {
   const [counter, setCounter] = useState(-1);
   const [animation] = useState(new Animated.Value(0));
   const [step, setStep] = useState('INIT');
-  // useKeepAwake();
+  useKeepAwake();
   useEffect(() => {
     if (play) {
       setCounter(10);

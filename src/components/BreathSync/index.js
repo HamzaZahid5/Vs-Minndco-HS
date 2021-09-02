@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { View, Text, Pressable, Animated, LayoutAnimation, StyleSheet } from 'react-native';
 import { Title, useTheme } from 'react-native-paper';
 import Color from 'color';
+import { useKeepAwake } from 'expo-keep-awake';
 import { translate } from './../../utils/localization';
 
 const BreathSync = ({ onClose = Function }) => {
@@ -17,7 +18,7 @@ const BreathSync = ({ onClose = Function }) => {
   const size = useRef(new Animated.Value(0)).current;
   const [step, setStep] = useState('INIT');
 
-  // useKeepAwake();
+  useKeepAwake();
   useEffect(() => {
     if (play) {
       setCounter(20);
