@@ -116,8 +116,6 @@ export default function App() {
         Smartlook.setUserIdentifier(userToken.uid);
       }
       analytics().setUserId(userToken.uid);
-    } else {
-      analytics().resetAnalyticsData(); //When logout, reset data
     }
   }, [userToken]);
 
