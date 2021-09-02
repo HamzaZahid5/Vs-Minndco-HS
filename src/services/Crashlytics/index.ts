@@ -1,4 +1,4 @@
 // @ts-ignore: non-ts file
-import analytics from './crashlytics';
+import crashlytics from './crashlytics';
 
-export default analytics;
+export default crashlytics;
