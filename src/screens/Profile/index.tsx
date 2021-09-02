@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
+import crashlytics from '@react-native-firebase/crashlytics';
 // @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
 // @ts-ignore: non-ts file
@@ -18,9 +19,17 @@ import { translate } from '../../utils/localization';
 
 const Profile = () => {
   const theme = useTheme() as CustomThemeType;
+  const [debugCount, incrementDebugCount] = useState(0);
   const styles = getStyles(theme);
   const { email } = useSelector(AUTH_INFO);
   const { display_name } = useSelector(USER_SUPPORT_PROFILE);
+
+  useEffect(() => {
+    if (debugCount === 10) {
+      crashlytics().crash();
+    }
+  }, [debugCount]);
+
   return (
     <ScreenDecorator>
       <GenericPageLayout
@@ -44,11 +53,8 @@ const Profile = () => {
           >
             {translate('screens.Profile.sign-out')}
           </BigButton>
-          <Text
-            // onPress={() => incrementDebugCount(debugCount + 1)}
-            style={styles.app_version}
-          >
-            v{config.APP_VERSION}
+          <Text onPress={() => incrementDebugCount(debugCount + 1)} style={styles.app_version}>
+            v{config.APP_VERSION} {debugCount > 5 ? debugCount : ''}
           </Text>
         </View>
       </GenericPageLayout>
