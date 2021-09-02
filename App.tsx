@@ -71,6 +71,7 @@ import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
 import Smartlook from 'smartlook-react-native-wrapper';
 import analytics from './src/services/Analytics';
+import crashlytics from './src/services/Crashlytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -118,6 +119,8 @@ export default function App() {
         Smartlook.setUserIdentifier(userToken.uid);
       }
       analytics().setUserId(userToken.uid);
+      crashlytics().log('User authenticated.');
+      crashlytics().setUserId(userToken.uid);
     }
   }, [userToken]);
 

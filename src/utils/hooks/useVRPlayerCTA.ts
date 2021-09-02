@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
-import { useEffect, useState } from 'react';
+import crashlytics from '../../services/Crashlytics';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { getLocale, translate } from '../localization';
 import AnalyticEvent from '../AnalyticsEvent';
@@ -93,6 +93,7 @@ const useVRPlayerCTA = ({
         onError('Cannot open url');
       }
     } catch (error) {
+      crashlytics().recordError(error);
       onError(error.message);
     }
   };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import crashlytics from '../../services/Crashlytics';
 import firestore from './firestore';
 import { auth } from '../Auth';
 
@@ -19,7 +20,7 @@ export const useFirestoreJournalListener = () => {
           setSnapshot(sn);
         });
     } catch (e) {
-      alert(e);
+      crashlytics().recordError(e);
     }
     return () => unsubscribe;
   }, []);
@@ -42,7 +43,7 @@ export const useFirestoreListener = (collection, id) => {
               setSnapshotData(userSnapshot?.data() ?? null);
             });
         } catch (e) {
-          alert(e);
+          crashlytics().recordError(e);
         }
       }
     }

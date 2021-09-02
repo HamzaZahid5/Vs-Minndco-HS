@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import crashlytics from '../../services/Crashlytics';
 import storage from './storage';
 
 export const useStorageDownloadURL = (path: string): string | undefined => {
@@ -9,9 +10,7 @@ export const useStorageDownloadURL = (path: string): string | undefined => {
       setUrl(remoteUrl);
     } catch (e) {
       setUrl(undefined);
-      // eslint-disable-next-line no-console
-      console.log(resource)
-      console.error(e);
+      crashlytics().recordError(e);
     }
   };
   useEffect(() => {

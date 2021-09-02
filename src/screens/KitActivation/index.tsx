@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { TextInput, Headline, useTheme, Paragraph } from 'react-native-paper';
+import crashlytics from '../../services/Crashlytics';
 // @ts-ignore: non-ts file
 import { getKitById, burnCode } from '../../services/Firestore';
 import BigButton from '../../components/BigButton';
@@ -125,8 +126,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
         // analytics().logEvent(ANALYTICS_EVENTS.FUNNEL_KIT_ACTIVATION);
         nextStep();
       } catch (e) {
-        alert(e);
-        // alert('Something went wrong using this code. Please contact support.');
+        crashlytics().recordError(e);
       }
     }
     dispatch({ type: 'flags/setIsLoading', payload: -1 });
