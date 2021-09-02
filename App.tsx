@@ -70,7 +70,7 @@ import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
 import Smartlook from 'smartlook-react-native-wrapper';
-import analytics from '@react-native-firebase/analytics';
+import analytics from './src/services/Analytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -112,9 +112,13 @@ export default function App() {
   }
   useEffect(() => {
     if (userToken) {
-      if ( Platform.OS !== 'web') Smartlook.setUserIdentifier(userToken.uid);
+      if (Platform.OS !== 'web') {
+        Smartlook.setUserIdentifier(userToken.uid);
+      }
       analytics().setUserId(userToken.uid);
-    } else analytics().resetAnalyticsData(); //When logout, reset data
+    } else {
+      analytics().resetAnalyticsData(); //When logout, reset data
+    }
   }, [userToken]);
 
   // while not ready
