@@ -70,6 +70,7 @@ import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
 import Smartlook from 'smartlook-react-native-wrapper';
+import crashlytics from '@react-native-firebase/crashlytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -106,6 +107,8 @@ export default function App() {
   useEffect(() => {
     if (userToken && Platform.OS !== 'web') {
       Smartlook.setUserIdentifier(userToken.uid);
+      crashlytics().log('User authenticated.');
+      crashlytics().setUserId(userToken.uid);
     }
   }, [userToken]);
 
