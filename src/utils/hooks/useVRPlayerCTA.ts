@@ -4,6 +4,7 @@ import { useStorageDownloadURL } from './../../services/Storage';
 import { useEffect, useState } from 'react';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { getLocale, translate } from '../localization';
+import AnalyticEvent from '../AnalyticsEvent';
 const BASE_URL = 'mindco-relief-support.web.app/support/vrplayer';
 
 export type VRPlayerCTAPropType = {
@@ -21,9 +22,14 @@ const useVRPlayerCTA = ({
 }: VRPlayerCTAPropType) => {
   const assetUrl = useStorageDownloadURL(resourceId) || '';
   const navigation = useNavigation();
+  const onCompleteWithAnalytics = () => {
+    AnalyticEvent('video_end', { video_type: 'vr', video_id: resourceId });
+    onComplete();
+  };
 
   const openVRPlayerForWeb = async () => {
     const url = `https://${BASE_URL}/?video=${encodeURIComponent(assetUrl)}`;
+    AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
     await (() =>
       // if user returns to this tab we consider the player as closed
       // thus, we resolve promise when visibility state returns to "visible"
@@ -38,7 +44,7 @@ const useVRPlayerCTA = ({
       }))();
 
     // by default, after interact with player we consider the activity as done
-    onComplete();
+    onCompleteWithAnalytics();
   };
   const openVRPlayerForAndroid = async () => {
     try {
@@ -46,6 +52,7 @@ const useVRPlayerCTA = ({
       const url = `https://${BASE_URL}/?lang=${lang}&video=${encodeURIComponent(assetUrl)}`;
       if (await InAppBrowser.isAvailable()) {
         const startTime = Date.now();
+        AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
         await InAppBrowser.open(url, {
           // iOS Properties
           dismissButtonStyle: 'close',
@@ -78,7 +85,7 @@ const useVRPlayerCTA = ({
         const diffInMinutes = timeDiffInMS / 1000 / 60;
 
         if (diffInMinutes > 1) {
-          onComplete();
+          onCompleteWithAnalytics();
         } else {
           onCancel();
         }
@@ -93,7 +100,7 @@ const useVRPlayerCTA = ({
     navigation.navigate('VRMet', {
       assetUrl,
       onCancel,
-      onComplete,
+      onCompleteWithAnalytics,
     });
   };
 

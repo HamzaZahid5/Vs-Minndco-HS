@@ -8,6 +8,7 @@ import RowItem from '../../components/RowItem';
 import ScreenDecorator from '../../components/ScreenDecorator';
 import { DefaultScreenPropType } from '../../../types';
 import { translate } from '../../utils/localization';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 //This component is not used
 const Row = ({ title, subtitle }: { title: string; subtitle: string }) => {
@@ -49,12 +50,15 @@ const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivit
   useEffect(() => {
     switch (selected) {
       case 1:
+        AnalyticEvent('reliever_activity_read');
         navigation.navigate('StressActivityToDo', { type: 'READ' });
         break;
       case 2:
+        AnalyticEvent('reliever_activity_listen');
         navigation.navigate('StressActivityToDo', { type: 'LISTEN' });
         break;
       case 3:
+        AnalyticEvent('reliever_activity_do');
         navigation.navigate('StressActivityToDo', { type: 'DO' });
         break;
     }

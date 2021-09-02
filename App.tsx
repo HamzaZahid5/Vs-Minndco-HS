@@ -70,6 +70,7 @@ import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
 import Smartlook from 'smartlook-react-native-wrapper';
+import analytics from './src/services/Analytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -90,6 +91,14 @@ export default function App() {
       Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
     }
   });
+  useOnScreenChange(navigatorRef, async ({ newScreen }) => {
+    if (Platform.OS !== 'web') {
+      await analytics().logScreenView({
+        screen_name: newScreen,
+        screen_class: newScreen,
+      });
+    }
+  });
   const [navigatorReady, setNavigatorReady] = useState(false);
   useEffect(() => {
     if (navigatorReady && navigatorRef.current && deepLink) {
@@ -104,8 +113,11 @@ export default function App() {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
   useEffect(() => {
-    if (userToken && Platform.OS !== 'web') {
-      Smartlook.setUserIdentifier(userToken.uid);
+    if (userToken) {
+      if (Platform.OS !== 'web') {
+        Smartlook.setUserIdentifier(userToken.uid);
+      }
+      analytics().setUserId(userToken.uid);
     }
   }, [userToken]);
 

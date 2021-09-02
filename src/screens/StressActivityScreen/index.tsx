@@ -23,6 +23,8 @@ import useAppActions from './actions';
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
 import { CURRENT_STRESS_INPUT } from '../../store/selectors';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
+import useSetDefaultBackOnPress from '../../utils/hooks/useSetDefaultBackOnPress';
 
 export type contentType = {
   id: string;
@@ -59,9 +61,18 @@ const StressActivity = ({
       options: ['LearnRow', 'CoachRow', 'StressManagementRowAgain'],
     },
   };
-  usePathEndingBarButton(navigation, { routeParams });
+  usePathEndingBarButton(navigation, { routeParams }, () => {
+    if (activityType === 'READ') AnalyticEvent('ui_nav_close_btn_read_act');
+  });
+  useSetDefaultBackOnPress(navigation, defaultOnPress => () => {
+    AnalyticEvent('reliever_activity_drop');
+    if (defaultOnPress) defaultOnPress();
+  });
   const resetTo = useNavigationResetPathTo(navigation);
-  const onCloseActivity = () => resetTo('PathEnding', routeParams);
+  const onCloseActivity = () => {
+    AnalyticEvent('reliever_activity_complete');
+    resetTo('PathEnding', routeParams);
+  };
 
   useEffect(() => {
     const loadContent = async () => {

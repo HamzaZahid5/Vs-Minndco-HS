@@ -9,6 +9,7 @@ import NextStepButton from './NextStepButton';
 import anime from '../../utils/anime';
 import FadeEffect from '../../components/FadeEffect';
 import { CustomThemeType } from '../../utils/OriginalTheme';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 const FullScreenHomeMessage = ({
   message,
@@ -19,6 +20,9 @@ const FullScreenHomeMessage = ({
   next: (arg?: number) => void;
   end: () => void;
 }) => {
+  useEffect(() => {
+    AnalyticEvent('tutorial_begin');
+  }, []);
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   const [enterMessge, setEnterMessge] = useState(false);

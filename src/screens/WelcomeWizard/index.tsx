@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 // @ts-ignore: non-ts file
 import { updateBasicTutorialCompleted } from '../../services/Firestore';
 // @ts-ignore: non-ts file
-import analytics from '../../services/Analytics';
-// @ts-ignore: non-ts file
 import HomeLayout from './../../components/HomeLayout';
 import Step1 from './Step1';
 import Step2 from './Step2';
@@ -17,12 +15,11 @@ import Step6 from './Step6';
 import Step6No from './Step6-no';
 import Step6Yes from './Step6-yes';
 // @ts-ignore: non-ts file
-import { ANALYTICS_EVENTS } from '../../utils/constants';
-// @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 import { DefaultScreenPropType, RootStackParamList } from '../../../types';
 import { TUTORIALS_STATE } from '../../store/selectors';
 import { translate } from '../../utils/localization';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
   const dispatch = useDispatch();
@@ -31,19 +28,16 @@ const WelcomeWizard = ({ navigation }: DefaultScreenPropType<'Tutorial'>) => {
 
   function nextStep(step?: number) {
     dispatch({ type: 'tutorials/setWelcomeTutorialStep', payload: step || currentStep + 1 });
-    // actions.moveTutorialToStep(step || currentStep + 1);
-    analytics().logEvent('basic_wizard_next_step');
   }
   function finishWizard(navigateTo?: keyof RootStackParamList) {
     updateBasicTutorialCompleted();
     dispatch({ type: 'tutorials/finishWelcomeTutorialStep' });
     dispatch({ type: 'user/tutorialDone' });
     // actions.finishTutorial();
-    analytics().logEvent('basic_wizard_finish');
     if (currentStep >= 7) {
-      analytics().logEvent(ANALYTICS_EVENTS.FUNNEL_WIZARD_FINISH);
+      AnalyticEvent('tutorial_complete');
     } else {
-      analytics().logEvent(ANALYTICS_EVENTS.FUNNEL_WIZARD_ABORT);
+      AnalyticEvent('tutorial_drop', { step: currentStep });
     }
 
     if (navigateTo === 'KitActivation') {
