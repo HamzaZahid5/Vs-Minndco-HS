@@ -44,12 +44,12 @@ const BreathSync = ({ onClose = Function }) => {
     setStep('IN');
     Animated.timing(size, {
       toValue: 1,
-      duration: 2500,
+      duration: 2000,
       useNativeDriver: true,
     }).start();
     Animated.timing(position, {
       toValue: { x: -100, y: -450 },
-      duration: 2500,
+      duration: 2000,
       useNativeDriver: true,
     }).start(({ finished: finishIn }) => {
       if (finishIn) {
@@ -70,12 +70,12 @@ const BreathSync = ({ onClose = Function }) => {
     setStep('OUT');
     Animated.timing(size, {
       toValue: 0,
-      duration: 2500,
+      duration: 2000,
       useNativeDriver: true,
     }).start();
     Animated.timing(position, {
       toValue: { x: 100, y: -150 },
-      duration: 2500,
+      duration: 2000,
       useNativeDriver: true,
     }).start(({ finished: finishOut }) => {
       if (finishOut) {
