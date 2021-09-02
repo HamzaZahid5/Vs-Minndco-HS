@@ -97,6 +97,7 @@ const getStyles = (theme: CustomThemeType) =>
     innerContainer: {
       flexBasis: '100%',
       padding: 20,
+      alignItems: 'center',
     },
     background: {
       position: 'absolute',
