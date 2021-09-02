@@ -3,55 +3,22 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Animated, LayoutAnimation, StyleSheet } from 'react-native';
-import { Title, Button, useTheme } from 'react-native-paper';
+import { View, Text, Pressable, Animated, LayoutAnimation, StyleSheet } from 'react-native';
+import { Title, useTheme } from 'react-native-paper';
 import Color from 'color';
-// import Sound from 'react-native-sound';
-// import { useKeepAwake } from '@sayem314/react-native-keep-awake';
-// import { translate } from './../../utils/localization';
-// import theme from './../../styles/BasicNewTheme';
-// import RoundedBackButton from '../../components/RoundedBackButton';
-let tId;
-// const winSound = new Sound(
-//   require('./../../styles/sounds/MicroGameWin.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-// const lostSound = new Sound(
-//   require('./../../styles/sounds/MicroGameLost.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-const playWinSound = () => {
-  // winSound.play();
-};
-const playLostSound = () => {
-  // lostSound.play();
-};
-
-// const holdBreath = callback => {
-//   clearTimeout(tId);
-//   tId = setTimeout(callback, 1500);
-// };
+import { useKeepAwake } from 'expo-keep-awake';
+import { translate } from './../../utils/localization';
 
 const BreathSync = ({ onClose = Function }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const [play, setPlay] = useState(false);
   const [counter, setCounter] = useState(-1);
-  const [next, setNext] = useState();
   const position = useRef(new Animated.ValueXY({ x: -100, y: -150 })).current;
   const size = useRef(new Animated.Value(0)).current;
-  // const [animation, _] = useState(new Animated.ValueXY({ x: -10, y: -10 }));
   const [step, setStep] = useState('INIT');
 
-  // useKeepAwake();
+  useKeepAwake();
   useEffect(() => {
     if (play) {
       setCounter(20);
@@ -62,9 +29,6 @@ const BreathSync = ({ onClose = Function }) => {
       ...LayoutAnimation.Presets.easeInEaseOut,
       duration: 1000,
     });
-    return () => {
-      clearTimeout(tId);
-    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [play]);
@@ -73,16 +37,8 @@ const BreathSync = ({ onClose = Function }) => {
     if (counter === 0) {
       setPlay(false);
       setStep('INIT');
-      playWinSound();
     }
   }, [counter]);
-
-  useEffect(() => {
-    if (play) {
-      next === 'breath-out' ? breathOut() : breathIn();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [next, play]);
 
   const breathIn = () => {
     setStep('IN');
@@ -104,7 +60,7 @@ const BreathSync = ({ onClose = Function }) => {
           useNativeDriver: true,
         }).start(({ finished: finishHold }) => {
           if (finishHold) {
-            setNext('breath-out');
+            breathOut();
           }
         });
       }
@@ -123,7 +79,6 @@ const BreathSync = ({ onClose = Function }) => {
       useNativeDriver: true,
     }).start(({ finished: finishOut }) => {
       if (finishOut) {
-        setCounter(counter => counter - 1);
         setStep('HOLD-OUT');
         Animated.timing(position, {
           toValue: { x: -100, y: -150 },
@@ -131,7 +86,12 @@ const BreathSync = ({ onClose = Function }) => {
           useNativeDriver: true,
         }).start(({ finished: finishHold }) => {
           if (finishHold) {
-            setNext('breath-in');
+            setCounter(counter => {
+              if (counter > 1) {
+                breathIn();
+              }
+              return counter - 1;
+            });
           }
         });
       }
@@ -151,14 +111,20 @@ const BreathSync = ({ onClose = Function }) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Title style={styles.title}>{counter !== 0 ? 'Take 20 calm breaths' : 'Well done!'}</Title>
+        <Title style={styles.title}>
+          {counter !== 0
+            ? translate('contents.BREATH_SYNC.title_progress')
+            : translate('contents.BREATH_SYNC.title_done')}
+        </Title>
       </View>
       {play && counter !== -1 && <Title style={styles.counter}>{counter}</Title>}
       <View style={styles.bodyContainer}>
-        <Title style={styles.instructions}>{counter === -1 ? 'Sync your breathing with the square' : ' '}</Title>
+        <Title style={styles.instructions}>
+          {counter === -1 ? translate('contents.BREATH_SYNC.instructions') : ' '}
+        </Title>
         <View style={styles.squareContainer}>
           {counter <= 0 && (
-            <Button
+            <Pressable
               onPress={() => {
                 if (counter === 0) {
                   onClose();
@@ -166,20 +132,29 @@ const BreathSync = ({ onClose = Function }) => {
                   setPlay(true);
                 }
               }}
-              style={styles.startButton}
-              labelStyle={{
-                // fontWeight: '400',
-                fontSize: 21,
-                color: theme.colors.primary,
-              }}
+              style={() => styles.startButton}
             >
-              {counter === 0 ? 'Tap to finish' : 'Tap to start'}
-            </Button>
+              <Text
+                style={{
+                  fontSize: 21,
+                  color: theme.colors.primary,
+                  textAlign: 'center',
+                }}
+              >
+                {counter === 0
+                  ? translate('contents.BREATH_SYNC.CTA_finish')
+                  : translate('contents.BREATH_SYNC.CTA_start')}
+              </Text>
+            </Pressable>
           )}
           <View style={styles.legend}>
             {step !== 'INIT' && (
               <Text style={styles.legendFont}>
-                {step === 'IN' ? 'BREATHE IN' : step === 'OUT' ? 'BREATHE OUT' : 'HOLD'}
+                {step === 'IN'
+                  ? translate('contents.BREATH_SYNC.breath_in')
+                  : step === 'OUT'
+                  ? translate('contents.BREATH_SYNC.breath_out')
+                  : translate('contents.BREATH_SYNC.hold')}
               </Text>
             )}
           </View>
@@ -213,7 +188,6 @@ const getStyles = theme =>
     },
     legend: {
       width: 200, // should match with squareContainer
-      // flex: 1,
       height: 80,
       justifyContent: 'center',
       alignItems: 'center',
@@ -224,7 +198,6 @@ const getStyles = theme =>
       textTransform: 'uppercase',
       color: theme.colors.backdrop,
       flex: 1,
-      marginRight: 40,
     },
     instructions: {
       marginVertical: 20,
@@ -246,14 +219,9 @@ const getStyles = theme =>
       marginTop: '25%',
     },
     headerContainer: {
-      // height: '25%',
-      width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'flex-start',
-      paddingHorizontal: 5,
-      // marginBottom: '25%',
-      // backgroundColor: '#f00a',
+      justifyContent: 'space-around',
     },
     backButtonStyle: {
       backgroundColor: theme.colors.primary,
@@ -279,8 +247,6 @@ const getStyles = theme =>
       width: 20,
       height: 20,
       borderRadius: 5,
-      // justifyContent: 'center',
-      // alignItems: 'center',
       position: 'absolute',
       bottom: -160,
       left: 90,
