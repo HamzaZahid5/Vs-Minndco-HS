@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 import firestore from './firestore';
 import { auth } from '../Auth';
 

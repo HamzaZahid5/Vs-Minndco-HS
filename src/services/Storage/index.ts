@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 import storage from './storage';
 
 export const useStorageDownloadURL = (path: string): string | undefined => {

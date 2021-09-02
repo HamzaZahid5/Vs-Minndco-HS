@@ -71,7 +71,7 @@ import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
 import Smartlook from 'smartlook-react-native-wrapper';
 import analytics from './src/services/Analytics';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from './src/services/Crashlytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 
 const Stack = createStackNavigator<RootStackParamList>();

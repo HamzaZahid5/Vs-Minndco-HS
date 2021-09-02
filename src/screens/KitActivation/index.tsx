@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { TextInput, Headline, useTheme, Paragraph } from 'react-native-paper';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 // @ts-ignore: non-ts file
 import { getKitById, burnCode } from '../../services/Firestore';
 import BigButton from '../../components/BigButton';

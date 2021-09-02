@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Linking, StyleProp, TextStyle } from 'react-native';
 import { Surface, Text, Title, useTheme } from 'react-native-paper';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 // @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
 // @ts-ignore: non-ts file

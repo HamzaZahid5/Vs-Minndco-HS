@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { getLocale, translate } from '../localization';
 import AnalyticEvent from '../AnalyticsEvent';

@@ -3,7 +3,7 @@ import { View, Image, Platform, useWindowDimensions } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { LinearGradient } from 'expo-linear-gradient';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 // @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
 import { translate } from '../../utils/localization';

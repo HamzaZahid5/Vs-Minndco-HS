@@ -1,5 +1,5 @@
 import * as Localization from 'expo-localization';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../services/Crashlytics';
 import { DICTYONARY_PATH } from './config';
 import i18n from 'i18n-js';
 import { memoize } from 'lodash';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 // @ts-ignore: non-ts file
 import GenericPageLayout from '../../components/GenericPageLayout';
 // @ts-ignore: non-ts file

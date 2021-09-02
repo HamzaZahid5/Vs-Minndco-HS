@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
-import crashlytics from '@react-native-firebase/crashlytics';
+import crashlytics from '../../services/Crashlytics';
 import { lockAsync, OrientationLock, unlockAsync } from 'expo-screen-orientation';
 
 const useOrientationLocker = (orientationLock: OrientationLock) => {
