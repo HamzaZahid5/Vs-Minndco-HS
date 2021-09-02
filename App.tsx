@@ -107,7 +107,10 @@ export default function App() {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
   useEffect(() => {
-    if (userToken) Smartlook.setUserIdentifier(userToken.uid);
+    if (userToken) {
+      Smartlook.setUserIdentifier(userToken.uid);
+      analytics().setUserId(userToken.uid);
+    } else analytics().resetAnalyticsData(); //When logout, reset data
   }, [userToken]);
 
   // while not ready
