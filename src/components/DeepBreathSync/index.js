@@ -3,39 +3,13 @@
  */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Animated, LayoutAnimation, StyleSheet } from 'react-native';
-import { Title, Button, useTheme } from 'react-native-paper';
+import { View, Text, Pressable, Animated, LayoutAnimation, StyleSheet } from 'react-native';
+import { Title, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Color from 'color';
-// import Sound from 'react-native-sound';
-// import { useKeepAwake } from '@sayem314/react-native-keep-awake';
-// import { translate } from './../../utils/localization';
+import { translate } from './../../utils/localization';
 import FadeEffect from '../FadeEffect';
-// import theme from '../../styles/BasicNewTheme';
-// import RoundedBackButton from '../RoundedBackButton';
 let tId;
-// const winSound = new Sound(
-//   require('./../../styles/sounds/MicroGameWin.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-// const lostSound = new Sound(
-//   require('./../../styles/sounds/MicroGameLost.mp3'),
-//   error => {
-//     if (error) {
-//       console.error(error);
-//     }
-//   },
-// );
-const playWinSound = () => {
-  // winSound.play();
-};
-const playLostSound = () => {
-  // lostSound.play();
-};
 
 const holdBreath = callback => (tId = setTimeout(callback, 1500));
 
@@ -66,7 +40,6 @@ const BreathSync = ({ onClose = Function }) => {
   useEffect(() => {
     if (counter === 0) {
       setPlay(false);
-      playWinSound();
     }
   }, [counter]);
   const breathIn = () => {
@@ -101,43 +74,36 @@ const BreathSync = ({ onClose = Function }) => {
     outputRange: [1, 2],
   });
   const animatedStyle = {
-    // width: size,
-    // height: size,
     transform: [{ scaleX: size, scaleY: size }],
-    // backgroundColor: color,
   };
   const icon = step === 'INIT' ? 'minus' : step === 'IN' ? 'chevron-up' : step === 'OUT' ? 'chevron-down' : 'minus';
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        {/* <RoundedBackButton
-          style={styles.backButtonStyle}
-          onPress={() => {
-            const completed = counter === 0;
-            if (!completed) {
-              playLostSound();
-            }
-            onClose(completed);
-          }}
-        /> */}
-        <Title style={styles.title}>{counter !== 0 ? 'Take 10 deep breaths' : 'Well done!'}</Title>
+        <Title style={styles.title}>
+          {counter !== 0
+            ? translate('contents.DEEP_BREATH_SYNC.title_progress')
+            : translate('contents.DEEP_BREATH_SYNC.title_done')}
+        </Title>
       </View>
       {play && counter !== -1 && <Title style={styles.counter}>{counter}</Title>}
       <View style={styles.bodyContainer}>
-        <Title style={styles.instructions}>{counter === -1 ? 'Sync your breathing with the sphere' : ' '}</Title>
+        <Title style={styles.instructions}>
+          {counter === -1 ? translate('contents.DEEP_BREATH_SYNC.instructions') : ' '}
+        </Title>
         <View style={[styles.circleContainer]}>
           {counter === -1 && (
-            <Button
-              onPress={() => setPlay(true)}
-              style={styles.startButton}
-              labelStyle={{
-                // fontWeight: '400',
-                fontSize: 30,
-                color: theme.colors.primary,
-              }}
-            >
-              {'Tap to start'}
-            </Button>
+            <Pressable onPress={() => setPlay(true)} style={() => styles.startButton}>
+              <Text
+                style={{
+                  fontSize: 30,
+                  color: theme.colors.primary,
+                  textAlign: 'center',
+                }}
+              >
+                {translate('contents.DEEP_BREATH_SYNC.CTA_start')}
+              </Text>
+            </Pressable>
           )}
           {counter !== -1 && (
             <Animated.View style={[styles.circle, animatedStyle]}>
@@ -148,23 +114,21 @@ const BreathSync = ({ onClose = Function }) => {
         <View style={styles.legend}>
           {step === 'IN' && (
             <FadeEffect show>
-              <Text style={styles.legendFont}>{'BREATHE IN'}</Text>
+              <Text style={styles.legendFont}>{translate('contents.DEEP_BREATH_SYNC.breath_in')}</Text>
             </FadeEffect>
           )}
           {step === 'HOLD' && (
             <FadeEffect show>
-              <Text style={styles.legendFont}>{'HOLD'}</Text>
+              <Text style={styles.legendFont}>{translate('contents.DEEP_BREATH_SYNC.hold')}</Text>
             </FadeEffect>
           )}
           {step === 'OUT' && (
             <FadeEffect show={step === 'OUT'}>
-              <Text style={styles.legendFont}>{'BREATHE OUT'}</Text>
+              <Text style={styles.legendFont}>{translate('contents.DEEP_BREATH_SYNC.breath_out')}</Text>
             </FadeEffect>
           )}
         </View>
       </View>
-      {/* <Button onPress={breathIn} title="in" />
-      <Button onPress={breathOut} title="out" /> */}
     </View>
   );
 };
@@ -202,9 +166,7 @@ const getStyles = theme =>
     },
     legend: {
       width: '100%',
-      // flex: 1,
       height: 80,
-      // backgroundColor: '#f00a',
       justifyContent: 'center',
       alignItems: 'center',
     },
@@ -215,7 +177,6 @@ const getStyles = theme =>
       textTransform: 'uppercase',
       color: theme.colors.backdrop,
       flex: 1,
-      marginRight: 40,
     },
     instructions: {
       marginVertical: 20,
@@ -235,14 +196,10 @@ const getStyles = theme =>
       marginTop: '25%',
     },
     headerContainer: {
-      // height: '25%',
       width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      paddingHorizontal: 5,
-      // marginBottom: '25%',
-      // backgroundColor: '#f00a',
     },
     backButtonStyle: {
       backgroundColor: theme.colors.primary,
