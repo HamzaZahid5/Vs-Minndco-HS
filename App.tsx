@@ -92,10 +92,12 @@ export default function App() {
     }
   });
   useOnScreenChange(navigatorRef, async ({ newScreen }) => {
-    await analytics().logScreenView({
-      screen_name: newScreen,
-      screen_class: newScreen,
-    });
+    if (Platform.OS !== 'web') {
+      await analytics().logScreenView({
+        screen_name: newScreen,
+        screen_class: newScreen,
+      });
+    }
   });
   const [navigatorReady, setNavigatorReady] = useState(false);
   useEffect(() => {
