@@ -31,6 +31,7 @@ import { translate } from '../../utils/localization';
 export const usePathEndingBarButton = (
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>,
   { text = '', routeParams = {} } = {},
+  onButtonPressed?: () => void,
 ) => {
   const buttonText = text.length ? text : translate('screens.PathEnding.done');
   const resetTo = useNavigationResetPathTo(navigation);
@@ -38,7 +39,10 @@ export const usePathEndingBarButton = (
   useLayoutEffect(() => {
     const headerRight = () => (
       <ChipButton
-        onPress={() => resetTo('PathEnding', routeParams)}
+        onPress={() => {
+          if (onButtonPressed) onButtonPressed();
+          resetTo('PathEnding', routeParams);
+        }}
         labelStyle={{
           color: Color(theme.colors.dark).darken(0.3).toString(),
           lineHeight: 10,
