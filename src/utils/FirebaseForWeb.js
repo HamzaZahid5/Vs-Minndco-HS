@@ -1,16 +1,16 @@
-const enqueueScripts = async (scriptArrays) => {
-
-  const injectScript = scriptUri => new Promise(resolve => {
-    
-    const script = window.document.createElement('script');
-    script.src = scriptUri;
-    script.onload = () => {
-      console.log('injecting', scriptUri);
-      resolve();
-    };
-    window.document.head.appendChild(script);
-  });
-  await scriptArrays.reduce( async (previousPromise, nextScript) => {
+const enqueueScripts = async scriptArrays => {
+  const injectScript = scriptUri =>
+    new Promise(resolve => {
+      const script = window.document.createElement('script');
+      script.src = scriptUri;
+      script.onload = () => {
+        // eslint-disable-next-line no-console
+        console.log('injecting', scriptUri);
+        resolve();
+      };
+      window.document.head.appendChild(script);
+    });
+  await scriptArrays.reduce(async (previousPromise, nextScript) => {
     await previousPromise;
     return injectScript(nextScript);
   }, Promise.resolve());
@@ -25,7 +25,7 @@ const enqueueScripts = async (scriptArrays) => {
   // }));
   // await Promise.all(promises);
   // return true;
-}
+};
 
 const initializeApp = () => {
   const scriptInitializeApp = window.document.createElement('script');
@@ -46,19 +46,19 @@ const initializeApp = () => {
   `;
 
   window.document.head.appendChild(scriptInitializeApp);
-}
+};
 
 export default async callback => {
   await enqueueScripts([
-    'https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js',
-    'https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js',
-    'https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js',
-    'https://www.gstatic.com/firebasejs/8.3.1/firebase-functions.js',
-    'https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js',
-    'https://www.gstatic.com/firebasejs/8.3.1/firebase-storage.js',
+    'https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js',
+    'https://www.gstatic.com/firebasejs/8.9.1/firebase-auth.js',
+    'https://www.gstatic.com/firebasejs/8.9.1/firebase-firestore.js',
+    'https://www.gstatic.com/firebasejs/8.9.1/firebase-functions.js',
+    'https://www.gstatic.com/firebasejs/8.9.1/firebase-analytics.js',
+    'https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js',
     // Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries
   ]);
   // all loaded
   window.firebaseInitialized = () => callback();
   initializeApp();
-}
+};
