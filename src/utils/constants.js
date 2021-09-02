@@ -103,7 +103,7 @@ export const LIFESAVER_READS = () => [
     id: 'laugh-it-out',
     free: true,
     // type: 'read-to-do',
-    title: 'Laugh it out / Smile wide',
+    title: translate('contents.LIFESAVER_READS.laugh-it-out-title'),
     type: ACTIVITIES_TYPES.text,
     pages: [
       translate('contents.LIFESAVER_READS.laugh-it-out-1'),
@@ -115,7 +115,7 @@ export const LIFESAVER_READS = () => [
     id: 'safe-activity',
     free: true,
     // type: 'read-to-do',
-    title: 'S.A.F.E. activity',
+    title: translate('contents.LIFESAVER_READS.safe-activity-title'),
     type: ACTIVITIES_TYPES.text,
     pages: [
       translate('contents.LIFESAVER_READS.safe-activity-1'),
@@ -127,7 +127,7 @@ export const LIFESAVER_READS = () => [
     id: 'connect-with-nature',
     free: true,
     // type: 'read-to-do',
-    title: 'Connect with nature',
+    title: translate('contents.LIFESAVER_READS.connect-with-nature-title'),
     type: ACTIVITIES_TYPES.text,
     pages: [
       translate('contents.LIFESAVER_READS.connect-with-nature-1'),
@@ -139,7 +139,7 @@ export const LIFESAVER_READS = () => [
     id: 'take-deep-breaths',
     free: true,
     // type: 'read-to-do',
-    title: 'Take deep breaths',
+    title: translate('contents.LIFESAVER_READS.take-deep-breaths-title'),
     type: ACTIVITIES_TYPES.text,
     pages: [
       translate('contents.LIFESAVER_READS.take-deep-breaths-1'),
@@ -151,7 +151,7 @@ export const LIFESAVER_READS = () => [
     id: 'calm-image',
     free: true,
     // type: 'read-to-do',
-    title: 'Calm image',
+    title: translate('contents.LIFESAVER_READS.calm-image-title'),
     type: ACTIVITIES_TYPES.text,
     pages: [
       translate('contents.LIFESAVER_READS.calm-image-1'),
@@ -163,7 +163,7 @@ export const LIFESAVER_READS = () => [
     id: 'relaxation',
     free: true,
     // type: 'read-to-do',
-    title: 'Relaxation',
+    title: translate('contents.LIFESAVER_READS.relaxation-title'),
     type: ACTIVITIES_TYPES.text,
     pages: [translate('contents.LIFESAVER_READS.relaxation-1'), translate('contents.LIFESAVER_READS.relaxation-2')],
   },
