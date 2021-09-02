@@ -58,7 +58,7 @@ const getStyles = theme =>
     },
     number: {
       position: 'absolute',
-      top: 0,
+      top: -15,
       right: 0,
       margin: 20,
       fontSize: 40,
