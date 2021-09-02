@@ -2,7 +2,7 @@ import React, { useState, useRef, RefObject, useEffect } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Theme as PaperTheme } from 'react-native-paper/src/types';
 import { Provider } from 'react-redux';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import {
   Theme as NavTheme,
   NavigationContainer,
@@ -83,8 +83,12 @@ export default function App() {
   const deepLink = useDeepLinking();
   const navigatorRef: RefObject<NavigationContainerRef> = useRef(null);
   useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
-    if (oldScreen) Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
-    Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
+    if (Platform.OS !== 'web') {
+      if (oldScreen) {
+        Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
+      }
+      Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
+    }
   });
   const [navigatorReady, setNavigatorReady] = useState(false);
   useEffect(() => {
@@ -100,7 +104,9 @@ export default function App() {
     store.dispatch({ type: 'user/setUser', payload: userData });
   }
   useEffect(() => {
-    if (userToken) Smartlook.setUserIdentifier(userToken.uid);
+    if (userToken && Platform.OS !== 'web') {
+      Smartlook.setUserIdentifier(userToken.uid);
+    }
   }, [userToken]);
 
   // while not ready
