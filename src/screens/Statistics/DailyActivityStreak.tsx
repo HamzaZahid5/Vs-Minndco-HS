@@ -42,7 +42,9 @@ const DaillyActivityStreak = () => {
           <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50, color: 'white' }}>
             {streakCount}
           </Paragraph>
-          <Paragraph style={{ ...theme.fonts.regular, color: 'white' }}>{streakCount === 1 ? 'day' : 'days'}</Paragraph>
+          <Paragraph style={{ ...theme.fonts.regular, color: 'white' }}>
+            {streakCount === 1 ? translate('commons.general.day') : translate('commons.general.days')}
+          </Paragraph>
         </View>
       )}
     </View>
