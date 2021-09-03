@@ -50,7 +50,7 @@ export const Header = ({
           videoURI={assetURI}
           didJustFinish={() => {
             AnalyticEvent('video_end', { video_type: '2d', video_id: storeAsset });
-            onComplete;
+            onComplete();
           }}
         />
       )}
