@@ -71,7 +71,8 @@ export const getAllActivities = (program, includeVR) => {
 };
 
 export const getAllActivitiesKey = (program, includeVR) => {
-  const activities = program.modules.reduce((allActivities, m) => {
+  //  enhanced activitiy = activity + module id + level id
+  const enhancedActivities = program.modules.reduce((allActivities, m) => {
     return [
       ...allActivities,
       ...m.levels.reduce((allLevelActivities, l) => {
@@ -79,7 +80,9 @@ export const getAllActivitiesKey = (program, includeVR) => {
       }, []),
     ];
   }, []);
-  const relevantActivities = includeVR ? activities : activities.filter(a => a.activity.type !== 'vr-met');
+  const relevantActivities = includeVR
+    ? enhancedActivities
+    : enhancedActivities.filter(ea => ea.activity.type !== 'vr-met');
   return relevantActivities.map(({ activity, module, level }) => buildActivityKey(module, level, activity.id));
 };
 
