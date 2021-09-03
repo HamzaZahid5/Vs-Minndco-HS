@@ -79,7 +79,7 @@ export const getAllActivitiesKey = (program, includeVR) => {
       }, []),
     ];
   }, []);
-  const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met');
+  const relevantActivities = includeVR ? activities : activities.filter(a => a.activity.type !== 'vr-met');
   return relevantActivities.map(({ activity, module, level }) => buildActivityKey(module, level, activity.id));
 };
 
