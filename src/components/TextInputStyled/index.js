@@ -25,6 +25,7 @@ const TextInputStyled = ({ overrideTheme, error, containerStyle = {}, ...props }
             primary: 'white',
             text: 'white',
             placeholder: 'white',
+            error: '#B22D1D',
           },
         }
       }
@@ -32,7 +33,7 @@ const TextInputStyled = ({ overrideTheme, error, containerStyle = {}, ...props }
       textAlign={'center'}
       {...props}
     />
-    <HelperText type="error" visible={error !== null}>
+    <HelperText type="error" visible={error !== null} style={{ color: '#B22D1D' }}>
       {error}
     </HelperText>
   </View>
