@@ -25,6 +25,7 @@ import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
 import { CURRENT_STRESS_INPUT } from '../../store/selectors';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
 import useSetDefaultBackOnPress from '../../utils/hooks/useSetDefaultBackOnPress';
+import { getLocale } from '../../utils/localization';
 
 export type contentType = {
   id: string;
@@ -37,7 +38,7 @@ const getContentByType = (type: string): contentType[] => {
       return LIFESAVER_READS();
     default:
     case 'LISTEN':
-      return LIFESAVER_AUDIOS;
+      return LIFESAVER_AUDIOS(getLocale());
     case 'DO':
       return LIFESAVER_ACTIVITIES;
   }
