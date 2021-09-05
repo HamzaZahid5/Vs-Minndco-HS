@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 // @ts-ignore: non-ts file
 import ChipButton from '../../components/ChipButton';
+import { translate } from '../../utils/localization';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 
 const SkipTutorialButton = ({ onPress }: { onPress: () => void }) => {
@@ -10,7 +11,7 @@ const SkipTutorialButton = ({ onPress }: { onPress: () => void }) => {
   const styles = getStyles(theme);
   return (
     <ChipButton style={styles.linkStyle} labelStyle={styles.labelStyle} onPress={() => onPress()}>
-      Skip
+      {translate('commons.general.skip')}
     </ChipButton>
   );
 };
