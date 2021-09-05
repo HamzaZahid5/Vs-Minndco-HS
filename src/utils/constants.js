@@ -43,12 +43,6 @@ export const LIFESAVER_AUDIOS = lang => [
     type: ACTIVITIES_TYPES.audio,
   },
   {
-    id: `LS_HOME_body_scan_with_nature_${lang}.mp3`,
-    title: 'Body scan',
-    source: `lifesaver/LS_HOME_body_scan_with_nature_${lang}.mp3`,
-    type: ACTIVITIES_TYPES.audio,
-  },
-  {
     id: `LS_WORK_visualization_${lang}.mp3`,
     title: 'Visualization',
     source: `lifesaver/LS_WORK_visualization_${lang}.mp3`,
@@ -91,9 +85,9 @@ export const LIFESAVER_AUDIOS = lang => [
     type: ACTIVITIES_TYPES.audio,
   },
   {
-    id: 'LS_HOME_compassion.mp3',
+    id: `LS_HOME_compassion_${lang}.mp3`,
     title: 'Compassion',
-    source: 'lifesaver/LS_HOME_compassion_en.mp3',
+    source: `lifesaver/LS_HOME_compassion_${lang}.mp3`,
     type: ACTIVITIES_TYPES.audio,
   },
 ];
