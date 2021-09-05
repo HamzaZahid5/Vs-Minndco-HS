@@ -82,7 +82,7 @@ const Register = () => {
       > */}
       <Surface theme={{ colors: { surface: theme.colors.secondary } }} style={styles.surface}>
         {/* <RoundedBackButton onPress={() => navigateBack(componentId)} /> */}
-        <Title style={styles.title}>Sign Up</Title>
+        <Title style={styles.title}>{translate('screens.Register.main-title')}</Title>
         <RegisterForm onSubmit={onFormSubmit} loading={busy} />
         <View style={styles.legalContainer}>{getLegalContent(styles)}</View>
       </Surface>

@@ -24,13 +24,21 @@ Yup.addMethod(Yup.string, 'complianceE146', function (onErrorMessage) {
 // defered to let translations to boot up
 const getRegisterSchema = () => {
   return Yup.object().shape({
-    name: Yup.string().max(50, 'commons.messages.fieldTooLong').required('Required'),
-    lastname: Yup.string().max(50, 'commons.messages.fieldTooLong').required('Required'),
-    password: Yup.string().min(6, 'Password too short').required('Required'),
+    name: Yup.string()
+      .max(50, translate('commons.messages.fieldTooLong'))
+      .required(translate('commons.messages.fieldRequired')),
+    lastname: Yup.string()
+      .max(50, translate('commons.messages.fieldTooLong'))
+      .required(translate('commons.messages.fieldRequired')),
+    password: Yup.string()
+      .min(6, translate('screens.Register.error-password-short'))
+      .required(translate('commons.messages.fieldRequired')),
     confirmpassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Password do not match')
-      .required('Password do not match'),
-    email: Yup.string().email('Invalid email').required('Required'),
+      .oneOf([Yup.ref('password'), null], translate('screens.Register.error-password-missmatch'))
+      .required(translate('screens.Register.error-password-missmatch')),
+    email: Yup.string()
+      .email(translate('screens.Register.error-email-invalid'))
+      .required(translate('commons.messages.fieldRequired')),
   });
 };
 
