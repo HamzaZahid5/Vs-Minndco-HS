@@ -68,11 +68,7 @@ const Support = ({
   // first user message to activate channel
   const activationMessage = translate('screens.Support.starting-coach');
   // first message template from Coach to user
-  const welcomeMessage = template(
-    translate(
-      'Hi ${display_name}, I’m your Personal Coach. I’m here to help on your relief process, and guide you throughout your experience here. You can ask me any question, whenever you feel like.\n\nHere is my first advice:\nForm a new habit takes at least 18 days. Make you stress management practices a habit, perform an activity a day, consistently, for this behavior to become automatic. Can you do your first activity today?',
-    ),
-  )({ display_name: displayName });
+  const welcomeMessage = template(translate('screens.Support.coach-welcome'))({ display_name: displayName });
 
   // Note this message is printed into Crisp event session:loaded callback.
   const welcomeMessageCommand = `
