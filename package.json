@@ -1,6 +1,6 @@
 {
   "name": "MindCoRelief",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "index.js",
   "scripts": {
     "android": "npx react-native run-android",
