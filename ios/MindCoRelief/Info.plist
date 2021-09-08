@@ -31,6 +31,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<string>NO</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
 		<string>https://app.relief.the-mind.company/dlinks</string>

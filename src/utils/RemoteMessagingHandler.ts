@@ -18,7 +18,7 @@ const handle = () => {
     if (hasPermissions) {
       token = await messaging().getToken();
     } else {
-      const authorizationStatus = await messaging().requestPermission({ alert: true, sound: true });
+      const authorizationStatus = await messaging().requestPermission({ alert: true, sound: true, provisional: true });
       if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
         token = await messaging().getToken();
       } else if (authorizationStatus === messaging.AuthorizationStatus.PROVISIONAL) {
