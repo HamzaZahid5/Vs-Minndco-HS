@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "150002277657",
+    "project_id": "mindco-relief-dev",
+    "storage_bucket": "mindco-relief-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150002277657:android:2eed2a85ec7c49d494b988",
+        "android_client_info": {
+          "package_name": "com.mindcorelief"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150002277657-j6bqlelfjas4cqcot62c6ds1nve1ern0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDwyJOmdwBN_Cii3TnbVbrGBCo_CR1_vc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150002277657-j6bqlelfjas4cqcot62c6ds1nve1ern0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "150002277657-i8c6pple2skbiicalrh1sfptjoka21fp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mindcorelief"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
