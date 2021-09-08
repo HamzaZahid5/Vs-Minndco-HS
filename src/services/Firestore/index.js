@@ -59,7 +59,17 @@ export const updateProfile = updateObject =>
   firestore().collection('users').doc(auth().currentUser.uid).update(updateObject);
 
 export const updateUserLanguage = lang =>
-  firestore().collection('users').doc(auth().currentUser.uid).update({ language: lang });
+  updateProfile({
+    language: lang,
+  });
+
+export const updateUserHardware = ({ language, tz, tz_offset, platform }) =>
+  updateProfile({
+    language,
+    tz,
+    tz_offset,
+    platform,
+  });
 
 export const updateBasicTutorialCompleted = () =>
   updateProfile({
@@ -74,30 +84,15 @@ export const burnCode = code =>
     used_by: auth().currentUser.uid,
   });
 
-// export const saveStressRecord = (level, activity) =>
-//   firestore()
-//     .collection('users')
-//     .doc(auth().currentUser.uid)
-//     .update({
-//       'statistics.stressJournal': firestore.FieldValue.arrayUnion({
-//         date: new Date(),
-//         level,
-//         activity,
-//       }),
-//     });
-
 export const saveActivityDone = ({ treatment_module, treatment_level, activityKey, streak }) =>
-  firestore()
-    .collection('users')
-    .doc(auth().currentUser.uid)
-    .update({
-      treatment_module,
-      treatment_level,
-      progress: firestore.FieldValue.arrayUnion(activityKey),
-      'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
-      'statistics.last_completed_activity': activityKey,
-      'statistics.activity_days_in_a_row': streak,
-    });
+  updateProfile({
+    treatment_module,
+    treatment_level,
+    progress: firestore.FieldValue.arrayUnion(activityKey),
+    'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
+    'statistics.last_completed_activity': activityKey,
+    'statistics.activity_days_in_a_row': streak,
+  });
 
 export const resetUserStreak = () =>
   updateProfile({

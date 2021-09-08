@@ -3,14 +3,10 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { Theme as PaperTheme } from 'react-native-paper/src/types';
 import { Provider } from 'react-redux';
 import { Platform, View } from 'react-native';
-import {
-  Theme as NavTheme,
-  NavigationContainer,
-  NavigationContainerRef,
-  NavigationContainerEventMap,
-} from '@react-navigation/native';
+import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createStackNavigator } from '@react-navigation/stack';
+import * as Localization from 'expo-localization';
 
 import { DefaultTheme } from './src/utils/OriginalTheme';
 // @ts-ignore: non-ts file
@@ -57,12 +53,12 @@ import ThemeInspector from './src/utils/ThemeInspector';
 import VRMetScreen from './src/screens/VRMet';
 // @ts-ignore: non-ts file
 import WelcomeWizardScreen from './src/screens/WelcomeWizard';
-// import * as eva from '@eva-design/eva';
-// import { ApplicationProvider } from '@ui-kitten/components';
 import configureStore from './src/store';
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
 // @ts-ignore: non-ts file
-import { useFirestoreListener, updateUserLanguage } from './src/services/Firestore';
+import config from './env';
+// @ts-ignore: non-ts file
+import { useFirestoreListener, updateProfile } from './src/services/Firestore';
 // @ts-ignore: non-ts file
 import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler';
@@ -132,7 +128,13 @@ export default function App() {
 
   useEffect(() => {
     if (isAuthed && i18nReady) {
-      updateUserLanguage(getLocale());
+      updateProfile({
+        app_version: config.APP_VERSION,
+        language: getLocale(),
+        tz: Localization.timezone,
+        tz_offset: new Date().getTimezoneOffset() * -60,
+        platform: `${Platform.OS}(${Platform.Version})`,
+      });
     }
   }, [i18nReady, isAuthed]);
 

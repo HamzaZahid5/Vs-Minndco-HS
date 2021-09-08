@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Linking, StyleProp, TextStyle } from 'react-native';
+import { View, StyleSheet, Linking, StyleProp, TextStyle, Platform } from 'react-native';
 import { Surface, Text, Title, useTheme } from 'react-native-paper';
+import * as Localization from 'expo-localization';
 import crashlytics from '../../services/Crashlytics';
 // @ts-ignore: non-ts file
 import { auth } from '../../services/Auth';
@@ -11,6 +12,8 @@ import RegisterForm from './../../components/RegisterForm';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { translate, getLocale } from '../../utils/localization';
+// @ts-ignore: non-ts file
+import config from './../../../env';
 
 type formikValueType = {
   name: string;
@@ -55,8 +58,14 @@ const Register = () => {
 
         delete form.password;
         delete form.confirmpassword;
-        const language = getLocale();
-        await functions().httpsCallable('registerUser')({ uid: userCredentials.user.uid, ...form, language });
+        const complementaryInfo = {
+          language: getLocale(),
+          app_version: config.APP_VERSION,
+          tz: Localization.timezone,
+          tz_offset: new Date().getTimezoneOffset() * -60,
+          platform: `${Platform.OS}(${Platform.Version})`,
+        };
+        await functions().httpsCallable('registerUser')({ uid: userCredentials.user.uid, ...form, complementaryInfo });
 
         // navigation occurs on auth state change.
       } catch (e) {
