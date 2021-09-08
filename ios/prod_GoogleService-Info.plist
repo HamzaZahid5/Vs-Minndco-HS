@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>150002277657-i8c6pple2skbiicalrh1sfptjoka21fp.apps.googleusercontent.com</string>
+	<string>856853839195-k84v68ndv2g35qpdgt1jvg1j45gti5vh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.150002277657-i8c6pple2skbiicalrh1sfptjoka21fp</string>
+	<string>com.googleusercontent.apps.856853839195-k84v68ndv2g35qpdgt1jvg1j45gti5vh</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>856853839195-gaae0qk6c01rs9803nck5f10793k7cao.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBMlq1fSsNuk6ynXkjOWti992sSYvFvozo</string>
+	<string>AIzaSyD_FZQCggwDS7OgfsHRN1DCBZuhAsXiJNc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>150002277657</string>
+	<string>856853839195</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.mindcorelief</string>
 	<key>PROJECT_ID</key>
-	<string>mindco-relief-dev</string>
+	<string>mindco-relief-production</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mindco-relief-dev.appspot.com</string>
+	<string>mindco-relief-production.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:150002277657:ios:12a09fede612063794b988</string>
+	<string>1:856853839195:ios:5ab2fdf6d6a21914456e7e</string>
 </dict>
 </plist>
