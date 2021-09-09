@@ -16,6 +16,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   const statusTId = useRef();
   const isSliding = useRef();
   const shouldPlay = useRef();
+  const loadSoundPromise = useRef();
   const [isPlaying, setIsPlaying] = useState();
   const [isLoaded, setIsLoaded] = useState();
   const [sound, setSound] = useState();
@@ -84,6 +85,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     );
     Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
     setSound(sound);
+    return sound;
   }
   async function playSound() {
     await sound?.playAsync();
@@ -103,13 +105,18 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     return () => {
       sound?.stopAsync();
       sound?.unloadAsync();
+      if (loadSoundPromise.current)
+        loadSoundPromise.current.then(sound => {
+          sound?.stopAsync();
+          sound?.unloadAsync();
+        });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sound]);
 
   useEffect(() => {
     if (audioURI) {
-      loadSound(audioURI);
+      loadSoundPromise.current = loadSound(audioURI);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioURI]);
