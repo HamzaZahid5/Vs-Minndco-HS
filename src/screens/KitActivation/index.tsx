@@ -158,36 +158,35 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
         }
       >
         {/*<View style={styles.contentWrapper}> This style does not exist*/}
-        <View>
-          <View style={{ width: '100%', marginTop: 40, alignItems: 'center' }}>
-            <CodeForm onSubmit={onFormSubmit} isLoading={isLoading !== 0 ? true : false} />
-          </View>
-          <DefaultDialog
-            show={helpVisible}
-            icon="google-cardboard"
-            onClose={() => setHelpVisible(false)}
-            onButtonPress={() => {
-              setHelpVisible(false);
-            }}
-            title={translate('screens.KitActivation.where-is-the-code-info')}
-            content={
-              <Image
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={styles.image}
-                source={{
-                  uri: helpImageSrc,
-                }}
-                resizeMode="contain"
-              />
-            }
-            buttons={[
-              {
-                label: translate('screens.KitActivation.close'),
-              },
-            ]}
-          />
+
+        <View style={{ width: '100%', marginTop: 40, alignItems: 'center', zIndex: 0 }}>
+          <CodeForm onSubmit={onFormSubmit} isLoading={isLoading !== 0 ? true : false} />
         </View>
       </GenericPageLayout>
+      <DefaultDialog
+        show={helpVisible}
+        icon="google-cardboard"
+        onClose={() => setHelpVisible(false)}
+        onButtonPress={() => {
+          setHelpVisible(false);
+        }}
+        title={translate('screens.KitActivation.where-is-the-code-info')}
+        content={
+          <Image
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={styles.image}
+            source={{
+              uri: helpImageSrc,
+            }}
+            resizeMode="contain"
+          />
+        }
+        buttons={[
+          {
+            label: translate('screens.KitActivation.close'),
+          },
+        ]}
+      />
     </ScreenDecorator>
   );
 };
