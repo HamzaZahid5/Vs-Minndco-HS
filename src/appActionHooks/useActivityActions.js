@@ -30,7 +30,7 @@ const useActivityActions = () => {
   return {
     saveActivityDone: async (activityKey, answer = '') => {
       //Dispatch here, so when the PathEnding screen is loaded, useTodaysActivityDone have the correct date.
-      dispatch({ type: 'user/setLastActivityAt', payload: getFirestoreTimestamp() });
+      dispatch({ type: 'user/setLastActivityAt', payload: { date: getFirestoreTimestamp(), key: activityKey } });
 
       const treatment_module = getModuleNumberFromKey(activityKey);
       const treatment_level = getLevelNumberFromKey(activityKey);

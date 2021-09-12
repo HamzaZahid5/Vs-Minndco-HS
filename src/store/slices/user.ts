@@ -66,12 +66,14 @@ const user = createSlice({
     },
     setLastActivityAt: (state, action) => {
       const newStatistics = { ...state.data.statistics };
-      newStatistics.last_completed_activity_at = action.payload;
+      newStatistics.last_completed_activity_at = action.payload.date;
+      const newProgress = [...state.data.progress, action.payload.key];
       return {
         ...state,
         data: {
           ...state.data,
           statistics: newStatistics,
+          progress: newProgress,
         },
       };
     },

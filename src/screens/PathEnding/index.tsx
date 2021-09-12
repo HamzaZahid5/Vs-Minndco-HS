@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import PropTypes, { string } from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme, Button, Headline } from 'react-native-paper';
@@ -95,18 +95,20 @@ const PathEnding = ({
   const resetPathTo = useNavigationResetPathTo(navigation);
   const { header: headerParam, body: bodyParam } = route.params;
   const { isLastActivity } = useNextActivity();
-  let rowOptions = bodyParam?.options ?? [];
-  if (
-    !todaysActivityDone &&
-    !rowOptions.includes('DailyActivityRow') &&
-    /* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */
-    isLastActivity === false
-  ) {
-    rowOptions.unshift('DailyActivityRow');
-  }
-  if (rowOptions.length > 3) {
-    rowOptions = rowOptions.slice(0, 3);
-  }
+  const [rowOptions, setRowOptions] = useState(bodyParam?.options ?? []);
+  useEffect(() => {
+    if (
+      !todaysActivityDone &&
+      !rowOptions.includes('DailyActivityRow') &&
+      /* do not replace the strict comparison of false, isLastActivity can be undefined while hook resolve its state */
+      isLastActivity === false
+    ) {
+      setRowOptions(['DailyActivityRow', ...rowOptions]);
+    }
+    if (rowOptions.length > 3) {
+      setRowOptions(rowOptions.slice(0, 3));
+    }
+  }, [isLastActivity, rowOptions, todaysActivityDone]);
 
   const DailyActivityRow = (
     <RowItem
