@@ -24,8 +24,17 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     group,
     kit_id,
   } = store?.user?.data;
-  const { uid } = store?.user?.auth;
-  return { crisp_session_id, has_coach_messages, show_welcome_message_on_chat, display_name, group, kit_id, uid };
+  const { uid, email } = store?.user?.auth;
+  return {
+    crisp_session_id,
+    has_coach_messages,
+    show_welcome_message_on_chat,
+    display_name,
+    group,
+    kit_id,
+    uid,
+    email,
+  };
 };
 
 export const FLAGS = (store: RootState) => store?.flags;

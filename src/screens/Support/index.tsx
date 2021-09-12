@@ -33,6 +33,7 @@ const Support = ({
     kit_id: kitId,
     show_welcome_message_on_chat: showWelcomeMessageOnChat,
     uid,
+    email,
   } = useSelector(USER_SUPPORT_PROFILE);
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
@@ -82,7 +83,7 @@ const Support = ({
   `;
   const runFirst = `
     /* keep this email well formatted for Crisp verification but anonymous */
-    window.injectedEmail = 'private@mindcotine.com';
+    window.injectedEmail = '${email}';
     window.startingText = \`${translate('screens.Support.starting-chat')}\`;
   `;
 
