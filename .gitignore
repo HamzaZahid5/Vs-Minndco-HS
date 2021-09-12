@@ -134,3 +134,8 @@ buck-out/
 web-build/
 
 # @end expo-cli
+
+# untraceable files
+android/app/google-services.json
+env/active.env.js
+ios/GoogleService-Info.plist

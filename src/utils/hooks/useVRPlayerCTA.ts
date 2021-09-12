@@ -101,7 +101,7 @@ const useVRPlayerCTA = ({
     navigation.navigate('VRMet', {
       assetUrl,
       onCancel,
-      onCompleteWithAnalytics,
+      onComplete: onCompleteWithAnalytics,
     });
   };
 

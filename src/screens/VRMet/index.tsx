@@ -2,6 +2,7 @@ import React, { MutableRefObject, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
+import { useTheme } from 'react-native-paper';
 // import { useKeepAwake } from '@sayem314/react-native-keep-awake';
 // @ts-ignore: non-ts file
 import template from 'lodash.template';
@@ -86,11 +87,9 @@ const getMessageEventsHandler =
 
 const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
   const { assetUrl, onComplete = Function, onCancel = Function } = route.params || {};
+  const theme = useTheme();
   const webViewRef = useRef<WebView | null>(null);
   const uri = `https://mindco-web-vr-player-ios.web.app?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`;
-  // useKeepAwake();
-  // eslint-disable-next-line no-console
-  console.log({ uri });
 
   return (
     <View style={styles.container}>
@@ -106,7 +105,7 @@ const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
         ignoreSilentHardwareSwitch
         onMessage={getMessageEventsHandler(webViewRef, onCancel, onComplete, assetUrl)}
         style={{
-          backgroundColor: 'red',
+          backgroundColor: theme.colors.primary,
         }}
       />
     </View>
