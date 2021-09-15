@@ -10,7 +10,7 @@ import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
 import Color from 'color';
 import Loading from '../Loading';
-
+import { useKeepAwake } from 'expo-keep-awake';
 let tId;
 const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   const statusTId = useRef();
@@ -24,6 +24,7 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentBuffering, setBuffering] = useState(false);
   const theme = useTheme();
+  useKeepAwake();
   const styles = getStyles(theme);
 
   const rotateValueHolder = useRef(new Animated.Value(0)).current;

@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, Button, Platform, Pressable, useWindowDimensions } from 'react-native';
+import { useKeepAwake } from 'expo-keep-awake';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import Loading from '../Loading';
 
@@ -11,6 +12,7 @@ const VideoPlayer = ({ videoURI, didJustFinish }) => {
   const styles = getStyle(dimensions);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isBuffering, setIsBuffering] = useState(true);
+  useKeepAwake();
   const onPlaybackStatusUpdate = status => {
     setStatus(() => status);
     setIsBuffering(isBuffering => (isBuffering !== status.isBuffering ? status.isBuffering : isBuffering));
