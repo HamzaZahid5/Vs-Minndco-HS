@@ -3,6 +3,7 @@
   "version": "0.2.4",
   "main": "index.js",
   "scripts": {
+    "android-test": "npm run set-test && npx react-native run-android",
     "android": "npm run set-dev && npx react-native run-android",
     "android-prod": "npm run set-prod && npx react-native run-android",
     "preandroid-build": "npm run set-prod",
@@ -18,6 +19,7 @@
     "format": "prettier --write 'src/**/*.{js,ts,tsx}",
     "google-services-prod": "cp ./android/app/prod_google-services.json ./android/app/google-services.json && cp ./ios/prod_GoogleService-Info.plist ./ios/GoogleService-Info.plist",
     "google-services-dev": "cp ./android/app/dev_google-services.json ./android/app/google-services.json && cp ./ios/dev_GoogleService-Info.plist ./ios/GoogleService-Info.plist",
+    "set-test": "echo \"export default 'test';\"> ./env/active.env.js && npm run google-services-dev && node ./env/ip_resolver.js && rm -rf ./android/app/build",
     "set-dev": "echo \"export default 'dev';\"> ./env/active.env.js && npm run google-services-dev && rm -rf ./android/app/build",
     "set-prod": "echo \"export default 'prod';\"> ./env/active.env.js && npm run google-services-prod && rm -rf ./android/app/build",
     "postinstall": "npx patch-package"

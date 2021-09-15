@@ -1,5 +1,8 @@
-import active from './active.env';
+import active, { IP } from './active.env';
 import packageJson from './../package.json';
+// import akinator from './ip.env.json';
+console.log('akinator says:', IP);
+
 const envs = {
   prod: {
     name: 'production',
@@ -11,7 +14,16 @@ const envs = {
     SmartlookApiKey: '',
     APP_VERSION: packageJson.version,
   },
+  test: {
+    name: 'test',
+    SmartlookApiKey: '',
+    APP_VERSION: packageJson.version,
+    hostingUrl: {
+      WebVRiOS: 'mindco-web-vr-player-ios-dev.web.app',
+      AppSupport: 'mindco-relief-support-dev.web.app',
+    },
+    emulatorIp: IP,
+  },
 };
 
-// alert(envs[active].DEV_API);
 export default envs[active];
