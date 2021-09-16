@@ -40,7 +40,7 @@ const slide2 = (paragraph1: string, paragraph2: string, paragraph3: string) => `
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
   </head>
-  <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center;">
+  <body style="font-family: 'Raleway', sans-serif; display: flex; flex-basis: 100%; height: 100%; flex-direction: column; justify-content: center; margin-top: 15%;">
     <div style={{ color: 'black' }}>
     ${paragraph1}
       <br/><br/>
