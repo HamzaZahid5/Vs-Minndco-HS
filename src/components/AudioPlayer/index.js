@@ -103,15 +103,6 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     if (shouldPlay.current) {
       playSound();
     }
-    return () => {
-      sound?.stopAsync();
-      sound?.unloadAsync();
-      if (loadSoundPromise.current)
-        loadSoundPromise.current.then(sound => {
-          sound?.stopAsync();
-          sound?.unloadAsync();
-        });
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sound]);
 
@@ -121,7 +112,16 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioURI]);
-
+  useEffect(
+    () => () => {
+      if (loadSoundPromise.current)
+        loadSoundPromise.current.then(sound => {
+          sound?.stopAsync();
+          sound?.unloadAsync();
+        });
+    },
+    [],
+  );
   // useKeepAwake();
   useEffect(() => {
     shouldPlay.current = true;
