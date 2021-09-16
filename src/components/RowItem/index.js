@@ -34,10 +34,10 @@ const RowItem = ({ title, text, onPress, reverse, locked }) => {
         <View style={[styles.rowVerticalDivider, locked ? styles.lockedDivider : null]} />
         <View style={styles.rowActionContent}>
           <Icon
-            name={locked ? 'lock' : 'play'}
+            name={locked ? 'star' : 'play'}
             size={30}
             color={locked ? lockedColor : '#e2e9f1'}
-            style={styles.rowIcon}
+            style={[styles.rowIcon, locked ? styles.iconLocked : null]}
           />
         </View>
       </LinearGradient>
@@ -102,5 +102,8 @@ const getStyles = theme =>
       borderColor: 'green',
       borderRadius: 20,
       overflow: 'hidden',
+    },
+    iconLocked: {
+      opacity: 0.3,
     },
   });
