@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
-import Props from './types';
+import Props from './types'
 // @ts-ignore: non-ts file
 import HomeLayout from '../../components/HomeLayout';
 // @ts-ignore: non-ts file
@@ -30,11 +30,10 @@ const HomeScreen = ({ navigation }: Props) => {
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
   const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);
-
   return (
     <HomeLayout withDecoration={true}>
       <HomeLayout.TopLeft>
-        <MenuButton onPress={() => navigation.openDrawer()} />
+        <MenuButton onPress={() => navigation.openDrawer()} testID={'open-drawer-button'} />
       </HomeLayout.TopLeft>
       <HomeLayout.TopRight>{/* <GoalWidget /> */}</HomeLayout.TopRight>
       <HomeLayout.MiddleTop>{/* <Tips /> */}</HomeLayout.MiddleTop>
@@ -53,7 +52,7 @@ const HomeScreen = ({ navigation }: Props) => {
           ) : (
             <CircularContent
               title={nextActivity?.name}
-              informativeText={nextActivity ? translate('screens.Home.tap-circle') : ' '}
+              informativeText={nextActivity && !todaysActivityDone ? translate('screens.Home.tap-circle') : ' '}
               type={nextActivity?.type}
               instructionsText={
                 nextActivity
@@ -63,7 +62,9 @@ const HomeScreen = ({ navigation }: Props) => {
                   : ''
               }
               progress={progress}
-              onPress={() => navigation.navigate('Activity')}
+              onPress={() => {
+                if (!todaysActivityDone) navigation.navigate('Activity'); //Here i'm not sure if this is the correct logic
+              }}
             />
           )}
         </FadeEffect>

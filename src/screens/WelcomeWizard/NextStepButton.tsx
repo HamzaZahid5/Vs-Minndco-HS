@@ -10,7 +10,12 @@ const NextStepButton = ({ onPress, isLast }: { onPress: () => void; isLast?: boo
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
-    <ChipButton style={styles.mainStyle} labelStyle={styles.labelStyle} onPress={() => onPress()}>
+    <ChipButton
+      style={styles.mainStyle}
+      labelStyle={styles.labelStyle}
+      onPress={() => onPress()}
+      testID="next-tutorial-button"
+    >
       {isLast ? translate('commons.general.start') : translate('commons.general.next')}
     </ChipButton>
   );

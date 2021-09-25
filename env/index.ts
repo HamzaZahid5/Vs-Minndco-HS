@@ -1,9 +1,17 @@
+// @ts-ignore: non-ts file
 import active, { IP } from './active.env';
-import packageJson from './../package.json';
-// import akinator from './ip.env.json';
-console.log('akinator says:', IP);
+import packageJson from '../package.json';
 
-const envs = {
+type EnvConfig = {
+  name: string;
+  SmartlookApiKey: string;
+  APP_VERSION: string;
+  hostingUrl?: Record<string, unknown>;
+  emulatorIp?: string;
+};
+type EnvNames = 'prod' | 'dev' | 'test';
+
+const envs: Record<EnvNames, EnvConfig> = {
   prod: {
     name: 'production',
     SmartlookApiKey: 'ef7b65fc05cee7e87d7014619355120f7a8a47e6',
@@ -26,4 +34,4 @@ const envs = {
   },
 };
 
-export default envs[active];
+export default envs[active as EnvNames];

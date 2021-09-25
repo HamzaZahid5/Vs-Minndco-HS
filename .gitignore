@@ -137,6 +137,10 @@ web-build/
 
 # untraceable files
 android/app/google-services.json
+android/app/prod_google-services.json
 env/active.env.js
 env/lan.ip.env
 ios/GoogleService-Info.plist
+ios/prod_GoogleService-Info.plist
+web/google-services.json
+web/prod_google-services.json

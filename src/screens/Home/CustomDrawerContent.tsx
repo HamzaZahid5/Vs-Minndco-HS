@@ -17,10 +17,15 @@ type CustomDrawerItemPropType = {
   icon: string;
   color: string;
   onPress: () => void;
+  testID?: string;
 };
 
-const CustomDrawerItem = ({ name, icon, color, onPress }: CustomDrawerItemPropType) => (
-  <TouchableOpacity onPress={onPress} style={{ flex: 1, marginVertical: 20 }}>
+const CustomDrawerItem = ({ name, icon, color, onPress, testID }: CustomDrawerItemPropType) => (
+  <TouchableOpacity
+    testID={testID ? testID + '-button' : 'undefined-drawer-button'}
+    onPress={onPress}
+    style={{ flex: 1, marginVertical: 20 }}
+  >
     <View
       style={{
         justifyContent: 'center',
@@ -58,6 +63,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         icon="account"
         name={translate('screens.Home.profile')}
         color={theme.colors.secondary}
+        testID="drawer-profile"
       />
 
       <CustomDrawerItem
@@ -68,6 +74,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         icon="teach"
         name={translate('screens.Home.learning')}
         color={theme.colors.secondary}
+        testID="drawer-library"
       />
 
       <CustomDrawerItem
@@ -78,6 +85,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         icon="heart-pulse"
         name={translate('screens.Home.statistics')}
         color={theme.colors.secondary}
+        testID="drawer-statistics"
       />
 
       {!kitActivated && (
@@ -89,6 +97,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           icon="google-cardboard"
           name={translate('screens.Home.activation')}
           color={theme.colors.secondary}
+          testID="drawer-activation"
         />
       )}
       {kitActivated && (
@@ -100,6 +109,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           icon="google-cardboard"
           name={translate('screens.Home.about-vr')}
           color={theme.colors.secondary}
+          testID="drawer-about-vr"
         />
       )}
     </DrawerContentScrollView>

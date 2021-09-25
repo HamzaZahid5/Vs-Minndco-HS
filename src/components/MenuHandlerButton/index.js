@@ -5,10 +5,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Color from 'color';
 
-const MenuHandlerButton = ({ anyPendingNotification = false, onPress }) => {
+const MenuHandlerButton = ({ anyPendingNotification = false, onPress, testID }) => {
   const theme = useTheme();
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity testID={testID ?? 'open-drawer-button'} onPress={onPress}>
       <Icon
         style={{ marginBottom: 0, marginLeft: 0 }}
         name="menu"
@@ -33,6 +33,7 @@ const MenuHandlerButton = ({ anyPendingNotification = false, onPress }) => {
 MenuHandlerButton.propTypes = {
   anyPendingNotification: PropTypes.bool,
   onPress: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 export default MenuHandlerButton;

@@ -16,6 +16,7 @@ const DefaultDialog = ({
   text,
   content,
   buttons = [],
+  testID = 'default-dialog',
 }) => {
   const theme = useTheme();
   return (
@@ -30,6 +31,7 @@ const DefaultDialog = ({
         size={20}
         style={styles.closeButton}
         onPress={onClose}
+        testID={testID + '-close'}
       />
       <Dialog.Title
         style={[
@@ -44,7 +46,7 @@ const DefaultDialog = ({
       </Dialog.Title>
       <Dialog.Content>{content || <Paragraph style={styles.dialogParagraph}>{text}</Paragraph>}</Dialog.Content>
       <Dialog.Actions style={styles.action}>
-        {buttons.map(b => (
+        {buttons.map((b, i) => (
           <BigButton
             key={b.id || Math.random()}
             variant={b.default || buttons.length === 1 ? 'accent' : 'outlined'}
@@ -53,6 +55,7 @@ const DefaultDialog = ({
               b.default || buttons.length === 1 ? { color: theme.colors.background } : { color: theme.colors.backdrop },
             ]}
             onPress={() => onButtonPress({ [b.id || 'default']: true })}
+            testID={b.id ? testID + '-' + b.id : `${testID}-button-${i}`}
           >
             {b.label}
           </BigButton>
@@ -72,6 +75,7 @@ DefaultDialog.propTypes = {
   text: PropTypes.string,
   content: PropTypes.object,
   buttons: PropTypes.array,
+  testID: PropTypes.string,
 };
 
 export default DefaultDialog;

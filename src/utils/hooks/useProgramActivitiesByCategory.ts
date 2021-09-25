@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 // @ts-ignore: non-ts file
 import useProgram from './useProgram';
-import { KIT_ACTIVATED } from '../../store/selectors';
 // @ts-ignore: non-ts file
 import { filterActivitiesByCategory } from '../helpers';
 
 const useProgramActivitiesByCategory = (category: string) => {
   const [filteredActivities, setFilteredActivities] = useState();
-  const includeVR = useSelector(KIT_ACTIVATED);
+  // brings VR contents despite kit activation to avoid showing nothing.
+  const includeVR = true;
   const program = useProgram();
   useEffect(() => {
     if (program) {

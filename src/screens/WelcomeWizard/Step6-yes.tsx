@@ -109,6 +109,7 @@ const FullScreenHomeMessage = ({
                 onPress={() => end()}
                 text={translate('screens.WelcomeWizard.proced-with-activation')}
                 accent
+                testID="tutorial-go-to-kit-activation"
               />
             </FadeEffect>
           </View>

@@ -13,6 +13,7 @@ export default StyleSheet.create({
     // borderWidth: 1, borderColor: 'red',
     width: '100%',
     minHeight: '100%',
+    //flex: 1,
   },
   title: {
     fontSize: 40,

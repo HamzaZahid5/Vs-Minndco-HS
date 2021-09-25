@@ -90,7 +90,7 @@ const HomeLayout = ({ children, rowTopStyle, rowBottomStyle, debug = false, with
   });
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="home-layout">
       <LinearGradient
         // colors={[
         //   theme.colors.primary,

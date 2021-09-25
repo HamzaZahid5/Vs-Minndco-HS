@@ -10,7 +10,12 @@ const SkipTutorialButton = ({ onPress }: { onPress: () => void }) => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
-    <ChipButton style={styles.linkStyle} labelStyle={styles.labelStyle} onPress={() => onPress()}>
+    <ChipButton
+      style={styles.linkStyle}
+      labelStyle={styles.labelStyle}
+      onPress={() => onPress()}
+      testID="skip-tutorial-button"
+    >
       {translate('commons.general.skip')}
     </ChipButton>
   );

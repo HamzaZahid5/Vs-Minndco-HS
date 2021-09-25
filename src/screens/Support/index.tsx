@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 // @ts-ignore: non-ts file
 import template from 'lodash.template';
 import { useTheme } from 'react-native-paper';
@@ -87,12 +88,44 @@ const Support = ({
     window.startingText = \`${translate('screens.Support.starting-chat')}\`;
   `;
 
+  const openUrl = async (url: string) => {
+    if (await InAppBrowser.isAvailable()) {
+      await InAppBrowser.open(url, {
+        // iOS Properties
+        dismissButtonStyle: 'close',
+        preferredBarTintColor: 'black',
+        preferredControlTintColor: 'white',
+        readerMode: false,
+        animated: true,
+        modalPresentationStyle: 'overFullScreen',
+        modalTransitionStyle: 'coverVertical',
+        modalEnabled: true,
+        enableBarCollapsing: true,
+        ephemeralWebSession: false,
+        // Android Properties
+        showTitle: true,
+        toolbarColor: '#6200EE',
+        secondaryToolbarColor: 'black',
+        enableUrlBarHiding: true,
+        enableDefaultShare: false,
+        forceCloseOnRedirection: true,
+      });
+    }
+    return;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <WebView
         ref={webViewRef}
         scrollEnabled={false}
         style={styles.webView}
+        onNavigationStateChange={async event => {
+          if (!event.url.includes(URL_UI_COACHING)) {
+            webViewRef.current?.stopLoading();
+            openUrl(event.url);
+          }
+        }}
         onMessage={event => {
           // navigate back on chat close
           if (event.nativeEvent.data === 'chat:closed') {

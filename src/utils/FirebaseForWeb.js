@@ -1,3 +1,4 @@
+import serviceKeys from '../../web/google-services.json';
 const enqueueScripts = async scriptArrays => {
   const injectScript = scriptUri =>
     new Promise(resolve => {
@@ -30,15 +31,7 @@ const enqueueScripts = async scriptArrays => {
 const initializeApp = () => {
   const scriptInitializeApp = window.document.createElement('script');
   scriptInitializeApp.type = 'text/javascript';
-  scriptInitializeApp.innerHTML = `var firebaseConfig = {
-    apiKey: "AIzaSyBm2qxdLhqZvd-xiwm6kHpv9wO6latT-pA",
-    authDomain: "mindco-relief-production.firebaseapp.com",
-    projectId: "mindco-relief-production",
-    storageBucket: "mindco-relief-production.appspot.com",
-    messagingSenderId: "856853839195",
-    appId: "1:856853839195:web:a614eddbf688d4a8456e7e",
-    measurementId: "G-Z62R5WRKFY"
-  };
+  scriptInitializeApp.innerHTML = `var firebaseConfig = ${JSON.stringify(serviceKeys)};
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();

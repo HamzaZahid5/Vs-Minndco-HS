@@ -32,6 +32,8 @@ import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { FLAGS } from '../../store/selectors';
 import { translate } from '../../utils/localization';
+// @ts-ignore: non-ts file
+import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 
 const validate = async (code: string) => {
   const kitDoc = await getKitById(code);
@@ -76,6 +78,7 @@ const CodeForm = ({ onSubmit, isLoading }: { onSubmit: (code: string) => void; i
           onChangeText={text => setCode(text)}
           keyboardType="number-pad"
           dense={false}
+          testID="kit-activation-code-input"
         />
       </View>
       <View style={[styles.row, { alignItems: 'center' }]}>
@@ -89,6 +92,7 @@ const CodeForm = ({ onSubmit, isLoading }: { onSubmit: (code: string) => void; i
           }}
           disabled={isLoading}
           onPress={() => onSubmit(code)}
+          testID="use-this-code-button"
         >
           {translate('screens.KitActivation.use-this-code')}
         </BigButton>
@@ -110,6 +114,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
   const dispatch = useDispatch();
 
   const [helpVisible, setHelpVisible] = useState<boolean>();
+  const resetPathTo = useNavigationResetPathTo(navigation);
 
   const helpImageSrc =
     'https://firebasestorage.googleapis.com/v0/b/mindcotine-v4-production.appspot.com/o/images%2Factivation_code_scheme_en.png?alt=media&token=52c9d0e1-a105-4b61-bcf7-c04b25aa1e3f';
@@ -132,7 +137,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
     dispatch({ type: 'flags/setIsLoading', payload: -1 });
   };
   const nextStep = () => {
-    navigation.navigate('AboutVR');
+    resetPathTo('AboutVR');
     // navigateToKITWelcome(componentId);
   };
   return (
@@ -148,7 +153,12 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
               <Paragraph style={styles.description}>
                 {translate('screens.KitActivation.insert-the-activation-code-printed-in-your-box-')}
                 {
-                  <Text key="link1" style={styles.hyperlink} onPress={() => setHelpVisible(true)}>
+                  <Text
+                    key="link1"
+                    style={styles.hyperlink}
+                    onPress={() => setHelpVisible(true)}
+                    testID="kit-activation-explain-text"
+                  >
                     {translate('screens.KitActivation.where-is-the-code')}
                   </Text>
                 }
@@ -170,6 +180,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
         onButtonPress={() => {
           setHelpVisible(false);
         }}
+        testID="kit-activation-explain-dialog"
         title={translate('screens.KitActivation.where-is-the-code-info')}
         content={
           <Image

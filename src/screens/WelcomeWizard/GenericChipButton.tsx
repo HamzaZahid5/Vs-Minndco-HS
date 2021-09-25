@@ -5,7 +5,17 @@ import { useTheme } from 'react-native-paper';
 import ChipButton from '../../components/ChipButton';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const NextStepButton = ({ onPress, text, accent }: { onPress: () => void; text: string; accent?: boolean }) => {
+const NextStepButton = ({
+  onPress,
+  text,
+  accent,
+  testID,
+}: {
+  onPress: () => void;
+  text: string;
+  accent?: boolean;
+  testID?: string;
+}) => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
@@ -13,6 +23,7 @@ const NextStepButton = ({ onPress, text, accent }: { onPress: () => void; text: 
       style={[styles.mainStyle, accent ? styles.accent : null]}
       labelStyle={styles.labelStyle}
       onPress={onPress}
+      testID={testID}
     >
       {text}
     </ChipButton>

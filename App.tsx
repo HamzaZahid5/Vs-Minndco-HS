@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Platform, View } from 'react-native';
 import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackHeaderLeftButtonProps } from '@react-navigation/stack';
 import * as Localization from 'expo-localization';
 
 import { DefaultTheme } from './src/utils/OriginalTheme';
@@ -69,6 +69,8 @@ import Smartlook from 'smartlook-react-native-wrapper';
 import analytics from './src/services/Analytics';
 import crashlytics from './src/services/Crashlytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
+import NoProductionIndicator from './src/components/NoProductionIndicator';
+import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -102,13 +104,17 @@ export default function App() {
       navigateToDeepLink(deepLink, navigatorRef.current);
     }
   }, [deepLink, navigatorReady]);
-  if (userToken) {
-    store.dispatch({ type: 'user/setAuth', payload: userToken });
-  }
+  useEffect(() => {
+    if (userToken) {
+      store.dispatch({ type: 'user/setAuth', payload: userToken });
+    }
+  }, [userToken]);
   const userData = useFirestoreListener('users', userToken?.uid ?? null);
-  if (userData) {
-    store.dispatch({ type: 'user/setUser', payload: userData });
-  }
+  useEffect(() => {
+    if (userData) {
+      store.dispatch({ type: 'user/setUser', payload: userData });
+    }
+  }, [userData]);
   useEffect(() => {
     if (userToken) {
       if (Platform.OS !== 'web') {
@@ -150,6 +156,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme as PaperTheme}>
+        <NoProductionIndicator nav={navigatorRef}/>
         <SafeAreaProvider>
           <NavigationContainer
             theme={theme as NavTheme}
@@ -166,6 +173,10 @@ export default function App() {
                 headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
                 headerTransparent: true,
                 headerBackground,
+                // eslint-disable-next-line react/display-name
+                headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
+                  <BackButton onPress={defaultOnPress} {...props} />
+                ),
               }}
             >
               {userToken ? (

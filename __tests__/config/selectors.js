@@ -1,0 +1,15 @@
+module.exports = {
+  loginButtonSelector: '[data-testid=login-form-submmit-cta]',
+  homeLayoutSelector: '[data-testid=home-layout]',
+  kitActivationScreenSelector: '[data-testid=KitActivation]',
+  tutorialFirstStepSelector: '[data-testid=welcome-wizard-step-1]',
+  tutorialFifthStepSelector: '[data-testid=welcome-wizard-step-5]',
+  skipTutorialButtonSelector: '[data-testid=skip-tutorial-button]',
+  nextTutorialButtonSelector: '[data-testid=next-tutorial-button]',
+  iHaveKitButtonSelector: '[data-testid=tutorial-yes-have-kit]',
+  activateKitButtonSelector: '[data-testid=tutorial-go-to-kit-activation]',
+  usernameInputSelector: '[data-testid="login-form-username-input"]',
+  usernameErrorSelector: '[data-testid="input-component-login-form-username-input"] > [data-testid="error-helper"]',
+  passwordInputSelector: '[data-testid="login-form-password-input"]',
+  passwordErrorSelector: '[data-testid="input-component-login-form-password-input"] > [data-testid="error-helper"]',
+};

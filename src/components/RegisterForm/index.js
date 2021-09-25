@@ -78,6 +78,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 type="flat"
                 onChangeText={handleChange('name')}
                 error={touched.name !== undefined && errors.name ? errors.name : null}
+                testID="register-form-name-input"
               />
               <TextInputStyled
                 style={{
@@ -89,6 +90,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 label={translate('screens.Register.last-name')}
                 value={values.lastname}
                 type="flat"
+                testID="register-form-lastname-input"
                 onChangeText={handleChange('lastname')}
                 error={touched.lastname !== undefined && errors.lastname ? errors.lastname : null}
               />
@@ -99,6 +101,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 label={translate('screens.Register.email-address')}
                 value={values.email}
                 type="flat"
+                testID="register-form-email-input"
                 keyboardType="email-address"
                 onChangeText={handleChange('email')}
                 error={touched.email !== undefined && errors.email ? errors.email : null}
@@ -111,6 +114,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 label={translate('screens.Register.password')}
                 value={values.password}
                 type="flat"
+                testID="register-form-password-input"
                 onChangeText={handleChange('password')}
                 secureTextEntry
                 textContentType="newPassword"
@@ -123,6 +127,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
                 label={translate('screens.Register.repeat-password')}
                 value={values.confirmpassword}
                 type="flat"
+                testID="register-form-rpassword-input"
                 onChangeText={handleChange('confirmpassword')}
                 secureTextEntry
                 error={touched.confirmpassword !== undefined && errors.confirmpassword ? errors.confirmpassword : null}
@@ -138,6 +143,7 @@ const RegisterForm = ({ theme, onSubmit, loading }) => {
               loading={loading}
               disabled={loading}
               onPress={submitForm}
+              testID="register-button"
             >
               {translate('screens.Register.create-account')}
             </BigButton>

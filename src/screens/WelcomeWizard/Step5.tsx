@@ -89,7 +89,7 @@ const FullScreenHomeMessage = ({
     <HomeLayout rowTopStyle={styles.rowTop} rowBottomStyle={styles.rowBottom}>
       <HomeLayout.TopRight />
       <HomeLayout.MiddleCenter>
-        <View style={styles.contentWrapper}>
+        <View style={styles.contentWrapper} testID="welcome-wizard-step-5">
           <FadeEffect style={styles.messageContainer} show={messgeIsVisible}>
             {content}
           </FadeEffect>

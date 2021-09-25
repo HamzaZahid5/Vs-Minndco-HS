@@ -13,6 +13,7 @@ const TextInputStyled = ({ overrideTheme, error, containerStyle = {}, ...props }
       flexDirection: 'column',
       ...containerStyle,
     }}
+    testID={`input-component-${props.testID}`}
   >
     <TextInput
       selectionColor="white"
@@ -33,7 +34,7 @@ const TextInputStyled = ({ overrideTheme, error, containerStyle = {}, ...props }
       textAlign={'center'}
       {...props}
     />
-    <HelperText type="error" visible={error !== null} style={{ color: '#B22D1D' }}>
+    <HelperText type="error" visible={error !== null} style={{ color: '#B22D1D' }} testID="error-helper">
       {error}
     </HelperText>
   </View>
@@ -43,6 +44,7 @@ TextInputStyled.propTypes = {
   overrideTheme: PropTypes.bool,
   error: PropTypes.string,
   containerStyle: PropTypes.object,
+  testID: PropTypes.string,
 };
 
 export default TextInputStyled;

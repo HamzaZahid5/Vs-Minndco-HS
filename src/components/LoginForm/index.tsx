@@ -10,7 +10,6 @@ import * as Yup from 'yup';
 // @ts-ignore: not implemented
 import TextInputStyled from '../TextInputStyled';
 import { translate } from '../../utils/localization';
-// import { translate } from './../../utils/localization';
 
 export interface LoginFormValues {
   email: string;
@@ -19,8 +18,10 @@ export interface LoginFormValues {
 
 const getLogInSchema = () =>
   Yup.object().shape({
-    email: Yup.string().email('commons.messages.invalidEmail').required('commons.messages.fieldRequired'),
-    password: Yup.string().required('commons.messages.fieldRequired'),
+    email: Yup.string()
+      .email(translate('commons.messages.invalidEmail'))
+      .required(translate('commons.messages.fieldRequired')),
+    password: Yup.string().required(translate('commons.messages.fieldRequired')),
   });
 type Props = {
   onSubmit: (values: LoginFormValues) => void;
@@ -45,41 +46,40 @@ const LoginForm = ({ onSubmit, loading }: Props) => {
           return (
             <React.Fragment>
               <View style={styles.rowForm}>
-                <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
-                  <TextInputStyled
-                    error={touched.email && Boolean(errors.email)}
-                    label={translate('screens.Login.email-address')}
-                    value={values.email}
-                    onChangeText={handleChange('email')}
-                    textContentType="username"
-                    autoCompleteType="email"
-                    keyboardType="email-address"
-                  />
-                </View>
+                <TextInputStyled
+                  error={touched.email && Boolean(errors.email)}
+                  label={translate('screens.Login.email-address')}
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  textContentType="username"
+                  autoCompleteType="email"
+                  keyboardType="email-address"
+                  testID="login-form-username-input"
+                />
               </View>
               <View style={styles.rowForm}>
-                <View style={{ flex: 1, width: '100%', flexDirection: 'column' }}>
-                  <TextInputStyled
-                    error={touched.password && Boolean(errors.password)}
-                    label={translate('screens.Login.password')}
-                    value={values.password}
-                    onChangeText={handleChange('password')}
-                    textContentType="password"
-                    autoCompleteType="password"
-                    secureTextEntry
-                  />
-                </View>
+                <TextInputStyled
+                  error={touched.password && Boolean(errors.password)}
+                  label={translate('screens.Login.password')}
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  textContentType="password"
+                  autoCompleteType="password"
+                  secureTextEntry
+                  testID="login-form-password-input"
+                />
               </View>
               {/* @ts-ignore: not implemented */}
               <BigButton
                 variant="accent"
                 style={{
-                  marginTop: 40,
+                  marginTop: '10%',
                   minWidth: '100%',
                 }}
                 loading={isSubmitting || loading}
                 disabled={isSubmitting || loading}
                 onPress={submitForm}
+                testID="login-form-submmit-cta"
               >
                 {translate('screens.Login.sign-in')}
               </BigButton>
@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     elevation: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
   },
   rowForm: {
     // borderWidth: 1,
@@ -107,7 +106,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 0,
     width: '100%',
-    marginBottom: 10,
     alignItems: 'stretch',
     justifyContent: 'space-between',
   },
