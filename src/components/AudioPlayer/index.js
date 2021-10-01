@@ -12,7 +12,7 @@ import Color from 'color';
 import Loading from '../Loading';
 import { useKeepAwake } from 'expo-keep-awake';
 let tId;
-const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
+const AudioPlayer = ({ audioURI = '', didJustFinish = null, testID = 'audio-player' }) => {
   const statusTId = useRef();
   const isSliding = useRef();
   const shouldPlay = useRef();
@@ -175,8 +175,9 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
     stopSound();
     didJustFinish();
   }
+  const status = isLoaded === true && currentBuffering === false ? (isPlaying ? 'playing' : 'pause') : 'loading';
   return (
-    <View style={styles.playerContainer}>
+    <View style={styles.playerContainer} testID={`${testID}-${status}`}>
       {isLoaded === true && currentBuffering === false ? (
         <View style={styles.controls}>
           <IconButton
@@ -214,12 +215,13 @@ const ActivityPlayerVideo = ({ audioURI = '', didJustFinish = null }) => {
   );
 };
 
-ActivityPlayerVideo.propTypes = {
+AudioPlayer.propTypes = {
   audioURI: PropTypes.string,
   didJustFinish: PropTypes.func,
+  testID: PropTypes.string,
 };
 
-export default ActivityPlayerVideo;
+export default AudioPlayer;
 
 const getStyles = theme =>
   StyleSheet.create({

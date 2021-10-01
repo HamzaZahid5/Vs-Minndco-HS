@@ -4,13 +4,19 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme, FAB, Badge } from 'react-native-paper';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const MindCoFAABButton = ({ icon = 'crown', informativeText = '', onPress = () => false, showAlert = false }) => {
+const MindCoFAABButton = ({
+  icon = 'crown',
+  informativeText = '',
+  onPress = () => false,
+  showAlert = false,
+  testID = 'fabbutton',
+}) => {
   const [triggerOnce, lockTrigger] = useState(false);
   const theme = useTheme();
   const styles = getStyles(theme);
   return (
     <>
-      <View style={styles.mainContainer}>
+      <View style={styles.mainContainer} testID={testID}>
         <FAB
           style={[styles.defaulFAB, { backgroundColor: theme.colors.background }]}
           icon={icon}
@@ -28,7 +34,7 @@ const MindCoFAABButton = ({ icon = 'crown', informativeText = '', onPress = () =
 
         <Text style={styles.infoText}>{informativeText}</Text>
       </View>
-      <Badge style={styles.menuItemBadge} size={15} visible={showAlert} />
+      <Badge style={styles.menuItemBadge} size={15} visible={showAlert} testID={`${testID}-badge`} />
     </>
   );
 };
@@ -38,6 +44,7 @@ MindCoFAABButton.propTypes = {
   informativeText: PropTypes.string,
   onPress: PropTypes.func,
   showAlert: PropTypes.bool,
+  testID: PropTypes.string,
 };
 
 export default MindCoFAABButton;

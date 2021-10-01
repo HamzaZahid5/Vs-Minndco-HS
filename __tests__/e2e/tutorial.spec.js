@@ -13,7 +13,7 @@ import {
 
 const { PAGE_URL } = config;
 
-jest.setTimeout(30000 / 2);
+jest.setTimeout(30000);
 
 describe('The Welcome tutorial', () => {
   const userEmail = 'test-tutorial@emulator.com';
@@ -25,9 +25,6 @@ describe('The Welcome tutorial', () => {
     await FirebaseSignOut();
 
     await FirebaseSignIn(userEmail, userPassword);
-  });
-  afterAll(async () => {
-    await FirebaseSignOut();
   });
   beforeEach(async () => {
     // flag to show tutorial

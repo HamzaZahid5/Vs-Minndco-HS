@@ -58,6 +58,7 @@ const StressTrigger = ({ navigation }: DefaultScreenPropType<'StressTrigger'>) =
             title={labels()[i]}
             text=""
             onPress={() => (!selected ? setSelection(value) : null)}
+            testID={`stress-trigger-${i + 1}`}
           />
         ))}
       </View>

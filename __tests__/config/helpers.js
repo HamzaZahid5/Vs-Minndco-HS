@@ -1,11 +1,16 @@
 /* global page */
 import { loginButtonSelector, homeLayoutSelector } from './selectors';
 const FirebaseSignOut = async () => {
-  const r = await racePromises([page.waitForSelector(loginButtonSelector), page.waitForSelector(homeLayoutSelector)]);
+  const r = await racePromises([
+    page.waitForSelector(loginButtonSelector, { timeout: 5000 }).catch(() => false),
+    page.waitForSelector(homeLayoutSelector, { timeout: 5000 }).catch(() => false),
+  ]);
+
   if (r === 1) {
     await page.evaluate(() => {
       window.firebase.auth().signOut();
     });
+    await page.waitForSelector(loginButtonSelector);
   }
 };
 

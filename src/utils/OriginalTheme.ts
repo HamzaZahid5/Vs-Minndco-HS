@@ -64,7 +64,6 @@ const fontConfig = {
 const MindCoReliefDefaulTheme = {
   colors: {
     primary: '#3D9AD5',
-    // secondary: '#31CCCC',
     secondary: '#2F8DCE',
     dark: Color('#31CCCC').darken(0.3).toString(),
     ligth: '#dedede',
@@ -105,10 +104,15 @@ const MindCoReliefDefaulTheme = {
 const MindCoReliefDarkTheme = {
   colors: {
     primary: '#3D9AD5',
-    secondary: '#31CCCC',
+    secondary: '#2F8DCE',
     dark: Color('#31CCCC').darken(0.3).toString(),
-    warning: '#ff0000',
+    ligth: '#dedede',
+    accent: Color('#F79337').darken(0.2).toString(),
     surface: '#31CCCC',
+    notification: '#33BC7E',
+    warning: '#F8BE54',
+    error: '#F34C78',
+    onSurface: '#3D77B0',
   },
   //@ts-ignore: unimplemented
   fonts: configureFonts(fontConfig),
@@ -187,20 +191,3 @@ export type CustomThemeType = Theme &
 
 export const DarkTheme: CustomThemeType = CombinedDarkTheme;
 export const DefaultTheme: CustomThemeType = CombinedDefaultTheme;
-
-// dark: false,
-//   roundness: 4,
-//   colors: {
-//     primary: '#6200ee',
-//     accent: '#03dac4',
-//     background: '#f6f6f6',
-//     surface: white,
-//     error: '#B00020',
-//     text: black,
-//     onBackground: '#000000',
-//     onSurface: '#000000',
-//     disabled: color(black).alpha(0.26).rgb().string(),
-//     placeholder: color(black).alpha(0.54).rgb().string(),
-//     backdrop: color(black).alpha(0.5).rgb().string(),
-//     notification: pinkA400,
-//   },

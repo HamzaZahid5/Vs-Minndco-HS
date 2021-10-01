@@ -9,7 +9,7 @@ const HeaderStatistics = () => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="path-endind-header-statistics">
       <View style={{ position: 'absolute' }}>
         <Headline style={styles.headline}>{translate('screens.PathEnding.header-statistics')}</Headline>
         <View style={styles.main}>

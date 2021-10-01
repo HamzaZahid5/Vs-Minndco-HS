@@ -77,9 +77,6 @@ const getStyle = dimensions =>
       height: 232,
       minWidth: '100%',
       width: dimensions.width,
-      borderWidth: 0,
-      borderColor: 'red',
-      marginBottom: 20,
     },
     video: {
       height: 232,

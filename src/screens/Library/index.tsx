@@ -11,10 +11,12 @@ import RowItem from '../../components/RowItem';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import Props from './types';
 import { translate } from '../../utils/localization';
+import useStartPath from '../../utils/hooks/useStartPath';
 
 const Library = ({ navigation }: Props): JSX.Element => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
+  useStartPath('learn');
   return (
     <ScreenDecorator>
       <GenericPageLayout

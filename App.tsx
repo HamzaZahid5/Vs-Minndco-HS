@@ -26,6 +26,7 @@ import KitAssembleScreen from './src/screens/KitAssemble';
 import LibraryScreen from './src/screens/Library';
 import LoadingScreen from './src/screens/Loading';
 import LoginScreen from './src/screens/Login';
+import ResetPassword from './src/screens/ResetPassword';
 // @ts-ignore: non-ts file
 import MainComponent from './src/screens/Home/DrawerNavigator';
 // @ts-ignore: non-ts file
@@ -133,7 +134,7 @@ export default function App() {
   const [fontsLoaded] = useFontLoader();
 
   useEffect(() => {
-    if (isAuthed && i18nReady) {
+    if (isAuthed && i18nReady && userData) {
       updateProfile({
         app_version: config.APP_VERSION,
         language: getLocale(),
@@ -142,7 +143,7 @@ export default function App() {
         platform: `${Platform.OS}(${Platform.Version})`,
       });
     }
-  }, [i18nReady, isAuthed]);
+  }, [i18nReady, isAuthed, userData]);
 
   if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
     return <LoadingScreen />;
@@ -156,10 +157,18 @@ export default function App() {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme as PaperTheme}>
-        <NoProductionIndicator nav={navigatorRef}/>
+        {config.name !== 'production' && <NoProductionIndicator nav={navigatorRef} />}
         <SafeAreaProvider>
           <NavigationContainer
-            theme={theme as NavTheme}
+            theme={
+              {
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  background: theme.colors.secondary,
+                },
+              } as NavTheme
+            }
             onReady={() => {
               setNavigatorReady(true);
             }}
@@ -239,6 +248,11 @@ export default function App() {
               ) : (
                 <>
                   <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, title: '' }} />
+                  <Stack.Screen
+                    name="ResetPassword"
+                    component={ResetPassword}
+                    options={{ title: '' }}
+                  />
                   <Stack.Screen name="Registration" component={RegistrationScreen} options={{ title: '' }} />
                   <Stack.Screen name="ThemeInspector" component={ThemeInspector} />
                 </>

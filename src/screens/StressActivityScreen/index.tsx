@@ -21,15 +21,16 @@ import { LIFESAVER_READS, LIFESAVER_AUDIOS, LIFESAVER_ACTIVITIES, ACTIVITIES_TYP
 import useAppActions from './actions';
 // @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
-import { DefaultScreenRouteType, DefaultScreenPropType } from '../../../types';
+import { DefaultScreenRouteType, DefaultScreenPropType, activityTypesType, ContentTypesType } from '../../../types';
 import { CURRENT_STRESS_INPUT } from '../../store/selectors';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
 import useSetDefaultBackOnPress from '../../utils/hooks/useSetDefaultBackOnPress';
 import { getLocale } from '../../utils/localization';
+import { View } from 'react-native';
 
 export type contentType = {
   id: string;
-  type: ACTIVITIES_TYPES.text | ACTIVITIES_TYPES.audio | ACTIVITIES_TYPES.activity;
+  type: ContentTypesType;
 } & { free?: boolean } & Record<string, unknown>;
 
 const getContentByType = (type: string): contentType[] => {
@@ -74,7 +75,11 @@ const StressActivity = ({
     AnalyticEvent('reliever_activity_complete');
     resetTo('PathEnding', routeParams);
   };
-
+  useEffect(() => {
+    if (content) {
+      AnalyticEvent('select_content', { content_type: content.type, item_id: content.id });
+    }
+  }, [content]);
   useEffect(() => {
     const loadContent = async () => {
       // eslint-disable-next-line no-shadow
@@ -97,17 +102,21 @@ const StressActivity = ({
     <ScreenDecorator>
       {activityType === 'READ' && content && <ReadActivity content={content} onClose={onCloseActivity} />}
       {activityType === 'LISTEN' && content && (
-        <StorageLoader path={content.source}>
-          {(url: string) => <AudioPlayer audioURI={url} didJustFinish={onCloseActivity} />}
-        </StorageLoader>
+        <View testID="listen-activity" style={{ flexBasis: '100%' }}>
+          <StorageLoader path={content.source}>
+            {(url: string) => <AudioPlayer audioURI={url} didJustFinish={onCloseActivity} testID="listen-activity" />}
+          </StorageLoader>
+        </View>
       )}
 
       {activityType === 'DO' && content && content.id === 'deep-breath-sync' && (
-        <DeepBreathSync onClose={onCloseActivity} />
+        <DeepBreathSync testID="do-activity" onClose={onCloseActivity} />
       )}
-      {activityType === 'DO' && content && content.id === 'breath-sync' && <BreathSync onClose={onCloseActivity} />}
+      {activityType === 'DO' && content && content.id === 'breath-sync' && (
+        <BreathSync testID="do-activity" onClose={onCloseActivity} />
+      )}
       {activityType === 'DO' && content && content.id === 'bubbles-wrapper' && (
-        <BubbleWrapGame onClose={onCloseActivity} />
+        <BubbleWrapGame testID="do-activity" onClose={onCloseActivity} />
       )}
     </ScreenDecorator>
   );

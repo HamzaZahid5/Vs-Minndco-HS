@@ -28,7 +28,7 @@ const HeaderRating = ({ asset = '' }) => {
   const styles = getStyles(theme);
   const starChar = Platform.OS === 'ios' ? '★' : '⭐️';
   return (
-    <View style={styles.pollContainer}>
+    <View style={styles.pollContainer} testID="path-endind-header-rating">
       <Headline style={{ textAlign: 'center' }}>{translate('screens.PathEnding.how-usefull')}</Headline>
       <View style={styles.options}>
         <Pressable style={{}} onPress={() => setVote(1)}>

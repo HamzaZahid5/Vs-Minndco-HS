@@ -14,7 +14,7 @@ let tId;
 
 const holdBreath = callback => (tId = setTimeout(callback, 1500));
 
-const BreathSync = ({ onClose = Function }) => {
+const BreathSync = ({ onClose = Function, testID }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const [play, setPlay] = useState(false);
@@ -79,7 +79,7 @@ const BreathSync = ({ onClose = Function }) => {
   };
   const icon = step === 'INIT' ? 'minus' : step === 'IN' ? 'chevron-up' : step === 'OUT' ? 'chevron-down' : 'minus';
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <View style={styles.headerContainer}>
         <Title style={styles.title}>
           {counter !== 0
@@ -136,6 +136,7 @@ const BreathSync = ({ onClose = Function }) => {
 
 BreathSync.propTypes = {
   onClose: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 export default BreathSync;

@@ -7,7 +7,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ChipButton = ({ onlyPremium = false, ...props }) => {
+const ChipButton = ({ onlyPremium = false, testID, ...props }) => {
   const theme = useTheme();
   const { labelStyle, contentStyle, style, disabled, ...moreProps } = props;
   const Wrapper = disabled
@@ -25,6 +25,7 @@ const ChipButton = ({ onlyPremium = false, ...props }) => {
         labelStyle={[styles.chipButtonLabel, { color: theme.colors.darker }, labelStyle]}
         disabled={disabled}
         {...moreProps}
+        testID={testID}
       />
       {onlyPremium && (
         <View
@@ -49,6 +50,7 @@ ChipButton.propTypes = {
   style: PropTypes.object,
   disabled: PropTypes.bool,
   onPress: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 export default ChipButton;

@@ -6,12 +6,13 @@ import Row from './AnimatedRateRow';
 // @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
 import { DefaultScreenPropType } from '../../../types';
+import useStartPath from '../../utils/hooks/useStartPath';
 
 const StressRate = ({ navigation }: DefaultScreenPropType<'StressRate'>) => {
   const dispatch = useDispatch();
   const [selected, setSelection] = useState<number>();
   const rate = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+  useStartPath('rate_stress');
   const onSelected = (idx: number) => {
     if (idx === selected) {
       dispatch({ type: 'currentStress/setStressLevel', payload: idx });

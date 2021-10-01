@@ -24,7 +24,7 @@ const HeaderPoll = ({ asset }: { asset: string }) => {
 
   const styles = getStyles();
   return (
-    <View style={styles.pollContainer}>
+    <View style={styles.pollContainer} testID="path-endind-header-poll">
       <Text>{translate('screens.PathEnding.how-do-you-feel')}</Text>
       <View style={styles.options}>
         <Pressable

@@ -57,7 +57,7 @@ Bubble.propTypes = {
   onSmash: PropTypes.func,
 };
 
-const BubbleWrapGame = ({ onClose = _ => _ }) => {
+const BubbleWrapGame = ({ onClose = _ => _, testID }) => {
   const { width, height } = useWindowDimensions();
   const [popSound, setPopSound] = useState();
   const [winSound, setWinSound] = useState();
@@ -102,7 +102,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
     }
   }, [notSmashed, winSound]);
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <View style={styles.headerContainer}>
         <View style={styles.topBarTitle}>
           {notSmashed === 0 && (
@@ -156,6 +156,7 @@ const BubbleWrapGame = ({ onClose = _ => _ }) => {
 
 BubbleWrapGame.propTypes = {
   onClose: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 export default BubbleWrapGame;

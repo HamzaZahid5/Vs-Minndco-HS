@@ -18,7 +18,7 @@ export const prevSlide = (ref: any) => {
 };
 
 const SimpleCarousel = (props: any, ref) => {
-  const { items, style } = props;
+  const { items, style, testID } = props;
   const itemsPerInterval = props.itemsPerInterval === undefined ? 1 : props.itemsPerInterval;
 
   const [interval, setInterval] = React.useState(1);
@@ -54,7 +54,7 @@ const SimpleCarousel = (props: any, ref) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <ScrollView
         // @ts-ignore: not implemented
         ref={ref}

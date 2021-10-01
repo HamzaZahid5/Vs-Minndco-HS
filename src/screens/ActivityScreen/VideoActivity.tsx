@@ -118,6 +118,7 @@ const getBodyStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     content: {
       marginHorizontal: 4,
+      marginTop: 20,
     },
     activityIcon: {
       margin: 0,

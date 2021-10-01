@@ -70,16 +70,19 @@ const StressActivityType = ({ navigation }: DefaultScreenPropType<'StressActivit
           title={translate('screens.StressActivityType.reading-activity')}
           text={translate('screens.StressActivityType.reading-activity-text')}
           onPress={() => (!selected ? setSelection(1) : null)}
+          testID="stress-activity-reading"
         />
         <RowItem
           title={translate('screens.StressActivityType.multimedia-activity')}
           text={translate('screens.StressActivityType.multimedia-activity-text')}
           onPress={() => (!selected ? setSelection(2) : null)}
+          testID="stress-activity-audio"
         />
         <RowItem
           title={translate('screens.StressActivityType.guided-activity')}
           text={translate('screens.StressActivityType.guided-activity-text')}
           onPress={() => (!selected ? setSelection(3) : null)}
+          testID="stress-activity-guided"
         />
       </View>
     </ScreenDecorator>

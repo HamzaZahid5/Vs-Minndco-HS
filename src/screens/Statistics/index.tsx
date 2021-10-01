@@ -25,6 +25,7 @@ import { translate } from '../../utils/localization';
 import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
 import { OrientationLock } from 'expo-screen-orientation';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
+import useStartPath from '../../utils/hooks/useStartPath';
 
 const getFrequentTriggersFromJournal = (journal: journalType[] = []) => {
   const triggersWithScores = journal.reduce((r, item) => {
@@ -51,7 +52,7 @@ const Statistics = ({ navigation }: DefaultScreenPropType<'Statistics'>) => {
   const frequentTriggers = getFrequentTriggersFromJournal(journal);
   const avgStressLevel = journal.reduce((r: number, i: journalType) => r + i.level, 0) / Number(journal.length) || 0;
   const chartData = journal.map((r: journalType) => r.level).reverse();
-
+  useStartPath('statistics');
   usePathEndingBarButton(
     navigation,
     {

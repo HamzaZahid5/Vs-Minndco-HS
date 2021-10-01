@@ -21,6 +21,7 @@ const ReadActivity = ({ content }) => {
           </>
         ),
       }))}
+      testID="read-activity-carousel"
     />
   );
 };

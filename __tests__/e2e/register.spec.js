@@ -1,145 +1,108 @@
 /* global page */
+import { FirebaseSignOut } from '../config/helpers';
 import config from '../config';
+import {
+  gotoRegisterButton,
+  registerButton,
+  regiterFormRPasswordError,
+  regiterFormPasswordError,
+  regiterFormEmailError,
+  regiterFormLastnameError,
+  regiterFormNameError,
+  regiterFormRPasswordInput,
+  regiterFormPasswordInput,
+  regiterFormEmailInput,
+  regiterFormLastnameInput,
+  regiterFormNameInput,
+  welcomeWizardStep1,
+} from '../config/selectors';
 const { PAGE_URL } = config;
+jest.setTimeout(30000);
+describe('The registratiom proccess', () => {
+  const email = 'registration-test@test.com';
 
-class SelectorClass {
-  constructor(selectors) {
-    if (selectors) this.selectors = [...selectors];
-    else this.selectors = [];
-  }
-  // Getter
-  get selector() {
-    return this.selectors.reduce((selector, current, i) => {
-      let newSelector = selector;
-      if (i !== 0) newSelector += ' > ';
-      newSelector += `[data-testid="${current}"]`;
-      return newSelector;
-    }, '');
-  }
-
-  getSelectorLevel(level) {
-    return this.selectors.reduce((selector, current, i) => {
-      if (level && level > i) return selector;
-      let newSelector = selector;
-      if (i !== 0) newSelector += ' > ';
-      newSelector += `[data-testid="${current}"]`;
-      return newSelector;
-    }, '');
-  }
-}
-const Selector = arg => new SelectorClass(arg);
-
-const makeEmail = length => {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
-
-jest.setTimeout(20000);
-describe('The app', () => {
-  const gotoRegisterButton = Selector(['go-to-registration-button']);
-  const registerButton = Selector(['register-button']);
-  const regiterFormRPassword = Selector(['input-component-register-form-rpassword-input', 'error-helper']);
-  const regiterFormPassword = Selector(['input-component-register-form-password-input', 'error-helper']);
-  const regiterFormEmail = Selector(['input-component-register-form-email-input', 'error-helper']);
-  const regiterFormLastname = Selector(['input-component-register-form-lastname-input', 'error-helper']);
-  const regiterFormName = Selector(['input-component-register-form-name-input', 'error-helper']);
-  const regiterFormRPasswordInput = Selector(['register-form-rpassword-input']);
-  const regiterFormPasswordInput = Selector(['register-form-password-input']);
-  const regiterFormEmailInput = Selector(['register-form-email-input']);
-  const regiterFormLastnameInput = Selector(['register-form-lastname-input']);
-  const regiterFormNameInput = Selector(['register-form-name-input']);
-  const welcomeWizardStep1 = Selector(['welcome-wizard-step-1']);
-
+  beforeAll(async () => {
+    await page.goto(PAGE_URL, { waitUntil: 'domcontentloaded' });
+    await FirebaseSignOut();
+  });
   beforeEach(async () => {
     await page.goto(PAGE_URL, { waitUntil: 'domcontentloaded' });
   });
 
-  it('Should require fields', async done => {
-    await page.waitForSelector(gotoRegisterButton.selector, { visible: true });
-    await page.click(gotoRegisterButton.selector);
-    await page.waitForSelector(registerButton.selector, { visible: true });
-    await page.click(registerButton.selector);
-    await page.waitForSelector(regiterFormName.selector);
-    await page.waitForSelector(regiterFormRPassword.selector);
-    await page.waitForSelector(regiterFormPassword.selector);
-    await page.waitForSelector(regiterFormLastname.selector);
-    await page.waitForSelector(regiterFormEmail.selector);
-    done();
+  afterAll(async () => {
+    await page.evaluateHandle(() => {
+      const user = window.firebase.auth().currentUser;
+      return new Promise(res => user.delete().then(res));
+    });
   });
 
-  it('Should enter valid email', async done => {
-    await page.waitForSelector(gotoRegisterButton.selector, { visible: true });
-    await page.click(gotoRegisterButton.selector);
-    await page.waitForSelector(registerButton.selector, { visible: true });
-
-    await page.type(regiterFormEmailInput.selector, 'test');
-    await page.type(regiterFormNameInput.selector, 'test');
-    await page.type(regiterFormLastnameInput.selector, 'test');
-    await page.type(regiterFormPasswordInput.selector, 'testtest');
-    await page.type(regiterFormRPasswordInput.selector, 'testtest');
-
-    await page.click(registerButton.selector);
-    await page.waitForSelector(regiterFormEmail.selector, { visible: true });
-    const emailElement = await page.$(regiterFormEmail.selector);
-    await expect(emailElement).toMatch('Invalid email');
-    done();
+  it('Should reject registration for all fields empty', async () => {
+    await page.waitForSelector(gotoRegisterButton, { visible: true });
+    await page.click(gotoRegisterButton);
+    await page.waitForSelector(registerButton, { visible: true });
+    await page.click(registerButton);
+    await page.waitForSelector(regiterFormNameError);
+    await page.waitForSelector(regiterFormRPasswordError);
+    await page.waitForSelector(regiterFormPasswordError);
+    await page.waitForSelector(regiterFormLastnameError);
+    await page.waitForSelector(regiterFormEmailError);
   });
 
-  it('Should enter valid password', async done => {
-    await page.waitForSelector(gotoRegisterButton.selector, { visible: true });
-    await page.click(gotoRegisterButton.selector);
-    await page.waitForSelector(registerButton.selector, { visible: true });
+  it('Should reject registration with an invalid email', async () => {
+    await page.waitForSelector(gotoRegisterButton, { visible: true });
+    await page.click(gotoRegisterButton);
+    await page.waitForSelector(registerButton, { visible: true });
 
-    await page.type(regiterFormEmailInput.selector, 'test@test.com');
-    await page.type(regiterFormNameInput.selector, 'test');
-    await page.type(regiterFormLastnameInput.selector, 'test');
-    await page.type(regiterFormPasswordInput.selector, 'test');
-    await page.type(regiterFormRPasswordInput.selector, 'test');
+    await page.type(regiterFormEmailInput, 'invalidEmail');
+    await page.type(regiterFormNameInput, 'test');
+    await page.type(regiterFormLastnameInput, 'test');
+    await page.type(regiterFormPasswordInput, 'testtest');
+    await page.type(regiterFormRPasswordInput, 'testtest');
 
-    await page.click(registerButton.selector);
-    await page.waitForSelector(regiterFormPassword.selector, { visible: true });
-    const passwordElement = await page.$(regiterFormPassword.selector);
-    await expect(passwordElement).toMatch('Password too short');
-    done();
+    await page.click(registerButton);
+    await page.waitForSelector(regiterFormEmailError, { visible: true });
   });
 
-  it('Password must match', async done => {
-    await page.waitForSelector(gotoRegisterButton.selector, { visible: true });
-    await page.click(gotoRegisterButton.selector);
-    await page.waitForSelector(registerButton.selector, { visible: true });
+  it('Should reject registration with a short password', async () => {
+    await page.waitForSelector(gotoRegisterButton, { visible: true });
+    await page.click(gotoRegisterButton);
+    await page.waitForSelector(registerButton, { visible: true });
 
-    await page.type(regiterFormEmailInput.selector, 'test@test.com');
-    await page.type(regiterFormNameInput.selector, 'test');
-    await page.type(regiterFormLastnameInput.selector, 'test');
-    await page.type(regiterFormPasswordInput.selector, 'testtest');
-    await page.type(regiterFormRPasswordInput.selector, 'test');
+    await page.type(regiterFormEmailInput, 'test@test.com');
+    await page.type(regiterFormNameInput, 'test');
+    await page.type(regiterFormLastnameInput, 'test');
+    await page.type(regiterFormPasswordInput, 'short');
+    await page.type(regiterFormRPasswordInput, 'short');
 
-    await page.click(registerButton.selector);
-    await page.waitForSelector(regiterFormRPassword.selector, { visible: true });
-    const rpasswordElement = await page.$(regiterFormRPassword.selector);
-    await expect(rpasswordElement).toMatch('Password do not match');
-    done();
+    await page.click(registerButton);
+    await page.waitForSelector(regiterFormPasswordError, { visible: true });
   });
 
-  it('Registration complete', async done => {
-    jest.setTimeout(10000);
-    await page.waitForSelector(gotoRegisterButton.selector, { visible: true });
-    await page.click(gotoRegisterButton.selector);
-    await page.waitForSelector(registerButton.selector, { visible: true });
-    const email = `${makeEmail(8)}@test.com`;
-    await page.type(regiterFormEmailInput.selector, email);
-    await page.type(regiterFormNameInput.selector, 'test');
-    await page.type(regiterFormLastnameInput.selector, 'test');
-    await page.type(regiterFormPasswordInput.selector, 'testtest');
-    await page.type(regiterFormRPasswordInput.selector, 'testtest');
+  it('Should reject registration with diferent passwords', async () => {
+    await page.waitForSelector(gotoRegisterButton, { visible: true });
+    await page.click(gotoRegisterButton);
+    await page.waitForSelector(registerButton, { visible: true });
 
-    await page.click(registerButton.selector);
-    await page.waitForSelector(welcomeWizardStep1.selector);
-    done();
+    await page.type(regiterFormEmailInput, 'test@test.com');
+    await page.type(regiterFormNameInput, 'test');
+    await page.type(regiterFormLastnameInput, 'test');
+    await page.type(regiterFormPasswordInput, 'MyPassword');
+    await page.type(regiterFormRPasswordInput, 'MyDifferentPassword');
+
+    await page.click(registerButton);
+    await page.waitForSelector(regiterFormRPasswordError, { visible: true });
+  });
+
+  it('Should register a new user and navigate to Welcome Wizard', async () => {
+    await page.waitForSelector(gotoRegisterButton, { visible: true });
+    await page.click(gotoRegisterButton);
+    await page.waitForSelector(registerButton, { visible: true });
+    await page.type(regiterFormEmailInput, email);
+    await page.type(regiterFormNameInput, 'test');
+    await page.type(regiterFormLastnameInput, 'test');
+    await page.type(regiterFormPasswordInput, '123456');
+    await page.type(regiterFormRPasswordInput, '123456');
+    await page.click(registerButton);
+    await page.waitForSelector(welcomeWizardStep1);
   });
 });

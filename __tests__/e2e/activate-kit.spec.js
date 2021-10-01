@@ -1,93 +1,92 @@
 /* global page */
-import { jsxEmptyExpression } from '@babel/types';
+import { FirebaseSignOut, FirebaseSignIn } from '../config/helpers';
 import config from '../config';
+import {
+  loginButtonSelector,
+  homeLayoutSelector,
+  openDrawerSelector,
+  drawerActivation,
+  kitCodeInput,
+  kitCodeButton,
+  kitCodeText,
+  kitCloseDialog,
+  kitDialogButton,
+  aboutVrBackButton,
+} from '../config/selectors';
 const { PAGE_URL } = config;
 
-class SelectorClass {
-  constructor(selectors) {
-    if (selectors) this.selectors = [...selectors];
-    else this.selectors = [];
-  }
-  // Getter
-  get selector() {
-    return this.selectors.reduce((selector, current, i) => {
-      let newSelector = selector;
-      if (i !== 0) newSelector += ' > ';
-      newSelector += `[data-testid="${current}"]`;
-      return newSelector;
-    }, '');
-  }
-
-  getSelectorLevel(level) {
-    return this.selectors.reduce((selector, current, i) => {
-      if (level && level > i) return selector;
-      let newSelector = selector;
-      if (i !== 0) newSelector += ' > ';
-      newSelector += `[data-testid="${current}"]`;
-      return newSelector;
-    }, '');
-  }
-}
-const Selector = arg => new SelectorClass(arg);
-
-const sleep = time => new Promise((res, rej) => setTimeout(res, time));
 jest.setTimeout(40000);
-describe('The login', () => {
-  const loginButtonSelector = Selector(['login-form-submmit-cta']);
-  const homeLayoutSelector = Selector(['home-layout']);
-  const openDrawerSelector = Selector(['open-drawer-button']);
-  const drawerActivation = Selector(['drawer-activation-button']);
-  const kitCodeInput = Selector(['kit-activation-code-input']);
-  const kitCodeButton = Selector(['use-this-code-button']);
-  const kitCodeText = Selector(['kit-activation-explain-text']);
-  const kitCloseDialog = Selector(['kit-activation-explain-dialog-close']);
-  const kitDialogButton = Selector(['kit-activation-explain-dialog-button-0']);
-  const aboutVrBackButton = Selector(['back-button-about-vr']);
+describe('The kit activation proccess', () => {
+
   const wrongCode = '123123';
   const successCode = '123456';
   const inUseCode = '111111';
   beforeAll(async done => {
     await page.goto(PAGE_URL, { waitUntil: 'domcontentloaded' });
-    try {
-      await page.waitForSelector(loginButtonSelector.selector, { timeout: 10000 });
-    } catch (error) {
-      await page.waitForSelector(homeLayoutSelector.selector);
-      await page.evaluate(() => {
-        return window.firebase.auth().signOut();
+    await FirebaseSignOut();
+    await FirebaseSignIn('activate-kit-test@test.com', '123456');
+    await page.waitForSelector(openDrawerSelector, { visible: true });
+    await page.click(openDrawerSelector);
+    await page.waitForSelector(drawerActivation, { visible: true });
+    await page.click(drawerActivation);
+    done();
+  });
+
+  afterAll(async done => {
+    await page.evaluateHandle(kitCode => {
+      const uid = window.firebase.auth().currentUser.uid;
+      const db = window.firebase.firestore();
+      const fp = db
+        .collection('kits')
+        .doc(kitCode)
+        .set({
+          group: 'test',
+        })
+        .then(
+          db.collection('users').doc(uid).update({
+            kit_id: '',
+          }),
+        );
+      const sp = new Promise(res => {
+        setTimeout(res, 5000);
+        let changes = 0;
+        db.collection('users')
+          .doc(uid)
+          .onSnapshot(() => {
+            changes += 1;
+            db.collection('users')
+              .doc(uid)
+              .update({
+                kit_id: '',
+              })
+              .then(() => {
+                if (changes > 2) res();
+              });
+          });
       });
-      await page.waitForSelector(loginButtonSelector.selector, { timeout: 10000 });
-    }
-    await page.evaluate(
-      ({ userEmail, userPassword }) => {
-        return window.firebase.auth().signInWithEmailAndPassword(userEmail, userPassword);
-      },
-      { userEmail: 'activate-kit-test@test.com', userPassword: '123456' },
-    );
-    await page.waitForSelector(homeLayoutSelector.selector);
-    await page.waitForSelector(openDrawerSelector.selector, { visible: true });
-    await page.click(openDrawerSelector.selector);
-    await page.waitForSelector(drawerActivation.selector, { visible: true });
-    await page.click(drawerActivation.selector);
+      return Promise.all([fp, sp]);
+    }, successCode);
     done();
   });
-  it('Open and close explain dialog (close button)', async done => {
-    await page.waitForSelector(kitCodeText.selector, { visible: true });
-    await page.click(kitCodeText.selector);
-    await page.waitForSelector(kitCloseDialog.selector, { visible: true });
-    await page.click(kitCloseDialog.selector);
+
+  it('Open and close explain dialog using the close button (upper rigth cross)', async done => {
+    await page.waitForSelector(kitCodeText, { visible: true });
+    await page.click(kitCodeText);
+    await page.waitForSelector(kitCloseDialog, { visible: true });
+    await page.click(kitCloseDialog);
     done();
   });
-  it('Open and close explain dialog (dialog button)', async done => {
-    await page.waitForSelector(kitCodeText.selector, { visible: true });
-    await page.click(kitCodeText.selector);
-    await page.waitForSelector(kitDialogButton.selector, { visible: true });
-    await page.click(kitDialogButton.selector);
+  it('Open and close explain dialog using dialog close button', async done => {
+    await page.waitForSelector(kitCodeText, { visible: true });
+    await page.click(kitCodeText);
+    await page.waitForSelector(kitDialogButton, { visible: true });
+    await page.click(kitDialogButton);
     done();
   });
-  it('Wrong code inserted', async done => {
-    await page.waitForSelector(kitDialogButton.selector, { hidden: true });
-    await page.waitForSelector(kitCodeInput.selector, { visible: true });
-    let input = await page.$(kitCodeInput.selector);
+  it('Should insert a wrong code and the activation should fail', async done => {
+    await page.waitForSelector(kitDialogButton, { hidden: true });
+    await page.waitForSelector(kitCodeInput, { visible: true });
+    let input = await page.$(kitCodeInput);
     await input.click({ clickCount: 3 });
     await input.type(wrongCode);
 
@@ -95,12 +94,12 @@ describe('The login', () => {
       await dialog.accept();
       done();
     });
-    await page.waitForSelector(kitCodeButton.selector, { visible: true });
-    await page.click(kitCodeButton.selector);
+    await page.waitForSelector(kitCodeButton, { visible: true });
+    await page.click(kitCodeButton);
   });
-  it('In use code inserted', async done => {
-    await page.waitForSelector(kitCodeInput.selector, { visible: true });
-    let input = await page.$(kitCodeInput.selector);
+  it('Should insert an in use code and the activation should fail', async done => {
+    await page.waitForSelector(kitCodeInput, { visible: true });
+    let input = await page.$(kitCodeInput);
     await input.click({ clickCount: 3 });
     await input.type(inUseCode);
 
@@ -108,20 +107,20 @@ describe('The login', () => {
       await dialog.accept();
       done();
     });
-    await page.click(kitCodeButton.selector);
+    await page.click(kitCodeButton);
   });
-  it('Good code inserted', async done => {
-    await page.waitForSelector(kitCodeInput.selector, { visible: true });
-    let input = await page.$(kitCodeInput.selector);
+  it('Should insert a good code and the activation should pass correctly', async done => {
+    await page.waitForSelector(kitCodeInput, { visible: true });
+    let input = await page.$(kitCodeInput);
     await input.click({ clickCount: 3 });
     await input.type(successCode);
-    await page.click(kitCodeButton.selector);
-    await page.waitForSelector(aboutVrBackButton.selector, { visible: true });
+    await page.click(kitCodeButton);
+    await page.waitForSelector(aboutVrBackButton, { visible: true });
     done();
   });
-  it('Back button in about-vr screen', async done => {
-    await page.click(aboutVrBackButton.selector);
-    await page.waitForSelector(homeLayoutSelector.selector);
+  it('Press the back button in about-vr screen and should navigate to home', async done => {
+    await page.click(aboutVrBackButton);
+    await page.waitForSelector(homeLayoutSelector);
     done();
   });
 });

@@ -12,6 +12,7 @@ import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlay
 import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { translate, getLocale } from '../../utils/localization';
+import useStartPath from '../../utils/hooks/useStartPath';
 import useSetDefaultBackOnPress from '../../utils/hooks/useSetDefaultBackOnPress';
 
 const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
@@ -26,6 +27,7 @@ const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
     'back-button-about-vr',
   );
   const resourceId = `contents/00_welcome_to_relief_${getLocale().toUpperCase()}.mp4`;
+  useStartPath('about_vr');
   const openVRPlayer = useVRPlayerCTA({
     resourceId,
     onCancel: () => {

@@ -72,7 +72,7 @@ static void InitializeFlipper(UIApplication *application) {
   rootView.backgroundColor = [[UIColor alloc] initWithRed:0.24 green:0.60 blue:0.84 alpha:1.00];
 
 //  UIViewController *rootViewController = [UIViewController new];
-  UIViewController *rootViewController = [[EXScreenOrientationViewController alloc] initWithDefaultScreenOrientationMask:UIInterfaceOrientationMaskAllButUpsideDown
+  UIViewController *rootViewController = [[EXScreenOrientationViewController alloc] init
 ]; // The default screen orientation will be set to `portrait`.
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;

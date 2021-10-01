@@ -74,7 +74,7 @@ const slide3 = (paragraph1: string, paragraph2: string) => `
 `;
 
 const HowItWorks = ({ navigation }: DefaultScreenPropType<'HowItWorks'>) => {
-  const locked = useOrientationLocker(OrientationLock.PORTRAIT_UP);
+  useOrientationLocker(OrientationLock.PORTRAIT_UP);
   const styles = getStyles();
   usePathEndingBarButton(navigation, {
     routeParams: {

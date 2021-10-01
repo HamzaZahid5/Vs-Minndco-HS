@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { contentType } from './src/screens/StressActivityScreen';
 //@ts-ignore not implemented
 import firestore from './src/services/Firestore';
 
@@ -8,6 +9,7 @@ export type RootStackParamList = {
   Home: undefined;
   Registration: undefined;
   Login: undefined;
+  ResetPassword: undefined;
   ThemeInspector: undefined;
   StressRate: undefined;
   StressTrigger: undefined;
@@ -96,10 +98,21 @@ export type journalType = {
   level: number;
   reason: string;
 };
+export type PathsType =
+  | 'rate_stress'
+  | 'daily_activity'
+  | 'coach'
+  | 'kit_activation'
+  | 'about_vr'
+  | 'learn'
+  | 'statistics'
+  | null;
+
+export type ContentTypesType = 'text' | 'activity' | 'audio';
 
 export type AnalyticEventType = {
   path_ending: {
-    path: string;
+    path: PathsType;
   };
   tutorial_begin: undefined;
   tutorial_complete: undefined;
@@ -113,7 +126,7 @@ export type AnalyticEventType = {
     video_id: string;
   };
   select_content: {
-    content_type: activityTypesType;
+    content_type: activityTypesType | ContentTypesType; // Content type should be migrated to ts in order to put it here
     item_id: string;
   };
   reliever_activity_do: undefined;

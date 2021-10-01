@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Linking, StyleProp, TextStyle, Platform } from 'react-native';
+import { View, StyleSheet, Linking, StyleProp, TextStyle, Platform, useWindowDimensions } from 'react-native';
 import { Surface, Text, Title, useTheme } from 'react-native-paper';
 import * as Localization from 'expo-localization';
 import crashlytics from '../../services/Crashlytics';
@@ -12,7 +12,6 @@ import RegisterForm from './../../components/RegisterForm';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { translate, getLocale } from '../../utils/localization';
-// @ts-ignore: non-ts file
 import config from './../../../env';
 
 type formikValueType = {
@@ -51,7 +50,6 @@ const Register = () => {
   const onFormSubmit = async (form: formikValueType & { tz_offset: number }) => {
     if (!busy) {
       setBusy(true);
-      // console.log(form);
       try {
         const userCredentials = await auth().createUserWithEmailAndPassword(form.email, form.password);
         form.tz_offset = new Date().getTimezoneOffset() * -60;
@@ -77,25 +75,12 @@ const Register = () => {
     }
   };
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardShouldPersistTaps={'handled'}
-      extraScrollHeight={160}
-      contentContainerStyle={styles.KeyboardAwareScrollStyle}
-    >
-      {/* <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ flexGrow: 1 }}
-        style={styles.absolutScrollView}
-      > */}
-      <Surface theme={{ colors: { surface: theme.colors.secondary } }} style={styles.surface}>
-        {/* <RoundedBackButton onPress={() => navigateBack(componentId)} /> */}
+    <KeyboardAwareScrollView enableOnAndroid contentInsetAdjustmentBehavior="automatic" extraHeight={250}>
+      <Surface theme={{ colors: { surface: theme.colors.secondary } }} style={{ ...styles.surface }}>
         <Title style={styles.title}>{translate('screens.Register.main-title')}</Title>
         <RegisterForm onSubmit={onFormSubmit} loading={busy} />
         <View style={styles.legalContainer}>{getLegalContent(styles)}</View>
       </Surface>
-      {/* </ScrollView> */}
     </KeyboardAwareScrollView>
   );
 };
@@ -105,12 +90,10 @@ export default Register;
 const getStyles = (theme: CustomThemeType) =>
   StyleSheet.create({
     absolutScrollView: {
-      // borderWidth: 1, borderColor: 'red',
       width: '100%',
       height: '100%',
     },
     surface: {
-      // borderWidth: 1, borderColor: 'red',
       padding: 30,
       minHeight: '100%',
       alignItems: 'flex-start',
@@ -121,7 +104,6 @@ const getStyles = (theme: CustomThemeType) =>
       fontFamily: 'Graphik-Regular',
       fontSize: 40,
       lineHeight: 45,
-      // fontWeight: 'bold',
       marginBottom: 20,
       marginTop: 20,
       color: 'white',

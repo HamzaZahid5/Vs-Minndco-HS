@@ -4,7 +4,7 @@ import { View, Image, StyleSheet } from 'react-native';
 const HeaderEmpty = () => {
   const styles = getStyles();
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="path-endind-header-empty">
       <Image style={styles.topImage} source={require('../../../assets/images/blank_header_1.png')} />
     </View>
   );

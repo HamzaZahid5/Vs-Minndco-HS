@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Color from 'color';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const RowItem = ({ title, text, onPress, reverse, locked }) => {
+const RowItem = ({ title, text, onPress, reverse, locked, testID }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const lockedColor = Color(theme.colors.backdrop).alpha(0.3).toString();
@@ -25,6 +25,7 @@ const RowItem = ({ title, text, onPress, reverse, locked }) => {
         // styles.rowContainer
       ]}
       onPress={locked ? null : onPress}
+      testID={testID ?? `stress-triger-${title}`}
     >
       <LinearGradient colors={gradient} style={styles.rowContainer}>
         <View style={[styles.rowMainContent, reverse ? styles.rowReverse : null]}>
@@ -51,6 +52,7 @@ RowItem.propTypes = {
   onPress: PropTypes.func,
   reverse: PropTypes.bool,
   locked: PropTypes.bool,
+  testID: PropTypes.string,
 };
 export default RowItem;
 

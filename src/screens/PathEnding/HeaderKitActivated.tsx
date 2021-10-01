@@ -6,7 +6,7 @@ import { translate } from '../../utils/localization';
 const HeaderKitActivated = ({ onVote }: { onVote: () => void }) => {
   const styles = getStyles();
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="path-endind-header-kit-activated">
       <Text>{translate('screens.PathEnding.congrats')}</Text>
       <View style={styles.main}>
         <Text>{translate('screens.PathEnding.header-kitactivated-paragraph')}</Text>

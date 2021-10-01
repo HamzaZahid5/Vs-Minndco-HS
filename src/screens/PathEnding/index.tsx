@@ -24,9 +24,12 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone';
 // @ts-ignore: non-ts file
 import ChipButton from '../../components/ChipButton';
 import { CustomThemeType } from '../../utils/OriginalTheme';
-import { DefaultScreenPropType, DefaultScreenRouteType, RootStackParamList } from '../../../types';
+import { DefaultScreenPropType, DefaultScreenRouteType, PathsType, RootStackParamList } from '../../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { translate } from '../../utils/localization';
+import { useDispatch, useSelector } from 'react-redux';
+import { CURRENT_PATH } from '../../store/selectors';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 export const usePathEndingBarButton = (
   navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>,
@@ -55,6 +58,7 @@ export const usePathEndingBarButton = (
           borderWidth: 2,
           borderColor: Color(theme.colors.dark).darken(0.3).toString(),
         }}
+        testID="path-endind-button"
       >
         {buttonText}
       </ChipButton>
@@ -96,6 +100,8 @@ const PathEnding = ({
   const { header: headerParam, body: bodyParam } = route.params;
   const { isLastActivity } = useNextActivity();
   const [rowOptions, setRowOptions] = useState(bodyParam?.options ?? []);
+  const dispatch = useDispatch();
+  const current_path = useSelector(CURRENT_PATH);
   useEffect(() => {
     if (
       !todaysActivityDone &&
@@ -108,6 +114,11 @@ const PathEnding = ({
     if (rowOptions.length > 3) {
       setRowOptions(rowOptions.slice(0, 3));
     }
+    if (current_path !== null) {
+      AnalyticEvent('path_ending', { path: current_path as PathsType });
+      dispatch({ type: 'flags/resetCurrentPath' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLastActivity, rowOptions, todaysActivityDone]);
 
   const DailyActivityRow = (

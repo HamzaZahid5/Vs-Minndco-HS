@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,8 @@ import { formatAsset } from '../../utils/helpers';
 import { USER_PROFILE } from '../../store/selectors';
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA';
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types';
+import useStartPath from '../../utils/hooks/useStartPath';
+import AnalyticEvent from '../../utils/AnalyticsEvent';
 
 const getWhatContentIs = (act: activityType | { type: string } = { type: '' }) => ({
   video: act.type === '2d-video',
@@ -40,6 +42,12 @@ const ActivityScreen = ({
   const IS = getWhatContentIs(nextActivity);
   const { language, gender } = useSelector(USER_PROFILE);
   const asset = nextActivity ? formatAsset(nextActivity?.asset, language, gender) : null;
+  useStartPath('daily_activity', false);
+  useEffect(() => {
+    const nextActivityTyped = nextActivity as activityType;
+    if (!nextActivityTyped || !nextActivityTyped.type || !nextActivityTyped.id) return;
+    AnalyticEvent('select_content', { content_type: nextActivityTyped.type, item_id: nextActivityTyped.id });
+  }, [nextActivity]);
 
   const { saveActivityDone } = useActivityActions();
 

@@ -87,7 +87,7 @@ const Login = ({ navigation }: Props) => {
               <BigButton
                 variant="link"
                 style={{ margin: 10, marginTop: -30 }}
-                // onPress={() => navigateToPasswordRecovery(componentId)}
+                onPress={() => navigation.navigate('ResetPassword')}
               >
                 {translate('screens.Login.forgot-password')}
               </BigButton>

@@ -9,7 +9,7 @@ import Color from 'color';
 import { useKeepAwake } from 'expo-keep-awake';
 import { translate } from './../../utils/localization';
 
-const BreathSync = ({ onClose = Function }) => {
+const BreathSync = ({ onClose = Function, testID }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const [play, setPlay] = useState(false);
@@ -109,7 +109,7 @@ const BreathSync = ({ onClose = Function }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <View style={styles.headerContainer}>
         <Title style={styles.title}>
           {counter !== 0
@@ -167,6 +167,7 @@ const BreathSync = ({ onClose = Function }) => {
 
 BreathSync.propTypes = {
   onClose: PropTypes.func,
+  testID: PropTypes.string,
 };
 
 export default BreathSync;

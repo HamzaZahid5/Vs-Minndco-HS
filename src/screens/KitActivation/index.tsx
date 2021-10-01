@@ -32,6 +32,7 @@ import { DefaultScreenPropType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { FLAGS } from '../../store/selectors';
 import { translate } from '../../utils/localization';
+import useStartPath from '../../utils/hooks/useStartPath';
 // @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
 
@@ -112,6 +113,7 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
   const inputRef = useRef();
   const { isLoading } = useSelector(FLAGS);
   const dispatch = useDispatch();
+  useStartPath('kit_activation');
 
   const [helpVisible, setHelpVisible] = useState<boolean>();
   const resetPathTo = useNavigationResetPathTo(navigation);

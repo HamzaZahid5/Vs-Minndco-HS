@@ -17,7 +17,7 @@ const HeaderPerfromance = () => {
   const journal = (useJournal() || []) as journalType[];
   const avgStressLevel = journal.reduce((r: number, i) => r + i.level, 0) / journal.length;
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="path-endind-header-performance">
       <Headline>{translate('screens.PathEnding.glimpse')}</Headline>
       <View style={styles.main}>
         <View style={styles.row}>

@@ -10,11 +10,13 @@ const AnimatedRateRow = ({
   onSelected,
   delay,
   value = 0,
+  testID,
 }: {
   selected: boolean;
   onSelected: () => void;
   delay: number;
   value: number;
+  testID?: string;
 }) => {
   const [highlight, setHighlight] = useState<boolean>();
   const { height } = useWindowDimensions();
@@ -31,7 +33,11 @@ const AnimatedRateRow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
   return (
-    <LinearGradient colors={['#eef5f5', '#e2e9f1', '#e2e9f1', '#e2e9f1', '#cbdcea']} style={styles.rowOption}>
+    <LinearGradient
+      colors={['#eef5f5', '#e2e9f1', '#e2e9f1', '#e2e9f1', '#cbdcea']}
+      style={styles.rowOption}
+      testID={testID ?? `stress-rate-row-${value}`}
+    >
       {/* <View style={styles.rowOption}> */}
       <Text
         style={[

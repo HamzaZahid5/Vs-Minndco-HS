@@ -30,7 +30,7 @@ const HeaderVote = ({ asset = '' }) => {
   const charVoteYes = Platform.OS === 'ios' ? translate('commons.general.yes').toUpperCase() : '👍';
   const charVoteNo = Platform.OS === 'ios' ? translate('commons.general.no').toUpperCase() : '👎';
   return (
-    <View style={styles.pollContainer}>
+    <View style={styles.pollContainer} testID="path-endind-header-vote">
       <Headline style={{ textAlign: 'center' }}>{translate('screens.PathEnding.useful-activity')}</Headline>
       <View style={styles.options}>
         <Pressable style={{}} onPress={() => setVote(0)}>

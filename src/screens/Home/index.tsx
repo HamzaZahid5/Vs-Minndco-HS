@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import Props from './types'
 // @ts-ignore: non-ts file
@@ -22,14 +22,24 @@ import useNextActivity from '../../utils/hooks/useNextActivity';
 import useCompletion from '../../utils/hooks/useCompletion';
 
 import { USER_SUPPORT_PROFILE } from '../../store/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { translate } from '../../utils/localization';
 
 const HomeScreen = ({ navigation }: Props) => {
   const { nextActivity, isLastActivity } = useNextActivity();
   const progress = useCompletion();
   const todaysActivityDone = useTodaysActivityDone();
+  const dispatch = useDispatch();
   const { has_coach_messages: hasCouchMessage } = useSelector(USER_SUPPORT_PROFILE);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch({ type: 'flags/resetCurrentPath' });
+    });
+    return () => {
+      unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <HomeLayout withDecoration={true}>
       <HomeLayout.TopLeft>
@@ -63,7 +73,7 @@ const HomeScreen = ({ navigation }: Props) => {
               }
               progress={progress}
               onPress={() => {
-                if (!todaysActivityDone) navigation.navigate('Activity'); //Here i'm not sure if this is the correct logic
+                navigation.navigate('Activity');
               }}
             />
           )}
@@ -83,6 +93,7 @@ const HomeScreen = ({ navigation }: Props) => {
           icon="head-check"
           informativeText={translate('screens.Home.reliever')}
           onPress={() => navigation.navigate('StressRate')}
+          testID="reliever-button"
         />
       </HomeLayout.BottomRight>
     </HomeLayout>

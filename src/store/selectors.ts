@@ -11,6 +11,7 @@ export const LAST_ACTIVITY_AT = (store: RootState) => {
   return fireBaseDate ? fireBaseDate.toDate() : undefined;
 };
 export const ACTIVITY_DAYS_IN_A_ROW = (store: RootState) => store?.user?.data?.statistics?.activity_days_in_a_row;
+export const CURRENT_PATH = (store: RootState) => store?.flags.currentPath;
 export const SHOW_BASIC_TUTORIAL = (store: RootState) => store?.user?.data?.flags?.show_basics_tutorial;
 export const USER_PROFILE = (store: RootState) => {
   const { language, gender } = store?.user?.data;

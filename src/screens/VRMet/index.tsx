@@ -9,6 +9,8 @@ import template from 'lodash.template';
 import { DefaultScreenRouteType } from '../../../types';
 import { translate, getLocale } from '../../utils/localization';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
+import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
+import { OrientationLock } from 'expo-screen-orientation';
 
 const DEBUGGING = `
      // Debug
@@ -86,6 +88,7 @@ const getMessageEventsHandler =
   };
 
 const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
+  useOrientationLocker(OrientationLock.LANDSCAPE_RIGHT);
   const { assetUrl, onComplete = Function, onCancel = Function } = route.params || {};
   const theme = useTheme();
   useKeepAwake();

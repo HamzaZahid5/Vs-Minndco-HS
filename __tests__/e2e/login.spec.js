@@ -15,13 +15,8 @@ jest.setTimeout(30000);
 describe('The login', () => {
   beforeAll(async () => {
     await page.goto(PAGE_URL, { waitUntil: 'domcontentloaded' });
-
-    await FirebaseSignOut();
   });
   beforeEach(async () => {
-    await FirebaseSignOut();
-  });
-  afterAll(async () => {
     await FirebaseSignOut();
   });
 
