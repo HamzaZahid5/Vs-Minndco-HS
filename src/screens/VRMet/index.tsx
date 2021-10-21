@@ -4,86 +4,23 @@ import { StyleSheet, View } from 'react-native';
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import { useTheme } from 'react-native-paper';
 import { useKeepAwake } from 'expo-keep-awake';
-// @ts-ignore: non-ts file
-import template from 'lodash.template';
 import { DefaultScreenRouteType } from '../../../types';
-import { translate, getLocale } from '../../utils/localization';
+import { getLocale } from '../../utils/localization';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
 import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
 import { OrientationLock } from 'expo-screen-orientation';
-
-const DEBUGGING = `
-     // Debug
-     console = new Object();
-     console.log = function(log) {
-       window.ReactNativeWebView.postMessage("console:"+ JSON.stringify(log));
-     };
-     console.debug = console.log;
-     console.info = console.log;
-     console.warn = console.log;
-     console.error = console.log;
-     true;
-`;
-
-const INJECTED_PANOVIEWER_CONFIG = `
-window.MINDCO_PANOVIEWER_CONFIG = {
-  fov: 110,
-  yaw: 0,
-  pitch: 0,
-};
-const enterVrAndPlay = async () => {
-  // AFTER ALLOWING ACCESS TO MOTION SEEMS TO BE TOO LATE FOR POLYFILL TO ADJUST
-  // CAMERA YAW, AND FOR SOME BUG THE METHOS FROM PANOVIEWER FOR THAT ARE NOT WORKING (lookAt)
-  // BUT NEXT TIME YOU PLAY THE VIDEO THE YAW IS CORRECT (DUE TO MOTION ACCES ALREADE GRANTED)
-  // THEN, UNTIL FURTHER INVESTIGATION, WE DETECT A DELAY AUTHORIZING ACCESS TO MOTION AND RELOAD
-  // THE PAGE TO START OVER AGAIN WITH PERMISSION GRANTED.
-  let timeStart = new Date();
-  await window.MindCoPanoViewer.enterVR();
-  let timeEnd = new Date();
-  if (timeEnd-timeStart > 500) {
-    window.MindCoPanoViewer.destroy();
-    window.location.reload();
-  } else {
-    window.MindCoPanoViewer.getVideo().play();
-    window.PanoControls.showLoading(false);
-  }
-  
-  const vrButton = document.querySelector(".entervr")
-  if (vrButton) {
-    vrButton.style.marginLeft = "9px";
-    vrButton.style.marginTop = "7px";
-  }
-  window.MindCoPanoViewer.getVideo().addEventListener(
-    'ended',
-    () => window.ReactNativeWebView.postMessage("Video:ended")
-    , false);
-};
-true;
-`;
-
-const JS_PLAY_VIDEO = () => `
-// enterVrAndPlay();
-window.MindCoPanoViewer.enableSensor().then(enterVrAndPlay).catch(e => {
-  alert(\`${translate('screens.VRMet.error-enter-vr')}\`);
-  window.ReactNativeWebView.postMessage("PanoViewer:denied")
-});
-true;`;
+import env from '../../../env';
+const BASE_URL = `${env.webVrURL}`;
 
 const getMessageEventsHandler =
   (webViewRef: MutableRefObject<WebView | null>, onCancel: () => void, onComplete: () => void, resourceId: string) =>
   (event: WebViewMessageEvent) => {
-    if (event.nativeEvent.data === 'PanoViewer:ready') {
+    // @TODO we need to trigger this event from player
+    if (event.nativeEvent.data === 'Video:ready') {
       AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
-      webViewRef.current?.injectJavaScript(JS_PLAY_VIDEO());
     }
     if (event.nativeEvent.data === 'Video:ended') {
       onComplete();
-    }
-    if (event.nativeEvent.data === 'PanoViewer:exit-vr' || event.nativeEvent.data === 'PanoViewer:denied') {
-      onCancel();
-    }
-    if (event.nativeEvent.data.indexOf('log:') === 0) {
-      // console.log(event.nativeEvent.data);
     }
   };
 
@@ -93,7 +30,7 @@ const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
   const theme = useTheme();
   useKeepAwake();
   const webViewRef = useRef<WebView | null>(null);
-  const uri = `https://mindco-web-vr-player-ios.web.app?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`;
+  const uri = `https://${BASE_URL}/?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`;
 
   return (
     <View style={styles.container}>
@@ -102,9 +39,6 @@ const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
         source={{
           uri,
         }}
-        injectedJavaScriptBeforeContentLoaded={template(INJECTED_PANOVIEWER_CONFIG)({ VIDEO_URL: assetUrl })}
-        userAgent="Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1"
-        injectedJavaScript={DEBUGGING}
         allowsInlineMediaPlayback
         ignoreSilentHardwareSwitch
         onMessage={getMessageEventsHandler(webViewRef, onCancel, onComplete, assetUrl)}

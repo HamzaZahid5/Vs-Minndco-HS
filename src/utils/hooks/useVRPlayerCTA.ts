@@ -5,7 +5,8 @@ import crashlytics from '../../services/Crashlytics';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { getLocale, translate } from '../localization';
 import AnalyticEvent from '../AnalyticsEvent';
-const BASE_URL = 'mindco-relief-support.web.app/support/vrplayer';
+import env from '../../../env';
+const BASE_URL = `${env.webVrURL}`;
 
 export type VRPlayerCTAPropType = {
   resourceId: string;
