@@ -44,6 +44,8 @@ const GenericPageLayout = ({
   fullScroll = false, // HEADER & CONTENT wrapped with ScrollView
   thinContent = false, // remove lateral paddings on CONTENT
   withKeyboard = false, // include wrapper on CONTENT for Keyboard Aware Scroll View
+  headerHeight = 232,
+  scrolableScreen = true,
 }) => {
   const contentRef = useRef(null);
   const theme = useTheme();
@@ -80,21 +82,36 @@ const GenericPageLayout = ({
     );
 
   return (
-    <KeyboardAwareScrollView
-      enableOnAndroid
-      keyboardShouldPersistTaps={'handled'}
-      extraHeight={390}
-      contentContainerStyle={{
-        flexGrow: 1,
-        margin: 'auto',
-      }}
-      style={[styles.mainContainer, { backgroundColor: 'transparent' }]}
-    >
-      <View style={styles.headerContainer}>
-        <View style={styles.headerWrapper}>{header}</View>
-      </View>
-      {contentWraper}
-    </KeyboardAwareScrollView>
+    <>
+      {scrolableScreen ? (
+        <KeyboardAwareScrollView
+          enableOnAndroid
+          keyboardShouldPersistTaps={'handled'}
+          extraHeight={390}
+          scrollEnabled={false}
+          contentContainerStyle={{
+            flexGrow: 1,
+            margin: 'auto',
+          }}
+          style={[styles.mainContainer, { backgroundColor: 'transparent' }]}
+        >
+          <View style={{ height: headerHeight }}>
+            <View style={styles.headerWrapper}>{header}</View>
+          </View>
+          {contentWraper}
+        </KeyboardAwareScrollView>
+      ) : (
+        <View
+          extraHeight={390}
+          style={[styles.mainContainer, { backgroundColor: 'transparent' }, { flexGrow: 1, margin: 'auto' }]}
+        >
+          <View style={{ height: headerHeight }}>
+            <View style={styles.headerWrapper}>{header}</View>
+          </View>
+          {contentWraper}
+        </View>
+      )}
+    </>
   );
 };
 
@@ -105,6 +122,8 @@ GenericPageLayout.propTypes = {
   fullScroll: PropTypes.bool,
   thinContent: PropTypes.bool,
   withKeyboard: PropTypes.bool,
+  headerHeight: PropTypes.number,
+  scrolableScreen: PropTypes.bool,
 };
 
 export default GenericPageLayout;
@@ -115,9 +134,6 @@ const styles = StyleSheet.create({
     borderColor: 'purple',
   },
   staticMainContainer: {},
-  headerContainer: {
-    height: 232,
-  },
   headerWrapper: {},
   commonContentContainer: {
     paddingHorizontal: 20,

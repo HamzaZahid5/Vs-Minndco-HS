@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import { Text, StyleSheet } from 'react-native';
-import Props from './types'
+import Props from './types';
 // @ts-ignore: non-ts file
 import HomeLayout from '../../components/HomeLayout';
 // @ts-ignore: non-ts file
@@ -90,9 +90,9 @@ const HomeScreen = ({ navigation }: Props) => {
       </HomeLayout.BottomLeft>
       <HomeLayout.BottomRight>
         <FABButton
-          icon="head-check"
-          informativeText={translate('screens.Home.reliever')}
-          onPress={() => navigation.navigate('StressRate')}
+          icon="gamepad"
+          informativeText={translate('screens.Home.playground')}
+          onPress={() => navigation.navigate('Playground')}
           testID="reliever-button"
         />
       </HomeLayout.BottomRight>

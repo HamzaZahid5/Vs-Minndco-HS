@@ -18,9 +18,13 @@ const Loading = ({
   iconSize: number;
 }) => {
   const rotateValueHolder = useRef(new Animated.Value(0)).current;
+  const isUnmounted = useRef(false);
 
   const startAnimation = () => {
     rotateValueHolder.setValue(0);
+    if (isUnmounted.current) {
+      return;
+    }
     Animated.timing(rotateValueHolder, {
       toValue: 1,
       duration: 1000,
@@ -42,6 +46,9 @@ const Loading = ({
 
   useEffect(() => {
     startAnimation();
+    return () => {
+      isUnmounted.current = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

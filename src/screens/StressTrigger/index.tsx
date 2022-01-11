@@ -4,9 +4,11 @@ import { View, StyleSheet } from 'react-native';
 import ScreenDecorator from '../../components/ScreenDecorator';
 // @ts-ignore: non-ts file
 import RowItem from '../../components/RowItem';
-import useAppActions from './actions';
-import { DefaultScreenPropType } from '../../../types';
+import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types';
 import { translate } from '../../utils/localization';
+import { useDispatch, useSelector } from 'react-redux';
+import { CURRENT_STRESS_INPUT } from '../../store/selectors';
+import useStartPath from '../../utils/hooks/useStartPath';
 
 export const triggerKeyToLabel = (key: string) => {
   return labels()[options.findIndex(k => k === key)];
@@ -27,18 +29,23 @@ export const options = [
 ];
 export const labels = () => options.map(o => translate(`screens.StressTrigger.${o}`));
 
-const StressTrigger = ({ navigation }: DefaultScreenPropType<'StressTrigger'>) => {
-  const { saveStressOMeter } = useAppActions();
-
+const StressTrigger = ({
+  navigation,
+  route,
+}: DefaultScreenPropType<'StressTrigger'> & DefaultScreenRouteType<'StressTrigger'>) => {
+  const { stressLevel } = useSelector(CURRENT_STRESS_INPUT);
   const [selected, setSelection] = useState<typeof options[number]>();
+  const dispatch = useDispatch();
+  useStartPath('rate_stress');
 
   useEffect(() => {
     if (selected) {
-      saveStressOMeter(selected);
+      dispatch({ type: 'currentStress/setTriggerActivity', payload: selected });
 
-      navigation.navigate('StressActivityType');
+      navigation.navigate('StressRate', { isTrigerIdentification: route.params?.isTrigerIdentification ?? true });
     }
-  }, [navigation, saveStressOMeter, selected]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, stressLevel]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {

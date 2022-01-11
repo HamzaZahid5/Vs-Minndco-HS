@@ -24,14 +24,11 @@ const AverageStressLevel = ({ level }: { level: number }) => {
         elevation: 2,
       }}
     >
-      <Paragraph style={{ fontSize: 18 }}>{translate('screens.Statistics.avg-stress-level')}</Paragraph>
+      <Paragraph style={{ fontSize: 18 }}>{translate('screens.Statistics.progress-text')}</Paragraph>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {level === 0 && (
-          <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50, color: '#0006' }}>-</Paragraph>
-        )}
-        {level !== 0 && (
-          <Paragraph style={{ ...theme.fonts.heading1, fontSize: 50, lineHeight: 50 }}>{fixedLevel}</Paragraph>
-        )}
+        <Paragraph style={{ ...theme.fonts.heading1, fontSize: 25, lineHeight: 30 }}>
+          {translate('screens.Statistics.progress-label')}
+        </Paragraph>
       </View>
     </View>
   );

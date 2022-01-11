@@ -6,16 +6,11 @@ import ChipButton from '../../components/ChipButton';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 import { translate } from '../../utils/localization';
 
-const NextStepButton = ({ onPress, isLast }: { onPress: () => void; isLast?: boolean }) => {
+const NextStepButton = ({ onPress, isLast, testID }: { onPress: () => void; isLast?: boolean; testID?: string }) => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
-    <ChipButton
-      style={styles.mainStyle}
-      labelStyle={styles.labelStyle}
-      onPress={() => onPress()}
-      testID="next-tutorial-button"
-    >
+    <ChipButton style={styles.mainStyle} labelStyle={styles.labelStyle} onPress={() => onPress()} testID={testID}>
       {isLast ? translate('commons.general.start') : translate('commons.general.next')}
     </ChipButton>
   );

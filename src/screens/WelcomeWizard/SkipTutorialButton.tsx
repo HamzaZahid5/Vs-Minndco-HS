@@ -6,16 +6,11 @@ import ChipButton from '../../components/ChipButton';
 import { translate } from '../../utils/localization';
 import { CustomThemeType } from '../../utils/OriginalTheme';
 
-const SkipTutorialButton = ({ onPress }: { onPress: () => void }) => {
+const SkipTutorialButton = ({ onPress, testID }: { onPress: () => void; testID?: string }) => {
   const theme = useTheme() as CustomThemeType;
   const styles = getStyles(theme);
   return (
-    <ChipButton
-      style={styles.linkStyle}
-      labelStyle={styles.labelStyle}
-      onPress={() => onPress()}
-      testID="skip-tutorial-button"
-    >
+    <ChipButton style={styles.linkStyle} labelStyle={styles.labelStyle} onPress={() => onPress()} testID={testID}>
       {translate('commons.general.skip')}
     </ChipButton>
   );

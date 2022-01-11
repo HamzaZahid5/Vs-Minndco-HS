@@ -64,7 +64,7 @@ const KitFinish = ({ navigation }: DefaultScreenPropType<'AboutVR'>) => {
           </View>
         }
       >
-        <View style={styles.contentWrapper}>
+        <View style={styles.contentWrapper} testID="about-vr-screen">
           <Text>{translate('screens.AboutVR.content-text')}</Text>
           <View style={styles.wrapperView}>
             <RowItem

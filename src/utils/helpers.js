@@ -14,6 +14,7 @@ export const getIconByActivityType = type => {
   switch (type) {
     case 'vr-met':
       return 'google-cardboard';
+    case 'survey':
     case 'reflection':
       return 'pencil';
     case '2d-video':
@@ -112,11 +113,19 @@ export const findNextActivity = (program, maxProgressKey = '', includeVR) => {
 
 // calculates completion percentage for program, based on last activity into progress.
 export const calculateProgramCompletion = (program, maxProgressKey, includeVR) => {
-  const totalActivities = getAllActivities(program, includeVR).length;
-  const currentActivityPosition = getActivityPositionByKey(program, maxProgressKey, includeVR);
-  const activitiesDone = currentActivityPosition + 1;
-  const progress = (activitiesDone * 100) / totalActivities;
-  return Math.round(progress * 100) / 100;
+  if (!maxProgressKey) return 0; // No key means the first activity
+
+  const levelActivities =
+    program.modules[getModuleNumberFromKey(maxProgressKey) - 1].levels[getLevelNumberFromKey(maxProgressKey) - 1]
+      .activities;
+  let levelActivitiesIds = levelActivities;
+  if (!includeVR) {
+    levelActivitiesIds = levelActivities.filter(a => a.type !== 'vr-met');
+  }
+  levelActivitiesIds = levelActivitiesIds.map(act => act.id);
+  const currentIdIndex = levelActivitiesIds.indexOf(getActivityIdFromKey(maxProgressKey));
+  const progress = (currentIdIndex + 1) / levelActivitiesIds.length;
+  return Math.round(progress * 100);
 };
 
 export const filterActivitiesByCategory = (program, category, includeVR = false) => {

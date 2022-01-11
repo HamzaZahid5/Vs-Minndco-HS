@@ -5,11 +5,25 @@ import {
   saveActivityDone as saveActivityDoneIntoDB,
   resetUserStreak as resetUserStreakIntoDB,
   getFirestoreTimestamp,
+  updateActivityCounter,
 } from '../services/Firestore';
 import functions from '../services/Functions';
 import { LAST_ACTIVITY_AT, ACTIVITY_DAYS_IN_A_ROW } from '../store/selectors';
 import { getModuleNumberFromKey, getLevelNumberFromKey } from '../utils/helpers';
 import useNextActivity from '../utils/hooks/useNextActivity';
+
+const getTypeByCategory = category => {
+  switch (category) {
+    case 'education':
+      return 'learning';
+    case 'relaxation':
+    case 'mindfulness':
+    case 'cbt-reflection':
+      return 'practical';
+    default:
+      return '';
+  }
+};
 
 const useActivityActions = () => {
   // const dispatch = useDispatch();
@@ -34,6 +48,7 @@ const useActivityActions = () => {
 
       const treatment_module = getModuleNumberFromKey(activityKey);
       const treatment_level = getLevelNumberFromKey(activityKey);
+      const from = 'program';
 
       await saveActivityDoneIntoDB({
         treatment_module,
@@ -46,7 +61,14 @@ const useActivityActions = () => {
         activity: nextActivity,
         activityKey,
         answer,
+        from,
       });
+
+      const category = getTypeByCategory(nextActivity.category);
+      if (category) {
+        await updateActivityCounter(category);
+      }
+
       return true;
     },
     updateStreak: async () => {

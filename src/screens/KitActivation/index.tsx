@@ -152,19 +152,16 @@ const KitActivation = ({ navigation }: DefaultScreenPropType<'KitActivation'>) =
           <View style={styles.hero}>
             <View style={styles.heroContent}>
               <Headline style={styles.headline}>{translate('screens.KitActivation.activate-your-kit')}</Headline>
-              <Paragraph style={styles.description}>
-                {translate('screens.KitActivation.insert-the-activation-code-printed-in-your-box-')}
-                {
-                  <Text
-                    key="link1"
-                    style={styles.hyperlink}
-                    onPress={() => setHelpVisible(true)}
-                    testID="kit-activation-explain-text"
-                  >
-                    {translate('screens.KitActivation.where-is-the-code')}
-                  </Text>
-                }
-              </Paragraph>
+              <View testID="kit-activation-explain-text">
+                <Paragraph style={styles.description}>
+                  {translate('screens.KitActivation.insert-the-activation-code-printed-in-your-box-')}
+                  {
+                    <Text key="link1" style={styles.hyperlink} onPress={() => setHelpVisible(true)}>
+                      {translate('screens.KitActivation.where-is-the-code')}
+                    </Text>
+                  }
+                </Paragraph>
+              </View>
             </View>
           </View>
         }

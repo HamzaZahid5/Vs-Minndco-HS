@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 
@@ -17,6 +17,8 @@ import MostFrequentTriggers from './MostFrequentTriggers';
 import { usePathEndingBarButton } from '../PathEnding';
 // @ts-ignore: non-ts file
 import useJournal from '../../utils/hooks/useJournal';
+// @ts-ignore: non-ts file
+import { getLogStressSurveyData } from '../../services/Firestore';
 import { triggerKeyToLabel } from '../StressTrigger';
 import { journalType } from '../../../types';
 import { CustomThemeType } from '../../utils/OriginalTheme';
@@ -26,6 +28,8 @@ import useOrientationLocker from '../../utils/hooks/useOrientationLocker';
 import { OrientationLock } from 'expo-screen-orientation';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
 import useStartPath from '../../utils/hooks/useStartPath';
+import { useSelector } from 'react-redux';
+import { AVERAGE_STRESS } from '../../store/selectors';
 
 const getFrequentTriggersFromJournal = (journal: journalType[] = []) => {
   const triggersWithScores = journal.reduce((r, item) => {
@@ -50,8 +54,8 @@ const Statistics = ({ navigation }: DefaultScreenPropType<'Statistics'>) => {
   useOrientationLocker(OrientationLock.PORTRAIT_UP);
   const journal = useJournal() || [];
   const frequentTriggers = getFrequentTriggersFromJournal(journal);
-  const avgStressLevel = journal.reduce((r: number, i: journalType) => r + i.level, 0) / Number(journal.length) || 0;
-  const chartData = journal.map((r: journalType) => r.level).reverse();
+  const avgStressLevel = useSelector(AVERAGE_STRESS);
+  const [chartData, setChartData] = useState<number[]>([]);
   useStartPath('statistics');
   usePathEndingBarButton(
     navigation,
@@ -67,7 +71,21 @@ const Statistics = ({ navigation }: DefaultScreenPropType<'Statistics'>) => {
     },
     () => AnalyticEvent('ui_nav_close_btn_stats'),
   );
-
+  const getStressRate = useCallback(async () => {
+    const logData = await getLogStressSurveyData();
+    if (logData.size) {
+      const values: number[] = [];
+      logData.forEach((log: Record<string, any>) => {
+        const value = Number(JSON.parse(log.data().value));
+        values.push(value);
+      });
+      setChartData(values.reverse());
+    }
+  }, []);
+  useEffect(() => {
+    getStressRate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <ScreenDecorator>
       <Carousel
@@ -103,7 +121,7 @@ const Statistics = ({ navigation }: DefaultScreenPropType<'Statistics'>) => {
                     <MostFrequentTriggers triggers={frequentTriggers.map(t => t.label)} />
                   </View>
                   <View style={{ flex: 1, padding: 10 }}>
-                    <AverageStressLevel level={avgStressLevel} />
+                    <AverageStressLevel level={avgStressLevel ?? 0} />
                   </View>
                 </View>
                 <View style={{ flex: 1, padding: 10 }}>

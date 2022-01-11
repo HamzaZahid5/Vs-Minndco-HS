@@ -98,7 +98,7 @@ const FullScreenHomeMessage = ({
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
               <SkipTutorialButton onPress={end} />
-              <NextStepButton onPress={next} />
+              <NextStepButton onPress={next} testID="step-2-ok" />
             </FadeEffect>
           </View>
         </View>

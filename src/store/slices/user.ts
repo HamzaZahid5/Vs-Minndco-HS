@@ -8,6 +8,7 @@ import firestore from '../../services/Firestore';
 export type UserStatistics = {
   last_completed_activity_at?: firestore.Timestamp;
   activity_days_in_a_row: number;
+  average_stress?: number;
 };
 export type UserState = {
   data: {
@@ -17,6 +18,7 @@ export type UserState = {
       show_basics_tutorial?: boolean;
       has_coach_messages?: boolean;
       show_welcome_message_on_chat?: boolean;
+      onboarding_complete?: boolean;
     };
     gender: string;
     group?: string;
@@ -62,7 +64,11 @@ const user = createSlice({
       };
     },
     setUser: (state, action) => {
+      const oldOnBoardingFlag = state.data.flags.onboarding_complete;
       state.data = action.payload;
+      if (oldOnBoardingFlag) {
+        state.data.flags.onboarding_complete = oldOnBoardingFlag; //Use local onBoardingComplete flag, zoho is very slow and webhook is called after setState
+      }
     },
     setLastActivityAt: (state, action) => {
       const newStatistics = { ...state.data.statistics };
@@ -76,6 +82,9 @@ const user = createSlice({
           progress: newProgress,
         },
       };
+    },
+    onBoardingComplete: state => {
+      state.data.flags.onboarding_complete = true;
     },
     tutorialDone: state => {
       return {

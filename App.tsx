@@ -23,6 +23,7 @@ import HowItWorksScreen from './src/screens/HowItWorks';
 import KitActivationScreen from './src/screens/KitActivation';
 // @ts-ignore: non-ts file
 import KitAssembleScreen from './src/screens/KitAssemble';
+import RoadmapScreen from './src/screens/Roadmap';
 import LibraryScreen from './src/screens/Library';
 import LoadingScreen from './src/screens/Loading';
 import LoginScreen from './src/screens/Login';
@@ -66,12 +67,18 @@ import handleMessaging from './src/utils/RemoteMessagingHandler';
 import useDeepLinking from './src/utils/hooks/useDeepLinking';
 import navigateToDeepLink from './src/utils/navigateToDeepLink';
 import { translate, getLocale } from './src/utils/localization';
+// @ts-ignore: non-ts file
 import Smartlook from 'smartlook-react-native-wrapper';
 import analytics from './src/services/Analytics';
 import crashlytics from './src/services/Crashlytics';
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
 import NoProductionIndicator from './src/components/NoProductionIndicator';
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress';
+import Playground from './src/screens/Playground';
+import VRPlaygroundActivity from './src/screens/VRPlaygroundActivity';
+import Zoho from './src/screens/Zoho';
+import StressActivitySelect from './src/screens/StressActivitySelect';
+import ReadActivitySelect from './src/screens/ReadActivitySelect';
 
 const Stack = createStackNavigator<RootStackParamList>();
 // const Stack = createStackNavigator();
@@ -208,6 +215,16 @@ export default function App() {
                     options={{ title: translate('screens.StressActivityType.headerTitle') }}
                   />
                   <Stack.Screen
+                    name="StressActivitySelect"
+                    component={StressActivitySelect}
+                    options={{ title: translate('screens.StressActivitySelect.headerTitle') }}
+                  />
+                  <Stack.Screen
+                    name="ReadActivitySelect"
+                    component={ReadActivitySelect}
+                    options={{ title: translate('screens.StressActivitySelect.headerTitle') }}
+                  />
+                  <Stack.Screen
                     name="StressActivityToDo"
                     component={StressActivityToDoScreen}
                     options={{ title: '' }}
@@ -219,9 +236,19 @@ export default function App() {
                   />
                   <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
                   <Stack.Screen
+                    name="Zoho"
+                    component={Zoho}
+                    options={{ title: translate('screens.Zoho.headerTitle') }}
+                  />
+                  <Stack.Screen
                     name="AboutVR"
                     component={AboutVRScreen}
                     options={{ title: translate('screens.AboutVR.headerTitle') }}
+                  />
+                  <Stack.Screen
+                    name="Roadmap"
+                    component={RoadmapScreen}
+                    options={{ title: translate('screens.Roadmap.headerTitle') }}
                   />
                   <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
                   <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
@@ -232,7 +259,13 @@ export default function App() {
                     component={StatisticsScreen}
                     options={{ title: translate('screens.Statistics.headerTitle') }}
                   />
+                  <Stack.Screen
+                    name="VRPlaygroundActivity"
+                    component={VRPlaygroundActivity}
+                    options={{ headerShown: false, title: '' }}
+                  />
                   <Stack.Screen name="ContentsShelf" component={ContentsShelfScreen} options={{ title: '' }} />
+                  <Stack.Screen name="Playground" component={Playground} options={{ title: '' }} />
                   <Stack.Screen
                     name="KitAssemble"
                     component={KitAssembleScreen}
@@ -248,11 +281,7 @@ export default function App() {
               ) : (
                 <>
                   <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, title: '' }} />
-                  <Stack.Screen
-                    name="ResetPassword"
-                    component={ResetPassword}
-                    options={{ title: '' }}
-                  />
+                  <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ title: '' }} />
                   <Stack.Screen name="Registration" component={RegistrationScreen} options={{ title: '' }} />
                   <Stack.Screen name="ThemeInspector" component={ThemeInspector} />
                 </>

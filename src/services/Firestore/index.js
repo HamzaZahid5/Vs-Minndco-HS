@@ -105,3 +105,40 @@ export const updateDeviceInfo = ({ token }) =>
   });
 
 export const getFirestoreTimestamp = (date = new Date()) => firestore.Timestamp.fromDate(date);
+
+export const createVrSession = async uid => {
+  const sessionRef = await firestore().collection('vr_sessions').add({
+    uid,
+    state: 'AWAITING',
+    created_at: firestore.FieldValue.serverTimestamp(),
+    updated_at: firestore.FieldValue.serverTimestamp(),
+  });
+  return sessionRef.id;
+};
+
+export const getVrSession = async sessionId => {
+  const docRef = await firestore().collection('vr_sessions').doc(sessionId).get();
+  return { state: docRef.data().state, progress: docRef.data().progress };
+};
+
+export const updateActivityCounter = async activityType => {
+  let oldCounter = 0;
+  const docRef = await firestore().collection('users').doc(auth().currentUser.uid).get();
+  const userData = docRef.data();
+  if (userData.statistics.activityCounter) {
+    oldCounter = userData.statistics.activityCounter[activityType] ?? 0;
+  }
+  let updateObject = {};
+  updateObject[`statistics.activityCounter.${activityType}`] = oldCounter + 1;
+  await updateProfile(updateObject);
+};
+
+export const getLogStressSurveyData = async (limit = 10) =>
+  firestore()
+    .collection('users')
+    .doc(auth().currentUser.uid)
+    .collection('logs')
+    .where('subtype', '==', 'stressrate')
+    .orderBy('created_at', 'desc')
+    .limit(limit)
+    .get();

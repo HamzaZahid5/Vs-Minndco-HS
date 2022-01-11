@@ -9,7 +9,7 @@ const useStartPath = (newPath: PathsType, override = true, deps: any[] = []) => 
   useEffect(() => {
     if (override || current_path === null) dispatch({ type: 'flags/setCurrentPath', payload: newPath });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deps]);
+  }, [...deps]);
 };
 
 export default useStartPath;

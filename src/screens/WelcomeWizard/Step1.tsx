@@ -83,8 +83,8 @@ const FullScreenHomeMessage = ({
           </FadeEffect>
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={enterActions}>
-              <SkipTutorialButton onPress={end} />
-              <NextStepButton onPress={next} />
+              <SkipTutorialButton onPress={end} testID="step-1-skip" />
+              <NextStepButton onPress={next} testID="step-1-ok" />
             </FadeEffect>
           </View>
         </View>

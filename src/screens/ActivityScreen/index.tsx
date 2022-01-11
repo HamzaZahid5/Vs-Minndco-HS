@@ -25,12 +25,15 @@ import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlay
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types';
 import useStartPath from '../../utils/hooks/useStartPath';
 import AnalyticEvent from '../../utils/AnalyticsEvent';
+// @ts-ignore: non-ts file
+import { ZOHO_SURVEYS } from '../../utils/constants';
 
 const getWhatContentIs = (act: activityType | { type: string } = { type: '' }) => ({
   video: act.type === '2d-video',
   vr: act.type === 'vr-met',
   audio: act.type === 'audio',
   form: act.type === 'reflection',
+  survey: act.type === 'survey',
 });
 
 const ActivityScreen = ({
@@ -53,13 +56,14 @@ const ActivityScreen = ({
 
   const routeParams = {
     header: {
-      type: IS.form ? 'performance' : 'rate',
+      type: IS.form || IS.survey ? 'performance' : 'rate',
       asset: nextActivity?.id,
     },
     body: {
       options: ['LearnRow', 'StatsRow', 'StressManagementRow'],
     },
   };
+
   const resetPathTo = useNavigationResetPathTo(navigation);
 
   const handleActivityComplete = (answer?: string) => {
@@ -67,6 +71,20 @@ const ActivityScreen = ({
     resetPathTo('PathEnding', routeParams);
   };
 
+  useEffect(() => {
+    const nextActivityTyped = nextActivity as activityType;
+    if (IS.survey) {
+      resetPathTo('Zoho', {
+        onCancel: () => {
+          navigation.goBack();
+        },
+        onComplete: handleActivityComplete,
+        zohoUrl: ZOHO_SURVEYS[nextActivityTyped.asset].url,
+        customData: ZOHO_SURVEYS[nextActivityTyped.asset].customData,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nextActivity, IS]);
   const openVRPlayer = useVRPlayerCTA({
     resourceId: IS.vr ? asset : '',
     onCancel: () => {

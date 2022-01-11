@@ -23,7 +23,6 @@ const Profile = () => {
   const styles = getStyles(theme);
   const { email } = useSelector(AUTH_INFO);
   const { display_name } = useSelector(USER_SUPPORT_PROFILE);
-
   useEffect(() => {
     if (debugCount === 10) {
       crashlytics().crash();
@@ -53,7 +52,7 @@ const Profile = () => {
           >
             {translate('screens.Profile.sign-out')}
           </BigButton>
-          <Text onPress={() => incrementDebugCount(debugCount + 1)} style={styles.app_version}>
+          <Text style={styles.app_version}>
             v{config.APP_VERSION} {debugCount > 5 ? debugCount : ''}
           </Text>
         </View>

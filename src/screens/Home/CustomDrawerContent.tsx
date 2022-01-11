@@ -88,6 +88,17 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         testID="drawer-statistics"
       />
 
+      <CustomDrawerItem
+        onPress={() => {
+          navigation.navigate('Roadmap');
+          navigation.closeDrawer();
+        }}
+        icon="map"
+        name={translate('screens.Home.roadmap')}
+        color={theme.colors.secondary}
+        testID="drawer-roadmap"
+      />
+
       {!kitActivated && (
         <CustomDrawerItem
           onPress={() => {

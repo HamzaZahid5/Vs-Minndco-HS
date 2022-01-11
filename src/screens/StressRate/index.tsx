@@ -5,18 +5,35 @@ import { useDispatch } from 'react-redux';
 import Row from './AnimatedRateRow';
 // @ts-ignore: non-ts file
 import ScreenDecorator from '../../components/ScreenDecorator';
-import { DefaultScreenPropType } from '../../../types';
+import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types';
 import useStartPath from '../../utils/hooks/useStartPath';
+// @ts-ignore: non-ts file
+import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
+import useAppActions from './actions';
 
-const StressRate = ({ navigation }: DefaultScreenPropType<'StressRate'>) => {
-  const dispatch = useDispatch();
+const StressRate = ({
+  navigation,
+  route,
+}: DefaultScreenPropType<'StressRate'> & DefaultScreenRouteType<'StressRate'>) => {
+  const { saveStressOMeter } = useAppActions();
   const [selected, setSelection] = useState<number>();
   const rate = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  useStartPath('rate_stress');
+  const resetTo = useNavigationResetPathTo(navigation);
+
+  const routeParams = {
+    header: {
+      type: 'stress_info',
+    },
+    body: {
+      options: ['PlaygroundRow', 'LearnRow', 'CoachRow'],
+    },
+  };
+
   const onSelected = (idx: number) => {
     if (idx === selected) {
-      dispatch({ type: 'currentStress/setStressLevel', payload: idx });
-      navigation.navigate('StressTrigger');
+      saveStressOMeter(idx, !route.params?.isTrigerIdentification);
+
+      resetTo('PathEnding', routeParams);
     }
   };
 

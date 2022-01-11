@@ -1,12 +1,15 @@
 import { Animated, EasingFunction, StyleSheet, View } from 'react-native';
 import React, { useEffect, useRef } from 'react';
-
+import env from '../../../env';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const LoadingScreen = () => {
   const rotateValueHolder = useRef(new Animated.Value(0)).current;
-
+  const isUnmounted = useRef(false);
   const startAnimation = () => {
+    if (isUnmounted.current) {
+      return; // Stop animation if component is not mounted
+    }
     rotateValueHolder.setValue(0);
     Animated.timing(rotateValueHolder, {
       toValue: 1,
@@ -17,7 +20,13 @@ const LoadingScreen = () => {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(startAnimation, []); //Only run in component boot
+  useEffect(() => {
+    isUnmounted.current = false;
+    startAnimation();
+    return () => {
+      isUnmounted.current = true;
+    };
+  }, []); //Only run in component boot
 
   const animatedStyle = {
     transform: [

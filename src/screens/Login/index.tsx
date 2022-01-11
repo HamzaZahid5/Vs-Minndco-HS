@@ -80,6 +80,7 @@ const Login = ({ navigation }: Props) => {
               maxWidth: '100%',
               justifyContent: 'center',
             }}
+            testID="welcome"
           >
             <LoginForm onSubmit={onFormSubmit} loading={loading} />
             <View>

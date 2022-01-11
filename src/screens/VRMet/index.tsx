@@ -22,15 +22,20 @@ const getMessageEventsHandler =
     if (event.nativeEvent.data === 'Video:ended') {
       onComplete();
     }
+    if (event.nativeEvent.data === 'Video:canceled') {
+      onCancel();
+    }
   };
 
 const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
   useOrientationLocker(OrientationLock.LANDSCAPE_RIGHT);
-  const { assetUrl, onComplete = Function, onCancel = Function } = route.params || {};
+  const { assetUrl, onComplete = Function, onCancel = Function, useUrl = false } = route.params || {};
   const theme = useTheme();
   useKeepAwake();
   const webViewRef = useRef<WebView | null>(null);
-  const uri = `https://${BASE_URL}/?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`;
+  const uri = useUrl
+    ? `https://${BASE_URL}/${assetUrl}?lang=${getLocale()}`
+    : `https://${BASE_URL}/?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`;
 
   return (
     <View style={styles.container}>

@@ -50,17 +50,18 @@ const StressActivity = ({
   route,
 }: DefaultScreenPropType<'StressActivityToDo'> & DefaultScreenRouteType<'StressActivityToDo'>) => {
   const [content, setContent] = useState<contentType>();
-  const { type: activityType = 'DO' } = route?.params || {};
+  const { type: activityType = 'DO', selectedContent } = route?.params || {};
   const { resetPerformedLifesaverActivity, addPerformedLifesaverActivity } = useAppActions();
   const { activitiesDone: lifesaverActivitiesDone } = useSelector(CURRENT_STRESS_INPUT);
-
   const routeParams = {
     header: {
       type: 'vote',
       asset: content?.id,
     },
     body: {
-      options: ['LearnRow', 'CoachRow', 'StressManagementRowAgain'],
+      options: route.params.isFromPlayground
+        ? ['PlaygroundRow', 'LearnRow', 'CoachRow']
+        : ['LearnRow', 'CoachRow', 'StressManagementRowAgain'],
     },
   };
   usePathEndingBarButton(navigation, { routeParams }, () => {
@@ -83,14 +84,19 @@ const StressActivity = ({
   useEffect(() => {
     const loadContent = async () => {
       // eslint-disable-next-line no-shadow
-      const content = getContentByType(activityType);
-      let availableContent = content.filter(a => !lifesaverActivitiesDone.includes(a.id));
-      if (availableContent.length === 0) {
-        resetPerformedLifesaverActivity();
-        availableContent = content;
+      let nextContent;
+      if (selectedContent) {
+        nextContent = { ...selectedContent };
+      } else {
+        const content = getContentByType(activityType);
+        let availableContent = content.filter(a => !lifesaverActivitiesDone.includes(a.id));
+        if (availableContent.length === 0) {
+          resetPerformedLifesaverActivity();
+          availableContent = content;
+        }
+        nextContent = availableContent[~~(Math.random() * 10) % availableContent.length];
       }
-      const nextContent = availableContent[~~(Math.random() * 10) % availableContent.length];
-      addPerformedLifesaverActivity({ ...nextContent });
+      addPerformedLifesaverActivity({ ...nextContent }, route.params.isFromPlayground);
 
       setContent(nextContent);
     };
@@ -100,7 +106,13 @@ const StressActivity = ({
 
   return (
     <ScreenDecorator>
-      {activityType === 'READ' && content && <ReadActivity content={content} onClose={onCloseActivity} />}
+      {activityType === 'READ' && content && (
+        <>
+          {/*Using for detox to recognize testID*/}
+          <View testID="reliver-activity-read-carousel" />
+          <ReadActivity content={content} onClose={onCloseActivity} />
+        </>
+      )}
       {activityType === 'LISTEN' && content && (
         <View testID="listen-activity" style={{ flexBasis: '100%' }}>
           <StorageLoader path={content.source}>

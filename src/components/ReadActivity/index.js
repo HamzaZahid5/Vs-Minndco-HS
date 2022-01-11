@@ -9,18 +9,20 @@ const ReadActivity = ({ content }) => {
   const styles = getStyles(theme);
   return (
     <Carousel
-      items={content.pages.map((page, idx) => ({
-        // title: content.title,
-        content: (
-          <>
-            <Text style={styles.title}>{content.title}</Text>
-            <View style={styles.container}>
-              <Text style={styles.number}>0{idx + 1}</Text>
-              <Paragraph style={styles.text}>{page}</Paragraph>
-            </View>
-          </>
-        ),
-      }))}
+      items={content.pages
+        .filter(el => el !== '')
+        .map((page, idx) => ({
+          // title: content.title,
+          content: (
+            <>
+              <Text style={styles.title}>{content.title}</Text>
+              <View style={styles.container}>
+                <Text style={styles.number}>0{idx + 1}</Text>
+                <Paragraph style={styles.text}>{page}</Paragraph>
+              </View>
+            </>
+          ),
+        }))}
       testID="read-activity-carousel"
     />
   );

@@ -37,12 +37,6 @@ const Library = ({ navigation }: Props): JSX.Element => {
       >
         <View style={styles.bodyContainer}>
           <RowItem
-            title={translate('screens.Library.how-the-program-works')}
-            text={translate('screens.Library.how-work-paragraph')}
-            // reverse
-            onPress={() => navigation.navigate('HowItWorks')}
-          />
-          <RowItem
             title={translate('screens.Library.mindfulness')}
             text={translate('screens.Library.mindfulness-paragraph')}
             // reverse

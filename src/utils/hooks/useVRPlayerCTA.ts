@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
@@ -6,7 +7,45 @@ import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { getLocale, translate } from '../localization';
 import AnalyticEvent from '../AnalyticsEvent';
 import env from '../../../env';
+import { VR_SESSIONS_STATES_TYPE } from '../../../types';
+import { useRef } from 'react';
+// @ts-ignore: non-ts file
+import { createVrSession, getVrSession } from '../../services/Firestore';
+// @ts-ignore: non-ts file
+import { auth } from '../../services/Auth';
 const BASE_URL = `${env.webVrURL}`;
+
+//const browserLoop = async (onComplete: () => void, onCancel: () => void, onError: () => void, resourceId: string) => {
+const callInAppBrowser = async (sessionId: string, assetUrl: string, resourceId: string) => {
+  const lang = getLocale();
+  const url = `https://${BASE_URL}/?lang=${lang}&video=${encodeURIComponent(assetUrl)}&sessionId=${sessionId}`;
+  console.log(url);
+  if (await InAppBrowser.isAvailable()) {
+    AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
+    await InAppBrowser.open(url, {
+      // iOS Properties
+      dismissButtonStyle: 'close',
+      preferredBarTintColor: '#453AA4',
+      preferredControlTintColor: 'white',
+      readerMode: false,
+      animated: true,
+      modalPresentationStyle: 'overFullScreen',
+      modalTransitionStyle: 'coverVertical',
+      modalEnabled: true,
+      enableBarCollapsing: true,
+      ephemeralWebSession: false,
+      // Android Properties
+      showTitle: true,
+      toolbarColor: '#6200EE',
+      secondaryToolbarColor: 'black',
+      enableUrlBarHiding: true,
+      enableDefaultShare: false,
+      forceCloseOnRedirection: true,
+    });
+  } else {
+    throw 'Browser not available';
+  }
+};
 
 export type VRPlayerCTAPropType = {
   resourceId: string;
@@ -23,6 +62,7 @@ const useVRPlayerCTA = ({
 }: VRPlayerCTAPropType) => {
   const assetUrl = useStorageDownloadURL(resourceId) || '';
   const navigation = useNavigation();
+  const browserStatus = useRef<VR_SESSIONS_STATES_TYPE>('AWAITING');
   const onCompleteWithAnalytics = () => {
     AnalyticEvent('video_end', { video_type: 'vr', video_id: resourceId });
     onComplete();
@@ -49,51 +89,39 @@ const useVRPlayerCTA = ({
   };
   const openVRPlayerForAndroid = async () => {
     try {
-      const lang = getLocale();
-      const url = `https://${BASE_URL}/?lang=${lang}&video=${encodeURIComponent(assetUrl)}`;
-      if (await InAppBrowser.isAvailable()) {
+      const browserLoop = async (oldSessionId?: string): Promise<void> => {
+        browserStatus.current === 'AWAITING';
         const startTime = Date.now();
-        AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
-        await InAppBrowser.open(url, {
-          // iOS Properties
-          dismissButtonStyle: 'close',
-          preferredBarTintColor: '#453AA4',
-          preferredControlTintColor: 'white',
-          readerMode: false,
-          animated: true,
-          modalPresentationStyle: 'overFullScreen',
-          modalTransitionStyle: 'coverVertical',
-          modalEnabled: true,
-          enableBarCollapsing: true,
-          ephemeralWebSession: false,
-          // Android Properties
-          showTitle: true,
-          toolbarColor: '#6200EE',
-          secondaryToolbarColor: 'black',
-          enableUrlBarHiding: true,
-          enableDefaultShare: false,
-          forceCloseOnRedirection: true,
-          // headers: {
-          //   'my-custom-header': 'my custom header value',
-          // },
-        });
+        let sessionId;
 
-        // @TODO integrate Firebase on VR Player to communicate status through Firestore.
-        // very roughly way to guess if an activity is completed or canceled.
-        // more than a minute into the VR player, we considered as completed.
+        if (oldSessionId) {
+          sessionId = oldSessionId;
+        } else {
+          sessionId = await createVrSession(auth().currentUser.uid);
+        }
+        if (!sessionId) {
+          throw 'Undefined as sessionID';
+        }
+        console.log('SID', sessionId);
+        await callInAppBrowser(sessionId, assetUrl, resourceId);
+        console.log('Browser finished');
+        const { state, progress } = await getVrSession(sessionId);
+        browserStatus.current = state;
+        if (browserStatus.current === 'PERMISSIONS') {
+          console.log('permissionss');
+          return await browserLoop(sessionId);
+        }
         const endTime = Date.now();
-        const timeDiffInMS = endTime - startTime;
-        const diffInMinutes = timeDiffInMS / 1000 / 60;
-
-        if (diffInMinutes > 1) {
+        const timeDiffInMS = endTime - startTime; //TODO save in-activity time
+        console.log('Progress: ', progress);
+        if (progress > 0.01) {
           onCompleteWithAnalytics();
         } else {
           onCancel();
         }
-      } else {
-        onError('Cannot open url');
-      }
-    } catch (error) {
+      };
+      await browserLoop();
+    } catch (error: any) {
       crashlytics().recordError(error);
       onError(error.message);
     }

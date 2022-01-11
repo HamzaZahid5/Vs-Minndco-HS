@@ -78,12 +78,8 @@ const FullScreenHomeMessage = ({
           </FadeEffect>
           <View style={styles.actionsPlaceholder}>
             <FadeEffect style={styles.actionsContainer} show={actionsAreVisible}>
-              <GenericChipButton onPress={() => next(7)} text={translate('commons.general.no')} />
-              <GenericChipButton
-                onPress={() => next(8)}
-                text={translate('commons.general.yes')}
-                testID="tutorial-yes-have-kit"
-              />
+              <GenericChipButton onPress={() => next(7)} text={translate('commons.general.no')} testID="step-6-no" />
+              <GenericChipButton onPress={() => next(8)} text={translate('commons.general.yes')} testID="step-6-yes" />
             </FadeEffect>
           </View>
         </View>

@@ -14,6 +14,7 @@ import HeaderStatistics from './HeaderStatistics';
 import HeaderEmpty from './HeaderEmpty';
 import HeaderPoll from './HeaderPoll';
 import HeaderVote from './HeaderVote';
+import HeaderStressInfo from './HeaderStressInfo';
 import HeaderPerformance from './HeaderPerformance';
 // @ts-ignore: non-ts file
 import useNavigationResetPathTo from '../../utils/hooks/useNavigationResetPathTo';
@@ -86,6 +87,9 @@ const getHeaderByParam = (param: RootStackParamList['PathEnding']['header']) => 
   if (param.type === 'mood_poll') {
     return <HeaderPoll asset={param.asset} />;
   }
+  if (param.type === 'stress_info') {
+    return <HeaderStressInfo />;
+  }
   return <HeaderEmpty />;
 };
 
@@ -134,7 +138,7 @@ const PathEnding = ({
       title={translate('screens.PathEnding.use-the-reliever')}
       text={translate('screens.PathEnding.feeling-stressed')}
       reverse
-      onPress={() => resetPathTo('StressRate')}
+      onPress={() => resetPathTo('StressTrigger')}
     />
   );
   const StressManagementRowAgain = (
@@ -142,7 +146,7 @@ const PathEnding = ({
       title={translate('screens.PathEnding.use-the-reliever-again')}
       text={translate('screens.PathEnding.still-feeling-stressed')}
       reverse
-      onPress={() => resetPathTo('StressRate')}
+      onPress={() => resetPathTo('StressTrigger')}
     />
   );
   const CoachRow = (
@@ -202,12 +206,22 @@ const PathEnding = ({
     />
   );
 
+  const PlaygroundRow = (
+    <RowItem
+      title={translate('screens.PathEnding.row-playground-title')}
+      text={translate('screens.PathEnding.row-playground-desc')}
+      reverse
+      onPress={() => resetPathTo('Playground')}
+    />
+  );
+
   return (
     <ScreenDecorator>
       <GenericPageLayout fullScroll header={getHeaderByParam(headerParam)}>
         <Headline style={styles.bodyTitle}>{translate('screens.PathEnding.whats-next')}</Headline>
         <View style={styles.bodyContainer}>
           {rowOptions.includes('DailyActivityRow') && DailyActivityRow}
+          {rowOptions.includes('PlaygroundRow') && PlaygroundRow}
           {rowOptions.includes('LearnRow') && LearnRow}
           {rowOptions.includes('StatsRow') && StatsRow}
           {rowOptions.includes('StressManagementRow') && StressManagementRow}

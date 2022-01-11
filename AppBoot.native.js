@@ -2,6 +2,8 @@ import 'react-native-gesture-handler';
 // import { registerRootComponent } from 'expo';
 import Smartlook from 'smartlook-react-native-wrapper';
 import { AppRegistry, Platform, UIManager } from 'react-native';
+import { LogBox } from 'react-native';
+if (env.name === 'test') LogBox.ignoreAllLogs(); //Dont show LogBox on test.
 import env from './env'
 
 if (Platform.OS === 'android') {

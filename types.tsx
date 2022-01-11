@@ -4,6 +4,13 @@ import { contentType } from './src/screens/StressActivityScreen';
 //@ts-ignore not implemented
 import firestore from './src/services/Firestore';
 
+export type LifesaverContentType = {
+  id: string;
+  type: ContentTypesType;
+  category: 'practical' | 'learning';
+  free?: boolean;
+} & Record<string, unknown>;
+
 export type RootStackParamList = {
   Main: undefined;
   Home: undefined;
@@ -11,21 +18,33 @@ export type RootStackParamList = {
   Login: undefined;
   ResetPassword: undefined;
   ThemeInspector: undefined;
-  StressRate: undefined;
-  StressTrigger: undefined;
+  StressRate: { isTrigerIdentification: boolean } | undefined;
+  StressTrigger: { isTrigerIdentification: boolean };
   StressActivityType: undefined;
   Activity: { activityId: string } | undefined;
   Modal: undefined;
   Tutorial: undefined;
   KitActivation: undefined;
   AboutVR: undefined;
+  StressActivitySelect: undefined;
+  ReadActivitySelect: undefined;
   StressActivityToDo: {
     type?: string;
+    isFromPlayground?: boolean;
+    selectedContent?: LifesaverContentType;
   };
   VRMet: {
     assetUrl: string;
     onCancel: () => void;
     onComplete: () => void;
+    useUrl?: boolean;
+  };
+  Playground: undefined;
+  Zoho: {
+    zohoUrl: string;
+    onCancel: () => void;
+    onComplete: () => void;
+    customData?: Record<string, unknown>;
   };
   Support: undefined;
   PathEnding: {
@@ -44,6 +63,8 @@ export type RootStackParamList = {
   KitAssemble: undefined;
   Library: undefined;
   ContentsShelf: { category: ProgramActivityCategories };
+  Roadmap: undefined;
+  VRPlaygroundActivity: { url: string };
 };
 export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {
   navigation: StackNavigationProp<RootStackParamList, Type>;
@@ -137,3 +158,9 @@ export type AnalyticEventType = {
   ui_nav_close_btn_stats: undefined;
   ui_nav_close_btn_read_act: undefined;
 };
+
+const VR_SESSIONS_STATES = ['AWAITING', 'PERMISSIONS', 'INACTIVE'] as const;
+
+export type VR_SESSIONS_STATES_TYPE = typeof VR_SESSIONS_STATES[number];
+
+export type activityOrigin = 'program' | 'lifesaver';
