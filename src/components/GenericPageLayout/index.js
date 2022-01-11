@@ -88,7 +88,7 @@ const GenericPageLayout = ({
           enableOnAndroid
           keyboardShouldPersistTaps={'handled'}
           extraHeight={390}
-          scrollEnabled={false}
+          scrollEnabled={true}
           contentContainerStyle={{
             flexGrow: 1,
             margin: 'auto',
