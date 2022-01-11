@@ -17,7 +17,8 @@ const BASE_URL = `${env.webVrURL}`;
 
 //const browserLoop = async (onComplete: () => void, onCancel: () => void, onError: () => void, resourceId: string) => {
 const callInAppBrowser = async (assetUrl: string) => {
-  const url = `https://${BASE_URL}/${assetUrl}`;
+    const lang = getLocale();
+    const url = `https://${BASE_URL}/${assetUrl}/?lang=${lang}`;
   if (await InAppBrowser.isAvailable()) {
     await InAppBrowser.open(url, {
       // iOS Properties
@@ -61,7 +62,6 @@ const useUrledVRPlayerCTA = ({
   const browserStatus = useRef<VR_SESSIONS_STATES_TYPE>('AWAITING');
 
   const openVRPlayerForWeb = async () => {
-    const url = `https://${BASE_URL}/${openUrl}`;
     await (() =>
       // if user returns to this tab we consider the player as closed
       // thus, we resolve promise when visibility state returns to "visible"
