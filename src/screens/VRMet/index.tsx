@@ -45,6 +45,7 @@ const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
           uri,
         }}
         allowsInlineMediaPlayback
+        // @ts-ignore: package bad type
         ignoreSilentHardwareSwitch
         onMessage={getMessageEventsHandler(webViewRef, onCancel, onComplete, assetUrl)}
         style={{
