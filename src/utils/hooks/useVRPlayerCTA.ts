@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useStorageDownloadURL } from './../../services/Storage';
@@ -19,7 +18,6 @@ const BASE_URL = `${env.webVrURL}`;
 const callInAppBrowser = async (sessionId: string, assetUrl: string, resourceId: string) => {
   const lang = getLocale();
   const url = `https://${BASE_URL}/?lang=${lang}&video=${encodeURIComponent(assetUrl)}&sessionId=${sessionId}`;
-  console.log(url);
   if (await InAppBrowser.isAvailable()) {
     AnalyticEvent('video_start', { video_type: 'vr', video_id: resourceId });
     await InAppBrowser.open(url, {
@@ -102,18 +100,14 @@ const useVRPlayerCTA = ({
         if (!sessionId) {
           throw 'Undefined as sessionID';
         }
-        console.log('SID', sessionId);
         await callInAppBrowser(sessionId, assetUrl, resourceId);
-        console.log('Browser finished');
         const { state, progress } = await getVrSession(sessionId);
         browserStatus.current = state;
         if (browserStatus.current === 'PERMISSIONS') {
-          console.log('permissionss');
           return await browserLoop(sessionId);
         }
         const endTime = Date.now();
         const timeDiffInMS = endTime - startTime; //TODO save in-activity time
-        console.log('Progress: ', progress);
         if (progress > 0.01) {
           onCompleteWithAnalytics();
         } else {
