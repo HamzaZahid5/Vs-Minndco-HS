@@ -10,6 +10,7 @@ type EnvConfig = {
   emulatorIp?: string;
   webVrURL: string;
   surveys: Record<string, string>;
+  activityCompletitionPorcentage: number;
 };
 type EnvNames = 'prod' | 'dev' | 'test';
 
@@ -24,6 +25,7 @@ const envs: Record<EnvNames, EnvConfig> = {
       resilienceSurvey: 'https://survey.zohopublic.com/zs/8PCzC8',
       integrationSurvey: 'https://survey.zohopublic.com/zs/K8CzFN',
     },
+    activityCompletitionPorcentage: 0.8,
   },
   dev: {
     name: 'development',
@@ -35,6 +37,7 @@ const envs: Record<EnvNames, EnvConfig> = {
       resilienceSurvey: 'https://survey.zohopublic.com/zs/CgBUcI',
       integrationSurvey: 'https://survey.zohopublic.com/zs/AvCzF3',
     },
+    activityCompletitionPorcentage: 0.05,
   },
   test: {
     name: 'test',
@@ -51,6 +54,7 @@ const envs: Record<EnvNames, EnvConfig> = {
       resilienceSurvey: 'https://survey.zohopublic.com/zs/CgBUcI',
       integrationSurvey: 'https://survey.zohopublic.com/zs/AvCzF3',
     },
+    activityCompletitionPorcentage: 0.05,
   },
 };
 

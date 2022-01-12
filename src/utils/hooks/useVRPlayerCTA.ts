@@ -108,7 +108,7 @@ const useVRPlayerCTA = ({
         }
         const endTime = Date.now();
         const timeDiffInMS = endTime - startTime; //TODO save in-activity time
-        if (progress > 0.01) {
+        if (progress > env.activityCompletitionPorcentage) {
           onCompleteWithAnalytics();
         } else {
           onCancel();
