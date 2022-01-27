@@ -1,6 +1,6 @@
 {
   "name": "MindCoRelief",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
@@ -11,7 +11,7 @@
     "ios": "npm run set-dev && npx react-native run-ios",
     "ios-test": "npm run set-test && npx react-native run-ios",
     "ios-prod": "npm run set-prod && npx react-native run-ios",
-    "preios-buid": "npm run set-prod",
+    "preios-build": "npm run set-prod",
     "ios-build": "npx react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios",
     "preweb": "npm run set-dev",
     "web": "expo start --web",
