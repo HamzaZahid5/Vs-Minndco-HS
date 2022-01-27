@@ -64,9 +64,10 @@ export default VRPlayer;
 
 const styles = StyleSheet.create({
   container: {
+    paddingHorizontal: 40,
     flex: 1,
     height: '100%',
-    backgroundColor: 'lime',
+    backgroundColor: 'black',
   },
   helloWorldTextStyle: {
     fontFamily: 'Arial',
