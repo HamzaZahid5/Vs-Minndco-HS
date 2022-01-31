@@ -31,7 +31,7 @@ export default fixedActivityId => {
       const activityIndex = fixedActivityId ? fixedActivityIndex : lastCompletedIndex + 1;
 
       // if exists, the activity key by index, otherwise the last activity key.
-      const nextActKey = allActivityKeys[activityIndex] || allActivityKeys.pop();
+      const nextActKey = allActivityKeys[activityIndex] || [...allActivityKeys].pop();
       // if fixed activity id, it will be the last activity when index + 1 is equal to array length.
       // if next activity is the last one, index plus 1 it will be equal to array length.
       // if next activity is unexistent (current activity was the last one), act index plus one will be greather than array length.

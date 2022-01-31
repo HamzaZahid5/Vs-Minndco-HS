@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation }: Props) => {
       <HomeLayout.MiddleCenter>
         {/* we wait for isLastActivity hook to resolve in order to fade-in the circle */}
         <FadeEffect show={isLastActivity !== undefined}>
-          {progress === 100 ? (
+          {progress === 100 && isLastActivity ? (
             <CircularContent
               title={translate('screens.Home.program-comple-title')}
               informativeText={translate('screens.Home.program-complete-information')}
@@ -71,7 +71,7 @@ const HomeScreen = ({ navigation }: Props) => {
                     : translate('screens.Home.todays-activity')
                   : ''
               }
-              progress={progress}
+              progress={(progress || 0) % 100}
               onPress={() => {
                 navigation.navigate('Activity');
               }}
