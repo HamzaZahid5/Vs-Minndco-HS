@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.mindcorelief</string>
+				<string>com.health.habitfly.mindcotine</string>
 			</array>
 		</dict>
 	</array>

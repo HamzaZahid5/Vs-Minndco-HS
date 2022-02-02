@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "mindcorelief.app"
-               BlueprintName = "MindCoRelief"
-               ReferencedContainer = "container:MindCoRelief.xcodeproj">
+               BuildableName = "Mindcotine.app"
+               BlueprintName = "MindCotine"
+               ReferencedContainer = "container:MindCotine.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "MindCoReliefTests.xctest"
-               BlueprintName = "MindCoReliefTests"
-               ReferencedContainer = "container:MindCoRelief.xcodeproj">
+               BuildableName = "MindCotineTests.xctest"
+               BlueprintName = "MindCotineTests"
+               ReferencedContainer = "container:MindCotine.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "mindcorelief.app"
-            BlueprintName = "MindCoRelief"
-            ReferencedContainer = "container:MindCoRelief.xcodeproj">
+            BuildableName = "Mindcotine.app"
+            BlueprintName = "MindCotine"
+            ReferencedContainer = "container:MindCotine.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "mindcorelief.app"
-            BlueprintName = "MindCoRelief"
-            ReferencedContainer = "container:MindCoRelief.xcodeproj">
+            BuildableName = "Mindcotine.app"
+            BlueprintName = "MindCotine"
+            ReferencedContainer = "container:MindCotine.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

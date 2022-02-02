@@ -1,15 +1,15 @@
 {
-  "name": "MindCoRelief",
-  "displayName": "Relief",
+  "name": "MindCotine",
+  "displayName": "MindCotine",
   "expo": {
-    "name": "MindCoRelief",
-    "slug": "MindCoRelief",
+    "name": "MindCotine",
+    "slug": "MindCotine",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
     "android": {
-      "package": "com.mindcorelief",
+      "package": "com.habitfly.mindcotine",
       "intentFilters": [
         {
           "action": "VIEW",
@@ -29,7 +29,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mindcorelief",
+      "bundleIdentifier": "com.health.habitfly.mindcotine",
       "requireFullScreen": true
     },
     "web": {

@@ -13,7 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2615D8CF27A6FA6670B90EA2 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCB60DD5E1FA2D89CAF2074 /* ExpoModulesProvider.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		859AC5A875617CB36309F690 /* libPods-MindCoRelief.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6426201FE6F6850918B1BD8 /* libPods-MindCoRelief.a */; };
+		859AC5A875617CB36309F690 /* libPods-MindCotine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6426201FE6F6850918B1BD8 /* libPods-MindCotine.a */; };
 		97CC1F3ED444497A85D72807 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9FD2E1A3CC4F548E3CD90C /* noop-file.swift */; };
 		A335928F2602A843006BF7E5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A335928E2602A843006BF7E5 /* GoogleService-Info.plist */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -21,22 +21,22 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* mindcorelief.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mindcorelief.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MindCoRelief/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MindCoRelief/AppDelegate.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Mindcotine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mindcotine.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MindCotine/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MindCotine/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MindCoRelief/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MindCoRelief/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MindCoRelief/main.m; sourceTree = "<group>"; };
-		615B594AD6AF56FA7965F91F /* Pods-MindCoRelief.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MindCoRelief.debug.xcconfig"; path = "Target Support Files/Pods-MindCoRelief/Pods-MindCoRelief.debug.xcconfig"; sourceTree = "<group>"; };
-		6BCB60DD5E1FA2D89CAF2074 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-MindCoRelief/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		9A170D2ADB854DDD98A9EA24 /* MindCoRelief-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MindCoRelief-Bridging-Header.h"; path = "MindCoRelief/MindCoRelief-Bridging-Header.h"; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MindCotine/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MindCotine/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MindCotine/main.m; sourceTree = "<group>"; };
+		615B594AD6AF56FA7965F91F /* Pods-MindCotine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MindCotine.debug.xcconfig"; path = "Target Support Files/Pods-MindCotine/Pods-MindCotine.debug.xcconfig"; sourceTree = "<group>"; };
+		6BCB60DD5E1FA2D89CAF2074 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-MindCotine/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		9A170D2ADB854DDD98A9EA24 /* MindCotine-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MindCotine-Bridging-Header.h"; path = "MindCotine/MindCotine-Bridging-Header.h"; sourceTree = "<group>"; };
 		A335928E2602A843006BF7E5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A6426201FE6F6850918B1BD8 /* libPods-MindCoRelief.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MindCoRelief.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = MindCoRelief/SplashScreen.storyboard; sourceTree = "<group>"; };
+		A6426201FE6F6850918B1BD8 /* libPods-MindCotine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MindCotine.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = MindCotine/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BFF5C735D6B7ECB94467577A /* Pods-MindCoRelief.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MindCoRelief.release.xcconfig"; path = "Target Support Files/Pods-MindCoRelief/Pods-MindCoRelief.release.xcconfig"; sourceTree = "<group>"; };
-		EB9FD2E1A3CC4F548E3CD90C /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "MindCoRelief/noop-file.swift"; sourceTree = "<group>"; };
+		BFF5C735D6B7ECB94467577A /* Pods-MindCotine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MindCotine.release.xcconfig"; path = "Target Support Files/Pods-MindCotine/Pods-MindCotine.release.xcconfig"; sourceTree = "<group>"; };
+		EB9FD2E1A3CC4F548E3CD90C /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "MindCotine/noop-file.swift"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -46,14 +46,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				859AC5A875617CB36309F690 /* libPods-MindCoRelief.a in Frameworks */,
+				859AC5A875617CB36309F690 /* libPods-MindCotine.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* MindCoRelief */ = {
+		13B07FAE1A68108700A75B9A /* MindCotine */ = {
 			isa = PBXGroup;
 			children = (
 				BB2F792B24A3F905000567C9 /* Supporting */,
@@ -66,9 +66,9 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				EB9FD2E1A3CC4F548E3CD90C /* noop-file.swift */,
-				9A170D2ADB854DDD98A9EA24 /* MindCoRelief-Bridging-Header.h */,
+				9A170D2ADB854DDD98A9EA24 /* MindCotine-Bridging-Header.h */,
 			);
-			name = MindCoRelief;
+			name = MindCotine;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -76,17 +76,17 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				A6426201FE6F6850918B1BD8 /* libPods-MindCoRelief.a */,
+				A6426201FE6F6850918B1BD8 /* libPods-MindCotine.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		57B49A5F0FEA5A5175FE59C0 /* MindCoRelief */ = {
+		57B49A5F0FEA5A5175FE59C0 /* MindCotine */ = {
 			isa = PBXGroup;
 			children = (
 				6BCB60DD5E1FA2D89CAF2074 /* ExpoModulesProvider.swift */,
 			);
-			name = MindCoRelief;
+			name = MindCotine;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -100,7 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				A335928E2602A843006BF7E5 /* GoogleService-Info.plist */,
-				13B07FAE1A68108700A75B9A /* MindCoRelief */,
+				13B07FAE1A68108700A75B9A /* MindCotine */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -115,7 +115,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* mindcorelief.app */,
+				13B07F961A680F5B00A75B9A /* Mindcotine.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,7 +123,7 @@
 		B3D00AC6A8AF584D23E050A6 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				57B49A5F0FEA5A5175FE59C0 /* MindCoRelief */,
+				57B49A5F0FEA5A5175FE59C0 /* MindCotine */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -134,14 +134,14 @@
 				BB2F792C24A3F905000567C9 /* Expo.plist */,
 			);
 			name = Supporting;
-			path = MindCoRelief/Supporting;
+			path = MindCotine/Supporting;
 			sourceTree = "<group>";
 		};
 		D65327D7A22EEC0BE12398D9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				615B594AD6AF56FA7965F91F /* Pods-MindCoRelief.debug.xcconfig */,
-				BFF5C735D6B7ECB94467577A /* Pods-MindCoRelief.release.xcconfig */,
+				615B594AD6AF56FA7965F91F /* Pods-MindCotine.debug.xcconfig */,
+				BFF5C735D6B7ECB94467577A /* Pods-MindCotine.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -149,9 +149,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* MindCoRelief */ = {
+		13B07F861A680F5B00A75B9A /* MindCotine */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MindCoRelief" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MindCotine" */;
 			buildPhases = (
 				37B5625E753C5AA51145369B /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -167,9 +167,9 @@
 			);
 			dependencies = (
 			);
-			name = MindCoRelief;
-			productName = MindCoRelief;
-			productReference = 13B07F961A680F5B00A75B9A /* mindcorelief.app */;
+			name = MindCotine;
+			productName = MindCotine;
+			productReference = 13B07F961A680F5B00A75B9A /* Mindcotine.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -186,7 +186,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MindCoRelief" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MindCotine" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -199,7 +199,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* MindCoRelief */,
+				13B07F861A680F5B00A75B9A /* MindCotine */,
 			);
 		};
 /* End PBXProject section */
@@ -240,7 +240,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MindCoRelief/Pods-MindCoRelief-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-MindCotine/Pods-MindCotine-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXUpdates/EXUpdates.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
@@ -287,7 +287,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MindCoRelief/Pods-MindCoRelief-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MindCotine/Pods-MindCotine-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		33B35055200E400C4AEFDA4E /* [CP-User] [RNFB] Crashlytics Configuration */ = {
@@ -319,7 +319,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MindCoRelief-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MindCotine-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -381,7 +381,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = MindCoRelief;
+			path = MindCotine;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -389,11 +389,11 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 615B594AD6AF56FA7965F91F /* Pods-MindCoRelief.debug.xcconfig */;
+			baseConfigurationReference = 615B594AD6AF56FA7965F91F /* Pods-MindCotine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = MindCoRelief/mindcorelief.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MindCotine/mindcotine.entitlements;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 872PUBWK8M;
 				ENABLE_BITCODE = NO;
@@ -402,7 +402,7 @@
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
-				INFOPLIST_FILE = MindCoRelief/Info.plist;
+				INFOPLIST_FILE = MindCotine/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.11;
@@ -411,9 +411,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindcorelief;
-				PRODUCT_NAME = mindcorelief;
-				SWIFT_OBJC_BRIDGING_HEADER = "MindCoRelief/MindCoRelief-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.health.habitfly.mindcotine;
+				PRODUCT_NAME = mindcotine;
+				SWIFT_OBJC_BRIDGING_HEADER = "MindCotine/MindCotine-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -423,15 +423,15 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFF5C735D6B7ECB94467577A /* Pods-MindCoRelief.release.xcconfig */;
+			baseConfigurationReference = BFF5C735D6B7ECB94467577A /* Pods-MindCotine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = MindCoRelief/mindcorelief.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MindCotine/mindcotine.entitlements;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 872PUBWK8M;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
-				INFOPLIST_FILE = MindCoRelief/Info.plist;
+				INFOPLIST_FILE = MindCotine/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.11;
@@ -440,9 +440,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindcorelief;
-				PRODUCT_NAME = mindcorelief;
-				SWIFT_OBJC_BRIDGING_HEADER = "MindCoRelief/MindCoRelief-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = com.health.habitfly.mindcotine;
+				PRODUCT_NAME = mindcotine;
+				SWIFT_OBJC_BRIDGING_HEADER = "MindCotine/MindCotine-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -477,7 +477,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = MindCoRelief/mindcorelief.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MindCotine/mindcotine.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -539,7 +539,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = MindCoRelief/mindcorelief.entitlements;
+				CODE_SIGN_ENTITLEMENTS = MindCotine/mindcotine.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -569,7 +569,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MindCoRelief" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MindCotine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -578,7 +578,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MindCoRelief" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MindCotine" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

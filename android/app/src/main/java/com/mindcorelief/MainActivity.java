@@ -1,4 +1,4 @@
-package com.mindcorelief;
+package com.habitfly.mindcotine;
 
 
 import android.os.Bundle;

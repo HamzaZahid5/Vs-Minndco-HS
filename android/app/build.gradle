@@ -152,7 +152,7 @@ android {
         configurations.all {
             resolutionStrategy { force 'androidx.browser:browser:1.3.0' }
         }
-        applicationId 'com.mindcorelief'
+        applicationId 'com.habitfly.mindcotine'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode googleVer

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:150002277657:android:2eed2a85ec7c49d494b988",
         "android_client_info": {
-          "package_name": "com.mindcorelief"
+          "package_name": "com.habitfly.mindcotine"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "150002277657-i8c6pple2skbiicalrh1sfptjoka21fp.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.mindcorelief"
+                "bundle_id": "com.habitfly.mindcotine"
               }
             }
           ]

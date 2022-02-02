@@ -1,4 +1,4 @@
-package com.mindcorelief;
+package com.habitfly.mindcotine;
 
 import com.wix.detox.Detox;
 import com.wix.detox.config.DetoxConfig;
@@ -26,7 +26,7 @@ public class DetoxTest {
         DetoxConfig detoxConfig = new DetoxConfig();
         detoxConfig.idlePolicyConfig.masterTimeoutSec = 90;
         detoxConfig.idlePolicyConfig.idleResourceTimeoutSec = 60;
-        detoxConfig.rnContextLoadTimeoutSec = (com.mindcorelief.BuildConfig.DEBUG ? 180 : 60);
+        detoxConfig.rnContextLoadTimeoutSec = (com.habitfly.mindcotine.BuildConfig.DEBUG ? 180 : 60);
 
         Detox.runTests(mActivityRule, detoxConfig);
     }
