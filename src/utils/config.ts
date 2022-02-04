@@ -1,1 +1,1 @@
-export const DICTYONARY_PATH = 'dictionaries/v0.1.0_';
+export const DICTYONARY_PATH = 'dictionaries/v4.16.3_';
