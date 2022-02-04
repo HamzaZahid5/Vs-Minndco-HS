@@ -1,41 +1,43 @@
 {
   "project_info": {
-    "project_number": "150002277657",
-    "project_id": "mindco-relief-dev",
-    "storage_bucket": "mindco-relief-dev.appspot.com"
+    "project_number": "353015682620",
+    "firebase_url": "https://mindcotine-v4-dev.firebaseio.com",
+    "project_id": "mindcotine-v4-dev",
+    "storage_bucket": "mindcotine-v4-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:150002277657:android:2eed2a85ec7c49d494b988",
+        "mobilesdk_app_id": "1:353015682620:android:45e4d6fcdf4c80eb101539",
         "android_client_info": {
           "package_name": "com.habitfly.mindcotine"
         }
       },
       "oauth_client": [
         {
-          "client_id": "150002277657-j6bqlelfjas4cqcot62c6ds1nve1ern0.apps.googleusercontent.com",
+          "client_id": "353015682620-8rcgv7hhnb9me728bv00tr0pkg3n4qu3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.habitfly.mindcotine",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "353015682620-7r94d3mpedi4higdd3saa8np728v48v2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDDwyJOmdwBN_Cii3TnbVbrGBCo_CR1_vc"
+          "current_key": "AIzaSyBVQ4Q2kAEwFEoEl4Ix6ENjyoI1I0fJUto"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "150002277657-j6bqlelfjas4cqcot62c6ds1nve1ern0.apps.googleusercontent.com",
+              "client_id": "353015682620-7r94d3mpedi4higdd3saa8np728v48v2.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "150002277657-i8c6pple2skbiicalrh1sfptjoka21fp.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.habitfly.mindcotine"
-              }
             }
           ]
         }
