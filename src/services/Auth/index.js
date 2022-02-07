@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useStore, useDispatch } from 'react-redux';
-// @ts-ignore
-import authentication from './auth';
+import { useState, useEffect } from 'react'
+import { useSelector, useStore, useDispatch } from 'react-redux'
+// @ts-ignore non ts file
+import authentication from './auth'
 
-export const auth = authentication;
+export const auth = authentication
 
 export const useAuth = () => {
-  const [userToken, setUserToken] = useState();
+  const [userToken, setUserToken] = useState()
 
   useEffect(() => {
     const unsubscribe = authentication().onAuthStateChanged(async authCredentials => {
-      setUserToken(authCredentials);
-    });
+      setUserToken(authCredentials)
+    })
 
     return () => {
-      unsubscribe();
-    };
+      unsubscribe()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  return userToken;
+  return userToken
 }

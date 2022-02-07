@@ -1,2 +1,2 @@
-import crashlytics from '@react-native-firebase/crashlytics';
-export default () => crashlytics();
+import crashlytics from '@react-native-firebase/crashlytics'
+export default () => crashlytics()

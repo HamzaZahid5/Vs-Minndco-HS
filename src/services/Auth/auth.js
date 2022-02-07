@@ -1,9 +1,9 @@
-import config from '../../../env';
-let bootUp = false;
+import config from '../../../env'
+let bootUp = false
 export default () => {
   if (config.name === 'test' && !bootUp) {
-    bootUp = true;
-    window.firebase.auth().useEmulator(`http://${config.emulatorIp}:9099`);
+    bootUp = true
+    window.firebase.auth().useEmulator(`http://${config.emulatorIp}:9099`)
   }
-  return window.firebase.auth();
-};
+  return window.firebase.auth()
+}

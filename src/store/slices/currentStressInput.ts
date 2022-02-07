@@ -1,16 +1,16 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
 
 export type StressInputState = {
-  stressLevel: number,
-  triggerActivity: string,
-  activitiesDone: Array<string>,
-};
+  stressLevel: number
+  triggerActivity: string
+  activitiesDone: Array<string>
+}
 
 const initialState: StressInputState = {
   stressLevel: 0,
   triggerActivity: '',
   activitiesDone: [],
-};
+}
 // const setFlag = createAction('flags/set')
 
 const flagger = createSlice({
@@ -18,18 +18,18 @@ const flagger = createSlice({
   initialState,
   reducers: {
     setStressLevel: (state, action) => {
-      state.stressLevel = action.payload;
+      state.stressLevel = action.payload
     },
     setTriggerActivity: (state, action) => {
-      state.triggerActivity = action.payload;
+      state.triggerActivity = action.payload
     },
     addActivityDone: (state, action) => {
-      state.activitiesDone.push(action.payload);
+      state.activitiesDone.push(action.payload)
     },
-    resetActivitiesDone: (state) => {
-      state.activitiesDone = [];
-    }
+    resetActivitiesDone: state => {
+      state.activitiesDone = []
+    },
   },
-});
+})
 
-export default flagger;
+export default flagger

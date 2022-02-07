@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
-import * as Font from 'expo-font';
+import { useEffect, useState } from 'react'
+import * as Font from 'expo-font'
 
 export default () => {
-  const [fontsLoaded, setFontsLoaded] = useState();
+  const [fontsLoaded, setFontsLoaded] = useState()
   const loadFonts = async () => {
     await Font.loadAsync({
-      // Load a font `Montserrat` from a static resource
-      'Graphik-Regular': require('../../../assets/fonts/Graphik-Regular/Graphik-Regular.ttf'),
-      'Graphik-Medium': require('../../../assets/fonts/Graphik-Medium/Graphik-Medium.ttf'),
-      'Graphik-Light': require('../../../assets/fonts/Graphik-Light/Graphik-Light.ttf'),
-      'Graphik-Bold': require('../../../assets/fonts/Graphik-Bold/Graphik-Bold.ttf'),
-    });
-    setFontsLoaded(true);
-  };
+      Poppins_400Regular: require('../../../assets/fonts/Poppins/Poppins-Regular.ttf'),
+      Poppins_700Bold: require('../../../assets/fonts/Poppins/Poppins-Bold.ttf'),
+      Poppins_300Light: require('../../../assets/fonts/Poppins/Poppins-Light.ttf'),
+      Poppins_100Thin: require('../../../assets/fonts/Poppins/Poppins-Thin.ttf'),
+      Poppins_600SemiBold: require('../../../assets/fonts/Poppins/Poppins-SemiBold.ttf'),
+    })
+    setFontsLoaded(true)
+  }
 
   useEffect(() => {
-    loadFonts();
-  }, []);
+    loadFonts()
+  }, [])
 
-  return [fontsLoaded];
-};
+  return [fontsLoaded]
+}

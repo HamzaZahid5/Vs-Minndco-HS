@@ -4,4 +4,4 @@ export default () => ({
   setUserId: () => undefined,
   recordError: () => undefined,
   crash: () => undefined,
-});
+})

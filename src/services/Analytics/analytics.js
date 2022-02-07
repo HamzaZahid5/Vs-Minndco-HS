@@ -1,1 +1,1 @@
-export default () => window.firebase.analytics();
+export default () => window.firebase.analytics()

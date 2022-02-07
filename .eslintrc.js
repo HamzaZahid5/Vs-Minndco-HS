@@ -20,7 +20,7 @@ module.exports = {
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
     strict: 0,
     quotes: ['error', 'single', { avoidEscape: true }],
-    semi: 2,
+    semi: ['error', 'never'],
     'arrow-parens': ['error', 'as-needed'],
     'import/no-extraneous-dependencies': 'off',
     // no-prototype-builtins: off,
@@ -30,10 +30,13 @@ module.exports = {
     'object-curly-spacing': 'off',
     '@typescript-eslint/ban-ts-comment': [2, { 'ts-ignore': 'allow-with-description', minimumDescriptionLength: 3 }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react/no-unescaped-entities': 0,
+    'react/react-in-jsx-scope': 0,
+    'prettier/prettier': ['error', { semi: false }],
   },
   settings: {
     react: {
       version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
     },
   },
-};
+}

@@ -1,2 +1,2 @@
-import analytics from '@react-native-firebase/analytics';
-export default () => analytics();
+import analytics from '@react-native-firebase/analytics'
+export default () => analytics()

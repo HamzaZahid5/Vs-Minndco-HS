@@ -1,1 +1,1 @@
-export default () => window.firebase.storage();
+export default () => window.firebase.storage()

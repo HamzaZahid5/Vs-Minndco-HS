@@ -8,4 +8,5 @@ module.exports = {
   trailingComma: 'all',
   useTabs: false,
   printWidth: 120,
+  endOfLine: 'auto',
 };

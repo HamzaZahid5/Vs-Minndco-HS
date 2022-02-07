@@ -1,6 +1,6 @@
-import config from '../../../env';
-import auth from '@react-native-firebase/auth';
+import config from '../../../env'
+import auth from '@react-native-firebase/auth'
 if (config.name === 'test') {
-  auth().useEmulator(`http://${config.emulatorIp}:9099`);
+  auth().useEmulator(`http://${config.emulatorIp}:9099`)
 }
-export default () => auth();
+export default () => auth()
