@@ -7,7 +7,7 @@ import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { createStackNavigator, StackHeaderLeftButtonProps } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
-import { getMindcotineTheme } from '@mindcoxr/rob'
+import { getProductTheme } from './src/utils/config'
 
 // import { DefaultTheme } from './src/utils/OriginalTheme';
 // @ts-ignore: non-ts file
@@ -19,6 +19,7 @@ import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 
 import { RootStackParamList } from './types'
 import useFontLoader from './src/utils/hooks/useFontLoader'
+import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
 
 // // @ts-ignore: non-ts file
 // import AboutVRScreen from './src/screens/AboutVR';
@@ -91,11 +92,11 @@ import useFontLoader from './src/utils/hooks/useFontLoader'
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
-const theme = getMindcotineTheme() //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
+const theme = getProductTheme() //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
 export default function App() {
   // const userToken = useAuth();
-  // const i18nReady = useBootUpI18n();
+  const i18nReady = useBootUpI18n()
   // const deepLink = useDeepLinking();
   const navigatorRef: RefObject<NavigationContainerRef> = useRef(null)
   // useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
@@ -163,7 +164,7 @@ export default function App() {
   // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
   //   return <LoadingScreen />;
   // }
-  if (!fontsLoaded) {
+  if (!fontsLoaded || !i18nReady) {
     return null
   }
 

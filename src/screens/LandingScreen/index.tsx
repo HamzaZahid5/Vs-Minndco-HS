@@ -1,7 +1,9 @@
 import React from 'react'
 import { View, StatusBar } from 'react-native'
+// @ts-ignore missing module declarations
 import { BasicScreen, Row, Carousel, Headline, Paragraph, Button, Text, Link } from '@mindcoxr/rob'
-import MindcotineLogo from '../../../assets/SVG/MindcotineLogo'
+import { translate } from '../../utils/localization'
+import ProductLogo from '../../../assets/SVG/Logo'
 import Blob from '../../../assets/SVG/Blob'
 
 const LandingScreen = () => {
@@ -12,58 +14,47 @@ const LandingScreen = () => {
         // backgroundColor="#61dafb"
         // barStyle={statusBarStyle}
         // showHideTransition={statusBarTransition}
-        hidden />
+        hidden
+      />
       <Blob style={{ position: 'absolute', top: '16%', right: 0 }} />
       <Row>
-        <MindcotineLogo style={{}} />
+        <ProductLogo style={{}} />
       </Row>
       <Row grow>
         <Carousel>
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <View style={{}}>
               <Headline size="huge" weight="bold">
-                Train to quit smoking
+                {translate('screens.Landing.slide1-title')}
               </Headline>
             </View>
             <View style={{ marginTop: 8 }}>
               <Paragraph size="small" weight="normal">
-                Easy-to-follow excercises combining Virtual Reality, coaching and more
+                {translate('screens.Landing.slide1-description')}
               </Paragraph>
             </View>
           </View>
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <View style={{}}>
               <Headline size="huge" weight="bold">
-                A program 4x more effective
+                {translate('screens.Landing.slide2-title')}
               </Headline>
             </View>
             <View style={{ marginTop: 8 }}>
               <Paragraph size="small" weight="normal">
-                Train yourself in virtual environments to get control over your cravings
+                {translate('screens.Landing.slide2-description')}
               </Paragraph>
             </View>
           </View>
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <View style={{}}>
               <Headline size="huge" weight="bold">
-                A 6-week planto quit
+                {translate('screens.Landing.slide3-title')}
               </Headline>
             </View>
             <View style={{ marginTop: 8 }}>
               <Paragraph size="small" weight="normal">
-                At vero eos et accusamus et iusto dignissimos ducimu
-              </Paragraph>
-            </View>
-          </View>
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <View style={{}}>
-              <Headline size="huge" weight="bold">
-                Also includes a follow up plan
-              </Headline>
-            </View>
-            <View style={{ marginTop: 8 }}>
-              <Paragraph size="small" weight="normal">
-                Once you quit, we’ll help you maintain your progress
+                {translate('screens.Landing.slide3-description')}
               </Paragraph>
             </View>
           </View>
@@ -71,15 +62,15 @@ const LandingScreen = () => {
       </Row>
       <Row>
         <Button role="primary" onPress={() => alert('Register screen')}>
-          Get started
+          {translate('screens.Landing.sign-up-button-label')}
         </Button>
       </Row>
       <Row>
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Text weight="regular">
-            Already have an account?{' '}
+            {translate('screens.Landing.sign-in-offer-text')}{' '}
             <Link onPress={() => alert('Screens')} href="">
-              Sign in
+              {translate('screens.Landing.sign-in-link-text')}
             </Link>
           </Text>
         </View>
