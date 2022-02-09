@@ -1,25 +1,34 @@
 import React, { useState, useRef, RefObject, useEffect } from 'react'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { Theme as PaperTheme } from 'react-native-paper/src/types'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Provider } from 'react-redux'
-import { Platform, View } from 'react-native'
+import { Platform, View, Text } from 'react-native'
 import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { createStackNavigator, StackHeaderLeftButtonProps } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
 
-// import { DefaultTheme } from './src/utils/OriginalTheme';
+// SERVICES
 // @ts-ignore: non-ts file
 import { useAuth } from './src/services/Auth'
-
 import configureStore from './src/store'
-import LandingScreen from './src/screens/LandingScreen'
-import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 
+// SCREENS
+import LandingScreen from './src/screens/LandingScreen'
+import RegistrationScreen from './src/screens/Registration'
+import LoginScreen from './src/screens/Login'
+import ForgotPasswordScreen from './src/screens/ForgotPassword'
+import TabsNavigation from './src/screens/TabsNavigator'
+
+// UTILS & HELPERS
+import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
+import { useFirestoreListener, updateProfile } from './src/services/Firestore'
 
 // // @ts-ignore: non-ts file
 // import AboutVRScreen from './src/screens/AboutVR';
@@ -95,10 +104,10 @@ const store = configureStore()
 const theme = getProductTheme() //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
 
 export default function App() {
-  // const userToken = useAuth();
+  const userToken = useAuth()
   const i18nReady = useBootUpI18n()
   // const deepLink = useDeepLinking();
-  const navigatorRef: RefObject<NavigationContainerRef> = useRef(null)
+  const navigatorRef: RefObject<NavigationContainerRef<Record<string, unknown>>> = useRef(null)
   // useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
   //   if (Platform.OS !== 'web') {
   //     if (oldScreen) {
@@ -121,32 +130,32 @@ export default function App() {
   //     navigateToDeepLink(deepLink, navigatorRef.current);
   //   }
   // }, [deepLink, navigatorReady]);
-  // useEffect(() => {
-  //   if (userToken) {
-  //     store.dispatch({ type: 'user/setAuth', payload: userToken });
-  //   }
-  // }, [userToken]);
-  // const userData = useFirestoreListener('users', userToken?.uid ?? null);
-  // useEffect(() => {
-  //   if (userData) {
-  //     store.dispatch({ type: 'user/setUser', payload: userData });
-  //   }
-  // }, [userData]);
-  // useEffect(() => {
-  //   if (userToken) {
-  //     if (Platform.OS !== 'web') {
-  //       Smartlook.setUserIdentifier(userToken.uid);
-  //     }
-  //     analytics().setUserId(userToken.uid);
-  //     crashlytics().log('User authenticated.');
-  //     crashlytics().setUserId(userToken.uid);
-  //   }
-  // }, [userToken]);
+  useEffect(() => {
+    if (userToken) {
+      store.dispatch({ type: 'user/setAuth', payload: userToken })
+    }
+  }, [userToken])
+  const userData = useFirestoreListener('users', userToken?.uid ?? null)
+  useEffect(() => {
+    if (userData) {
+      store.dispatch({ type: 'user/setUser', payload: userData })
+    }
+  }, [userData])
+  useEffect(() => {
+    if (userToken) {
+      if (Platform.OS !== 'web') {
+        // Smartlook.setUserIdentifier(userToken.uid);
+      }
+      // analytics().setUserId(userToken.uid);
+      // crashlytics().log('User authenticated.');
+      // crashlytics().setUserId(userToken.uid);
+    }
+  }, [userToken])
 
   // // while not ready
-  // const isWaitingForAuth = userToken === undefined; // waiting for auth response
-  // const isNotAuthed = userToken === null; // auth response with no-authed
-  // const isAuthed = !isWaitingForAuth && !isNotAuthed;
+  const isWaitingForAuth = userToken === undefined // waiting for auth response
+  const isNotAuthed = userToken === null // auth response with no-authed
+  const isAuthed = !isWaitingForAuth && !isNotAuthed
   const [fontsLoaded] = useFontLoader()
 
   // useEffect(() => {
@@ -164,14 +173,13 @@ export default function App() {
   // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
   //   return <LoadingScreen />;
   // }
-  if (!fontsLoaded || !i18nReady) {
+  if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
     return null
   }
 
   // handleMessaging();
 
   //Go to main as initial route, it should be at the top of the stack. Then check there if it's needed to navigate to Tutorial
-  const protectedInitialRouteName = 'Main'
   const headerBackground = () => <View style={{ height: 64 }} />
 
   return (
@@ -180,38 +188,39 @@ export default function App() {
         {/* {config.name !== 'production' && <NoProductionIndicator nav={navigatorRef} />} */}
         <SafeAreaProvider>
           <NavigationContainer
-            theme={
-              {
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  background: 'white',
-                },
-              } as NavTheme
-            }
+            // theme={
+            //   {
+            //     // ...theme,
+            //     colors: {
+            //       // ...theme.colors,
+            //       background: 'white',
+            //     },
+            //   } as NavTheme
+            // }
             onReady={() => {
               setNavigatorReady(true)
             }}
             ref={navigatorRef}
           >
-            <Stack.Navigator
-              // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
-              initialRouteName="Landing"
-              mode="modal"
-              headerMode="float"
-              screenOptions={{
-                // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                headerTransparent: true,
-                headerBackground,
-                // eslint-disable-next-line react/display-name
-                headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
-                  <BackButton onPress={defaultOnPress} {...props} />
-                ),
-              }}
-            >
-              {'userToken' && false ? (
+            {userToken ? (
+              <Stack.Navigator
+                // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
+                initialRouteName="Main"
+                // mode="modal"
+                headerMode="float"
+                screenOptions={{
+                  // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                  headerTransparent: true,
+                  headerBackground,
+                  // eslint-disable-next-line react/display-name
+                  headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
+                    <BackButton onPress={defaultOnPress} {...props} />
+                  ),
+                }}
+              >
+                <Stack.Screen name="Main" component={TabsNavigation} options={{ headerShown: false }} />
                 <>
-                  {/* <Stack.Screen name="Main" component={MainComponent} options={{ headerShown: false }} />
+                  {/* 
                   <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
                   <Stack.Screen
                     name="StressRate"
@@ -292,16 +301,38 @@ export default function App() {
                     options={{ title: translate('screens.HowItWorks.headerTitle') }}
                   /> */}
                 </>
-              ) : (
+              </Stack.Navigator>
+            ) : (
+              <Stack.Navigator
+                // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
+                initialRouteName="Landing"
+                mode="modal"
+                headerMode="float"
+                screenOptions={{
+                  // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                  headerTransparent: true,
+                  headerBackground,
+                  // eslint-disable-next-line react/display-name
+                  headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
+                    <BackButton onPress={defaultOnPress} {...props} />
+                  ),
+                }}
+              >
                 <>
-                  <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false, title: '' }} />
-                  {/* <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false, title: '' }} />
-                  <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ title: '' }} />
-                  <Stack.Screen name="Registration" component={RegistrationScreen} options={{ title: '' }} />
+                  <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Registration" component={RegistrationScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+                  <Stack.Screen
+                    name="ForgotPassword"
+                    component={ForgotPasswordScreen}
+                    options={{ headerShown: false }}
+                  />
+                  {/* 
                   <Stack.Screen name="ThemeInspector" component={ThemeInspector} /> */}
                 </>
-              )}
-              {/* <Stack.Screen
+              </Stack.Navigator>
+            )}
+            {/* <Stack.Screen
                 name="Modal"
                 component={ModalScreen}
                 options={{
@@ -325,7 +356,6 @@ export default function App() {
                   }),
                 }}
               /> */}
-            </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaProvider>
       </PaperProvider>

@@ -35,7 +35,7 @@
     "test-run-emu": "detox test --configuration android-emu"
   },
   "dependencies": {
-    "@mindcoxr/rob": "^0.2.17",
+    "@mindcoxr/rob": "^0.5.0",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cli": "^5.0.1",
     "@react-native-community/cli-platform-ios": "^6.2.0",
@@ -50,8 +50,9 @@
     "@react-native-firebase/functions": "^12.7.4",
     "@react-native-firebase/messaging": "^12.7.4",
     "@react-native-firebase/storage": "^12.7.4",
+    "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/drawer": "^5.12.4",
-    "@react-navigation/native": "^5.9.3",
+    "@react-navigation/native": "^6.0.8",
     "@react-navigation/stack": "^5.14.3",
     "@reduxjs/toolkit": "^1.5.0",
     "@types/hapi__joi": "^17.1.7",
