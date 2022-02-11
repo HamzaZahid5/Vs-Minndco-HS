@@ -7,11 +7,7 @@ import HomeScreen from '../Home'
 import { useRobTheme } from '@mindcoxr/rob'
 
 const Tab = createBottomTabNavigator()
-const Feed = () => (
-  <View>
-    <Text>Feed</Text>
-  </View>
-)
+
 const Notifications = () => (
   <View>
     <Text>Notifications</Text>
@@ -31,10 +27,11 @@ function MainTabs() {
         headerTransparent: true,
         headerShown: false,
         tabBarIconStyle: {
-          marginTop: 5,
+          marginTop: 10,
         },
         tabBarStyle: {
-          height: 52,
+          flex: 1,
+          maxHeight: 80,
         },
       }}
     >

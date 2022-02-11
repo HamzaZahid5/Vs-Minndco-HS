@@ -24,11 +24,11 @@ import {
   Snackbar,
   useRobTheme,
 } from '@mindcoxr/rob'
-import { useNavigation } from '@react-navigation/native'
 import Blob from '../../../assets/SVG/Blob'
 import { translate, getLocale } from '../../utils/localization'
 import { legalUrl } from '../../utils/config'
 import config from './../../../env'
+import { useNavigation } from '@react-navigation/native'
 
 type formikValueType = {
   name: string

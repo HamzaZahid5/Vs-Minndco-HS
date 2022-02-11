@@ -13,7 +13,7 @@ import { getProductTheme } from './src/utils/config'
 
 // SERVICES
 // @ts-ignore: non-ts file
-import { useAuth } from './src/services/Auth'
+import { auth, useAuth } from './src/services/Auth'
 import configureStore from './src/store'
 
 // SCREENS
@@ -105,6 +105,7 @@ const theme = getProductTheme() //Appearance.getColorScheme() === 'dark' ? DarkT
 
 export default function App() {
   const userToken = useAuth()
+  // auth().signOut()
   const i18nReady = useBootUpI18n()
   // const deepLink = useDeepLinking();
   const navigatorRef: RefObject<NavigationContainerRef<Record<string, unknown>>> = useRef(null)

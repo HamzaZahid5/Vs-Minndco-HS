@@ -1,12 +1,20 @@
 import React from 'react'
 import { View, StatusBar } from 'react-native'
-// @ts-ignore missing module declarations
+
 import { BasicScreen, Row, Carousel, Headline, Paragraph, Button, Text, Link } from '@mindcoxr/rob'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
-import ProductLogo from '../../../assets/SVG/Logo'
+import Logo from '../../../assets/SVG/Logo'
 import Blob from '../../../assets/SVG/Blob'
 
-const LandingScreen = () => {
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>
+
+type Props = {
+  navigation: LoginScreenNavigationProp
+}
+
+const LandingScreen = ({ navigation }: Props) => {
   return (
     <BasicScreen>
       <StatusBar
@@ -18,7 +26,7 @@ const LandingScreen = () => {
       />
       <Blob style={{ position: 'absolute', top: '16%', right: 0 }} />
       <Row>
-        <ProductLogo style={{}} />
+        <Logo />
       </Row>
       <Row grow>
         <Carousel>
@@ -61,7 +69,7 @@ const LandingScreen = () => {
         </Carousel>
       </Row>
       <Row>
-        <Button role="primary" onPress={() => alert('Register screen')}>
+        <Button role="primary" onPress={() => navigation.navigate('Registration')}>
           {translate('screens.Landing.sign-up-button-label')}
         </Button>
       </Row>
@@ -69,7 +77,7 @@ const LandingScreen = () => {
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Text weight="regular">
             {translate('screens.Landing.sign-in-offer-text')}{' '}
-            <Link onPress={() => alert('Screens')} href="">
+            <Link onPress={() => navigation.navigate('Login')} href="">
               {translate('screens.Landing.sign-in-link-text')}
             </Link>
           </Text>

@@ -16,16 +16,13 @@ import {
 //@ts-ignore missing module declaration
 import VR from '@mindcoxr/rob/dist/commonjs/SVG/VR'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import { homeBGColors } from '../../utils/config'
 
 const HomeScreen = () => {
   const theme = useRobTheme()
   return (
-    <BasicScreen colors={['#79caf6', '#102c39']}>
-      <BackgroundArt
-        paddingTop={5}
-        colors={['#79caf6', '#102c39']}
-        source={require('../../../assets/images/bg_01.png')}
-      />
+    <BasicScreen colors={homeBGColors}>
+      <BackgroundArt paddingTop={5} colors={homeBGColors} source={require('../../../assets/images/bg_01.png')} />
       {/* top spacer */}
       <Row />
       {/* menu button row */}

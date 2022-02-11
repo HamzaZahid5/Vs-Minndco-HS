@@ -8,7 +8,7 @@ import firestore from '../../services/Firestore'
 export type UserStatistics = {
   last_completed_activity_at?: typeof firestore.Timestamp
   activity_days_in_a_row: number
-  average_stress?: number
+  // average_stress?: number
 }
 export type UserState = {
   data: {
@@ -22,7 +22,8 @@ export type UserState = {
     }
     gender: string
     group?: string
-    kit_id: string
+    // kit_id: string
+    isPremium: boolean
     language: string
     progress: Array<string>
     statistics: UserStatistics
@@ -38,7 +39,7 @@ const initialState: UserState = {
     display_name: '',
     flags: {},
     gender: '',
-    kit_id: '',
+    isPremium: false,
     language: '',
     progress: [],
     statistics: {
@@ -65,10 +66,35 @@ const user = createSlice({
     },
     setUser: (state, action) => {
       const oldOnBoardingFlag = state.data.flags.onboarding_complete
-      state.data = action.payload
-      if (oldOnBoardingFlag) {
-        state.data.flags.onboarding_complete = oldOnBoardingFlag //Use local onBoardingComplete flag, zoho is very slow and webhook is called after setState
+      // Firebase to Redux
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          crisp_session_id: action.payload.crisp_session_id,
+          display_name: action.payload.display_name,
+          flags: {
+            show_basics_tutorial: action.payload.flag_show_basics_tutorial,
+            has_coach_messages: action.payload.flag_has_coach_messages,
+            show_welcome_message_on_chat: action.payload.flag_show_welcome_message_on_chat,
+            onboarding_complete: action.payload.on_boarding_completed,
+          },
+          gender: action.payload.gender,
+          group: action.payload.group,
+          isPremium: action.payload.isPremium,
+          language: action.payload.language,
+          progress: action.payload.progress,
+          statistics: {
+            last_completed_activity_at: action.payload.statistics.last_completed_activity_at,
+            activity_days_in_a_row: 0,
+          },
+          treatment_module: action.payload.treatment_module,
+          treatment_level: action.payload.treatment_level,
+        },
       }
+      // if (oldOnBoardingFlag) {
+      //   state.data.flags.onboarding_complete = oldOnBoardingFlag //Use local onBoardingComplete flag, zoho is very slow and webhook is called after setState
+      // }
     },
     setLastActivityAt: (state, action) => {
       const newStatistics = { ...state.data.statistics }
