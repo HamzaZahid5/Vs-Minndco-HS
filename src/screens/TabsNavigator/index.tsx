@@ -64,6 +64,27 @@ function MainTabs() {
         }}
       />
       <Tab.Screen
+        name="SmokeRecord"
+        component={Notifications}
+        options={{
+          tabBarLabel: '',
+          tabBarIcon: ({ size, focused }) => (
+            <AntDesign
+              name="plus"
+              color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+              size={30}
+            />
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: e => {
+            e.preventDefault()
+            alert('open modal')
+            // navigation.navigate("chat")
+          },
+        })}
+      />
+      <Tab.Screen
         name="Messages"
         component={Profile}
         options={{
@@ -84,8 +105,8 @@ function MainTabs() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <AntDesign
-              name="codepen"
+            <SimpleLineIcons
+              name="support"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />
