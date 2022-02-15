@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Text, View } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import HomeScreen from '../Home'
 import { useRobTheme } from '@mindcoxr/rob'
+import { DefaultScreenPropType } from '../../../types'
+import { useSelector } from 'react-redux'
+import { ONBOARDING_COMPLETE } from '../../store/selectors'
 
 const Tab = createBottomTabNavigator()
 
@@ -18,7 +21,21 @@ const Profile = () => (
     <Text>Profile</Text>
   </View>
 )
-function MainTabs() {
+function MainTabs({ navigation }: DefaultScreenPropType<'Main'>) {
+  const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
+  useEffect(() => {
+    if (onboardingComplete === false) {
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: 'Onboarding',
+          },
+        ],
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onboardingComplete])
   const theme = useRobTheme()
   return (
     <Tab.Navigator

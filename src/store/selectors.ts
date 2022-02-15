@@ -13,6 +13,7 @@ export const LAST_ACTIVITY_AT = (store: RootState) => {
 export const ACTIVITY_DAYS_IN_A_ROW = (store: RootState) => store?.user?.data?.statistics?.activity_days_in_a_row
 export const CURRENT_PATH = (store: RootState) => store?.flags.currentPath
 export const SHOW_BASIC_TUTORIAL = (store: RootState) => store?.user?.data?.flags?.show_basics_tutorial
+export const ONBOARDING_CURRENT_INPUT = (store: RootState) => store?.currentOnboarding
 export const ONBOARDING_COMPLETE = (store: RootState) => store?.user?.data?.flags?.onboarding_complete
 export const AVERAGE_STRESS = (store: RootState) => store?.user?.data?.statistics?.average_stress
 export const USER_PROFILE = (store: RootState) => {
