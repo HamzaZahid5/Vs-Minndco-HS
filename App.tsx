@@ -22,6 +22,7 @@ import RegistrationScreen from './src/screens/Registration'
 import LoginScreen from './src/screens/Login'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import TabsNavigation from './src/screens/TabsNavigator'
+import OnboardingScreen from './src/screens/OnBoardingScreens'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -220,6 +221,7 @@ export default function App() {
                 }}
               >
                 <Stack.Screen name="Main" component={TabsNavigation} options={{ headerShown: false }} />
+                <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
                 <>
                   {/* 
                   <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />

@@ -13,6 +13,7 @@ export type LifesaverContentType = {
 
 export type RootStackParamList = {
   Landing: undefined
+  Onboarding: undefined
   Main: undefined
   Home: undefined
   Registration: undefined
