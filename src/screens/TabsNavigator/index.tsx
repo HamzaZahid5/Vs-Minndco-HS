@@ -1,10 +1,8 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Text, View } from 'react-native'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import { Platform, Text, View } from 'react-native'
 import HomeScreen from '../Home'
-import { useRobTheme } from '@mindcoxr/rob'
+import { useRobTheme, Icon } from '@mindcoxr/rob'
 
 const Tab = createBottomTabNavigator()
 
@@ -27,11 +25,12 @@ function MainTabs() {
         headerTransparent: true,
         headerShown: false,
         tabBarIconStyle: {
-          marginTop: 10,
+          marginTop: Platform.OS === 'ios' ? 10 : 0,
         },
         tabBarStyle: {
           flex: 1,
-          maxHeight: 80,
+          maxHeight: Platform.OS === 'ios' ? 80 : 70,
+          backgroundColor: 'white',
         },
       }}
     >
@@ -41,8 +40,8 @@ function MainTabs() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color, size, focused }) => (
-            <AntDesign
-              name="home"
+            <Icon
+              name="Home"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />
@@ -55,8 +54,8 @@ function MainTabs() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <SimpleLineIcons
-              name="notebook"
+            <Icon
+              name="Paste"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />
@@ -69,8 +68,8 @@ function MainTabs() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <AntDesign
-              name="plus"
+            <Icon
+              name="Plus"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={30}
             />
@@ -90,13 +89,14 @@ function MainTabs() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <SimpleLineIcons
-              name="bubble"
+            <Icon
+              name="Comment"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />
           ),
           tabBarBadge: 3,
+          tabBarBadgeStyle: { backgroundColor: theme.colors.danger.dark },
         }}
       />
       <Tab.Screen
@@ -105,8 +105,8 @@ function MainTabs() {
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <SimpleLineIcons
-              name="support"
+            <Icon
+              name="Box"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />

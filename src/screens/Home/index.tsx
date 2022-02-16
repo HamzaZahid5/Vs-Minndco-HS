@@ -1,11 +1,11 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
 import {
-  BasicScreen,
+  TabbedScreen,
   Row,
   Carousel,
-  Headline,
+  Icon,
   Paragraph,
   Button,
   Text,
@@ -13,15 +13,19 @@ import {
   useRobTheme,
   BackgroundArt,
 } from '@mindcoxr/rob'
-//@ts-ignore missing module declaration
-import VR from '@mindcoxr/rob/dist/commonjs/SVG/VR'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { homeBGColors } from '../../utils/config'
 
 const HomeScreen = () => {
   const theme = useRobTheme()
   return (
-    <BasicScreen colors={homeBGColors}>
+    <TabbedScreen colors={homeBGColors}>
+      <StatusBar
+        animated={true}
+        // backgroundColor="#61dafb"
+        // barStyle={statusBarStyle}
+        // showHideTransition={statusBarTransition}
+        hidden
+      />
       <BackgroundArt paddingTop={5} colors={homeBGColors} source={require('../../../assets/images/bg_01.png')} />
       {/* top spacer */}
       <Row />
@@ -45,10 +49,10 @@ const HomeScreen = () => {
             </Row>
             <Row margin={0}>
               <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <VR
-                  fillColor={theme.colors.onSurface}
-                  style={{
-                    justifyContent: 'center',
+                <Icon
+                  name="VR"
+                  color={theme.colors.onSurface}
+                  wrapperStyle={{
                     marginRight: 10,
                   }}
                 />
@@ -73,7 +77,7 @@ const HomeScreen = () => {
 
           <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
-              <SimpleLineIcons name="notebook" size={40} color={theme.colors.monochrome.offWhite} />
+              <Icon name="Paste" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>
             <TouchableRipple onPress={() => alert('go!')} rippleColor="transparent">
               <>
@@ -92,7 +96,7 @@ const HomeScreen = () => {
           </View>
         </Carousel>
       </Row>
-    </BasicScreen>
+    </TabbedScreen>
   )
 }
 

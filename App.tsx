@@ -189,15 +189,15 @@ export default function App() {
         {/* {config.name !== 'production' && <NoProductionIndicator nav={navigatorRef} />} */}
         <SafeAreaProvider>
           <NavigationContainer
-            // theme={
-            //   {
-            //     // ...theme,
-            //     colors: {
-            //       // ...theme.colors,
-            //       background: 'white',
-            //     },
-            //   } as NavTheme
-            // }
+            theme={
+              {
+                // ...theme,
+                colors: {
+                  // ...theme.colors,
+                  background: 'white',
+                },
+              } as NavTheme
+            }
             onReady={() => {
               setNavigatorReady(true)
             }}
