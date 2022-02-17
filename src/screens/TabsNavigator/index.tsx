@@ -3,8 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Platform, Text, View } from 'react-native'
 import HomeScreen from '../Home'
 import { useRobTheme, Icon } from '@mindcoxr/rob'
-import { DefaultScreenPropType } from '../../../types'
 import { useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
 import { ONBOARDING_COMPLETE } from '../../store/selectors'
 
 const Tab = createBottomTabNavigator()
@@ -19,7 +21,8 @@ const Profile = () => (
     <Text>Profile</Text>
   </View>
 )
-function MainTabs({ navigation }: DefaultScreenPropType<'Main'>) {
+function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) {
+  // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
   useEffect(() => {
     if (onboardingComplete === false) {
@@ -95,8 +98,9 @@ function MainTabs({ navigation }: DefaultScreenPropType<'Main'>) {
         listeners={({ navigation }) => ({
           tabPress: e => {
             e.preventDefault()
-            alert('open modal')
-            // navigation.navigate("chat")
+            // alert('open modal')
+            navigation.navigate('SmokeModal')
+            // navigation.push('SmokeModal')
           },
         })}
       />

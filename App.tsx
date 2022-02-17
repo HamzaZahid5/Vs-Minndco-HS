@@ -23,6 +23,7 @@ import LoginScreen from './src/screens/Login'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import TabsNavigation from './src/screens/TabsNavigator'
 import OnboardingScreen from './src/screens/OnBoardingScreens'
+import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -208,21 +209,21 @@ export default function App() {
               <Stack.Navigator
                 // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
                 initialRouteName="Main"
-                // mode="modal"
-                headerMode="float"
-                screenOptions={{
-                  // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                  headerTransparent: true,
-                  headerBackground,
-                  // eslint-disable-next-line react/display-name
-                  headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
-                    <BackButton onPress={defaultOnPress} {...props} />
-                  ),
-                }}
               >
-                <Stack.Screen name="Main" component={TabsNavigation} options={{ headerShown: false }} />
-                <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
-                <>
+                <Stack.Group
+                  screenOptions={{
+                    headerMode: 'float',
+                    // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                    headerTransparent: true,
+                    headerBackground,
+                    // eslint-disable-next-line react/display-name
+                    headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
+                      <BackButton onPress={defaultOnPress} {...props} />
+                    ),
+                  }}
+                >
+                  <Stack.Screen name="Main" component={TabsNavigation} options={{ headerShown: false }} />
+                  <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
                   {/* 
                   <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
                   <Stack.Screen
@@ -303,15 +304,42 @@ export default function App() {
                     component={HowItWorksScreen}
                     options={{ title: translate('screens.HowItWorks.headerTitle') }}
                   /> */}
-                </>
+                </Stack.Group>
+                <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
+                  <Stack.Screen
+                    name="SmokeModal"
+                    component={SmokeRecordScreen}
+                    options={{
+                      headerShown: false,
+                      cardStyle: { backgroundColor: 'transparent' },
+                      // cardOverlayEnabled: false,
+                      // cardStyleInterpolator: ({ current: { progress } }) => ({
+                      //   cardStyle: {
+                      //     opacity: progress.interpolate({
+                      //       inputRange: [0, 0.5, 0.9, 1],
+                      //       outputRange: [0, 0.25, 0.7, 1],
+                      //     }),
+                      //   },
+                      //   overlayStyle: {
+                      //     opacity: progress.interpolate({
+                      //       inputRange: [0, 1],
+                      //       outputRange: [0, 0.5],
+                      //       extrapolate: 'clamp',
+                      //     }),
+                      //   },
+                      // }),
+                    }}
+                  />
+                </Stack.Group>
               </Stack.Navigator>
             ) : (
               <Stack.Navigator
                 // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
                 initialRouteName="Landing"
-                mode="modal"
-                headerMode="float"
+                // mode="modal"
                 screenOptions={{
+                  // @ts-ignore seems to be bad typed by Navigation
+                  // headerMode: 'screen',
                   // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
                   headerTransparent: true,
                   headerBackground,
@@ -335,30 +363,6 @@ export default function App() {
                 </>
               </Stack.Navigator>
             )}
-            {/* <Stack.Screen
-                name="Modal"
-                component={ModalScreen}
-                options={{
-                  headerShown: false,
-                  cardStyle: { backgroundColor: 'transparent' },
-                  cardOverlayEnabled: true,
-                  cardStyleInterpolator: ({ current: { progress } }) => ({
-                    cardStyle: {
-                      opacity: progress.interpolate({
-                        inputRange: [0, 0.5, 0.9, 1],
-                        outputRange: [0, 0.25, 0.7, 1],
-                      }),
-                    },
-                    overlayStyle: {
-                      opacity: progress.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0, 0.5],
-                        extrapolate: 'clamp',
-                      }),
-                    },
-                  }),
-                }}
-              /> */}
           </NavigationContainer>
         </SafeAreaProvider>
       </PaperProvider>
