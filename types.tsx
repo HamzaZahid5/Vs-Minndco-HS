@@ -24,7 +24,7 @@ export type RootStackParamList = {
   StressTrigger: { isTrigerIdentification: boolean }
   StressActivityType: undefined
   Activity: { activityId: string } | undefined
-  Modal: undefined
+  SmokeModal: undefined
   Tutorial: undefined
   KitActivation: undefined
   AboutVR: undefined
