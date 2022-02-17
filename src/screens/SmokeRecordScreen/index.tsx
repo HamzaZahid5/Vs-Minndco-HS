@@ -6,6 +6,7 @@ import { TouchableRipple, Paragraph as PaperParagraph } from 'react-native-paper
 import moment from 'moment'
 import { RootStackParamList } from '../../../types'
 import WeekDaysBar from './WeekDaysBar'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   const [isOpenForiOS, setIsOpenForiOS] = useState(false)
@@ -13,13 +14,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const theme = useRobTheme()
   const [intake, setIntake] = useState(1)
   const [selected, setSelected] = useState(0)
+  const insets = useSafeAreaInsets()
   const setIntakeSecureWrapper = (n: number) => {
     if (n >= 0) setIntake(n)
   }
 
   useEffect(() => {
     const unsubs = navigation.addListener('focus', () => {
-      console.log('FOCUS')
       setTimeout(() => {
         setShow(true)
         setIsOpenForiOS(true)
@@ -95,6 +96,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
               </Button>
             </View>
           </Row>
+          {/* padding bottom of the panel */}
+          <View style={{ marginBottom: insets.bottom * 2 }} />
         </PopupWrapper>
       </View>
     </>
