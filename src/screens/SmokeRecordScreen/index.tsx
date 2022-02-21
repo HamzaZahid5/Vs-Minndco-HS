@@ -25,6 +25,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   // REDUX
   const smokeRecords = useSelector(SMOKE_RECORD)
 
+  // HELPERS
   const insets = useSafeAreaInsets()
   const theme = useRobTheme()
   const setIntakeSecureWrapper = (n: number) => {
@@ -36,6 +37,22 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       // setIntake(n)
     }
   }
+  const closePanel = () => {
+    setShow(false)
+    setIsOpenForiOS(false)
+  }
+  const saveJournal = () => {
+    saveSmokeJurnal(
+      // builds a SmokeRecordsState object
+      Object.keys(agendaItems).reduce(
+        (res: SmokeRecordsState, k: string) => ({
+          ...res,
+          [k]: agendaItems[k].count,
+        }),
+        {},
+      ),
+    )
+  }
 
   // BOOT UP CALENDAR
   useEffect(() => {
@@ -46,15 +63,22 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
 
   // BOOT UP PANEL STATE
   useEffect(() => {
-    const unsubs = navigation.addListener('focus', () => {
+    const unsubsFocus = navigation.addListener('focus', () => {
       setTimeout(() => {
         setShow(true)
         setIsOpenForiOS(true)
       }, 100)
     })
-    return () => unsubs()
+    const unsubsBlur = navigation.addListener('blur', () => {
+      console.log('BLUR')
+      saveJournal()
+    })
+    return () => {
+      unsubsFocus()
+      unsubsBlur()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [agendaItems])
 
   const isToday = selectedDay === moment().format('YYYY-MM-DD')
   const isYesterday = selectedDay === moment().subtract(1, 'd').format('YYYY-MM-DD')
@@ -138,17 +162,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
               <Button
                 round
                 onPress={() => {
-                  saveSmokeJurnal(
-                    Object.keys(agendaItems).reduce(
-                      (res: SmokeRecordsState, k: string) => ({
-                        ...res,
-                        [k]: agendaItems[k].count,
-                      }),
-                      {},
-                    ),
-                  )
-                  setShow(false)
-                  setIsOpenForiOS(false)
+                  closePanel()
                 }}
               >
                 Save to my log
