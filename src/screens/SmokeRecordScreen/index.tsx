@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { Row, Icon, BasicScreen as Screen, useRobTheme, Button, PopupWrapper, Subheading } from '@mindcoxr/rob'
+import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { TouchableRipple, Paragraph as PaperParagraph } from 'react-native-paper'
 import moment from 'moment'
@@ -16,7 +16,6 @@ import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
-  const [isOpenForiOS, setIsOpenForiOS] = useState(false)
   const [show, setShow] = useState(false)
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
@@ -33,14 +32,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       const changedItem = { [selectedDay]: { count: n, id: selectedDay } }
       const newItems = { ...agendaItems, ...changedItem }
       setAgendaItems(newItems)
-      // onChange(changedItem)
-      // setIntake(n)
     }
   }
+
   const closePanel = () => {
     setShow(false)
-    setIsOpenForiOS(false)
   }
+
   const saveJournal = () => {
     saveSmokeJurnal(
       // builds a SmokeRecordsState object
@@ -64,13 +62,12 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   // BOOT UP PANEL STATE
   useEffect(() => {
     const unsubsFocus = navigation.addListener('focus', () => {
+      // delay for make the auto-open to work
       setTimeout(() => {
         setShow(true)
-        setIsOpenForiOS(true)
       }, 100)
     })
     const unsubsBlur = navigation.addListener('blur', () => {
-      console.log('BLUR')
       saveJournal()
     })
     return () => {
@@ -111,7 +108,6 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                     getDayRefFormat(getLocale()),
                   )}`}{' '}
               {translate('screens.smokeRecording.lableIHaveSmoked')}
-              {/* {selected === 0 ? 'Today' : moment().add(selected, 'days').format('dddd')} I’ve smoked.. */}
             </Subheading>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
               <TouchableRipple
