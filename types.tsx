@@ -166,3 +166,5 @@ const VR_SESSIONS_STATES = ['AWAITING', 'PERMISSIONS', 'INACTIVE'] as const
 export type VR_SESSIONS_STATES_TYPE = typeof VR_SESSIONS_STATES[number]
 
 export type activityOrigin = 'program' | 'lifesaver'
+
+export type languagesType = 'en' | 'es'

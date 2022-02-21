@@ -1,36 +1,41 @@
 import { useEffect, useState } from 'react'
-import crashlytics from '../../services/Crashlytics'
+import crashlytics from '../Crashlytics'
 import firestore from './firestore'
 import { auth } from '../Auth'
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import { languagesType, ProgramActivityType } from '../../../types'
+import { PlatformOSType } from 'react-native'
+import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 
 export default firestore
 
-export const useFirestoreJournalListener = () => {
-  const [snapshot, setSnapshot] = useState()
-  useEffect(() => {
-    let unsubscribe = Function
-    try {
-      unsubscribe = firestore()
-        .collection('users')
-        .doc(auth().currentUser.uid)
-        .collection('journal')
-        .orderBy('date', 'desc')
-        .limit(10)
-        .onSnapshot(sn => {
-          setSnapshot(sn)
-        })
-    } catch (e) {
-      crashlytics().recordError(e)
-    }
-    return () => unsubscribe
-  }, [])
-  return snapshot
-}
+// export const useFirestoreJournalListener = () => {
+//   const [snapshot, setSnapshot] = useState()
+//   useEffect(() => {
+//     let unsubscribe = Function
+//     try {
+//       unsubscribe = firestore()
+//         .collection('users')
+//         .doc(auth().currentUser.uid)
+//         .collection('journal')
+//         .orderBy('date', 'desc')
+//         .limit(10)
+//         .onSnapshot(sn => {
+//           setSnapshot(sn)
+//         })
+//     } catch (e) {
+//       crashlytics().recordError(e)
+//     }
+//     return () => unsubscribe
+//   }, [])
+//   return snapshot
+// }
 
-export const useFirestoreListener = (collection, id) => {
-  const [snapshotData, setSnapshotData] = useState()
+export const useFirestoreListener = (collection: string, id: string) => {
+  const [snapshotData, setSnapshotData] = useState<Record<string, unknown> | null>()
   useEffect(() => {
-    let unsubscribe = Function
+    let unsubscribe
+
     if (id !== undefined) {
       if (id === null) {
         setSnapshotData(null)
@@ -39,7 +44,7 @@ export const useFirestoreListener = (collection, id) => {
           unsubscribe = firestore()
             .collection(collection)
             .doc(id)
-            .onSnapshot(userSnapshot => {
+            .onSnapshot((userSnapshot: FirebaseFirestoreTypes.DocumentSnapshot) => {
               setSnapshotData(userSnapshot?.data() ?? null)
             })
         } catch (e) {
@@ -48,22 +53,32 @@ export const useFirestoreListener = (collection, id) => {
       }
     }
 
-    return () => unsubscribe
+    return unsubscribe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   return snapshotData
 }
 
-export const updateProfile = updateObject =>
+export const updateProfile = (updateObject: Record<string, unknown>) =>
   firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
 
-export const updateUserLanguage = lang =>
+export const updateUserLanguage = (lang: languagesType) =>
   updateProfile({
     language: lang,
   })
 
-export const updateUserHardware = ({ language, tz, tz_offset, platform }) =>
+export const updateUserHardware = ({
+  language,
+  tz,
+  tz_offset,
+  platform,
+}: {
+  language: languagesType
+  tz: string
+  tz_offset: number
+  platform: PlatformOSType
+}) =>
   updateProfile({
     language,
     tz,
@@ -76,19 +91,31 @@ export const updateBasicTutorialCompleted = () =>
     'flags.show_basics_tutorial': false,
   })
 
-export const getKitById = code => firestore().collection('kits').doc(code).get()
+export const getKitById = (code: string) => firestore().collection('kits').doc(code).get()
 
-export const burnCode = code =>
+export const burnCode = (code: string) =>
   firestore().collection('kits').doc(code).update({
     burnt_at: firestore.FieldValue.serverTimestamp(),
     used_by: auth().currentUser.uid,
   })
 
-export const saveActivityDone = ({ treatment_module, treatment_level, activityKey, streak }) =>
+export const saveActivityDone = ({
+  treatment_module,
+  treatment_level,
+  activityKey,
+  streak,
+}: {
+  treatment_module: number
+  treatment_level: number
+  activityKey: string
+  streak: number
+}) =>
   updateProfile({
     treatment_module,
     treatment_level,
+
     progress: firestore.FieldValue.arrayUnion(activityKey),
+
     'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
     'statistics.last_completed_activity': activityKey,
     'statistics.activity_days_in_a_row': streak,
@@ -99,37 +126,40 @@ export const resetUserStreak = () =>
     'statistics.activity_days_in_a_row': 0,
   })
 
-export const updateDeviceInfo = ({ token }) =>
+export const updateDeviceInfo = ({ token }: { token: string }) =>
   updateProfile({
     pn_tokens: firestore.FieldValue.arrayUnion(token),
   })
 
 export const getFirestoreTimestamp = (date = new Date()) => firestore.Timestamp.fromDate(date)
 
-export const createVrSession = async uid => {
+export const createVrSession = async (uid: string) => {
   const sessionRef = await firestore().collection('vr_sessions').add({
     uid,
     state: 'AWAITING',
     created_at: firestore.FieldValue.serverTimestamp(),
+
     updated_at: firestore.FieldValue.serverTimestamp(),
   })
   return sessionRef.id
 }
 
-export const getVrSession = async sessionId => {
+export const getVrSession = async (sessionId: string) => {
   const docRef = await firestore().collection('vr_sessions').doc(sessionId).get()
-  return { state: docRef.data().state, progress: docRef.data().progress }
+  return { state: docRef.data()?.state, progress: docRef.data()?.progress }
 }
 
-export const updateActivityCounter = async activityType => {
+export const updateActivityCounter = async (activityType: ProgramActivityType) => {
   let oldCounter = 0
   const docRef = await firestore().collection('users').doc(auth().currentUser.uid).get()
   const userData = docRef.data()
-  if (userData.statistics.activityCounter) {
+  if (userData?.statistics.activityCounter) {
     oldCounter = userData.statistics.activityCounter[activityType] ?? 0
   }
-  let updateObject = {}
-  updateObject[`statistics.activityCounter.${activityType}`] = oldCounter + 1
+  const updateObject = {
+    [`statistics.activityCounter.${activityType}`]: oldCounter + 1,
+  }
+
   await updateProfile(updateObject)
 }
 

@@ -38,7 +38,7 @@ export const getLocale = (): string => i18n.locale
 export const getDayRefFormat = (locale: string = getLocale()) => {
   switch (locale) {
     case 'es':
-      return 'DD [de] MMMM'
+      return 'DD/MM'
     default:
       return 'MMMM Do'
   }

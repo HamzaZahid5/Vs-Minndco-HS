@@ -3,11 +3,13 @@ import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
 import obfuscate from '../../utils/emailObfuscator'
 //@ts-ignore not implemented
 import firestore from '../../services/Firestore'
+import { SmokeRecordsState } from './smokeRecord'
 // import { FirebaseTimestamp } from '../../../types';
 
 export type UserStatistics = {
   last_completed_activity_at?: typeof firestore.Timestamp
   activity_days_in_a_row: number
+  smokes_by_day: SmokeRecordsState
   // average_stress?: number
 }
 export type UserState = {
@@ -44,6 +46,7 @@ const initialState: UserState = {
     progress: [],
     statistics: {
       activity_days_in_a_row: 0,
+      smokes_by_day: {},
     },
     treatment_module: 1,
     treatment_level: 1,
@@ -87,6 +90,7 @@ const user = createSlice({
           statistics: {
             last_completed_activity_at: action.payload.statistics.last_completed_activity_at,
             activity_days_in_a_row: 0,
+            smokes_by_day: action.payload.statistics.smokes_by_day,
           },
           treatment_module: action.payload.treatment_module,
           treatment_level: action.payload.treatment_level,

@@ -1,18 +1,18 @@
 // @ts-ignore: non-ts file
-import active, { IP } from './active.env';
-import packageJson from '../package.json';
+import active, { IP } from './active.env'
+import packageJson from '../package.json'
 
 type EnvConfig = {
-  name: string;
-  SmartlookApiKey: string;
-  APP_VERSION: string;
-  hostingUrl?: Record<string, unknown>;
-  emulatorIp?: string;
-  webVrURL: string;
-  surveys: Record<string, string>;
-  activityCompletitionPorcentage: number;
-};
-type EnvNames = 'prod' | 'dev' | 'test';
+  name: string
+  SmartlookApiKey: string
+  APP_VERSION: string
+  hostingUrl?: Record<string, unknown>
+  emulatorIp?: string
+  webVrURL: string
+  surveys: Record<string, string>
+  activityCompletitionPorcentage: number
+}
+type EnvNames = 'prod' | 'dev' | 'test'
 
 const envs: Record<EnvNames, EnvConfig> = {
   prod: {
@@ -56,6 +56,6 @@ const envs: Record<EnvNames, EnvConfig> = {
     },
     activityCompletitionPorcentage: 0.05,
   },
-};
+}
 
-export default envs[active as EnvNames];
+export default envs[active as EnvNames]
