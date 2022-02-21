@@ -2,8 +2,11 @@ import * as Localization from 'expo-localization'
 import crashlytics from '../services/Crashlytics'
 import { DICTYONARY_PATH } from './config'
 import i18n from 'i18n-js'
+import moment from 'moment'
 import { memoize } from 'lodash'
+import { LocaleConfig } from 'react-native-calendars'
 import storage from '../services/Storage'
+import { languagesType } from '../../types'
 
 const getDictionaryFile = async (lang: string): Promise<Record<string, unknown>> => {
   let url: string
@@ -68,6 +71,53 @@ export const setI18nConfig = async (callback: (value: boolean) => void) => {
   // clear translation cache
   if (translate.cache.clear) translate.cache.clear()
   i18n.translations = { [languageTag]: dictionary }
+  conditionalLocaleImport(languageTag)
   i18n.locale = languageTag
+  // === CONFIG ===
+  // Calendar
+  if (i18n.locale !== 'en') {
+    LocaleConfig.locales[i18n.locale] = getCalendarLocaleConfig(i18n.locale)
+    LocaleConfig.defaultLocale = i18n.locale
+  }
+  // ==============
   callback(true)
+}
+
+export const getCalendarLocaleConfig = (locale = getLocale()) => {
+  switch (locale) {
+    case 'es':
+      return {
+        monthNames: [
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'Junio',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre',
+        ],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mie', 'jue', 'vie', 'sáb'],
+        today: 'Hoy',
+      }
+    default:
+      return LocaleConfig.locales.en
+  }
+}
+
+const conditionalLocaleImport = async (lang: languagesType) => {
+  switch (lang) {
+    case 'es':
+      // @ts-ignore non typed
+      await import('moment/locale/es')
+      break
+    default:
+  }
+  moment.locale(lang)
 }

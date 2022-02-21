@@ -161,7 +161,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                   closePanel()
                 }}
               >
-                Save to my log
+                {translate('screens.smokeRecording.confirmCTA')}
               </Button>
             </View>
           </Row>
