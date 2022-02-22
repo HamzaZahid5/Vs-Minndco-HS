@@ -1,9 +1,10 @@
-const { getDefaultConfig } = require('metro-config');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { getDefaultConfig } = require('metro-config')
 
 module.exports = (async () => {
   const {
     resolver: { assetExts, sourceExts },
-  } = await getDefaultConfig();
+  } = await getDefaultConfig()
 
   return {
     resolver: {
@@ -13,5 +14,5 @@ module.exports = (async () => {
     transformer: {
       assetPlugins: ['expo-asset/tools/hashAssetFiles'],
     },
-  };
-})();
+  }
+})()

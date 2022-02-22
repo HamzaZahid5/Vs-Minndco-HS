@@ -14,8 +14,9 @@ import {
   BackgroundArt,
 } from '@mindcoxr/rob'
 import { homeBGColors } from '../../utils/config'
+import { DefaultScreenPropType } from '../../../types'
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: DefaultScreenPropType<'Home'>) => {
   const theme = useRobTheme()
   return (
     <TabbedScreen colors={homeBGColors}>
@@ -66,7 +67,7 @@ const HomeScreen = () => {
                 <Button
                   compact
                   onPress={() => {
-                    alert('start onboarding')
+                    navigation.navigate('Activity')
                   }}
                 >
                   Begin activity

@@ -1,5 +1,5 @@
 import React, { useState, useRef, RefObject, useEffect } from 'react'
-import { Provider as PaperProvider } from 'react-native-paper'
+import { Provider as PaperProvider, TouchableRipple } from 'react-native-paper'
 import { Theme as PaperTheme } from 'react-native-paper/src/types'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Provider } from 'react-redux'
@@ -7,7 +7,7 @@ import { Platform, View, Text } from 'react-native'
 import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { createStackNavigator, StackHeaderLeftButtonProps } from '@react-navigation/stack'
+import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
 
@@ -22,15 +22,20 @@ import RegistrationScreen from './src/screens/Registration'
 import LoginScreen from './src/screens/Login'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import TabsNavigation from './src/screens/TabsNavigator'
-import OnboardingScreen from './src/screens/OnBoardingScreens'
 import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
+import OnBoardingScreens from './src/screens/OnBoardingScreens'
+import ActivityScreen from './src/screens/ActivityScreen'
+import VRMet from './src/screens/VRMet'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
+//@ts-ignore untyped file
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
 import { useFirestoreListener, updateProfile } from './src/services/Firestore'
+import { Icon } from '@mindcoxr/rob'
+import NavigationHeader from './src/components/NavigationHeader'
 
 // // @ts-ignore: non-ts file
 // import AboutVRScreen from './src/screens/AboutVR';
@@ -217,13 +222,13 @@ export default function App() {
                     headerTransparent: true,
                     headerBackground,
                     // eslint-disable-next-line react/display-name
-                    headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
-                      <BackButton onPress={defaultOnPress} {...props} />
-                    ),
+                    header: NavigationHeader,
                   }}
                 >
                   <Stack.Screen name="Main" component={TabsNavigation} options={{ headerShown: false }} />
-                  <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
+                  <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
+                  <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
+                  <Stack.Screen name="VRMet" component={VRMet} options={{ headerShown: false }} />
                   {/* 
                   <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
                   <Stack.Screen
@@ -344,7 +349,7 @@ export default function App() {
                   headerTransparent: true,
                   headerBackground,
                   // eslint-disable-next-line react/display-name
-                  headerLeft: ({ onPress: defaultOnPress, ...props }: StackHeaderLeftButtonProps) => (
+                  headerLeft: ({ onPress: defaultOnPress, ...props }) => (
                     <BackButton onPress={defaultOnPress} {...props} />
                   ),
                 }}

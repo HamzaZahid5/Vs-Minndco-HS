@@ -1,0 +1,279 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { View, StyleSheet, Text } from 'react-native'
+import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
+import { Video } from 'expo-av'
+import {
+  useRobTheme,
+  Theme as RobTheme,
+  Headline,
+  Paragraph,
+  Button,
+  Row,
+  PopupWrapper,
+  Subheading,
+  Icon,
+} from '@mindcoxr/rob'
+import { useStorageDownloadURL } from '../../services/Storage'
+import { useSetHeaderProps } from '../../components/NavigationHeader'
+import { translate } from '../../utils/localization'
+
+export type VRActivityScreenProps = {
+  onPlayPressed: () => void
+  onDonePressed: () => void
+  videoSrc: string
+  title: string
+  description: string
+  duration: string | number
+}
+
+const LoginScreen = ({
+  onPlayPressed,
+  onDonePressed,
+  videoSrc,
+  title,
+  description,
+  duration,
+}: VRActivityScreenProps) => {
+  const [loading, setLoading] = useState(true)
+  const video = useRef<Video | null>(null)
+  const initialPositionSetted = useRef(false)
+  const firstPlay = useRef(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const theme = useRobTheme()
+  const styles = getStyles(theme)
+  const [show, setShow] = useState(false)
+  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
+
+  const asset = useStorageDownloadURL(videoSrc)
+
+  useEffect(() => {
+    if (loading) return
+    if (isFullscreen) {
+      if (firstPlay.current === false) {
+        video.current
+          ?.presentFullscreenPlayerAsync()
+          .then(() => video.current?.setPositionAsync(0))
+          .then(() => video.current?.playAsync())
+          .then(() => {
+            firstPlay.current = true
+          })
+      } else {
+        video.current?.presentFullscreenPlayerAsync().then(() => video.current?.playAsync())
+      }
+    } else {
+      video.current?.pauseAsync()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFullscreen]) //Run only when fullscreen status change
+  return (
+    <View style={styles.externalContainer}>
+      <View style={[styles.imageContainer]}>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
+          </View>
+        )}
+        <View
+          style={[
+            styles.loadingPosition,
+            loading && styles.hideLoading, // Render on top (iOS fix)
+          ]}
+        >
+          {asset && (
+            <Video
+              ref={video}
+              style={[styles.image]}
+              source={{
+                uri: asset,
+              }}
+              onFullscreenUpdate={update => {
+                if (update.fullscreenUpdate === Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS) {
+                  setIsFullscreen(false)
+                }
+              }}
+              useNativeControls={isFullscreen}
+              resizeMode={isFullscreen ? 'contain' : 'cover'}
+              onPlaybackStatusUpdate={status => {
+                if (status.isLoaded) {
+                  if (initialPositionSetted.current === false && status.durationMillis) {
+                    video.current?.setPositionAsync(status.durationMillis / 2)
+                    initialPositionSetted.current = true
+                  }
+                }
+                if (status.isLoaded && !status.isBuffering && initialPositionSetted.current) {
+                  setLoading(false)
+                }
+              }}
+            />
+          )}
+        </View>
+      </View>
+      <View style={styles.videoSpacer} />
+      <View style={styles.infoContainer}>
+        <TouchableRipple
+          borderless
+          onPress={() => {
+            onPlayPressed()
+            setIsFullscreen(true)
+          }}
+          style={styles.playButton}
+        >
+          <View style={[styles.playContainer, loading && styles.hide]}>
+            <Icon name="Play" color={theme.colors.monochrome.input} />
+          </View>
+        </TouchableRipple>
+      </View>
+      <View style={styles.textContainer}>
+        <View style={styles.internalText}>
+          <View style={styles.title}>
+            <Headline size="small" weight="bold" textAlign="left">
+              {title}
+            </Headline>
+            <Paragraph size="small" textAlign="left" weight="normal">
+              <Text style={styles.paragraphColor}>{description}</Text>
+            </Paragraph>
+          </View>
+          <View style={styles.iconsContainer}>
+            <View style={[styles.iconsWrapper]}>
+              <Icon name="Video" color={theme.colors.monochrome.placeholder} />
+              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                Video
+              </PaperParagraph>
+            </View>
+            <View style={[styles.iconsWrapper]}>
+              <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
+              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                {duration} min
+              </PaperParagraph>
+            </View>
+          </View>
+          <View style={styles.fullWidth}>
+            <Button onPress={onDonePressed}>Done</Button>
+          </View>
+        </View>
+      </View>
+      <PopupWrapper show={show} onClose={() => setShow(false)}>
+        <Row gutter={10}>
+          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+        </Row>
+        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+          <Paragraph size="xsmall" weight="normal" textAlign="left">
+            {translate('screens.Activity.tipsVideo')}
+          </Paragraph>
+        </Row>
+      </PopupWrapper>
+    </View>
+  )
+}
+
+const getStyles = (theme: typeof RobTheme) =>
+  StyleSheet.create({
+    externalContainer: { flexGrow: 1, overflow: 'hidden', backgroundColor: theme.colors.monochrome.input },
+    paragraphStyle: {
+      ...theme.fonts.regular,
+      ...theme.fontSizes.body.large,
+      fontFamily: 'Poppins_600SemiBold',
+      fontWeight: '600',
+      color: theme.colors.monochrome.label,
+    },
+    title: { marginBottom: 15 },
+    loadingPosition: { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 },
+    hideLoading: { top: -314, bottom: 314 },
+    videoSpacer: { maxHeight: 314, minHeight: 200, flexGrow: 50, justifyContent: 'flex-end', alignItems: 'flex-start' },
+    headbarContainer: {
+      position: 'absolute',
+      top: 30,
+      left: 25,
+      right: 25,
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+    },
+    infoContainer: {
+      paddingVertical: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.monochrome.input,
+    },
+    internalText: {
+      backgroundColor: '#fcfcfc',
+      paddingVertical: 32,
+      paddingHorizontal: 24,
+      alignItems: 'flex-start',
+      flexGrow: 1,
+    },
+    fullWidth: { width: '100%' },
+    paragraphColor: { color: '#14142b' },
+    hide: { display: 'none' },
+    leftArrow: { justifyContent: 'center', alignItems: 'center', paddingTop: 5, paddingLeft: 5, borderRadius: 16 },
+    questionMark: { justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 5 },
+    playContainer: {
+      backgroundColor: '#14142B',
+      height: 64,
+      width: 64,
+      borderRadius: 32,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    paragraphStyleFav: {
+      color: theme.colors.errors.darkmode,
+    },
+    imageContainer: {
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      height: 314,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+    },
+    textContainer: { backgroundColor: theme.colors.monochrome.input, flexGrow: 1 },
+    titleContainer: {
+      position: 'absolute',
+      bottom: 27,
+      left: 24,
+      zIndex: 999,
+    },
+    image: { height: 314, borderRadius: 0, display: 'flex' },
+    imageSmall: { height: 120, borderRadius: 24 },
+    imageLoading: { display: 'none' },
+    textConteinar: {
+      justifyContent: 'space-between',
+      alignItems: 'stretch',
+      paddingTop: 24,
+    },
+    playButton: {
+      width: 64,
+      height: 64,
+      borderRadius: 32,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    textConteinarSmall: {
+      paddingTop: 16,
+    },
+    description: { marginTop: 16, marginBottom: 8, marginHorizontal: 32 },
+    descriptionSmall: { marginHorizontal: 16 },
+    iconsContainer: { flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 15 },
+    iconsContainerSmall: { paddingHorizontal: 16 },
+    iconsWrapper: { alignItems: 'center', justifyContent: 'center', marginTop: 10, marginRight: 40 },
+    touchable: { borderRadius: 24 },
+    touchableFav: { borderRadius: 8, justifyContent: 'center' },
+    touchableView: { borderRadius: 8, justifyContent: 'center', flex: 1 },
+    containerAlingCenter: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
+    containerAlingLeft: { justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+    containerAlingRigth: { justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' },
+    loadingContainer: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    horizontalMargin: { marginHorizontal: 32 },
+    horizontalMarginSmall: { marginHorizontal: 16 },
+  })
+
+export default LoginScreen
