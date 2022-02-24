@@ -21,7 +21,7 @@ import LandingScreen from './src/screens/LandingScreen'
 import RegistrationScreen from './src/screens/Registration'
 import LoginScreen from './src/screens/Login'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
-import TabsNavigation from './src/screens/TabsNavigator'
+import DrawerHomeNavigator from './src/screens/DrawerNavigator'
 import OnboardingScreen from './src/screens/OnBoardingScreens'
 import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
 
@@ -222,7 +222,7 @@ export default function App() {
                     ),
                   }}
                 >
-                  <Stack.Screen name="Main" component={TabsNavigation} options={{ headerShown: false }} />
+                  <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
                   <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
                   {/* 
                   <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
