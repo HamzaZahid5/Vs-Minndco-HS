@@ -9,6 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import { ONBOARDING_COMPLETE } from '../../store/selectors'
 import ProgramScreen from '../Program'
+import SupportScreen from '../Support'
 
 const Tab = createBottomTabNavigator()
 
@@ -43,6 +44,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        lazy: false,
         headerTransparent: true,
         headerShown: false,
         tabBarIconStyle: {
@@ -107,7 +109,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
       />
       <Tab.Screen
         name="Messages"
-        component={Profile}
+        component={SupportScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
