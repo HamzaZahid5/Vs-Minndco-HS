@@ -23,6 +23,7 @@ import {
 } from '@mindcoxr/rob'
 import { ProgramActivity, ProgramActivityType } from '../../../types'
 import { activityTypeType as cardActivityType } from '@mindcoxr/rob/dist/typescript/components/Card'
+import { homeBGColors } from '../../utils/config'
 
 const programActivityToCardActivity = (actType: ProgramActivityType): cardActivityType => {
   switch (actType) {
@@ -89,7 +90,7 @@ const ProgramScreen = ({ vr, video, audio }: ScreenProps) => {
         <BackgroundArt
           paddingTop="40%"
           paddingBottom="0%"
-          colors={['#5fccfb', '#003247']}
+          colors={homeBGColors}
           source={require('../../../assets/images/bg_01.png')}
         />
         <View style={{ alignItems: 'flex-end', marginRight: 54, marginTop: 30 }}>
