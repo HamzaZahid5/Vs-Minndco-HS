@@ -24,7 +24,7 @@ export type UserState = {
     }
     gender: string
     group?: string
-    // kit_id: string
+    kit_id: string
     isPremium: boolean
     language: string
     progress: Array<string>
@@ -48,6 +48,7 @@ const initialState: UserState = {
       activity_days_in_a_row: 0,
       smokes_by_day: {},
     },
+    kit_id: '',
     treatment_module: 1,
     treatment_level: 1,
   },
@@ -94,6 +95,7 @@ const user = createSlice({
           },
           treatment_module: action.payload.treatment_module,
           treatment_level: action.payload.treatment_level,
+          kit_id: action.payload.kit_id,
         },
       }
       // if (oldOnBoardingFlag) {

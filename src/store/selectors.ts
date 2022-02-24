@@ -27,7 +27,7 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     display_name,
     flags: { has_coach_messages, show_welcome_message_on_chat },
     group,
-    // kit_id,
+    kit_id,
   } = store?.user?.data
   const { uid, email } = store?.user?.auth
   return {
@@ -36,7 +36,7 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     show_welcome_message_on_chat,
     display_name,
     group,
-    // kit_id,
+    kit_id,
     uid,
     email,
   }
