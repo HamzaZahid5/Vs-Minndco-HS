@@ -1,25 +1,54 @@
-import { Icon } from '@mindcoxr/rob'
+import { Headline, Icon } from '@mindcoxr/rob'
 import { useNavigation } from '@react-navigation/native'
 import { StackHeaderProps } from '@react-navigation/stack'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { View } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
 
 export type HeaderExtraProps = {
   color?: string
   onRigthPressed?: () => void
+  routeName?: string
+  backgroundColor?: string
+  height?: string
+  contentAtBottom?: boolean
 }
 
-const NavigationHeader = ({ navigation, color, onRigthPressed }: StackHeaderProps & HeaderExtraProps) => {
+const NavigationHeader = ({
+  navigation,
+  color,
+  onRigthPressed,
+  routeName,
+  backgroundColor,
+  height,
+  contentAtBottom,
+}: StackHeaderProps & HeaderExtraProps) => {
+  const [show, setShow] = useState(true)
+  useEffect(() => {
+    const unsubscribeBlur = navigation.addListener('blur', () => setShow(false))
+    const unsubscribeFocus = navigation.addListener('focus', () => setShow(true))
+
+    return () => {
+      unsubscribeBlur()
+      unsubscribeFocus()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  if (!show) return null
   return (
     <View
-      style={{
-        marginVertical: 30,
-        marginHorizontal: 25,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-      }}
+      style={[
+        {
+          paddingHorizontal: 25,
+          paddingTop: contentAtBottom ? 51 : 30,
+          paddingBottom: contentAtBottom ? 17 : 30,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+        },
+        height !== undefined && { height: 0 },
+        backgroundColor !== undefined && { backgroundColor },
+      ]}
     >
       <TouchableRipple
         borderless
@@ -28,6 +57,11 @@ const NavigationHeader = ({ navigation, color, onRigthPressed }: StackHeaderProp
       >
         <Icon name="LeftArrow" color={color ?? '#fcfcfc'} />
       </TouchableRipple>
+      {routeName !== undefined && (
+        <Headline size="small" textAlign="center" weight="bold">
+          {routeName}
+        </Headline>
+      )}
       <TouchableRipple
         borderless
         onPress={onRigthPressed}
