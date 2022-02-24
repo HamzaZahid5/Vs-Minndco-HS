@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import { ONBOARDING_COMPLETE } from '../../store/selectors'
+import ProgramScreen from '../Program'
 
 const Tab = createBottomTabNavigator()
 
@@ -70,7 +71,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
       />
       <Tab.Screen
         name="Program"
-        component={Notifications}
+        component={ProgramScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
