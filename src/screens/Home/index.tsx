@@ -14,8 +14,18 @@ import {
   BackgroundArt,
 } from '@mindcoxr/rob'
 import { homeBGColors } from '../../utils/config'
+import { CompositeNavigationProp } from '@react-navigation/native'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { DrawerParamList } from '../DrawerNavigator'
+import { RootStackParamList } from '../../../types'
+import { StackNavigationProp } from '@react-navigation/stack'
 
-const HomeScreen = () => {
+type HomeScreenNavigationProp = CompositeNavigationProp<
+  DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
+  StackNavigationProp<RootStackParamList, 'Home'>
+>
+
+const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const theme = useRobTheme()
   return (
     <TabbedScreen colors={homeBGColors}>
@@ -30,7 +40,13 @@ const HomeScreen = () => {
       {/* top spacer */}
       <Row />
       {/* menu button row */}
-      <Row margin={20}>{/* <MenuButton /> */}</Row>
+      <Row margin={20}>
+        <View style={{ alignItems: 'flex-start' }}>
+          <TouchableRipple borderless style={{ borderRadius: 26, padding: 5 }} onPress={() => navigation.openDrawer()}>
+            <Icon name="MenuLeft" color="#fcfcfc" size={34} />
+          </TouchableRipple>
+        </View>
+      </Row>
 
       <Row grow margin={0}>
         <Carousel
@@ -66,7 +82,7 @@ const HomeScreen = () => {
                 <Button
                   compact
                   onPress={() => {
-                    alert('start onboarding')
+                    navigation.navigate('Activity')
                   }}
                 >
                   Begin activity

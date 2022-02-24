@@ -35,7 +35,7 @@
     "test-run-emu": "detox test --configuration android-emu"
   },
   "dependencies": {
-    "@mindcoxr/rob": "^0.8.1",
+    "@mindcoxr/rob": "^0.8.6",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cli": "^5.0.1",
     "@react-native-community/cli-platform-ios": "^6.2.0",

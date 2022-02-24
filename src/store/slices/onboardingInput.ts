@@ -40,7 +40,6 @@ const flagger = createSlice({
           },
         },
       })
-      console.log('finalizado')
     },
   },
 })

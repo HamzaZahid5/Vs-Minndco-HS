@@ -8,14 +8,18 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import { ONBOARDING_COMPLETE } from '../../store/selectors'
+import ProgramScreen from '../Program'
+import SupportScreen from '../Support'
 
 const Tab = createBottomTabNavigator()
 
-const Notifications = () => (
-  <View>
-    <Text>Notifications</Text>
-  </View>
-)
+const Notifications = () => {
+  return (
+    <View>
+      <Text>Notifications</Text>
+    </View>
+  )
+}
 const Profile = () => (
   <View>
     <Text>Profile</Text>
@@ -42,6 +46,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        lazy: false,
         headerTransparent: true,
         headerShown: false,
         tabBarIconStyle: {
@@ -70,7 +75,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
       />
       <Tab.Screen
         name="Program"
-        component={Notifications}
+        component={ProgramScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
@@ -106,7 +111,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
       />
       <Tab.Screen
         name="Messages"
-        component={Profile}
+        component={SupportScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
@@ -127,7 +132,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
             <Icon
-              name="Box"
+              name="Help"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />
