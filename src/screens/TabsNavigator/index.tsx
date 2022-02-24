@@ -13,11 +13,13 @@ import SupportScreen from '../Support'
 
 const Tab = createBottomTabNavigator()
 
-const Notifications = () => (
-  <View>
-    <Text>Notifications</Text>
-  </View>
-)
+const Notifications = () => {
+  return (
+    <View>
+      <Text>Notifications</Text>
+    </View>
+  )
+}
 const Profile = () => (
   <View>
     <Text>Profile</Text>
@@ -130,7 +132,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
             <Icon
-              name="Box"
+              name="Help"
               color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
               size={22}
             />

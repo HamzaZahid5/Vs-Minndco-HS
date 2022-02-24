@@ -82,7 +82,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                 <Button
                   compact
                   onPress={() => {
-                    alert('start onboarding')
+                    navigation.navigate('Activity')
                   }}
                 >
                   Begin activity

@@ -1,13 +1,12 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
 //@ts-ignore not implemented
 import obfuscate from '../../utils/emailObfuscator'
-//@ts-ignore not implemented
-import firestore from '../../services/Firestore'
 import { SmokeRecordsState } from './smokeRecord'
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 // import { FirebaseTimestamp } from '../../../types';
 
 export type UserStatistics = {
-  last_completed_activity_at?: typeof firestore.Timestamp
+  last_completed_activity_at?: FirebaseFirestoreTypes.Timestamp
   activity_days_in_a_row: number
   smokes_by_day: SmokeRecordsState
   // average_stress?: number
@@ -21,6 +20,7 @@ export type UserState = {
       has_coach_messages?: boolean
       show_welcome_message_on_chat?: boolean
       onboarding_complete?: boolean
+      kit_confirmed?: boolean
     }
     gender: string
     group?: string
@@ -82,6 +82,7 @@ const user = createSlice({
             has_coach_messages: action.payload.flag_has_coach_messages,
             show_welcome_message_on_chat: action.payload.flag_show_welcome_message_on_chat,
             onboarding_complete: action.payload.on_boarding_completed,
+            kit_confirmed: action.payload.flag_kit_confirmed,
           },
           gender: action.payload.gender,
           group: action.payload.group,

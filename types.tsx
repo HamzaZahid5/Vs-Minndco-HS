@@ -1,8 +1,6 @@
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
-// import { contentType } from './src/screens/StressActivityScreen'
-//@ts-ignore not implemented
-import firestore from './src/services/Firestore'
 
 export type LifesaverContentType = {
   id: string
@@ -131,7 +129,7 @@ export type activityType = {
 
 export type journalType = {
   activity_id: string
-  date: firestore.Timestamp
+  date: FirebaseFirestoreTypes.Timestamp
   level: number
   reason: string
 }

@@ -1,0 +1,293 @@
+import React, { useLayoutEffect, useRef, useState } from 'react'
+import { View, StyleSheet, Platform, Image, Text, ScrollView, TextInput, Animated } from 'react-native'
+import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
+import {
+  useRobTheme,
+  Theme as RobTheme,
+  Headline,
+  Paragraph,
+  Button,
+  Row,
+  PopupWrapper,
+  Subheading,
+  Icon,
+} from '@mindcoxr/rob'
+import { StackHeaderProps } from '@react-navigation/stack'
+import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
+import { DefaultScreenPropType } from '../../../types'
+import { translate } from '../../utils/localization'
+
+function lerp(start: number, end: number, amt: number): number {
+  return (1 - amt) * start + amt * end
+}
+
+export type VRActivityScreenProps = {
+  onDonePressed: (answer: string) => void
+  backImage: string
+  asset: string
+  title: string
+  description: string
+  duration: string | number
+}
+
+const VRActivityScreen = ({ onDonePressed, backImage, title, description, duration, asset }: VRActivityScreenProps) => {
+  const fadeAnim = useRef(new Animated.Value(1)).current
+  const marginAnim = useRef(new Animated.Value(0)).current
+  const [loading, setLoading] = useState(true)
+  const theme = useRobTheme()
+  const styles = getStyles(theme)
+  const [show, setShow] = useState(false)
+  const [answer, setAnswer] = useState('')
+  const [headerColor, setHeaderColor] = useState('#fcfcfc')
+  useSetHeaderProps({ onRigthPressed: () => setShow(true), color: headerColor }, [headerColor])
+
+  return (
+    <View style={styles.externalContainer}>
+      <Animated.View style={[styles.imageContainer, { opacity: fadeAnim, transform: [{ translateY: marginAnim }] }]}>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
+          </View>
+        )}
+        <Image
+          source={{
+            uri: backImage,
+          }}
+          resizeMode="cover"
+          style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
+          onLoad={() => {
+            setLoading(false)
+          }}
+        />
+      </Animated.View>
+
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={styles.externalGrowContainer}
+        bounces={false}
+        onScroll={e => {
+          Animated.timing(fadeAnim, {
+            toValue: lerp(1, 0, e.nativeEvent.contentOffset.y / 155),
+            duration: 0,
+            useNativeDriver: true,
+          }).start()
+          Animated.timing(marginAnim, {
+            toValue: lerp(0, -20, e.nativeEvent.contentOffset.y / 155),
+            duration: 0,
+            useNativeDriver: true,
+          }).start()
+          if (e.nativeEvent.contentOffset.y > 155) {
+            setHeaderColor('#000000')
+          } else {
+            setHeaderColor('#ffffff')
+          }
+        }}
+        onScrollEndDrag={e => {
+          Animated.timing(fadeAnim, {
+            toValue: lerp(1, 0, e.nativeEvent.contentOffset.y / 155),
+            duration: 0,
+            useNativeDriver: true,
+          }).start()
+          Animated.timing(marginAnim, {
+            toValue: lerp(0, -20, e.nativeEvent.contentOffset.y / 155),
+            duration: 0,
+            useNativeDriver: true,
+          }).start()
+          if (e.nativeEvent.contentOffset.y > 155) {
+            setHeaderColor('#000000')
+          } else {
+            setHeaderColor('#ffffff')
+          }
+        }}
+        scrollEventThrottle={50}
+      >
+        <View style={styles.imageSpacer}>
+          <View style={styles.titlePosition}>
+            <Headline textAlign="left" size="large" weight="bold">
+              <Text style={styles.titleColor}>{title}</Text>
+            </Headline>
+          </View>
+        </View>
+        <View style={styles.growContainer}>
+          <View style={styles.iconsContainer}>
+            <View style={[styles.iconsWrapper]}>
+              <Icon name="Paste" color={theme.colors.monochrome.placeholder} />
+              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                {translate('screens.Activity.reflection')}
+              </PaperParagraph>
+            </View>
+            <View style={[styles.iconsWrapper]}>
+              <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
+              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                {duration} min
+              </PaperParagraph>
+            </View>
+          </View>
+
+          <View style={styles.textContainer}>
+            <Headline size="small" weight="bold" textAlign="left">
+              {translate('screens.Activity.description')}
+            </Headline>
+            <Paragraph size="small" textAlign="left" weight="normal">
+              <Text style={styles.textColor}>{description}</Text>
+            </Paragraph>
+          </View>
+          <View style={styles.separatorLine} />
+          <View style={styles.textContainer}>
+            <Headline size="small" weight="bold" textAlign="left">
+              {asset}
+            </Headline>
+          </View>
+          <TextInput
+            multiline
+            style={{
+              backgroundColor: theme.colors.monochrome.input,
+              minHeight: 229,
+              borderRadius: 16,
+              textAlignVertical: 'top',
+              marginVertical: 20,
+              paddingVertical: 20,
+              paddingHorizontal: 10,
+              width: '100%',
+              ...theme.fontSizes.body.small,
+            }}
+            value={answer}
+            onChangeText={setAnswer}
+            placeholder={translate('screens.Activity.answer-placeholder')}
+            placeholderTextColor={theme.colors.monochrome.label}
+            selectionColor={theme.colors.primaryPalette[700] + '40'}
+          />
+          <View style={styles.fullWidth}>
+            <Button
+              onPress={() => {
+                onDonePressed(answer)
+              }}
+            >
+              {translate('screens.Activity.submit')}
+            </Button>
+          </View>
+        </View>
+      </ScrollView>
+      <PopupWrapper show={show} onClose={() => setShow(false)}>
+        <Row gutter={10}>
+          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+        </Row>
+        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+          <Paragraph size="xsmall" weight="normal" textAlign="left">
+            {translate('screens.Activity.tipsAudio')}
+          </Paragraph>
+        </Row>
+      </PopupWrapper>
+    </View>
+  )
+}
+
+const getStyles = (theme: typeof RobTheme) =>
+  StyleSheet.create({
+    externalContainer: { flexGrow: 1, overflow: 'hidden', backgroundColor: theme.colors.monochrome.input },
+    playContainer: {
+      paddingVertical: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.monochrome.input,
+      borderTopRightRadius: 16,
+      borderTopLeftRadius: 16,
+    },
+    headlineContainer: {
+      position: 'absolute',
+      top: 30,
+      left: 25,
+      right: 25,
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+    },
+    leftArrow: { justifyContent: 'center', alignItems: 'center', paddingTop: 5, paddingLeft: 5, borderRadius: 16 },
+    playButton: {
+      width: 64,
+      height: 64,
+      borderRadius: 32,
+      backgroundColor: '#14142B',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    externalGrowContainer: { flexGrow: 1 },
+    imageSpacer: { maxHeight: 298, minHeight: 200, flexGrow: 50, justifyContent: 'flex-end', alignItems: 'flex-start' },
+    growContainer: {
+      borderRadius: 16,
+      backgroundColor: '#fcfcfc',
+      paddingVertical: 32,
+      paddingHorizontal: 24,
+      alignItems: 'flex-start',
+      flexGrow: 1,
+    },
+    questionMark: { justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 5 },
+    textContainer: { marginBottom: 20 },
+    titleColor: { color: '#FCFCFC' },
+    titlePosition: { marginBottom: 27, marginLeft: 24 },
+    textColor: { color: '#14142b' },
+    separatorLine: { height: 3, backgroundColor: '#EFF0F6', width: '100%', marginBottom: 15 },
+    fullWidth: { width: '100%' },
+    paragraphStyle: {
+      ...theme.fonts.regular,
+      ...theme.fontSizes.body.large,
+      fontFamily: 'Poppins_600SemiBold',
+      fontWeight: '600',
+      color: theme.colors.monochrome.label,
+    },
+    paragraphStyleFav: {
+      color: theme.colors.errors.darkmode,
+    },
+    imageContainer: {
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      height: 314,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+    },
+    titleContainer: {
+      position: 'absolute',
+      bottom: 27,
+      left: 24,
+      zIndex: 999,
+    },
+    image: { height: 314, borderRadius: 0, display: 'flex' },
+    imageSmall: { height: 120, borderRadius: 24 },
+    imageLoading: { display: 'none' },
+    textConteinar: {
+      justifyContent: 'space-between',
+      alignItems: 'stretch',
+      paddingTop: 24,
+    },
+    textConteinarSmall: {
+      paddingTop: 16,
+    },
+    description: { marginTop: 16, marginBottom: 8, marginHorizontal: 32 },
+    descriptionSmall: { marginHorizontal: 16 },
+    iconsContainer: { flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 25 },
+    iconsContainerSmall: { paddingHorizontal: 16 },
+    iconsWrapper: { alignItems: 'center', justifyContent: 'center', marginTop: 10, marginRight: 40 },
+    touchable: { borderRadius: 24 },
+    touchableFav: { borderRadius: 8, justifyContent: 'center' },
+    touchableView: { borderRadius: 8, justifyContent: 'center', flex: 1 },
+    hide: { display: 'none' },
+    containerAlingCenter: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
+    containerAlingLeft: { justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
+    containerAlingRigth: { justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' },
+    loadingContainer: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    horizontalMargin: { marginHorizontal: 32 },
+    horizontalMarginSmall: { marginHorizontal: 16 },
+  })
+
+export default VRActivityScreen
