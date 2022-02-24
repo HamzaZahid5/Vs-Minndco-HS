@@ -27,6 +27,7 @@ import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
 import OnBoardingScreens from './src/screens/OnBoardingScreens'
 import ActivityScreen from './src/screens/ActivityScreen'
 import VRMet from './src/screens/VRMet'
+import ProfileScreen from './src/screens/Profile'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -226,12 +227,28 @@ export default function App() {
                     header: NavigationHeader,
                   }}
                 >
-
                   <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
                   <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
                   <Stack.Screen name="VRMet" component={VRMet} options={{ headerShown: false }} />
-
+                  <Stack.Screen
+                    name="Profile"
+                    component={ProfileScreen}
+                    options={{
+                      headerShown: true,
+                      header: (props: StackHeaderProps) => (
+                        <NavigationHeader
+                          {...props}
+                          contentAtBottom
+                          color="#14142b"
+                          backgroundColor="#F7F7FC"
+                          routeName="Profile"
+                        />
+                      ),
+                      headerTransparent: false,
+                      headerStyle: { backgroundColor: '#F7F7FC' },
+                    }}
+                  />
                   {/* 
                   <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
                   <Stack.Screen
