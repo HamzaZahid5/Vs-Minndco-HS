@@ -237,7 +237,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
-                  onPress={() => onPressActivity(act.activity.id)}
+                  onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
                   activityType={programActivityToCardActivity(act.activity.type)}
                   title={act.activity.name}
                   description={act.activity.description}
@@ -261,10 +261,10 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
             }}
           >
             {video.map((act, index) => (
-              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.7 }}>
+              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
-                  onPress={() => onPressActivity(act.activity.id)}
+                  onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
                   activityType={programActivityToCardActivity(act.activity.type)}
                   title={act.activity.name}
                   description={act.activity.description}
@@ -288,10 +288,10 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
             }}
           >
             {audio.map((act, index) => (
-              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.7 }}>
+              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
-                  onPress={() => onPressActivity(act.activity.id)}
+                  onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
                   activityType={programActivityToCardActivity(act.activity.type)}
                   title={act.activity.name}
                   description={act.activity.description}
