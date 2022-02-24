@@ -82,8 +82,22 @@ export type ProgramActivity = {
   name: string
   description: string
   asset: string
-  category: ProgramActivityCategories
   duration: number | string
+}
+
+export type ProgramLevel = {
+  id: number
+  name: string
+  message: string
+  activities: ProgramActivity[]
+}
+
+export type ProgramType = {
+  modules: {
+    id: number
+    name: string
+    levels: ProgramLevel[]
+  }[]
 }
 
 declare global {
