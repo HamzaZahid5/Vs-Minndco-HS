@@ -44,8 +44,9 @@ type ScreenProps = {
   vr: { activity: ProgramActivity; done: boolean }[]
   video: { activity: ProgramActivity; done: boolean }[]
   audio: { activity: ProgramActivity; done: boolean }[]
+  onPressActivity: (id: string) => void
 }
-const ProgramScreen = ({ vr, video, audio }: ScreenProps) => {
+const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
   const windowsDimension = useWindowDimensions()
   const [headerHeight, setheaderHeight] = useState(0)
   const theme = useRobTheme()
@@ -236,7 +237,7 @@ const ProgramScreen = ({ vr, video, audio }: ScreenProps) => {
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
-                  onPress={() => console.log('Pressed')}
+                  onPress={() => onPressActivity(act.activity.id)}
                   activityType={programActivityToCardActivity(act.activity.type)}
                   title={act.activity.name}
                   description={act.activity.description}
@@ -263,7 +264,7 @@ const ProgramScreen = ({ vr, video, audio }: ScreenProps) => {
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.7 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
-                  onPress={() => console.log('Pressed')}
+                  onPress={() => onPressActivity(act.activity.id)}
                   activityType={programActivityToCardActivity(act.activity.type)}
                   title={act.activity.name}
                   description={act.activity.description}
@@ -290,7 +291,7 @@ const ProgramScreen = ({ vr, video, audio }: ScreenProps) => {
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.7 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
-                  onPress={() => console.log('Pressed')}
+                  onPress={() => onPressActivity(act.activity.id)}
                   activityType={programActivityToCardActivity(act.activity.type)}
                   title={act.activity.name}
                   description={act.activity.description}
