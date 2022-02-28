@@ -18,7 +18,6 @@ import * as Yup from 'yup'
 import { translate } from '../../utils/localization'
 
 const ProfileScreen = () => {
-  const [buttonHeigth, setButtonHeigth] = useState(0)
   const theme = useRobTheme()
 
   return (
@@ -40,7 +39,6 @@ const ProfileScreen = () => {
           wlike: '',
         }}
         onSubmit={(values, actions) => {
-          console.log('Form submitted')
           // actions.setSubmitting(false)
         }}
         validationSchema={getRegisterSchema()}
@@ -51,58 +49,58 @@ const ProfileScreen = () => {
               <Screen>
                 <Row gutter={40}>
                   <Headline size="medium" weight="bold" textAlign="left">
-                    Your info
+                    {translate('screens.Profile.info')}
                   </Headline>
                 </Row>
 
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>Personal info</NativeText>
+                    <NativeText style={{ color: '#000000' }}> {translate('screens.Profile.personalInfo')}</NativeText>
                   </Paragraph>
                   <TextInput
                     value={values.name}
                     onChangeText={handleChange('name')}
                     theme={theme}
                     error={touched.name && errors.name !== undefined}
-                    label="Name"
+                    label={translate('screens.Profile.name')}
                   />
                   <TextInput
                     value={values.lastname}
                     onChangeText={handleChange('lastname')}
                     theme={theme}
                     error={touched.lastname && errors.lastname !== undefined}
-                    label="Last Name"
+                    label={translate('screens.Profile.lastname')}
                   />
                   <TextInput
                     value={values.pronouns}
                     onChangeText={handleChange('pronouns')}
                     theme={theme}
                     error={touched.pronouns && errors.pronouns !== undefined}
-                    label="Preferred pronouns"
+                    label={translate('screens.Profile.pronouns')}
                   />
                   <View style={{ height: 10 }} />
                 </Row>
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>Contact info</NativeText>
+                    <NativeText style={{ color: '#000000' }}> {translate('screens.Profile.contact')}</NativeText>
                   </Paragraph>
                   <TextInput
                     value={values.email}
                     onChangeText={handleChange('email')}
                     theme={theme}
                     error={touched.email && errors.email !== undefined}
-                    label="Email"
+                    label={translate('screens.Profile.email')}
                   />
                   <View>
                     <Paragraph size="xsmall" textAlign="left" weight="normal">
-                      Phone number
+                      {translate('screens.Profile.phone')}
                     </Paragraph>
                     <TextInput
                       value={values.countryCode}
                       onChangeText={handleChange('countryCode')}
                       theme={theme}
                       error={touched.countryCode && errors.countryCode !== undefined}
-                      label="Country code"
+                      label={translate('screens.Profile.countryCode')}
                     />
                   </View>
                   <TextInput
@@ -110,41 +108,41 @@ const ProfileScreen = () => {
                     onChangeText={handleChange('phoneNumber')}
                     theme={theme}
                     error={touched.phoneNumber && errors.phoneNumber !== undefined}
-                    label="Phone number"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <View style={{ height: 10 }} />
                 </Row>
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>Smoking habits</NativeText>
+                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.smokeHabits')}</NativeText>
                   </Paragraph>
                   <TextInput
                     value={values.yearsSmocking}
                     onChangeText={handleChange('yearsSmocking')}
                     theme={theme}
                     error={touched.yearsSmocking && errors.yearsSmocking !== undefined}
-                    label="Years smoking"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <TextInput
                     value={values.product}
                     onChangeText={handleChange('product')}
                     theme={theme}
                     error={touched.product && errors.product !== undefined}
-                    label="Product you smoke"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <TextInput
                     value={values.dailySmocking}
                     onChangeText={handleChange('dailySmocking')}
                     theme={theme}
                     error={touched.dailySmocking && errors.dailySmocking !== undefined}
-                    label="Daily smoked"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <TextInput
                     value={values.unitPerPackage}
                     onChangeText={handleChange('unitPerPackage')}
                     theme={theme}
                     error={touched.unitPerPackage && errors.unitPerPackage !== undefined}
-                    label="Unit per package"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <View>
                     <TextInput
@@ -152,44 +150,39 @@ const ProfileScreen = () => {
                       onChangeText={handleChange('costPerPackage')}
                       theme={theme}
                       error={touched.costPerPackage && errors.costPerPackage !== undefined}
-                      label="Cost per package"
+                      label={translate('screens.Profile.phoneNumber')}
                     />
                     <Paragraph size="xsmall" textAlign="left" weight="normal">
-                      An estimate works too ;)
+                      {translate('screens.Profile.estimate')}
                     </Paragraph>
                   </View>
                   <View style={{ height: 10 }} />
                 </Row>
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>Your goals</NativeText>
+                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
                   </Paragraph>
                   <TextInput
                     value={values.wlike}
                     onChangeText={handleChange('wlike')}
                     theme={theme}
                     error={touched.wlike && errors.wlike !== undefined}
-                    label="What you'd like"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <TextInput
                     value={values.qday}
                     onChangeText={handleChange('qday')}
                     theme={theme}
                     error={touched.qday && errors.qday !== undefined}
-                    label="Quit day"
+                    label={translate('screens.Profile.phoneNumber')}
                   />
                   <View style={{ height: 10 }} />
                 </Row>
-                <Row gutter={23} grow justifyContentOnGrow="flex-end">
-                  <View style={{ height: buttonHeigth }} />
-                </Row>
+                <Row gutter={50} />
               </Screen>
-              <View
-                onLayout={e => !buttonHeigth && setButtonHeigth(e.nativeEvent.layout.height)}
-                style={{ position: 'absolute', bottom: 20, left: 25, right: 25 }}
-              >
+              <View style={{ position: 'absolute', bottom: 20, left: 25, right: 25 }}>
                 <Button role="primary" onPress={() => submitForm()}>
-                  See what we can do
+                  {translate('screens.Profile.button')}
                 </Button>
               </View>
             </>

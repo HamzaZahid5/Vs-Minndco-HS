@@ -24,6 +24,7 @@ import {
 import { ProgramActivity, ProgramActivityType } from '../../../types'
 import { activityTypeType as cardActivityType } from '@mindcoxr/rob/dist/typescript/components/Card'
 import { homeBGColors } from '../../utils/config'
+import { translate } from '../../utils/localization'
 
 const programActivityToCardActivity = (actType: ProgramActivityType): cardActivityType => {
   switch (actType) {
@@ -41,12 +42,12 @@ const programActivityToCardActivity = (actType: ProgramActivityType): cardActivi
 }
 
 type ScreenProps = {
-  vr: { activity: ProgramActivity; done: boolean }[]
-  video: { activity: ProgramActivity; done: boolean }[]
-  audio: { activity: ProgramActivity; done: boolean }[]
+  tab1: { activity: ProgramActivity; done: boolean }[]
+  tab2: { activity: ProgramActivity; done: boolean }[]
+  tab3: { activity: ProgramActivity; done: boolean }[]
   onPressActivity: (id: string) => void
 }
-const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
+const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity }: ScreenProps) => {
   const windowsDimension = useWindowDimensions()
   const [headerHeight, setheaderHeight] = useState(0)
   const theme = useRobTheme()
@@ -118,7 +119,9 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
             </NativeText>
             <View style={{ marginTop: -20 }}>
               <Paragraph size="large" weight="normal">
-                <NativeText style={{ color: theme.colors.monochrome.offBlack }}>Smoked this week</NativeText>
+                <NativeText style={{ color: theme.colors.monochrome.offBlack }}>
+                  {translate('screens.Program.headerSubtitle')}
+                </NativeText>
               </Paragraph>
             </View>
           </View>
@@ -145,7 +148,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
                   fontWeight: '700',
                 }}
               >
-                Log
+                {translate('screens.Program.log')}
               </NativeText>
               <NativeText
                 style={{
@@ -172,7 +175,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
                   fontWeight: '700',
                 }}
               >
-                Progress
+                {translate('screens.Program.progress')}
               </NativeText>
               <NativeText
                 style={{
@@ -199,7 +202,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
                   fontWeight: '700',
                 }}
               >
-                Achieve
+                {translate('screens.Program.achieve')}
               </NativeText>
               <NativeText
                 style={{
@@ -222,7 +225,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
       >
         <Tabs>
           <ScrollView
-            data-tabName="VR"
+            data-tabName={translate('screens.Program.category1')}
             scrollEnabled={internalScrollEnabled}
             nestedScrollEnabled
             contentContainerStyle={{
@@ -233,7 +236,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
               paddingBottom: 50,
             }}
           >
-            {vr.map((act, index) => (
+            {tab1.map((act, index) => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
@@ -249,7 +252,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
             ))}
           </ScrollView>
           <ScrollView
-            data-tabName="Video"
+            data-tabName={translate('screens.Program.category2')}
             nestedScrollEnabled
             scrollEnabled={internalScrollEnabled}
             contentContainerStyle={{
@@ -260,7 +263,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
               paddingBottom: 50,
             }}
           >
-            {video.map((act, index) => (
+            {tab2.map((act, index) => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}
@@ -276,7 +279,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
             ))}
           </ScrollView>
           <ScrollView
-            data-tabName="Audio"
+            data-tabName={translate('screens.Program.category3')}
             nestedScrollEnabled
             scrollEnabled={internalScrollEnabled}
             contentContainerStyle={{
@@ -287,7 +290,7 @@ const ProgramScreen = ({ vr, video, audio, onPressActivity }: ScreenProps) => {
               paddingBottom: 50,
             }}
           >
-            {audio.map((act, index) => (
+            {tab3.map((act, index) => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onFavPress={() => console.log('Fav pressed')}

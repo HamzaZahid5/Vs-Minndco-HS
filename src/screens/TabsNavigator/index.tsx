@@ -11,7 +11,15 @@ import { ONBOARDING_COMPLETE } from '../../store/selectors'
 import ProgramScreen from '../Program'
 import SupportScreen from '../Support'
 
-const Tab = createBottomTabNavigator()
+export type TabsParamList = {
+  Home: undefined
+  Program: undefined
+  SmokeRecord: undefined
+  Messages: undefined
+  Playground: undefined
+}
+
+const Tab = createBottomTabNavigator<TabsParamList>()
 
 const Notifications = () => {
   return (
