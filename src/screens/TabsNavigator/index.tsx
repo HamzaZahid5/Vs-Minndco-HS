@@ -10,6 +10,7 @@ import { RootStackParamList } from '../../../types'
 import { ONBOARDING_COMPLETE } from '../../store/selectors'
 import ProgramScreen from '../Program'
 import SupportScreen from '../Support'
+import LifesaverScreen from '../Lifesaver'
 
 export type TabsParamList = {
   Home: undefined
@@ -28,11 +29,7 @@ const Notifications = () => {
     </View>
   )
 }
-const Profile = () => (
-  <View>
-    <Text>Profile</Text>
-  </View>
-)
+
 function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) {
   // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
@@ -135,7 +132,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
       />
       <Tab.Screen
         name="Playground"
-        component={Profile}
+        component={LifesaverScreen}
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (

@@ -1,6 +1,7 @@
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { LifesaverAudioType, LifesaverReadType, LifesaverDoType } from './src/utils/lifesaverActivities'
 
 export type LifesaverContentType = {
   id: string
@@ -65,7 +66,9 @@ export type RootStackParamList = {
   ContentsShelf: { category: ProgramActivityCategories }
   Roadmap: undefined
   VRPlaygroundActivity: { url: string }
+  LifesaverActivity: LifesaverReadType | LifesaverAudioType | LifesaverDoType
 }
+
 export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {
   navigation: StackNavigationProp<RootStackParamList, Type>
 }
