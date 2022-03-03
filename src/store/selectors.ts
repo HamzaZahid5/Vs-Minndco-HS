@@ -20,8 +20,8 @@ export const ONBOARDING_CURRENT_INPUT = (store: RootState) => store?.currentOnbo
 export const ONBOARDING_COMPLETE = (store: RootState) => store?.user?.data?.flags?.onboarding_complete
 // export const AVERAGE_STRESS = (store: RootState) => store?.user?.data?.statistics?.average_stress
 export const USER_PROFILE = (store: RootState) => {
-  const { language, gender } = store?.user?.data
-  return { language, gender }
+  const { language, gender, created_at } = store?.user?.data
+  return { language, gender, created_at }
 }
 export const USER_SUPPORT_PROFILE = (store: RootState) => {
   const {
@@ -49,3 +49,10 @@ export const AUTH_INFO = (store: RootState) => store?.user?.auth
 export const CURRENT_STRESS_INPUT = (store: RootState) => store?.currentStressInput
 export const TUTORIALS_STATE = (store: RootState) => store?.tutorials
 export const SMOKE_RECORD = (store: RootState) => store?.user?.data?.statistics?.smokes_by_day as SmokeRecordsState
+export const QUIT_DAY = (store: RootState) => store?.user?.data?.quit_day
+export const MONEY_SAVED = (store: RootState) => {
+  const savings = store?.user?.data?.statistics?.money_saved || 0
+  return Math.round(Number(savings) * 10) / 10
+}
+export const PRICE_BY_UNIT = (store: RootState) => store?.user?.data?.statistics?.money_by_unit || 0
+export const SMOKE_BASLINE = (store: RootState) => store?.user?.data?.statistics?.cigarettes_baseline || 0
