@@ -12,16 +12,17 @@ import {
   Subheading,
   Icon,
 } from '@mindcoxr/rob'
-import { StackHeaderProps } from '@react-navigation/stack'
+import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
 import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
-import { DefaultScreenPropType } from '../../../types'
+import { DefaultScreenPropType, RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
 
 function lerp(start: number, end: number, amt: number): number {
   return (1 - amt) * start + amt * end
 }
 
-export type VRActivityScreenProps = {
+export type ReflectionActivityScreenProps = {
   onDonePressed: (answer: string) => void
   backImage: string
   asset: string
@@ -30,17 +31,44 @@ export type VRActivityScreenProps = {
   duration: string | number
 }
 
-const VRActivityScreen = ({ onDonePressed, backImage, title, description, duration, asset }: VRActivityScreenProps) => {
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
+
+const ReflectionActivityScreen = ({
+  onDonePressed,
+  backImage,
+  title,
+  description,
+  duration,
+  asset,
+}: ReflectionActivityScreenProps) => {
   const fadeAnim = useRef(new Animated.Value(1)).current
   const marginAnim = useRef(new Animated.Value(0)).current
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
   const [answer, setAnswer] = useState('')
   const [headerColor, setHeaderColor] = useState('#fcfcfc')
-  useSetHeaderProps({ onRigthPressed: () => setShow(true), color: headerColor }, [headerColor])
-
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+    },
+    [],
+  )
   return (
     <View style={styles.externalContainer}>
       <Animated.View style={[styles.imageContainer, { opacity: fadeAnim, transform: [{ translateY: marginAnim }] }]}>
@@ -169,16 +197,6 @@ const VRActivityScreen = ({ onDonePressed, backImage, title, description, durati
           </View>
         </View>
       </ScrollView>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsAudio')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
@@ -290,4 +308,4 @@ const getStyles = (theme: typeof RobTheme) =>
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
 
-export default VRActivityScreen
+export default ReflectionActivityScreen
