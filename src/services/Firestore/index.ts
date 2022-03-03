@@ -6,6 +6,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { languagesType, ProgramActivityType } from '../../../types'
 import { PlatformOSType } from 'react-native'
 import { SmokeRecordsState } from '../../store/slices/smokeRecord'
+import moment from 'moment'
 
 export default firestore
 
@@ -98,6 +99,32 @@ export const burnCode = (code: string) =>
     burnt_at: firestore.FieldValue.serverTimestamp(),
     used_by: auth().currentUser.uid,
   })
+
+export const saveQuitDay = (date: moment.Moment) => {
+  const { uid } = auth().currentUser
+  return firestore()
+    .collection('users')
+    .doc(uid)
+    .update({
+      quit_day: date.format('YYYY-MM-DD'),
+      congratulated_on_quit_date: false,
+      'statistics.last_quit_date_change_at': moment.utc().toDate(),
+    })
+}
+
+export const revertQuitDay = (newDate: moment.Moment, newModule: number, newLevel: number) => {
+  const { uid } = auth().currentUser
+  return firestore()
+    .collection('users')
+    .doc(uid)
+    .update({
+      quit_day: newDate.format('YYYY-MM-DD'),
+      congratulated_on_quit_date: false,
+      treatment_module: newModule,
+      treatment_level: newLevel,
+      state: 'RELAPSE',
+    })
+}
 
 export const saveActivityDone = ({
   treatment_module,
