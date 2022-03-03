@@ -9,6 +9,9 @@ import { RootStackParamList } from '../../../types'
 import ChatItem, { chatOptionType } from './ChatItem'
 import useLifesaverActions from './useLifesaverActions'
 import { ActivityIndicator } from 'react-native-paper'
+import { LIFESAVER_ACTIVITIES, LIFESAVER_AUDIOS, LIFESAVER_READS } from '../../utils/lifesaverActivities'
+import { getLocale } from '../../utils/localization'
+import { LifesaverAudioType, LifesaverReadType, LifesaverDoType } from '../../utils/lifesaverActivities'
 
 const Lifesaver = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -44,6 +47,14 @@ const Lifesaver = () => {
           ? (option: chatOptionType) => {
               if (option.action.indexOf('GO_TO_ACTIVITY') === 0) {
                 const actType = option.action.replace('GO_TO_ACTIVITY_', '')
+                const contents = getContentByType(actType, state.userPlace || '')
+                const randomPicked = contents[~~(Math.random() * 10) % contents.length]
+                // choose an activity
+
+                navigation.navigate(
+                  'LifesaverActivity',
+                  randomPicked as LifesaverReadType | LifesaverAudioType | LifesaverDoType,
+                )
                 // console.log(state, actType)
 
                 // save user selection
@@ -65,4 +76,17 @@ const Lifesaver = () => {
   )
 }
 
+const getContentByType = (type: string, place: string) => {
+  switch (type) {
+    case 'READ':
+      return LIFESAVER_READS()
+    default:
+    case 'LISTEN':
+      return LIFESAVER_AUDIOS(getLocale()).filter(
+        c => !c.only || c.only.includes(place), // contents by place
+      )
+    case 'DO':
+      return LIFESAVER_ACTIVITIES
+  }
+}
 export default Lifesaver

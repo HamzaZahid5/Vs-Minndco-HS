@@ -28,6 +28,7 @@ import OnBoardingScreens from './src/screens/OnBoardingScreens'
 import ActivityScreen from './src/screens/ActivityScreen'
 import VRMet from './src/screens/VRMet'
 import ProfileScreen from './src/screens/Profile'
+import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -145,7 +146,7 @@ export default function App() {
       store.dispatch({ type: 'user/setAuth', payload: userToken })
     }
   }, [userToken])
-  const userData = useFirestoreListener('users', userToken?.uid ?? null)
+  const userData = useFirestoreListener('users', userToken?.uid ?? '')
   useEffect(() => {
     if (userData) {
       store.dispatch({ type: 'user/setUser', payload: userData })
@@ -230,6 +231,11 @@ export default function App() {
                   <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
                   <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
+                  <Stack.Screen
+                    name="LifesaverActivity"
+                    component={LifesaverActivityScreen}
+                    options={{ headerShown: true }}
+                  />
                   <Stack.Screen name="VRMet" component={VRMet} options={{ headerShown: false }} />
                   <Stack.Screen
                     name="Profile"
