@@ -15,6 +15,9 @@ import {
 } from '@mindcoxr/rob'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -24,6 +27,19 @@ export type VRActivityScreenProps = {
   description: string
   duration: string | number
 }
+
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
 
 const VRActivityScreen = ({
   onPlayPressed,
@@ -36,8 +52,16 @@ const VRActivityScreen = ({
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
-  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+    },
+    [],
+  )
   return (
     <View style={styles.externalContainer}>
       <View style={[styles.imageContainer]}>
@@ -105,16 +129,6 @@ const VRActivityScreen = ({
           </View>
         </View>
       </View>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsVr')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
