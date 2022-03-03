@@ -12,10 +12,11 @@ import {
   Subheading,
   Icon,
 } from '@mindcoxr/rob'
-import { StackHeaderProps } from '@react-navigation/stack'
+import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
 import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
-import { DefaultScreenPropType } from '../../../types'
+import { DefaultScreenPropType, RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
 
 export type VRActivityScreenProps = {
   onDonePressed: () => void
@@ -24,12 +25,34 @@ export type VRActivityScreenProps = {
   read: string
 }
 
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
+
 const VRActivityScreen = ({ onDonePressed, backImage, title, read }: VRActivityScreenProps) => {
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
-  const [answer, setAnswer] = useState('')
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+    },
+    [],
+  )
   return (
     <View style={styles.externalContainer}>
       <View style={[styles.imageContainer]}>
@@ -72,18 +95,6 @@ const VRActivityScreen = ({ onDonePressed, backImage, title, read }: VRActivityS
           </View>
         </View>
       </ScrollView>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>How to watch VR contents</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {
-              '1. Make sure to be seated to have the best possible experience.\n2. Place the phone right in the middle of the headset to avoid blurriness.\n3. Wear headphones if you can!'
-            }
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
