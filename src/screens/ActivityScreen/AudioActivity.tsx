@@ -16,6 +16,9 @@ import {
 import { useStorageDownloadURL } from '../../services/Storage'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -26,6 +29,19 @@ export type VRActivityScreenProps = {
   description: string
   duration: string | number
 }
+
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
 
 const AudioActivityScreen = ({
   onPlayPressed,
@@ -39,17 +55,25 @@ const AudioActivityScreen = ({
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
   const [error, setError] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<Audio.Sound | null>(null)
   const maxWidth = useRef<number>(0)
   const [finished, setFinished] = useState(false)
   const [progress, setProgress] = useState(0)
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
   const asset = useStorageDownloadURL(audioSrc)
   const startLoad = useRef(false)
-  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+    },
+    [],
+  )
 
   const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
     if (status.isLoaded === true && status.isBuffering === false && status.durationMillis) {
@@ -205,16 +229,6 @@ const AudioActivityScreen = ({
           </View>
         </View>
       </View>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsAudio')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
