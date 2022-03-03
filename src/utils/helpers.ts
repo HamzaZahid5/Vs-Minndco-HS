@@ -69,3 +69,13 @@ export const getAllActivities = (program: ProgramType, includeVR: boolean) => {
   const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met')
   return relevantActivities
 }
+
+export const calculateProgressForQuitDayRevert = (progress: string[]) => {
+  const hasActivitiesFromModule2 = progress.reduce((r, p) => p.includes('M2') || r, false)
+  const highestModule = hasActivitiesFromModule2 ? 2 : 1
+  const highestLevelOnModule = progress.reduce((r, p) => {
+    const levelNum = p.includes(`M${highestModule}_`) && p.split('_')[1].replace('L', '')
+    return Number(levelNum) > r ? Number(levelNum) : r
+  }, 1)
+  return [highestModule, highestLevelOnModule]
+}
