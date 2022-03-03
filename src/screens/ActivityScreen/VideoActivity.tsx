@@ -16,6 +16,9 @@ import {
 import { useStorageDownloadURL } from '../../services/Storage'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -26,7 +29,20 @@ export type VRActivityScreenProps = {
   duration: string | number
 }
 
-const LoginScreen = ({
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
+
+const VideoActivity = ({
   onPlayPressed,
   onDonePressed,
   videoSrc,
@@ -41,9 +57,16 @@ const LoginScreen = ({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
-  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
-
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+    },
+    [],
+  )
   const asset = useStorageDownloadURL(videoSrc)
 
   useEffect(() => {
@@ -152,16 +175,6 @@ const LoginScreen = ({
           </View>
         </View>
       </View>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsVideo')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
@@ -276,4 +289,4 @@ const getStyles = (theme: typeof RobTheme) =>
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
 
-export default LoginScreen
+export default VideoActivity
