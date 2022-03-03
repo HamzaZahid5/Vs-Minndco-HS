@@ -28,6 +28,7 @@ import OnBoardingScreens from './src/screens/OnBoardingScreens'
 import ActivityScreen from './src/screens/ActivityScreen'
 import VRMet from './src/screens/VRMet'
 import ProfileScreen from './src/screens/Profile'
+import BasicModalScreen from './src/screens/BasicModalScreen'
 import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
 
 // UTILS & HELPERS
@@ -359,6 +360,14 @@ export default function App() {
                       //     }),
                       //   },
                       // }),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="BasicModal"
+                    component={BasicModalScreen}
+                    options={{
+                      headerShown: false,
+                      cardStyle: { backgroundColor: 'transparent' },
                     }}
                   />
                 </Stack.Group>

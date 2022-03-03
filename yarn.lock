@@ -1885,7 +1885,6 @@
     "@types/node" "*"
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
-
 "@mindcoxr/rob@^0.9.1":
   version "0.9.1"
   resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.9.1/961e5eedeaab1d750fa2a59dcc29a8ca2bc801f60b499a9e22087b27b5855d2d#79ffa1ceddbc470ae4ff48ac1e842d712eca9b2d"
@@ -2369,6 +2368,11 @@
   integrity sha512-INiJl6sfNn8iyC5paxVzqiVUEj2boIlFki02uRTAkKwAj++7aAF+ZfEv/XrIeBa0XI/fTZuDHW8rEEcEVnON+Q==
   dependencies:
     "@types/color-convert" "*"
+
+"@types/countdown@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@types/countdown/-/countdown-0.0.8.tgz#130f9c6654e64b8d8c361378c517bb63ecca13a2"
+  integrity sha512-kpWa+wlrYcvgymkaOIF3i40MnSMRNdv91piNVmJ22Pnd4A3QJXu21ngTzHHnLqKVtCjGWfO0FZKSXb3XiGiTdA==
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"

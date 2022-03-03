@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StatusBar } from 'react-native'
+import { View, StatusBar, useWindowDimensions } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
 import {
   TabbedScreen,
@@ -52,6 +52,7 @@ const programActivityToCardActivity = (actType: ProgramActivityType): IconNamesT
 
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   const theme = useRobTheme()
+  const windowsDimension = useWindowDimensions()
   const { nextActivity, isLastActivity } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
   const [currentSlide, setCurrentSlide] = useState(1)
@@ -82,7 +83,12 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
         // showHideTransition={statusBarTransition}
         hidden
       />
-      <BackgroundArt paddingTop={5} colors={homeBGColors} source={require('../../../assets/images/bg_01.png')} />
+      <BackgroundArt
+        paddingTop={windowsDimension.height > windowsDimension.width ? 5 : 0}
+        paddingBottom={0}
+        colors={homeBGColors}
+        source={require('../../../assets/images/bg_01.png')}
+      />
       {/* top spacer */}
       <Row />
       <Row margin={20}>

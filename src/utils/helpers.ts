@@ -1,6 +1,8 @@
+import moment from 'moment'
 import { ProgramActivity, ProgramType } from '../../types'
 // @ts-ignore: need to install types
 import template from 'lodash-es/template'
+import { SmokeRecordsState } from '../store/slices/smokeRecord'
 
 export const getModuleFromKey = (key = '') => key.split('_')[0]
 export const getModuleNumberFromKey = (key = '') => Number(getModuleFromKey(key).replace('M', ''))
@@ -68,4 +70,22 @@ export const getAllActivities = (program: ProgramType, includeVR: boolean) => {
   const activities = unnestedProgram(program)
   const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met')
   return relevantActivities
+}
+
+export const listOfLastXDays = (x: number) => {
+  const referenceDate = moment()
+  referenceDate.subtract(x, 'd')
+  const result = []
+  for (let i = x; i > 0; i--) {
+    const dateString = referenceDate.add(1, 'd').format('YYYY-MM-DD')
+    result.push(dateString)
+  }
+  return result
+}
+// formulas coming from back-end
+const calculateSmokedCigarettesFromJournal = (record: SmokeRecordsState) =>
+  Object.keys(record).reduce((t, d) => t + record[d], 0)
+export const calculateSavedCigarettesFromJournal = (record: SmokeRecordsState, baselineIntake: number) => {
+  const res = Object.keys(record).length * baselineIntake - calculateSmokedCigarettesFromJournal(record)
+  return res >= 0 ? res : 0
 }

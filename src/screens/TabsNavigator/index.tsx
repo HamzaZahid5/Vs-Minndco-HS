@@ -20,6 +20,9 @@ export type TabsParamList = {
   Playground: undefined
 }
 
+export const tabMarginTop = Platform.OS === 'ios' ? 10 : 0
+export const tabHeight = Platform.OS === 'ios' ? 80 : 70
+
 const Tab = createBottomTabNavigator<TabsParamList>()
 
 const Notifications = () => {
@@ -55,11 +58,11 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         headerTransparent: true,
         headerShown: false,
         tabBarIconStyle: {
-          marginTop: Platform.OS === 'ios' ? 10 : 0,
+          marginTop: tabMarginTop,
         },
         tabBarStyle: {
           flex: 1,
-          maxHeight: Platform.OS === 'ios' ? 80 : 70,
+          maxHeight: tabHeight,
           backgroundColor: 'white',
         },
       }}

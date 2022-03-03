@@ -25,7 +25,7 @@ export default (fixedActivityId?: string) => {
       const lastCompletedActivity = [...progress].pop()
       const lastCompletedIndex = allActivityKeys.findIndex(aKey => aKey === lastCompletedActivity)
       // when we got a fixed activity id it doesn't matter if the activity is repeated into another
-      // module or level. The first match we find into array of activities key is enough to let the
+      // module or level. The first match we find into the array of activity key is enough to let the
       // user to perform that activity again.
       let fixedActivityIndex
 

@@ -9,10 +9,14 @@ export type UserStatistics = {
   last_completed_activity_at?: FirebaseFirestoreTypes.Timestamp
   activity_days_in_a_row: number
   smokes_by_day: SmokeRecordsState
+  money_saved: number
+  money_by_unit?: number
+  cigarettes_baseline?: number
   // average_stress?: number
 }
 export type UserState = {
   data: {
+    created_at?: FirebaseFirestoreTypes.Timestamp
     crisp_session_id?: string
     display_name: string
     flags: {
@@ -28,6 +32,7 @@ export type UserState = {
     isPremium: boolean
     language: string
     progress: Array<string>
+    quit_day?: string
     statistics: UserStatistics
     treatment_module: number
     treatment_level: number
@@ -44,9 +49,13 @@ const initialState: UserState = {
     isPremium: false,
     language: '',
     progress: [],
+    quit_day: '',
     statistics: {
       activity_days_in_a_row: 0,
       smokes_by_day: {},
+      money_saved: 0,
+      money_by_unit: 0,
+      cigarettes_baseline: 0,
     },
     kit_id: '',
     treatment_module: 1,
@@ -75,6 +84,7 @@ const user = createSlice({
         ...state,
         data: {
           ...state.data,
+          created_at: action.payload.created_at,
           crisp_session_id: action.payload.crisp_session_id,
           display_name: action.payload.display_name,
           flags: {
@@ -89,10 +99,14 @@ const user = createSlice({
           isPremium: action.payload.isPremium,
           language: action.payload.language,
           progress: action.payload.progress,
+          quit_day: action.payload.quit_day,
           statistics: {
             last_completed_activity_at: action.payload.statistics.last_completed_activity_at,
             activity_days_in_a_row: 0,
             smokes_by_day: action.payload.statistics.smokes_by_day,
+            money_saved: action.payload.statistics.money_saved,
+            money_by_unit: action.payload.statistics.money_by_unit,
+            cigarettes_baseline: action.payload.statistics.cigarettes_baseline,
           },
           treatment_module: action.payload.treatment_module,
           treatment_level: action.payload.treatment_level,

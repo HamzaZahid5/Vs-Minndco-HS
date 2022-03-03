@@ -3,6 +3,7 @@ import crashlytics from '../services/Crashlytics'
 import { DICTYONARY_PATH } from './config'
 import i18n from 'i18n-js'
 import moment from 'moment'
+import Countdown from 'countdown'
 import { memoize } from 'lodash'
 import { LocaleConfig } from 'react-native-calendars'
 import storage from '../services/Storage'
@@ -74,6 +75,8 @@ export const setI18nConfig = async (callback: (value: boolean) => void) => {
   conditionalLocaleImport(languageTag)
   i18n.locale = languageTag
   // === CONFIG ===
+  // Countdown
+  Countdown.setLabels(...getCountDownLabels(i18n.locale))
   // Calendar
   if (i18n.locale !== 'en') {
     LocaleConfig.locales[i18n.locale] = getCalendarLocaleConfig(i18n.locale)
@@ -120,4 +123,29 @@ const conditionalLocaleImport = async (lang: languagesType) => {
     default:
   }
   moment.locale(lang)
+}
+
+export const getCountDownLabels = (
+  locale = getLocale(),
+): [string, string, string, string, string, ((value: number) => string) | undefined] => {
+  switch (locale) {
+    case 'es':
+      return [
+        ' milisegundo| segundo| minuto| hora| día| semana| mes| año| década| siglo| milenio',
+        ' milisegundos| segundos| minutos| horas| días| semanas| meses| años| décadas| siglos| milenios',
+        ' y ',
+        ', ',
+        '',
+        (n: number) => n.toString(),
+      ]
+    default:
+      return [
+        ' millisecond| second| minute| hour| day| week| month| year| decade| century| millennium',
+        ' milliseconds| seconds| minutes| hours| days| weeks| months| years| decades| centuries| millennia',
+        ' and ',
+        ', ',
+        '',
+        (n: number) => n.toString(),
+      ]
+  }
 }

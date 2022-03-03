@@ -1,6 +1,7 @@
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import { ReactChild, ReactChildren, ReactElement, ReactNode } from 'react'
 import { LifesaverAudioType, LifesaverReadType, LifesaverDoType } from './src/utils/lifesaverActivities'
 
 export type LifesaverContentType = {
@@ -33,6 +34,9 @@ export type RootStackParamList = {
     type?: string
     isFromPlayground?: boolean
     selectedContent?: LifesaverContentType
+  }
+  BasicModal: {
+    content: (props: { close: () => void }) => React.ReactNode
   }
   VRMet: {
     assetUrl: string
