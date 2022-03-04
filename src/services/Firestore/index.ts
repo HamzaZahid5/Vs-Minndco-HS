@@ -128,7 +128,7 @@ export const resetUserStreak = () =>
 
 export const updateDeviceInfo = ({ token }: { token: string }) =>
   updateProfile({
-    pn_tokens: firestore.FieldValue.arrayUnion(token),
+    pushToken: firestore.FieldValue.arrayUnion(token),
   })
 
 export const getFirestoreTimestamp = (date = new Date()) => firestore.Timestamp.fromDate(date)
