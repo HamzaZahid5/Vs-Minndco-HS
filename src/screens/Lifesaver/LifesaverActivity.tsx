@@ -36,7 +36,7 @@ const ActivityScreen = ({
           setActivityScreen(
             <ReadScreen
               title={textParams.title || ''}
-              read={textParams.pages.reduce((page, all) => all + '\n' + page)}
+              readPages={textParams.pages}
               backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
               onDonePressed={() => {
                 return
@@ -52,7 +52,7 @@ const ActivityScreen = ({
           setActivityScreen(
             <ReadScreen
               title="Not Implemented"
-              read="Not implemented"
+              readPages={['Not implemented']}
               backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
               onDonePressed={() => {
                 return
