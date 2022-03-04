@@ -17,10 +17,7 @@ import NavigationHeader, { useSetHeaderProps } from '../../components/Navigation
 import { DefaultScreenPropType, RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
 import { useNavigation } from '@react-navigation/native'
-
-function lerp(start: number, end: number, amt: number): number {
-  return (1 - amt) * start + amt * end
-}
+import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
 export type ReflectionActivityScreenProps = {
   onDonePressed: (answer: string) => void
@@ -52,13 +49,14 @@ const ReflectionActivityScreen = ({
   duration,
   asset,
 }: ReflectionActivityScreenProps) => {
-  const fadeAnim = useRef(new Animated.Value(1)).current
-  const marginAnim = useRef(new Animated.Value(0)).current
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
   const [answer, setAnswer] = useState('')
-  const [headerColor, setHeaderColor] = useState('#fcfcfc')
+  const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
+    styles: [styles.imageContainer],
+  })
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   useSetHeaderProps(
     {
@@ -66,12 +64,13 @@ const ReflectionActivityScreen = ({
         navigation.navigate('BasicModal', {
           content: PopupContent,
         }),
+      animatedControl: { animatedValue: animationControl, interpolationInput: [0, 155] },
     },
     [],
   )
   return (
     <View style={styles.externalContainer}>
-      <Animated.View style={[styles.imageContainer, { opacity: fadeAnim, transform: [{ translateY: marginAnim }] }]}>
+      <AnimatedViewElement>
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
@@ -87,47 +86,14 @@ const ReflectionActivityScreen = ({
             setLoading(false)
           }}
         />
-      </Animated.View>
+      </AnimatedViewElement>
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={styles.externalGrowContainer}
         bounces={false}
-        onScroll={e => {
-          Animated.timing(fadeAnim, {
-            toValue: lerp(1, 0, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          Animated.timing(marginAnim, {
-            toValue: lerp(0, -20, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          if (e.nativeEvent.contentOffset.y > 155) {
-            setHeaderColor('#000000')
-          } else {
-            setHeaderColor('#ffffff')
-          }
-        }}
-        onScrollEndDrag={e => {
-          Animated.timing(fadeAnim, {
-            toValue: lerp(1, 0, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          Animated.timing(marginAnim, {
-            toValue: lerp(0, -20, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          if (e.nativeEvent.contentOffset.y > 155) {
-            setHeaderColor('#000000')
-          } else {
-            setHeaderColor('#ffffff')
-          }
-        }}
+        onScroll={animatedEvent()}
         scrollEventThrottle={50}
       >
         <View style={styles.imageSpacer}>
