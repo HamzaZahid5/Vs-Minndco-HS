@@ -1,9 +1,12 @@
 import { Headline, Icon } from '@mindcoxr/rob'
 import { useNavigation } from '@react-navigation/native'
 import { StackHeaderProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Animated, View } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
+import { LinearGradient } from 'expo-linear-gradient'
+
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 
 export type HeaderExtraProps = {
   color?: string
@@ -12,6 +15,8 @@ export type HeaderExtraProps = {
   backgroundColor?: string
   height?: string
   contentAtBottom?: boolean
+  showGradient?: 'animated' | 'always'
+  animatedControl?: { animatedValue: React.MutableRefObject<Animated.Value>; interpolationInput: [number, number] }
 }
 
 const NavigationHeader = ({
@@ -22,6 +27,8 @@ const NavigationHeader = ({
   backgroundColor,
   height,
   contentAtBottom,
+  animatedControl,
+  showGradient = 'animated',
 }: StackHeaderProps & HeaderExtraProps) => {
   const [show, setShow] = useState(true)
   useEffect(() => {
@@ -35,6 +42,13 @@ const NavigationHeader = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   if (!show) return null
+  let animationInterpolation
+  if (animatedControl) {
+    animationInterpolation = animatedControl.animatedValue.current.interpolate({
+      inputRange: animatedControl.interpolationInput,
+      outputRange: [0, 1],
+    })
+  }
   return (
     <View
       style={[
@@ -50,12 +64,37 @@ const NavigationHeader = ({
         backgroundColor !== undefined && { backgroundColor },
       ]}
     >
+      {animatedControl !== undefined && showGradient === 'animated' && (
+        <AnimatedLinearGradient
+          colors={['rgba(0,0,0,0.8)', 'transparent']}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            opacity: animationInterpolation,
+          }}
+        />
+      )}
+      {showGradient === 'always' && (
+        <AnimatedLinearGradient
+          colors={['rgba(0,0,0,0.8)', 'transparent']}
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+          }}
+        />
+      )}
       <TouchableRipple
         borderless
         onPress={() => navigation.goBack()}
         style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5, paddingLeft: 5, borderRadius: 16 }}
       >
-        <Icon name="LeftArrow" color={color ?? '#fcfcfc'} />
+        <Icon name="LeftArrow" color={color ?? '#FCFCFC'} />
       </TouchableRipple>
       {routeName !== undefined && (
         <Headline size="small" textAlign="center" weight="bold">
