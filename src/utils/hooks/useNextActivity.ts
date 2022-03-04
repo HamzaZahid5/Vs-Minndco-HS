@@ -33,7 +33,8 @@ export default (fixedActivityId?: string) => {
         fixedActivityIndex = allActivityKeys.findIndex(aKey => aKey.includes(fixedActivityId))
       }
       // if fixed act id, fixed activity index, otherwise the next index from last completed act.
-      const activityIndex = fixedActivityIndex && fixedActivityIndex >= 0 ? fixedActivityIndex : lastCompletedIndex + 1
+      const activityIndex =
+        fixedActivityIndex !== undefined && fixedActivityIndex >= 0 ? fixedActivityIndex : lastCompletedIndex + 1
 
       // if exists, the activity key by index, otherwise the last activity key.
       const nextActKey = (allActivityKeys[activityIndex] || allActivityKeys.pop()) as string
