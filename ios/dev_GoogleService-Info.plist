@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>353015682620-8n8p1d0mm8cm2940bau5hd2v2s9l5fg1.apps.googleusercontent.com</string>
+	<string>353015682620-hejmq6bv783q29l6nl2lo9pagdlseum5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.353015682620-8n8p1d0mm8cm2940bau5hd2v2s9l5fg1</string>
+	<string>com.googleusercontent.apps.353015682620-hejmq6bv783q29l6nl2lo9pagdlseum5</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>353015682620-8rcgv7hhnb9me728bv00tr0pkg3n4qu3.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.habitfly.mindcotine</string>
+	<string>com.health.habitfly.mindcotine</string>
 	<key>PROJECT_ID</key>
 	<string>mindcotine-v4-dev</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:353015682620:ios:5091fbda1611eace101539</string>
+	<string>1:353015682620:ios:0f56f7e3bfe8d815101539</string>
 	<key>DATABASE_URL</key>
 	<string>https://mindcotine-v4-dev.firebaseio.com</string>
 </dict>

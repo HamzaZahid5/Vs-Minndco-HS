@@ -23,6 +23,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.health.habitfly.mindcotine</string>
@@ -35,7 +37,8 @@
 	<string>NO</string>
 	<key>FirebaseDynamicLinksCustomDomains</key>
 	<array>
-		<string>https://app.relief.the-mind.company/dlinks</string>
+		<string>https://app.mindcotine.com/dlinks</string>
+		<string>https://app.mindcotine.com</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
