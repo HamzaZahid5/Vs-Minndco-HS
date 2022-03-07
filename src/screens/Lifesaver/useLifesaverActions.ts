@@ -22,6 +22,16 @@ const getWelcomeMessage = () => ({
     text: translate('screens.lifesaver.coachMsgHello', { defaultValue: 'Hola tarola' }),
   },
 })
+
+const getCancelMessage = () => ({
+  type: 'PUSH_MESSAGE',
+  payload: {
+    id: 'bd7acbea-c1b1-46c2-aed5-34563456d',
+    user: 'coach',
+    text: translate('screens.lifesaver.cancelMessage', { defaultValue: 'No me acuerdo que iba aca' }),
+  },
+})
+
 const getUrgeQuestionMessage = () => ({
   type: 'PUSH_MESSAGE',
   payload: {
@@ -114,27 +124,22 @@ const getFindingActivityMessage = () => ({
     text: translate('screens.lifesaver.coachMsgFindingActivity'),
   },
 })
-const getActivityTypeOptions = () => ({
+const getActivityOptions = () => ({
   type: 'PUSH_MESSAGE',
   payload: {
     id: '3ac60afc-c600-40d0-a4f0-fbd01aa07f63',
     user: 'coach',
-    text: translate('screens.lifesaver.coachMsgChooseOne'),
+    text: 'Do you want to do an activity to improve your feelings?',
     options: [
       {
-        action: 'GO_TO_ACTIVITY_READ',
-        id: 'read',
-        label: translate('screens.lifesaver.coachMsgActivityRead'),
+        action: 'GO_TO_ACTIVITY',
+        id: 'yes',
+        label: 'Yes',
       },
       {
-        action: 'GO_TO_ACTIVITY_LISTEN',
-        id: 'listen',
-        label: translate('screens.lifesaver.coachMsgActivityListen'),
-      },
-      {
-        action: 'GO_TO_ACTIVITY_DO',
-        id: 'do',
-        label: translate('screens.lifesaver.coachMsgActivityDo'),
+        action: 'CANCEL',
+        id: 'no',
+        label: 'No',
       },
     ],
   },
@@ -208,6 +213,15 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
           API.tellToPerformActivity()
         }, 3500)
       }
+      if (eventType === 'CANCEL') {
+        dispatch(getCancelMessage())
+        setTimeout(() => {
+          dispatch({ type: 'RESET_STATE', payload: null })
+        }, 3000)
+        setTimeout(() => {
+          API.sayWelcome()
+        }, 5000)
+      }
     },
     askForPlace: () => dispatch(getPlaceQuestionMessage()),
     askForCompany: () => dispatch(getCompanyQuestionMessage()),
@@ -217,7 +231,7 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
     },
     tellToPerformActivity: () => {
       dispatch({ type: 'SET_THINKING', payload: false })
-      dispatch(getActivityTypeOptions())
+      dispatch(getActivityOptions())
     },
   }
   return API

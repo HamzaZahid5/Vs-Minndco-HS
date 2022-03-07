@@ -46,22 +46,7 @@ const Lifesaver = () => {
         const onSelectOption = item.options
           ? (option: chatOptionType) => {
               if (option.action.indexOf('GO_TO_ACTIVITY') === 0) {
-                const actType = option.action.replace('GO_TO_ACTIVITY_', '')
-                const contents = getContentByType(actType, state.userPlace || '')
-                const randomPicked = contents[~~(Math.random() * 10) % contents.length]
-                // choose an activity
-
-                navigation.navigate(
-                  'LifesaverActivity',
-                  randomPicked as LifesaverReadType | LifesaverAudioType | LifesaverDoType,
-                )
-                // console.log(state, actType)
-
-                // save user selection
-                // navigateToLifesaverCardActivity(componentId, {
-                //   activityType: actType,
-                //   state,
-                // })
+                navigation.navigate('Playground', { only: state.userPlace })
               } else {
                 actions.handleUserAnswer(option.action, option.label, option.id)
               }
