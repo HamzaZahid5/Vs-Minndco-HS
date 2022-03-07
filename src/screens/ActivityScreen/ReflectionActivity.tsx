@@ -12,16 +12,14 @@ import {
   Subheading,
   Icon,
 } from '@mindcoxr/rob'
-import { StackHeaderProps } from '@react-navigation/stack'
+import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
 import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
-import { DefaultScreenPropType } from '../../../types'
+import { DefaultScreenPropType, RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
-function lerp(start: number, end: number, amt: number): number {
-  return (1 - amt) * start + amt * end
-}
-
-export type VRActivityScreenProps = {
+export type ReflectionActivityScreenProps = {
   onDonePressed: (answer: string) => void
   backImage: string
   asset: string
@@ -30,20 +28,49 @@ export type VRActivityScreenProps = {
   duration: string | number
 }
 
-const VRActivityScreen = ({ onDonePressed, backImage, title, description, duration, asset }: VRActivityScreenProps) => {
-  const fadeAnim = useRef(new Animated.Value(1)).current
-  const marginAnim = useRef(new Animated.Value(0)).current
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
+
+const ReflectionActivityScreen = ({
+  onDonePressed,
+  backImage,
+  title,
+  description,
+  duration,
+  asset,
+}: ReflectionActivityScreenProps) => {
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
   const [answer, setAnswer] = useState('')
-  const [headerColor, setHeaderColor] = useState('#fcfcfc')
-  useSetHeaderProps({ onRigthPressed: () => setShow(true), color: headerColor }, [headerColor])
+  const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
+    styles: [styles.imageContainer],
+  })
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+      animatedControl: { animatedValue: animationControl, interpolationInput: [0, 155] },
+    },
+    [],
+  )
   return (
     <View style={styles.externalContainer}>
-      <Animated.View style={[styles.imageContainer, { opacity: fadeAnim, transform: [{ translateY: marginAnim }] }]}>
+      <AnimatedViewElement>
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
@@ -59,47 +86,14 @@ const VRActivityScreen = ({ onDonePressed, backImage, title, description, durati
             setLoading(false)
           }}
         />
-      </Animated.View>
+      </AnimatedViewElement>
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={styles.externalGrowContainer}
         bounces={false}
-        onScroll={e => {
-          Animated.timing(fadeAnim, {
-            toValue: lerp(1, 0, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          Animated.timing(marginAnim, {
-            toValue: lerp(0, -20, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          if (e.nativeEvent.contentOffset.y > 155) {
-            setHeaderColor('#000000')
-          } else {
-            setHeaderColor('#ffffff')
-          }
-        }}
-        onScrollEndDrag={e => {
-          Animated.timing(fadeAnim, {
-            toValue: lerp(1, 0, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          Animated.timing(marginAnim, {
-            toValue: lerp(0, -20, e.nativeEvent.contentOffset.y / 155),
-            duration: 0,
-            useNativeDriver: true,
-          }).start()
-          if (e.nativeEvent.contentOffset.y > 155) {
-            setHeaderColor('#000000')
-          } else {
-            setHeaderColor('#ffffff')
-          }
-        }}
+        onScroll={animatedEvent()}
         scrollEventThrottle={50}
       >
         <View style={styles.imageSpacer}>
@@ -169,16 +163,6 @@ const VRActivityScreen = ({ onDonePressed, backImage, title, description, durati
           </View>
         </View>
       </ScrollView>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsAudio')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
@@ -290,4 +274,4 @@ const getStyles = (theme: typeof RobTheme) =>
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
 
-export default VRActivityScreen
+export default ReflectionActivityScreen

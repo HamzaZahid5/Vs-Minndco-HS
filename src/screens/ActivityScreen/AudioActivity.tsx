@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Text, Image, Platform } from 'react-native'
+import { View, StyleSheet, Text, Image, Platform, ScrollView } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 import { Audio, AVPlaybackStatus } from 'expo-av'
 import {
@@ -16,6 +16,10 @@ import {
 import { useStorageDownloadURL } from '../../services/Storage'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
+import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -26,6 +30,19 @@ export type VRActivityScreenProps = {
   description: string
   duration: string | number
 }
+
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
 
 const AudioActivityScreen = ({
   onPlayPressed,
@@ -39,17 +56,29 @@ const AudioActivityScreen = ({
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
   const [error, setError] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const audioRef = useRef<Audio.Sound | null>(null)
   const maxWidth = useRef<number>(0)
   const [finished, setFinished] = useState(false)
   const [progress, setProgress] = useState(0)
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
+    styles: [styles.imageContainer],
+  })
 
   const asset = useStorageDownloadURL(audioSrc)
   const startLoad = useRef(false)
-  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+      animatedControl: { animatedValue: animationControl, interpolationInput: [0, 155] },
+    },
+    [],
+  )
 
   const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
     if (status.isLoaded === true && status.isBuffering === false && status.durationMillis) {
@@ -96,7 +125,7 @@ const AudioActivityScreen = ({
   }, [asset])
   return (
     <View style={styles.externalContainer}>
-      <View style={[styles.imageContainer]}>
+      <AnimatedViewElement>
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
@@ -116,105 +145,105 @@ const AudioActivityScreen = ({
             style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
           />
         </View>
-      </View>
-      <View style={styles.videoSpacer} />
-      <View style={styles.infoContainer}>
-        <TouchableRipple
-          borderless
-          onPress={() => {
-            if (audioRef.current) {
-              if (isPlaying) {
-                audioRef.current.pauseAsync().then(() => setIsPlaying(false))
-              } else {
-                if (progress === 100) {
-                  audioRef.current
-                    .setPositionAsync(0)
-                    .then(() => audioRef.current?.playAsync())
-                    .then(() => setIsPlaying(true))
-                    .then(() => setProgress(0))
+      </AnimatedViewElement>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        bounces={false}
+        onScroll={animatedEvent()}
+        scrollEventThrottle={50}
+      >
+        <View style={styles.videoSpacer} />
+        <View style={styles.infoContainer}>
+          <TouchableRipple
+            borderless
+            onPress={() => {
+              if (audioRef.current) {
+                if (isPlaying) {
+                  audioRef.current.pauseAsync().then(() => setIsPlaying(false))
                 } else {
-                  audioRef.current.playAsync().then(() => setIsPlaying(true))
+                  if (progress === 100) {
+                    audioRef.current
+                      .setPositionAsync(0)
+                      .then(() => audioRef.current?.playAsync())
+                      .then(() => setIsPlaying(true))
+                      .then(() => setProgress(0))
+                  } else {
+                    audioRef.current.playAsync().then(() => setIsPlaying(true))
+                  }
                 }
               }
-            }
-            onPlayPressed && onPlayPressed()
-          }}
-          style={styles.playButton}
-        >
-          <View style={[styles.playContainer, loading && styles.hide]}>
-            <Icon name={isPlaying ? 'Pause' : 'Play'} color={theme.colors.monochrome.input} />
-          </View>
-        </TouchableRipple>
-        <View style={[{ flexGrow: 1 }, loading && styles.hide]}>
-          <View
-            style={{
-              height: 12,
-              borderRadius: 6,
-              backgroundColor: theme.colors.monochrome.line,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              flexDirection: 'row',
-              overflow: 'hidden',
+              onPlayPressed && onPlayPressed()
             }}
-            onLayout={e => {
-              maxWidth.current = e.nativeEvent.layout.width
-            }}
+            style={styles.playButton}
           >
+            <View style={[styles.playContainer, loading && styles.hide]}>
+              <Icon name={isPlaying ? 'Pause' : 'Play'} color={theme.colors.monochrome.input} />
+            </View>
+          </TouchableRipple>
+          <View style={[{ flexGrow: 1 }, loading && styles.hide]}>
             <View
               style={{
-                height: '100%',
-                width: (maxWidth.current * progress) / 100,
-                backgroundColor: theme.colors.monochrome.offBlack,
+                height: 12,
                 borderRadius: 6,
+                backgroundColor: theme.colors.monochrome.line,
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                flexDirection: 'row',
+                overflow: 'hidden',
               }}
-            />
-          </View>
-          <View style={{ marginLeft: 5 }}>
-            <Paragraph weight="bold" size="small" textAlign="left">
-              <Text style={{ color: theme.colors.monochrome.offBlack }}>{progress}%</Text> Complete
-            </Paragraph>
-          </View>
-        </View>
-      </View>
-      <View style={styles.textContainer}>
-        <View style={styles.internalText}>
-          <View style={styles.title}>
-            <Headline size="small" weight="bold" textAlign="left">
-              {title}
-            </Headline>
-            <Paragraph size="small" textAlign="left" weight="normal">
-              <Text style={styles.paragraphColor}>{description}</Text>
-            </Paragraph>
-          </View>
-          <View style={styles.iconsContainer}>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="Audio" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                Audio
-              </PaperParagraph>
+              onLayout={e => {
+                maxWidth.current = e.nativeEvent.layout.width
+              }}
+            >
+              <View
+                style={{
+                  height: '100%',
+                  width: (maxWidth.current * progress) / 100,
+                  backgroundColor: theme.colors.monochrome.offBlack,
+                  borderRadius: 6,
+                }}
+              />
             </View>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                {duration} min
-              </PaperParagraph>
+            <View style={{ marginLeft: 5 }}>
+              <Paragraph weight="bold" size="small" textAlign="left">
+                <Text style={{ color: theme.colors.monochrome.offBlack }}>{progress}%</Text> Complete
+              </Paragraph>
             </View>
           </View>
-          <View style={styles.fullWidth}>
-            <Button onPress={onDonePressed}>{translate('screens.Activity.done')}</Button>
+        </View>
+        <View style={styles.textContainer}>
+          <View style={styles.internalText}>
+            <View style={styles.title}>
+              <Headline size="small" weight="bold" textAlign="left">
+                {title}
+              </Headline>
+              <Paragraph size="small" textAlign="left" weight="normal">
+                <Text style={styles.paragraphColor}>{description}</Text>
+              </Paragraph>
+            </View>
+            <View style={styles.iconsContainer}>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="Audio" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  Audio
+                </PaperParagraph>
+              </View>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  {duration} min
+                </PaperParagraph>
+              </View>
+            </View>
+            <View style={styles.fullWidth}>
+              <Button onPress={onDonePressed}>{translate('screens.Activity.done')}</Button>
+            </View>
           </View>
         </View>
-      </View>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsAudio')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
+      </ScrollView>
     </View>
   )
 }

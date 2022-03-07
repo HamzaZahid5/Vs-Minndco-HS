@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text, ScrollView, TextInput } from 'react-native'
+import { View, StyleSheet, Platform, Image, Text, ScrollView, TextInput, Animated } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 import {
   useRobTheme,
@@ -12,48 +12,86 @@ import {
   Subheading,
   Icon,
 } from '@mindcoxr/rob'
-import { StackHeaderProps } from '@react-navigation/stack'
+import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
 import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
-import { DefaultScreenPropType } from '../../../types'
+import { DefaultScreenPropType, RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
-export type VRActivityScreenProps = {
+function lerp(start: number, end: number, amt: number): number {
+  return (1 - amt) * start + amt * end
+}
+
+export type ReadActivityScreenProps = {
   onDonePressed: () => void
   backImage: string
   title: string
-  read: string
+  readPages: string[]
 }
 
-const VRActivityScreen = ({ onDonePressed, backImage, title, read }: VRActivityScreenProps) => {
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
+
+const ReadActivityScreen = ({ onDonePressed, backImage, title, readPages }: ReadActivityScreenProps) => {
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
-  const [answer, setAnswer] = useState('')
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
+    styles: [styles.imageContainer],
+  })
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+      animatedControl: { animatedValue: animationControl, interpolationInput: [0, 155] },
+    },
+    [],
+  )
   return (
     <View style={styles.externalContainer}>
-      <View style={[styles.imageContainer]}>
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
-          </View>
-        )}
-        <Image
-          source={{
-            uri: backImage,
-          }}
-          resizeMode="cover"
-          style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
-          onLoad={() => {
-            setLoading(false)
-          }}
-        />
-      </View>
+      {AnimatedViewElement({
+        children: (
+          <>
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
+              </View>
+            )}
+            <Image
+              source={{
+                uri: backImage,
+              }}
+              resizeMode="cover"
+              style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
+              onLoad={() => {
+                setLoading(false)
+              }}
+            />
+          </>
+        ),
+      })}
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={styles.externalGrowContainer}
+        bounces={false}
+        onScroll={animatedEvent()}
+        scrollEventThrottle={50}
       >
         <View style={styles.imageSpacer} />
         <View style={styles.growContainer}>
@@ -63,27 +101,20 @@ const VRActivityScreen = ({ onDonePressed, backImage, title, read }: VRActivityS
                 {title}
               </Headline>
             </View>
-            <Paragraph size="small" textAlign="left" weight="normal">
-              <Text style={styles.textColor}>{read}</Text>
-            </Paragraph>
+            {readPages.map((read, i) => (
+              <View key={i.toString()}>
+                {i !== 0 && <View style={styles.separatorLine} />}
+                <Paragraph size="small" textAlign="left" weight="normal">
+                  <Text style={styles.textColor}>{read}</Text>
+                </Paragraph>
+              </View>
+            ))}
           </View>
           <View style={styles.fullWidth}>
             <Button onPress={onDonePressed}>Submit</Button>
           </View>
         </View>
       </ScrollView>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>How to watch VR contents</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {
-              '1. Make sure to be seated to have the best possible experience.\n2. Place the phone right in the middle of the headset to avoid blurriness.\n3. Wear headphones if you can!'
-            }
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
     </View>
   )
 }
@@ -132,8 +163,8 @@ const getStyles = (theme: typeof RobTheme) =>
     titleColor: { color: '#FCFCFC' },
     titlePosition: { marginBottom: 27, marginLeft: 24 },
     textColor: { color: '#14142b' },
-    separatorLine: { height: 3, backgroundColor: '#EFF0F6', width: '100%', marginBottom: 15 },
-    fullWidth: { width: '100%' },
+    separatorLine: { height: 5, backgroundColor: '#EFF0F6', width: '100%', marginVertical: 15, borderRadius: 5 },
+    fullWidth: { width: '100%', marginTop: 20, marginBottom: 15 },
     paragraphStyle: {
       ...theme.fonts.regular,
       ...theme.fontSizes.body.large,
@@ -195,4 +226,4 @@ const getStyles = (theme: typeof RobTheme) =>
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
 
-export default VRActivityScreen
+export default ReadActivityScreen

@@ -40,6 +40,7 @@ import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
 import { useFirestoreListener, updateProfile } from './src/services/Firestore'
 import { Icon } from '@mindcoxr/rob'
 import NavigationHeader from './src/components/NavigationHeader'
+import useDeepLinking from './src/utils/hooks/useDeepLinking'
 
 // // @ts-ignore: non-ts file
 // import AboutVRScreen from './src/screens/AboutVR';
@@ -93,7 +94,7 @@ import NavigationHeader from './src/components/NavigationHeader'
 // import { useFirestoreListener, updateProfile } from './src/services/Firestore';
 // // @ts-ignore: non-ts file
 // import useFontLoader from './src/utils/hooks/useFontLoader';
-// import handleMessaging from './src/utils/RemoteMessagingHandler';
+import handleMessaging from './src/utils/RemoteMessagingHandler'
 // import useDeepLinking from './src/utils/hooks/useDeepLinking';
 // import navigateToDeepLink from './src/utils/navigateToDeepLink';
 // import { translate, getLocale } from './src/utils/localization';
@@ -118,7 +119,8 @@ export default function App() {
   const userToken = useAuth()
   // auth().signOut()
   const i18nReady = useBootUpI18n()
-  // const deepLink = useDeepLinking();
+  const deepLink = useDeepLinking()
+  console.log('Deep link: ', deepLink)
   const navigatorRef: RefObject<NavigationContainerRef<Record<string, unknown>>> = useRef(null)
   // useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
   //   if (Platform.OS !== 'web') {
@@ -189,7 +191,7 @@ export default function App() {
     return null
   }
 
-  // handleMessaging();
+  handleMessaging()
 
   //Go to main as initial route, it should be at the top of the stack. Then check there if it's needed to navigate to Tutorial
   const headerBackground = () => <View style={{ height: 64 }} />

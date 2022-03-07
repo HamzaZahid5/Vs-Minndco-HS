@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 import { Video } from 'expo-av'
 import {
@@ -16,6 +16,10 @@ import {
 import { useStorageDownloadURL } from '../../services/Storage'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
+import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -26,7 +30,20 @@ export type VRActivityScreenProps = {
   duration: string | number
 }
 
-const LoginScreen = ({
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
+
+const VideoActivity = ({
   onPlayPressed,
   onDonePressed,
   videoSrc,
@@ -41,9 +58,17 @@ const LoginScreen = ({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
-  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
-
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+      showGradient: 'always',
+    },
+    [],
+  )
   const asset = useStorageDownloadURL(videoSrc)
 
   useEffect(() => {
@@ -67,7 +92,7 @@ const LoginScreen = ({
   }, [isFullscreen]) //Run only when fullscreen status change
   return (
     <View style={styles.externalContainer}>
-      <View style={[styles.imageContainer]}>
+      <View style={styles.imageContainer}>
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
@@ -108,60 +133,58 @@ const LoginScreen = ({
           )}
         </View>
       </View>
-      <View style={styles.videoSpacer} />
-      <View style={styles.infoContainer}>
-        <TouchableRipple
-          borderless
-          onPress={() => {
-            onPlayPressed()
-            setIsFullscreen(true)
-          }}
-          style={styles.playButton}
-        >
-          <View style={[styles.playContainer, loading && styles.hide]}>
-            <Icon name="Play" color={theme.colors.monochrome.input} />
-          </View>
-        </TouchableRipple>
-      </View>
-      <View style={styles.textContainer}>
-        <View style={styles.internalText}>
-          <View style={styles.title}>
-            <Headline size="small" weight="bold" textAlign="left">
-              {title}
-            </Headline>
-            <Paragraph size="small" textAlign="left" weight="normal">
-              <Text style={styles.paragraphColor}>{description}</Text>
-            </Paragraph>
-          </View>
-          <View style={styles.iconsContainer}>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="Video" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                Video
-              </PaperParagraph>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        bounces={false}
+      >
+        <View style={styles.videoSpacer} />
+        <View style={styles.infoContainer}>
+          <TouchableRipple
+            borderless
+            onPress={() => {
+              onPlayPressed()
+              setIsFullscreen(true)
+            }}
+            style={styles.playButton}
+          >
+            <View style={[styles.playContainer, loading && styles.hide]}>
+              <Icon name="Play" color={theme.colors.monochrome.input} />
             </View>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                {duration} min
-              </PaperParagraph>
+          </TouchableRipple>
+        </View>
+        <View style={styles.textContainer}>
+          <View style={styles.internalText}>
+            <View style={styles.title}>
+              <Headline size="small" weight="bold" textAlign="left">
+                {title}
+              </Headline>
+              <Paragraph size="small" textAlign="left" weight="normal">
+                <Text style={styles.paragraphColor}>{description}</Text>
+              </Paragraph>
             </View>
-          </View>
-          <View style={styles.fullWidth}>
-            <Button onPress={onDonePressed}>Done</Button>
+            <View style={styles.iconsContainer}>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="Video" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  Video
+                </PaperParagraph>
+              </View>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  {duration} min
+                </PaperParagraph>
+              </View>
+            </View>
+            <View style={styles.fullWidth}>
+              <Button onPress={onDonePressed}>Done</Button>
+            </View>
           </View>
         </View>
-      </View>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsVideo')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
+      </ScrollView>
     </View>
   )
 }
@@ -276,4 +299,4 @@ const getStyles = (theme: typeof RobTheme) =>
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
 
-export default LoginScreen
+export default VideoActivity

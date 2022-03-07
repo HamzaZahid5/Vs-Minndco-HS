@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text } from 'react-native'
+import { View, StyleSheet, Platform, Image, Text, ScrollView } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 
 import {
@@ -15,6 +15,10 @@ import {
 } from '@mindcoxr/rob'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
+import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -24,6 +28,19 @@ export type VRActivityScreenProps = {
   description: string
   duration: string | number
 }
+
+const PopupContent = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="xsmall" weight="normal" textAlign="left">
+        {translate('screens.Activity.tipsAudio')}
+      </Paragraph>
+    </Row>
+  </>
+)
 
 const VRActivityScreen = ({
   onPlayPressed,
@@ -36,11 +53,23 @@ const VRActivityScreen = ({
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [show, setShow] = useState(false)
-  useSetHeaderProps({ onRigthPressed: () => setShow(true) }, [])
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
+    styles: [styles.imageContainer],
+  })
+  useSetHeaderProps(
+    {
+      onRigthPressed: () =>
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        }),
+      animatedControl: { animatedValue: animationControl, interpolationInput: [0, 155] },
+    },
+    [],
+  )
   return (
     <View style={styles.externalContainer}>
-      <View style={[styles.imageContainer]}>
+      <AnimatedViewElement>
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
@@ -56,65 +85,65 @@ const VRActivityScreen = ({
             setLoading(false)
           }}
         />
-      </View>
-      <View style={styles.imageSpacer}>
-        <View style={styles.titlePosition}>
-          <Headline textAlign="left" size="large" weight="bold">
-            <Text style={styles.titleColor}>{title}</Text>
-          </Headline>
-        </View>
-      </View>
-      <View style={styles.playContainer}>
-        <TouchableRipple borderless onPress={onPlayPressed} style={styles.playButton}>
-          <Icon name="Play" color={theme.colors.monochrome.input} />
-        </TouchableRipple>
-      </View>
-      <View style={styles.externalGrowContainer}>
-        <View style={styles.growContainer}>
-          <View style={styles.textContainer}>
-            <Headline size="small" weight="bold" textAlign="left">
-              {translate('screens.Activity.description')}
+      </AnimatedViewElement>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        style={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+        bounces={false}
+        onScroll={animatedEvent()}
+        scrollEventThrottle={50}
+      >
+        <View style={styles.imageSpacer}>
+          <View style={styles.titlePosition}>
+            <Headline textAlign="left" size="large" weight="bold">
+              <Text style={styles.titleColor}>{title}</Text>
             </Headline>
-            <Paragraph size="small" textAlign="left" weight="normal">
-              <Text style={styles.textColor}>{description}</Text>
-            </Paragraph>
-          </View>
-          <View style={styles.separatorLine} />
-          <View style={styles.iconsContainer}>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="VR" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                VR
-              </PaperParagraph>
-            </View>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="Rotate" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                {translate('screens.Activity.rotate')}
-              </PaperParagraph>
-            </View>
-            <View style={[styles.iconsWrapper]}>
-              <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
-              <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                {duration} min
-              </PaperParagraph>
-            </View>
-          </View>
-          <View style={styles.fullWidth}>
-            <Button onPress={onDonePressed}>Done</Button>
           </View>
         </View>
-      </View>
-      <PopupWrapper show={show} onClose={() => setShow(false)}>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="left">
-            {translate('screens.Activity.tipsVr')}
-          </Paragraph>
-        </Row>
-      </PopupWrapper>
+        <View style={styles.playContainer}>
+          <TouchableRipple borderless onPress={onPlayPressed} style={styles.playButton}>
+            <Icon name="Play" color={theme.colors.monochrome.input} />
+          </TouchableRipple>
+        </View>
+        <View style={styles.externalGrowContainer}>
+          <View style={styles.growContainer}>
+            <View style={styles.textContainer}>
+              <Headline size="small" weight="bold" textAlign="left">
+                {translate('screens.Activity.description')}
+              </Headline>
+              <Paragraph size="small" textAlign="left" weight="normal">
+                <Text style={styles.textColor}>{description}</Text>
+              </Paragraph>
+            </View>
+            <View style={styles.separatorLine} />
+            <View style={styles.iconsContainer}>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="VR" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  VR
+                </PaperParagraph>
+              </View>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="Rotate" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  {translate('screens.Activity.rotate')}
+                </PaperParagraph>
+              </View>
+              <View style={[styles.iconsWrapper]}>
+                <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
+                <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
+                  {duration} min
+                </PaperParagraph>
+              </View>
+            </View>
+            <View style={styles.fullWidth}>
+              <Button onPress={onDonePressed}>Done</Button>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   )
 }
