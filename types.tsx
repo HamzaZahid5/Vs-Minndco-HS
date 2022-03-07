@@ -44,7 +44,7 @@ export type RootStackParamList = {
     onComplete: () => void
     useUrl?: boolean
   }
-  Playground: undefined
+  Playground: { only?: string }
   Zoho: {
     zohoUrl: string
     onCancel: () => void

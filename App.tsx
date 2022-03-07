@@ -22,7 +22,7 @@ import RegistrationScreen from './src/screens/Registration'
 import LoginScreen from './src/screens/Login'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import DrawerHomeNavigator from './src/screens/DrawerNavigator'
-import OnboardingScreen from './src/screens/OnBoardingScreens'
+import Playground from './src/screens/Playground'
 import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
 import OnBoardingScreens from './src/screens/OnBoardingScreens'
 import ActivityScreen from './src/screens/ActivityScreen'
@@ -256,6 +256,14 @@ export default function App() {
                       ),
                       headerTransparent: false,
                       headerStyle: { backgroundColor: '#F7F7FC' },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="Playground"
+                    component={Playground}
+                    options={{
+                      headerShown: true,
+                      header: (props: StackHeaderProps) => <NavigationHeader {...props} color="#14142b" />,
                     }}
                   />
                   {/* 
