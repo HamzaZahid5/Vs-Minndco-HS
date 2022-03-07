@@ -36,6 +36,7 @@ export type UserState = {
     statistics: UserStatistics
     treatment_module: number
     treatment_level: number
+    quit_day?: string
   }
   auth: any
 }
@@ -111,6 +112,7 @@ const user = createSlice({
           treatment_module: action.payload.treatment_module,
           treatment_level: action.payload.treatment_level,
           kit_id: action.payload.kit_id,
+          quit_day: action.payload.quit_day,
         },
       }
       // if (oldOnBoardingFlag) {
