@@ -71,10 +71,15 @@ const AudioActivityScreen = ({
   const startLoad = useRef(false)
   useSetHeaderProps(
     {
-      onRigthPressed: () =>
-        navigation.navigate('BasicModal', {
-          content: PopupContent,
-        }),
+      rightActions: [
+        {
+          icon: 'QuestionMark',
+          action: () =>
+            navigation.navigate('BasicModal', {
+              content: PopupContent,
+            }),
+        },
+      ],
       animatedControl: { animatedValue: animationControl, interpolationInput: [0, 155] },
     },
     [],
