@@ -1,14 +1,15 @@
-import React, { MutableRefObject, useRef } from 'react'
+import React, { MutableRefObject, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View } from 'react-native'
 import WebView, { WebViewMessageEvent } from 'react-native-webview'
 import { useTheme } from 'react-native-paper'
 import { useKeepAwake } from 'expo-keep-awake'
-import { DefaultScreenRouteType } from '../../../types'
+import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import { getLocale } from '../../utils/localization'
 import useOrientationLocker from '../../utils/hooks/useOrientationLocker'
 import { lockAsync, OrientationLock, unlockAsync } from 'expo-screen-orientation'
 import env from '../../../env'
+import Orientation from 'react-native-orientation-locker'
 const BASE_URL = `${env.webVrURL}`
 
 const getMessageEventsHandler =
@@ -26,7 +27,7 @@ const getMessageEventsHandler =
     }
   }
 
-const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
+const VRPlayer = ({ route, navigation }: DefaultScreenRouteType<'VRMet'> & DefaultScreenPropType<'VRMet'>) => {
   useOrientationLocker(OrientationLock.LANDSCAPE_RIGHT)
   const { assetUrl, onComplete = Function, onCancel = Function, useUrl = false } = route.params || {}
   const theme = useTheme()
@@ -35,6 +36,21 @@ const VRPlayer = ({ route }: DefaultScreenRouteType<'VRMet'>) => {
   const uri = useUrl
     ? `https://${BASE_URL}/${assetUrl}?lang=${getLocale()}`
     : `https://${BASE_URL}/?lang=${getLocale()}&video=${encodeURIComponent(assetUrl)}`
+
+  useEffect(() => {
+    const unsubsFocus = navigation.addListener('focus', () => {
+      Orientation.lockToLandscape()
+    })
+    const unsubsBlur = navigation.addListener('blur', () => {
+      Orientation.lockToPortrait()
+    })
+
+    return () => {
+      unsubsFocus()
+      unsubsBlur()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <View style={styles.container}>
