@@ -1885,10 +1885,11 @@
     "@types/node" "*"
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
-"@mindcoxr/rob@^0.9.1":
-  version "0.9.1"
-  resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.9.1/961e5eedeaab1d750fa2a59dcc29a8ca2bc801f60b499a9e22087b27b5855d2d#79ffa1ceddbc470ae4ff48ac1e842d712eca9b2d"
-  integrity sha512-k74mwJOvQ4Cx2+dtm3jS0DSkylTJKHSHK1uWUEoan7uBokZdPpS/I2Gy9Rc50gIviMWSYDp3q1X2qeeGCjpa+w==
+
+"@mindcoxr/rob@^0.10.1":
+  version "0.10.1"
+  resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.10.1/2de9b4ba15095129b1f9d1d43b73be4b8af346b3f50a4a9c245843eb6f92f934#303aec512979b9f543ccf69730e90882544dad49"
+  integrity sha512-fgHjHQqYWK31NmZazw7CE9axCeIc/Dg8BpZSeyDWKcjtAJLU46iMgPzNFrExSOMhwXqw3ZnfxZDuaVkECJHrpA==
   dependencies:
     "@expo-google-fonts/poppins" "^0.2.2"
     "@types/styled-components-react-native" "^5.1.3"
@@ -9388,7 +9389,7 @@ react-native-keyboard-aware-scroll-view@^0.9.3:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
-react-native-orientation-locker@^1.3.1:
+react-native-orientation-locker@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-native-orientation-locker/-/react-native-orientation-locker-1.4.0.tgz#ac27a0cd13d5eaaf06b0a2eed2f98f52fbac2f66"
   integrity sha512-O/Ki7uw1lltKiTZLcTuLcSh4EzLFqXKKo2J4cLKvyG52YiEawbn/ipsZriZlWzK0mhX4dSe79CoRS4IsyUs1fw==
