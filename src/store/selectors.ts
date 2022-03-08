@@ -49,7 +49,6 @@ export const AUTH_INFO = (store: RootState) => store?.user?.auth
 export const CURRENT_STRESS_INPUT = (store: RootState) => store?.currentStressInput
 export const TUTORIALS_STATE = (store: RootState) => store?.tutorials
 export const SMOKE_RECORD = (store: RootState) => store?.user?.data?.statistics?.smokes_by_day as SmokeRecordsState
-export const QUIT_DAY = (store: RootState) => store?.user?.data?.quit_day
 export const MONEY_SAVED = (store: RootState) => {
   const savings = store?.user?.data?.statistics?.money_saved || 0
   return Math.round(Number(savings) * 10) / 10
