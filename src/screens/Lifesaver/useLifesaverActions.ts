@@ -207,11 +207,8 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
       if (eventType === 'SET_USER_COMPANY') {
         API.userMessage(`${translate('screens.lifesaver.userAnswerCompanyIAM')} ${optionLabel.toLowerCase()}`)
         setTimeout(() => {
-          API.tellFindingActivity()
-        }, 1000)
-        setTimeout(() => {
           API.tellToPerformActivity()
-        }, 3500)
+        }, 1000)
       }
       if (eventType === 'CANCEL') {
         dispatch(getCancelMessage())
