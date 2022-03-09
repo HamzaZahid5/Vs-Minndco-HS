@@ -11,10 +11,10 @@ const ActivityScreen = ({
 }: DefaultScreenPropType<'LifesaverActivity'> & DefaultScreenRouteType<'LifesaverActivity'>) => {
   const [activityScreen, setActivityScreen] = useState<React.ReactElement | undefined>(undefined)
   useEffect(() => {
-    if (route.params.type) {
-      switch (route.params.type) {
+    if (route.params.activity.type) {
+      switch (route.params.activity.type) {
         case 'audio':
-          const audParams = route.params as LifesaverAudioType
+          const audParams = route.params.activity as LifesaverAudioType
           setActivityScreen(
             <AudioScreen
               audioSrc={audParams.source}
@@ -25,14 +25,14 @@ const ActivityScreen = ({
               onPlayPressed={() => {
                 return
               }}
-              title={route.params.title || ''}
+              title={route.params.activity.title || ''}
               description=""
               duration=""
             />,
           )
           break
         case 'text':
-          const textParams = route.params as LifesaverReadType
+          const textParams = route.params.activity as LifesaverReadType
           setActivityScreen(
             <ReadScreen
               title={textParams.title || ''}
@@ -45,7 +45,7 @@ const ActivityScreen = ({
           )
           break
         case 'activity':
-          const activityParams = route.params as LifesaverDoType
+          const activityParams = route.params.activity as LifesaverDoType
           setActivityScreen(activityParams.screen)
           break
         default:

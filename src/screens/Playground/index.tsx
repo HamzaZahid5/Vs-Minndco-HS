@@ -25,7 +25,12 @@ const ProgramScreen = ({
       readings={LIFESAVER_READS()}
       activities={LIFESAVER_ACTIVITIES}
       onPress={asset =>
-        navigation.navigate('LifesaverActivity', asset as LifesaverReadType | LifesaverAudioType | LifesaverDoType)
+        navigation.navigate('LifesaverActivity', {
+          activity: asset as LifesaverReadType | LifesaverAudioType | LifesaverDoType,
+          urge: route.params.urge,
+          company: route.params.company,
+          place: route.params.place,
+        })
       }
     />
   )
