@@ -32,7 +32,7 @@ const getStyles = (theme: RobTheme) =>
       padding: 10,
       paddingHorizontal: 20,
       backgroundColor: 'white',
-      alignItems: 'center',
+      alignItems: 'stretch',
       marginTop: 5,
       marginHorizontal: 10,
       // flex: 1,
@@ -60,7 +60,6 @@ const getStyles = (theme: RobTheme) =>
     chatBubbleContent: {
       flexDirection: 'column',
       justifyContent: 'center',
-      flexWrap: 'wrap',
       // borderWidth: 1,
       // borderColor: 'red',
     },
