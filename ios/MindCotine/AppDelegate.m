@@ -37,6 +37,7 @@ static void InitializeFlipper(UIApplication *application) {
 // @property (nonatomic, strong) NSDictionary *launchOptions;
 
 // @end
+#import "Orientation.h"
 
 @implementation AppDelegate
 
@@ -128,6 +129,10 @@ static void InitializeFlipper(UIApplication *application) {
  return [RCTLinkingManager application:application
                   continueUserActivity:userActivity
                     restorationHandler:restorationHandler];
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
 }
 
 @end

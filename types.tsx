@@ -2,6 +2,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { ReactChild, ReactChildren, ReactElement, ReactNode } from 'react'
+import { companyType, placeType, urgeType } from './src/screens/Lifesaver/storage'
 import { LifesaverAudioType, LifesaverReadType, LifesaverDoType } from './src/utils/lifesaverActivities'
 
 export type LifesaverContentType = {
@@ -44,7 +45,7 @@ export type RootStackParamList = {
     onComplete: () => void
     useUrl?: boolean
   }
-  Playground: undefined
+  Playground: { only?: string; urge: urgeType; place: placeType; company: companyType }
   Zoho: {
     zohoUrl: string
     onCancel: () => void
@@ -70,7 +71,12 @@ export type RootStackParamList = {
   ContentsShelf: { category: ProgramActivityCategories }
   Roadmap: undefined
   VRPlaygroundActivity: { url: string }
-  LifesaverActivity: LifesaverReadType | LifesaverAudioType | LifesaverDoType
+  LifesaverActivity: {
+    activity: LifesaverReadType | LifesaverAudioType | LifesaverDoType
+    urge: urgeType
+    place: placeType
+    company: companyType
+  }
 }
 
 export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {

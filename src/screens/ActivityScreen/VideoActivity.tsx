@@ -61,10 +61,15 @@ const VideoActivity = ({
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   useSetHeaderProps(
     {
-      onRigthPressed: () =>
-        navigation.navigate('BasicModal', {
-          content: PopupContent,
-        }),
+      rightActions: [
+        {
+          icon: 'QuestionMark',
+          action: () =>
+            navigation.navigate('BasicModal', {
+              content: PopupContent,
+            }),
+        },
+      ],
       showGradient: 'always',
     },
     [],

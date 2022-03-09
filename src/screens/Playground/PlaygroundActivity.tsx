@@ -1,20 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import useNextActivity from '../../utils/hooks/useNextActivity'
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
-import { View } from 'react-native'
+import { USER_PROFILE } from '../../store/selectors'
+import { formatAsset } from '../../utils/helpers'
 import AudioScreen from '../ActivityScreen/AudioActivity'
 import ReadScreen from '../ActivityScreen/Read'
-import { LifesaverAudioType, LifesaverDoType, LifesaverReadType } from '../../utils/lifesaverActivities'
+import { View } from 'react-native'
+import useActivityActions from '../../utils/hooks/useActivityActions'
+import { useStorageDownloadURL } from '../../services/Storage'
+import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA'
+import { LifesaverAudioType, LifesaverDoType, LifesaverReadType } from '../../utils/playgroundActivities'
 
 const ActivityScreen = ({
   navigation,
   route,
-}: DefaultScreenPropType<'LifesaverActivity'> & DefaultScreenRouteType<'LifesaverActivity'>) => {
+}: DefaultScreenPropType<'PlaygroundActivity'> & DefaultScreenRouteType<'PlaygroundActivity'>) => {
   const [activityScreen, setActivityScreen] = useState<React.ReactElement | undefined>(undefined)
   useEffect(() => {
-    if (route.params.activity.type) {
-      switch (route.params.activity.type) {
+    if (route.params.type) {
+      switch (route.params.type) {
         case 'audio':
-          const audParams = route.params.activity as LifesaverAudioType
+          const audParams = route.params as LifesaverAudioType
           setActivityScreen(
             <AudioScreen
               audioSrc={audParams.source}
@@ -25,17 +32,17 @@ const ActivityScreen = ({
               onPlayPressed={() => {
                 return
               }}
-              title={route.params.activity.title || ''}
+              title={route.params.title}
               description=""
               duration=""
             />,
           )
           break
         case 'text':
-          const textParams = route.params.activity as LifesaverReadType
+          const textParams = route.params as LifesaverReadType
           setActivityScreen(
             <ReadScreen
-              title={textParams.title || ''}
+              title={textParams.title}
               readPages={textParams.pages}
               backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
               onDonePressed={() => {
@@ -45,7 +52,7 @@ const ActivityScreen = ({
           )
           break
         case 'activity':
-          const activityParams = route.params.activity as LifesaverDoType
+          const activityParams = route.params as LifesaverDoType
           setActivityScreen(activityParams.screen)
           break
         default:
@@ -65,16 +72,14 @@ const ActivityScreen = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route.params])
 
-  // PREVENT RETURNING TO LIFESAVER
-  useEffect(() => {
-    const unsub = navigation.addListener('beforeRemove', e => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault()
-      navigation.navigate('Home')
-    })
-    return () => unsub()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  /* 
+  const handleActivityComplete = async (answer?: string) => {
+    if (nextActivityKey) {
+      saveActivityDone(nextActivityKey, answer)
+      navigation.navigate('Main')
+    }
+  }
+*/
 
   return activityScreen ? activityScreen : <View style={{ width: '100%', height: '100%' }} />
 }

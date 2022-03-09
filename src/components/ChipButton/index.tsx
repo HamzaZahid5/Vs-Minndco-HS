@@ -49,7 +49,7 @@ export default ChipButton
 const styles = StyleSheet.create({
   chipButton: {
     height: 28,
-    marginLeft: 10,
+    marginHorizontal: 10,
     paddingHorizontal: 5,
     backgroundColor: 'white',
   },

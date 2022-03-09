@@ -22,7 +22,7 @@ import RegistrationScreen from './src/screens/Registration'
 import LoginScreen from './src/screens/Login'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import DrawerHomeNavigator from './src/screens/DrawerNavigator'
-import OnboardingScreen from './src/screens/OnBoardingScreens'
+import Playground from './src/screens/Playground'
 import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
 import OnBoardingScreens from './src/screens/OnBoardingScreens'
 import ActivityScreen from './src/screens/ActivityScreen'
@@ -34,13 +34,13 @@ import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
-//@ts-ignore untyped file
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
 import { useFirestoreListener, updateProfile } from './src/services/Firestore'
 import { Icon } from '@mindcoxr/rob'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
+import Orientation from 'react-native-orientation-locker'
 
 // // @ts-ignore: non-ts file
 // import AboutVRScreen from './src/screens/AboutVR';
@@ -144,6 +144,9 @@ export default function App() {
   //     navigateToDeepLink(deepLink, navigatorRef.current);
   //   }
   // }, [deepLink, navigatorReady]);
+  useEffect(() => {
+    Orientation.lockToPortrait()
+  }, [])
   useEffect(() => {
     if (userToken) {
       store.dispatch({ type: 'user/setAuth', payload: userToken })
@@ -256,6 +259,14 @@ export default function App() {
                       ),
                       headerTransparent: false,
                       headerStyle: { backgroundColor: '#F7F7FC' },
+                    }}
+                  />
+                  <Stack.Screen
+                    name="Playground"
+                    component={Playground}
+                    options={{
+                      headerShown: true,
+                      header: (props: StackHeaderProps) => <NavigationHeader {...props} color="#14142b" />,
                     }}
                   />
                   {/* 

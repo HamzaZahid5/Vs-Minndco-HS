@@ -60,6 +60,8 @@ export const reducer = (state: stateType, action: reducerActionType): stateType 
       return { ...state, user: action.payload as string }
     case 'RESET_STATE':
       return initialState
+    case 'CANCEL':
+      return state
     default:
       throw new Error()
   }

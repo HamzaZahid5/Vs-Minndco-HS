@@ -5,12 +5,13 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Animated, View } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
 import { LinearGradient } from 'expo-linear-gradient'
+import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient)
 
 export type HeaderExtraProps = {
   color?: string
-  onRigthPressed?: () => void
+  rightActions?: { icon: IconNamesTypes; action: () => void }[]
   routeName?: string
   backgroundColor?: string
   height?: string
@@ -22,13 +23,13 @@ export type HeaderExtraProps = {
 const NavigationHeader = ({
   navigation,
   color,
-  onRigthPressed,
   routeName,
   backgroundColor,
   height,
   contentAtBottom,
   animatedControl,
   showGradient = 'animated',
+  rightActions = [],
 }: StackHeaderProps & HeaderExtraProps) => {
   const [show, setShow] = useState(true)
   useEffect(() => {
@@ -101,13 +102,18 @@ const NavigationHeader = ({
           {routeName}
         </Headline>
       )}
-      <TouchableRipple
-        borderless
-        onPress={onRigthPressed}
-        style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 5 }}
-      >
-        <Icon name="QuestionMark" color={color ?? '#fcfcfc'} />
-      </TouchableRipple>
+      <View style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+        {rightActions.map((e, i) => (
+          <TouchableRipple
+            key={e.icon + i.toString()}
+            borderless
+            onPress={e.action}
+            style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 5, marginLeft: 10 }}
+          >
+            <Icon name={e.icon} color={color ?? '#fcfcfc'} />
+          </TouchableRipple>
+        ))}
+      </View>
     </View>
   )
 }
