@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, Platform, Image, Text, ScrollView } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 
@@ -72,6 +72,22 @@ const VRActivityScreen = ({
     },
     [],
   )
+
+  const [colorlessButton, setColorlessButton] = useState(true)
+  const buttonPressed = useRef(false)
+
+  useEffect(() => {
+    const uns = navigation.addListener('focus', () => {
+      if (buttonPressed.current) {
+        setColorlessButton(false)
+      }
+    })
+
+    return () => {
+      uns()
+    }
+  }, [])
+
   return (
     <View style={styles.externalContainer}>
       <AnimatedViewElement>
@@ -108,7 +124,14 @@ const VRActivityScreen = ({
           </View>
         </View>
         <View style={styles.playContainer}>
-          <TouchableRipple borderless onPress={onPlayPressed} style={styles.playButton}>
+          <TouchableRipple
+            borderless
+            onPress={() => {
+              buttonPressed.current = true
+              onPlayPressed()
+            }}
+            style={styles.playButton}
+          >
             <Icon name="Play" color={theme.colors.monochrome.input} />
           </TouchableRipple>
         </View>
@@ -144,7 +167,9 @@ const VRActivityScreen = ({
               </View>
             </View>
             <View style={styles.fullWidth}>
-              <Button onPress={onDonePressed}>Done</Button>
+              <Button subVariant={colorlessButton ? '#D9DBE9' : undefined} onPress={onDonePressed}>
+                Done
+              </Button>
             </View>
           </View>
         </View>
