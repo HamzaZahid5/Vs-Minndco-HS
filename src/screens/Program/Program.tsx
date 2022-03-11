@@ -3,16 +3,68 @@ import React, { ReactComponentElement, useRef, useState } from 'react'
 import { ScrollView, View, Text as NativeText, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 
 import { useWindowDimensions } from 'react-native'
-import { Row, Headline, Paragraph, Text, useRobTheme, Card, BackgroundArt, Icon, Tabs } from '@mindcoxr/rob'
+import {
+  Row,
+  Headline,
+  Paragraph,
+  Text,
+  useRobTheme,
+  Card,
+  BackgroundArt,
+  Icon,
+  Tabs,
+  ActionButton,
+} from '@mindcoxr/rob'
 import { ProgramActivity, ProgramActivityType } from '../../../types'
-import { activityTypeType as cardActivityType } from '@mindcoxr/rob/dist/typescript/components/Card'
 import { homeBGColors } from '../../utils/config'
 import { translate } from '../../utils/localization'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { tabHeight } from '../TabsNavigator'
 import { TouchableRipple } from 'react-native-paper'
 
-const programActivityToCardActivity = (actType: ProgramActivityType): cardActivityType => {
+const programActivityToIcon = (actType: ProgramActivityType): IconNamesTypes => {
+  switch (actType) {
+    case '2d-video':
+      return 'Video'
+    case 'audio':
+      return 'Audio'
+    case 'vr-met':
+      return 'VR'
+    case 'reflection':
+      return 'Edit'
+    default:
+      return 'Read'
+  }
+}
+
+const programActivityToBGImage = (actType: ProgramActivityType): ImageBitmap => {
+  switch (actType) {
+    case '2d-video':
+      return require('../../../assets/images/bg_act_03.png')
+    case 'vr-met':
+      return require('../../../assets/images/bg_act_01.png')
+    case 'reflection':
+      return require('../../../assets/images/bg_act_02.png')
+    default:
+      return require('../../../assets/images/bg_act_01.png')
+  }
+}
+const programActivityToLabel = (actType: ProgramActivityType): string => {
+  switch (actType) {
+    case '2d-video':
+      return translate('commons.activities.video-label')
+    case 'audio':
+      return translate('commons.activities.audio-label')
+    case 'vr-met':
+      return translate('commons.activities.vr-label')
+    case 'reflection':
+      return translate('commons.activities.reflection-label')
+    default:
+      return translate('commons.activities.reading-label')
+  }
+}
+
+const programActivityToCardActivity = (actType: ProgramActivityType): string => {
   switch (actType) {
     case '2d-video':
       return 'Video'
@@ -177,11 +229,22 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
-                  activityType={programActivityToCardActivity(act.activity.type)}
+                  actions={[
+                    <ActionButton
+                      key={'tab1_type' + act.activity.id}
+                      icon={programActivityToIcon(act.activity.type)}
+                      label={programActivityToLabel(act.activity.type)}
+                    />,
+                    <ActionButton
+                      key={'tab1_duration' + act.activity.id}
+                      icon="Clock"
+                      label={act.activity.duration + ' min'}
+                    />,
+                  ]}
                   title={act.activity.name}
                   description={act.activity.description}
-                  duration={act.activity.duration + ' min'}
-                  image={require('../../../assets/images/bg_act_01.png')}
+                  image={act.activity.type !== 'audio' ? programActivityToBGImage(act.activity.type) : undefined}
+                  icon={act.activity.type === 'audio' ? 'SoundPlaying' : undefined}
                 />
               </View>
             ))}
@@ -203,11 +266,22 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
-                  activityType={programActivityToCardActivity(act.activity.type)}
+                  actions={[
+                    <ActionButton
+                      key={'tab2_type' + act.activity.id}
+                      icon={programActivityToIcon(act.activity.type)}
+                      label={programActivityToLabel(act.activity.type)}
+                    />,
+                    <ActionButton
+                      key={'tab2_duration' + act.activity.id}
+                      icon="Clock"
+                      label={act.activity.duration + ' min'}
+                    />,
+                  ]}
                   title={act.activity.name}
                   description={act.activity.description}
-                  duration={act.activity.duration + ' min'}
-                  image={require('../../../assets/images/bg_act_03.png')}
+                  image={act.activity.type !== 'audio' ? programActivityToBGImage(act.activity.type) : undefined}
+                  icon={act.activity.type === 'audio' ? 'SoundPlaying' : undefined}
                 />
               </View>
             ))}
@@ -229,11 +303,22 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
                   onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
-                  activityType={programActivityToCardActivity(act.activity.type)}
+                  actions={[
+                    <ActionButton
+                      key={'tab3_type' + act.activity.id}
+                      icon={programActivityToIcon(act.activity.type)}
+                      label={programActivityToLabel(act.activity.type)}
+                    />,
+                    <ActionButton
+                      key={'tab3_reflection' + act.activity.id}
+                      icon="Clock"
+                      label={act.activity.duration + ' min'}
+                    />,
+                  ]}
                   title={act.activity.name}
                   description={act.activity.description}
-                  duration={act.activity.duration + ' min'}
-                  icon="SoundPlaying"
+                  image={act.activity.type !== 'audio' ? programActivityToBGImage(act.activity.type) : undefined}
+                  icon={act.activity.type === 'audio' ? 'SoundPlaying' : undefined}
                 />
               </View>
             ))}
