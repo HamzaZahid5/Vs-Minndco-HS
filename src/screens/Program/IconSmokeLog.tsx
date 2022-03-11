@@ -10,10 +10,7 @@ import { SMOKE_RECORD, USER_PROFILE } from '../../store/selectors'
 import { translate } from '../../utils/localization'
 import { HeroIconType } from './Program'
 import { listOfLastXDays } from '../../utils/helpers'
-
-const GOOD = 'good'
-const FINE = 'fine'
-const LOW = 'low'
+import useJournalTrend, { TRENDS } from '../../utils/hooks/useJournalTrend'
 
 const useIconSmokeLog = (): HeroIconType => {
   // REDUX
@@ -34,22 +31,23 @@ const useIconSmokeLog = (): HeroIconType => {
     }
     return count
   }, 0)
-  const logTrend = logDays > 4 ? GOOD : logDays > 2 ? FINE : LOW
+  const logTrend = useJournalTrend()
 
   return {
     icon: 'Cigarette',
     label: translate('screens.Program.log'),
-    value: isLogBlankslate
-      ? ' '
-      : logTrend === GOOD
-      ? translate('screens.Program.log_good', { defaultValue: 'Great' })
-      : logTrend === FINE
-      ? translate('screens.Program.log_fine', { defaultValue: 'Fine' })
-      : translate('screens.Program.log_low', { defaultValue: 'Low' }),
+    value:
+      logTrend === TRENDS.EMPTY
+        ? ' '
+        : logTrend === TRENDS.GOOD
+        ? translate('screens.Program.log_good', { defaultValue: 'Great' })
+        : logTrend === TRENDS.FINE
+        ? translate('screens.Program.log_fine', { defaultValue: 'Fine' })
+        : translate('screens.Program.log_low', { defaultValue: 'Low' }),
     valueColor:
-      logTrend === GOOD
+      logTrend === TRENDS.GOOD
         ? theme.colors.success.darkmode
-        : logTrend === FINE
+        : logTrend === TRENDS.FINE
         ? theme.colors.warning.darkmode
         : theme.colors.danger.darkmode,
     onPress: () => {

@@ -24,6 +24,7 @@ import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import DrawerHomeNavigator from './src/screens/DrawerNavigator'
 import Playground from './src/screens/Playground'
 import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
+import QuitDayModal from './src/screens/QuitDayScreen'
 import OnBoardingScreens from './src/screens/OnBoardingScreens'
 import ActivityScreen from './src/screens/ActivityScreen'
 import VRMet from './src/screens/VRMet'
@@ -120,7 +121,6 @@ export default function App() {
   // auth().signOut()
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
-  console.log('Deep link: ', deepLink)
   const navigatorRef: RefObject<NavigationContainerRef<Record<string, unknown>>> = useRef(null)
   // useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
   //   if (Platform.OS !== 'web') {
@@ -357,22 +357,14 @@ export default function App() {
                     options={{
                       headerShown: false,
                       cardStyle: { backgroundColor: 'transparent' },
-                      // cardOverlayEnabled: false,
-                      // cardStyleInterpolator: ({ current: { progress } }) => ({
-                      //   cardStyle: {
-                      //     opacity: progress.interpolate({
-                      //       inputRange: [0, 0.5, 0.9, 1],
-                      //       outputRange: [0, 0.25, 0.7, 1],
-                      //     }),
-                      //   },
-                      //   overlayStyle: {
-                      //     opacity: progress.interpolate({
-                      //       inputRange: [0, 1],
-                      //       outputRange: [0, 0.5],
-                      //       extrapolate: 'clamp',
-                      //     }),
-                      //   },
-                      // }),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="QuitDayModal"
+                    component={QuitDayModal}
+                    options={{
+                      headerShown: false,
+                      cardStyle: { backgroundColor: 'transparent' },
                     }}
                   />
                   <Stack.Screen
