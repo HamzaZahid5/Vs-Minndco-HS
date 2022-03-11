@@ -7,7 +7,16 @@ import {
   LifesaverDoType,
   LifesaverReadType,
 } from '../../utils/lifesaverActivities'
-import { BasicScreen as Screen, Row, Headline, Paragraph, useRobTheme, Card, ListSelect } from '@mindcoxr/rob'
+import {
+  BasicScreen as Screen,
+  Row,
+  Headline,
+  Paragraph,
+  useRobTheme,
+  Card,
+  ListSelect,
+  ActionButton,
+} from '@mindcoxr/rob'
 import NoContent from './NoContent'
 export type PropType = {
   audios: LifesaverAudioType[]
@@ -48,19 +57,16 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                     marginRight: 16,
                     maxWidth: 250,
                     minWidth: 200,
-                    height: 400,
                   }}
                 >
                   <Card
-                    onFavPress={() => console.log('Fav pressed')}
                     onPress={() => onPress(aud)}
                     small
-                    activityType="Audio"
                     title={aud.title ?? 'No title'}
-                    fav={false}
                     image={{
                       uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                     }}
+                    actions={[<ActionButton key={aud.id + aud.source + '_audio'} icon="Audio" label="" />]}
                   />
                 </View>
               ))}
@@ -90,14 +96,12 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                 >
                   <Card
                     onPress={() => onPress(read)}
-                    onFavPress={() => console.log('Pressed')}
                     small
-                    activityType="Read"
                     title={read.title ?? 'No title'}
-                    fav={false}
                     image={{
                       uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                     }}
+                    actions={[<ActionButton key={read.id} icon="Read" label="" />]}
                   />
                 </View>
               ))}
@@ -127,14 +131,12 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                 >
                   <Card
                     onPress={() => onPress(act)}
-                    onFavPress={() => console.log('Pressed')}
                     small
-                    activityType="Edit"
                     title={act.title ?? 'No title'}
-                    fav={false}
                     image={{
                       uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                     }}
+                    actions={[<ActionButton key={act.id} icon="Box" label="" />]}
                   />
                 </View>
               ))}
