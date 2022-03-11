@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
-import { ONBOARDING_COMPLETE } from '../../store/selectors'
+import { ONBOARDING_COMPLETE, USER_SUPPORT_PROFILE } from '../../store/selectors'
 import ProgramScreen from '../Program'
 import SupportScreen from '../Support'
 import LifesaverScreen from '../Lifesaver'
@@ -35,6 +35,7 @@ const Notifications = () => {
 
 function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) {
   // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const { has_coach_messages } = useSelector(USER_SUPPORT_PROFILE)
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
   useEffect(() => {
     if (onboardingComplete === false) {
@@ -129,7 +130,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
               size={22}
             />
           ),
-          tabBarBadge: 3,
+          tabBarBadge: has_coach_messages ? '!' : undefined,
           tabBarBadgeStyle: { backgroundColor: theme.colors.danger.dark },
         }}
       />

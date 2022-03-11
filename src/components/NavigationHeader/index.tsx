@@ -91,9 +91,8 @@ const NavigationHeader = ({
         />
       )}
       <TouchableRipple
-        borderless
         onPress={() => navigation.goBack()}
-        style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 5, paddingLeft: 5, borderRadius: 16 }}
+        style={{ justifyContent: 'center', alignItems: 'center', padding: 15 }}
       >
         <Icon name="LeftArrow" color={color ?? '#FCFCFC'} />
       </TouchableRipple>
@@ -106,9 +105,8 @@ const NavigationHeader = ({
         {rightActions.map((e, i) => (
           <TouchableRipple
             key={e.icon + i.toString()}
-            borderless
             onPress={e.action}
-            style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 16, padding: 5, marginLeft: 10 }}
+            style={{ justifyContent: 'center', alignItems: 'center', padding: 15, marginLeft: 10 }}
           >
             <Icon name={e.icon} color={color ?? '#fcfcfc'} />
           </TouchableRipple>
