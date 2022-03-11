@@ -136,7 +136,7 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                     image={{
                       uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                     }}
-                    actions={[<ActionButton key={act.id} icon="Box" label="" />]}
+                    actions={[<ActionButton key={act.id} icon="Gym" label="" />]}
                   />
                 </View>
               ))}
