@@ -9,9 +9,9 @@ import {
   Paragraph,
   Button,
   Row,
-  PopupWrapper,
   Subheading,
   Icon,
+  ButtonSubVariant,
 } from '@mindcoxr/rob'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
 import { translate } from '../../utils/localization'
@@ -86,7 +86,7 @@ const VRActivityScreen = ({
     return () => {
       uns()
     }
-  }, [])
+  }, [navigation])
 
   return (
     <View style={styles.externalContainer}>
@@ -167,7 +167,7 @@ const VRActivityScreen = ({
               </View>
             </View>
             <View style={styles.fullWidth}>
-              <Button subVariant={colorlessButton ? '#D9DBE9' : undefined} onPress={onDonePressed}>
+              <Button subVariant={colorlessButton ? ButtonSubVariant.colorless : undefined} onPress={onDonePressed}>
                 Done
               </Button>
             </View>
@@ -206,6 +206,7 @@ const getStyles = (theme: typeof RobTheme) =>
       backgroundColor: '#14142B',
       justifyContent: 'center',
       alignItems: 'center',
+      paddingLeft: 6,
     },
     externalGrowContainer: { backgroundColor: theme.colors.monochrome.input, flexGrow: 1 },
     imageSpacer: { maxHeight: 298, minHeight: 200, flexGrow: 50, justifyContent: 'flex-end', alignItems: 'flex-start' },
