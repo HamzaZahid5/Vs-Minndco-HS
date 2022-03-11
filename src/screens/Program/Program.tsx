@@ -62,8 +62,6 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
   const internalScrollHandlerInternalScrollview = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (e.nativeEvent.contentOffset.y > 0) {
       setInternalScrollEnabled(true)
-    } else {
-      setInternalScrollEnabled(false)
     }
   }
 
