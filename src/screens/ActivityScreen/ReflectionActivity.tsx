@@ -1,23 +1,14 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text, ScrollView, TextInput, Animated } from 'react-native'
-import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
-import {
-  useRobTheme,
-  Theme as RobTheme,
-  Headline,
-  Paragraph,
-  Button,
-  Row,
-  PopupWrapper,
-  Subheading,
-  Icon,
-} from '@mindcoxr/rob'
-import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
-import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
-import { DefaultScreenPropType, RootStackParamList } from '../../../types'
+import React, { useState } from 'react'
+import { View, StyleSheet, Platform, Image, Text, TextInput } from 'react-native'
+import { ActivityIndicator, Paragraph as PaperParagraph } from 'react-native-paper'
+import { useRobTheme, Theme as RobTheme, Headline, Paragraph, Button, Row, Subheading, Icon } from '@mindcoxr/rob'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { useSetHeaderProps } from '../../components/NavigationHeader'
+import { RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
 import { useNavigation } from '@react-navigation/native'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export type ReflectionActivityScreenProps = {
   onDonePressed: (answer: string) => void
@@ -49,15 +40,18 @@ const ReflectionActivityScreen = ({
   duration,
   asset,
 }: ReflectionActivityScreenProps) => {
+  // LOCAL
   const [loading, setLoading] = useState(true)
+  const [answer, setAnswer] = useState('')
+
+  // TOOLS
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const theme = useRobTheme()
   const styles = getStyles(theme)
-  const [answer, setAnswer] = useState('')
   const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
     styles: [styles.imageContainer],
   })
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   useSetHeaderProps(
     {
       rightActions: [
@@ -73,6 +67,7 @@ const ReflectionActivityScreen = ({
     },
     [],
   )
+
   return (
     <View style={styles.externalContainer}>
       <AnimatedViewElement>
@@ -93,13 +88,17 @@ const ReflectionActivityScreen = ({
         />
       </AnimatedViewElement>
 
-      <ScrollView
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        extraHeight={140}
+        contentContainerStyle={{ flexGrow: 1 }}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         style={styles.externalGrowContainer}
         bounces={false}
         onScroll={animatedEvent()}
         scrollEventThrottle={50}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={styles.imageSpacer}>
           <View style={styles.titlePosition}>
@@ -111,7 +110,7 @@ const ReflectionActivityScreen = ({
         <View style={styles.growContainer}>
           <View style={styles.iconsContainer}>
             <View style={[styles.iconsWrapper]}>
-              <Icon name="Paste" color={theme.colors.monochrome.placeholder} />
+              <Icon name="Edit" color={theme.colors.monochrome.placeholder} />
               <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
                 {translate('screens.Activity.reflection')}
               </PaperParagraph>
@@ -159,6 +158,7 @@ const ReflectionActivityScreen = ({
           />
           <View style={styles.fullWidth}>
             <Button
+              disabled={answer.trim().length < 5}
               onPress={() => {
                 onDonePressed(answer)
               }}
@@ -167,7 +167,7 @@ const ReflectionActivityScreen = ({
             </Button>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   )
 }
