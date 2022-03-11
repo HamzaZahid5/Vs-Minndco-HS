@@ -10,11 +10,18 @@ import {
   LIFESAVER_ACTIVITIES,
 } from '../../utils/lifesaverActivities'
 import Playground from './Playground'
+import { useSetHeaderProps } from '../../components/NavigationHeader'
 
 const ProgramScreen = ({
   navigation,
   route,
 }: DefaultScreenPropType<'Playground'> & DefaultScreenRouteType<'Playground'>) => {
+  useSetHeaderProps(
+    {
+      showGradient: 'always',
+    },
+    [],
+  )
   return (
     <Playground
       audios={

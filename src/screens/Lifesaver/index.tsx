@@ -1,9 +1,9 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
 import { USER_SUPPORT_PROFILE } from '../../store/selectors'
 import { initialState, reducer, messageType } from './storage'
-import { useNavigation } from '@react-navigation/native'
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import ChatItem, { chatOptionType } from './ChatItem'
@@ -12,17 +12,34 @@ import { ActivityIndicator } from 'react-native-paper'
 import { LIFESAVER_ACTIVITIES, LIFESAVER_AUDIOS, LIFESAVER_READS } from '../../utils/lifesaverActivities'
 import { getLocale } from '../../utils/localization'
 import { LifesaverAudioType, LifesaverReadType, LifesaverDoType } from '../../utils/lifesaverActivities'
+import { DrawerParamList } from '../DrawerNavigator'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { TabsParamList } from '../TabsNavigator'
 
-const Lifesaver = () => {
+type InternalNavigationProp = CompositeNavigationProp<
+  DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
+  BottomTabNavigationProp<TabsParamList, 'LifesaverChat'>
+>
+type LifesaverScreenNavigationProp = CompositeNavigationProp<
+  InternalNavigationProp,
+  StackNavigationProp<RootStackParamList, 'Home'>
+>
+const Lifesaver = ({ navigation }: { navigation: LifesaverScreenNavigationProp }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { display_name } = useSelector(USER_SUPPORT_PROFILE)
   const actions = useLifesaverActions(dispatch)
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const used = useRef(false)
 
   // BOOT UP CHAT
   useEffect(() => {
     const unsubsFocus = navigation.addListener('focus', () => {
-      actions.sayWelcome()
+      if (used.current) {
+        used.current = false
+        navigation.navigate('Home')
+      } else {
+        actions.sayWelcome()
+      }
     })
     const unsubsBlur = navigation.addListener('blur', () => {
       dispatch({ type: 'RESET_STATE', payload: null })
@@ -46,7 +63,15 @@ const Lifesaver = () => {
         const onSelectOption = item.options
           ? (option: chatOptionType) => {
               if (option.action.indexOf('GO_TO_ACTIVITY') === 0) {
-                navigation.navigate('Playground', { only: state.userPlace })
+                if (state.userCompany && state.userPlace && state.userUrge) {
+                  used.current = true
+                  navigation.navigate('Playground', {
+                    only: state.userPlace,
+                    company: state.userCompany,
+                    place: state.userPlace,
+                    urge: state.userUrge,
+                  })
+                }
               } else {
                 actions.handleUserAnswer(option.action, option.label, option.id)
               }

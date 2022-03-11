@@ -59,6 +59,7 @@ const VideoActivity = ({
   const theme = useRobTheme()
   const styles = getStyles(theme)
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const [colorlessButton, setColorlessButton] = useState(true)
   useSetHeaderProps(
     {
       rightActions: [
@@ -129,6 +130,12 @@ const VideoActivity = ({
                     video.current?.setPositionAsync(status.durationMillis / 2)
                     initialPositionSetted.current = true
                   }
+                  if (status.durationMillis) {
+                    const actualProgress = Math.round((status.positionMillis * 100) / status.durationMillis)
+                    if (actualProgress > 95 && colorlessButton) {
+                      setColorlessButton(false)
+                    }
+                  }
                 }
                 if (status.isLoaded && !status.isBuffering && initialPositionSetted.current) {
                   setLoading(false)
@@ -185,7 +192,9 @@ const VideoActivity = ({
               </View>
             </View>
             <View style={styles.fullWidth}>
-              <Button onPress={onDonePressed}>Done</Button>
+              <Button subVariant={colorlessButton ? '#D9DBE9' : undefined} onPress={onDonePressed}>
+                Done
+              </Button>
             </View>
           </View>
         </View>

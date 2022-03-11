@@ -243,8 +243,10 @@ const AudioActivityScreen = ({
                 </PaperParagraph>
               </View>
             </View>
-            <View style={styles.fullWidth}>
-              <Button onPress={onDonePressed}>{translate('screens.Activity.done')}</Button>
+            <View style={[styles.fullWidth, { flexGrow: 1, justifyContent: 'flex-end' }]}>
+              <Button subVariant={progress < 95 ? '#D9DBE9' : undefined} onPress={onDonePressed}>
+                {translate('screens.Activity.done')}
+              </Button>
             </View>
           </View>
         </View>
