@@ -1,5 +1,8 @@
-import React, { useReducer, useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useRef } from 'react'
 import { translate } from '../../utils/localization'
+import { RootStackParamList } from '../../../types'
+import { StackNavigationProp } from '@react-navigation/stack'
 import { reducerActionType } from './storage'
 import { LIFESAVER_URGE, LIFESAVER_PLACES, LIFESAVER_COMPANY } from './constants'
 import { getLocale } from './../../utils/localization'
@@ -10,7 +13,6 @@ type APIType = {
   userMessage: (message: string) => void
   askForPlace: () => void
   askForCompany: () => void
-  tellFindingActivity: () => void
   tellToPerformActivity: () => void
 }
 
@@ -19,7 +21,7 @@ const getWelcomeMessage = () => ({
   payload: {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     user: 'coach',
-    text: translate('screens.lifesaver.coachMsgHello', { defaultValue: 'Hola tarola' }),
+    text: translate('screens.Lifesaver.coachMsgHello', { defaultValue: 'Hola tarola' }),
   },
 })
 
@@ -28,7 +30,7 @@ const getCancelMessage = () => ({
   payload: {
     id: 'bd7acbea-c1b1-46c2-aed5-34563456d',
     user: 'coach',
-    text: translate('screens.lifesaver.cancelMessage', { defaultValue: 'No me acuerdo que iba aca' }),
+    text: translate('screens.Lifesaver.cancelMessage', { defaultValue: 'No me acuerdo que iba aca' }),
   },
 })
 
@@ -37,22 +39,22 @@ const getUrgeQuestionMessage = () => ({
   payload: {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
     user: 'coach',
-    text: translate('screens.lifesaver.coachMsgUrgeQuestion'),
+    text: translate('screens.Lifesaver.coachMsgUrgeQuestion'),
     options: [
       {
         action: 'SET_USER_URGE',
         id: LIFESAVER_URGE.LOW,
-        label: translate('screens.lifesaver.optionsUrgeLow'),
+        label: translate('screens.Lifesaver.optionsUrgeLow'),
       },
       {
         action: 'SET_USER_URGE',
         id: LIFESAVER_URGE.MANAGEABLE,
-        label: translate('screens.lifesaver.optionsUrgeManageable'),
+        label: translate('screens.Lifesaver.optionsUrgeManageable'),
       },
       {
         action: 'SET_USER_URGE',
         id: LIFESAVER_URGE.INTENSE,
-        label: translate('screens.lifesaver.optionsUrgeIntense'),
+        label: translate('screens.Lifesaver.optionsUrgeIntense'),
       },
     ],
   },
@@ -63,27 +65,27 @@ const getPlaceQuestionMessage = () => ({
   payload: {
     id: '3ac63afc-c605-43d3-a4f3-fbd91aa97f63',
     user: 'coach',
-    text: translate('screens.lifesaver.coachMsgPlaceQuestion'),
+    text: translate('screens.Lifesaver.coachMsgPlaceQuestion'),
     options: [
       {
         action: 'SET_USER_PLACE',
         id: LIFESAVER_PLACES.HOME,
-        label: translate('screens.lifesaver.optionsPlaceHome'),
+        label: translate('screens.Lifesaver.optionsPlaceHome'),
       },
       {
         action: 'SET_USER_PLACE',
         id: LIFESAVER_PLACES.WORK,
-        label: translate('screens.lifesaver.optionsPlaceWork'),
+        label: translate('screens.Lifesaver.optionsPlaceWork'),
       },
       {
         action: 'SET_USER_PLACE',
         id: LIFESAVER_PLACES.STREET,
-        label: translate('screens.lifesaver.optionsPlaceWalking'),
+        label: translate('screens.Lifesaver.optionsPlaceWalking'),
       },
       {
         action: 'SET_USER_PLACE',
         id: LIFESAVER_PLACES.OTHER,
-        label: translate('screens.lifesaver.optionsPlaceOther'),
+        label: translate('screens.Lifesaver.optionsPlaceOther'),
       },
     ],
   },
@@ -101,17 +103,17 @@ const getCompanyQuestionMessage = () => ({
   payload: {
     id: '3ac69afc-c605-49d9-a4f9-fbd91aa97f63',
     user: 'coach',
-    text: translate('screens.lifesaver.coachMsgCompanyQuestion'),
+    text: translate('screens.Lifesaver.coachMsgCompanyQuestion'),
     options: [
       {
         action: 'SET_USER_COMPANY',
         id: LIFESAVER_COMPANY.ALONE,
-        label: translate('screens.lifesaver.optionsCompanyAlone'),
+        label: translate('screens.Lifesaver.optionsCompanyAlone'),
       },
       {
         action: 'SET_USER_COMPANY',
         id: LIFESAVER_COMPANY.SOMEONE,
-        label: translate('screens.lifesaver.optionsCompanySomeone'),
+        label: translate('screens.Lifesaver.optionsCompanySomeone'),
       },
     ],
   },
@@ -121,7 +123,18 @@ const getFindingActivityMessage = () => ({
   payload: {
     id: '3ac65afc-c605-45d5-a4f5-fbd51aa57f63',
     user: 'coach',
-    text: translate('screens.lifesaver.coachMsgFindingActivity'),
+    text: translate('screens.Lifesaver.coachMsgFindingActivity'),
+  },
+})
+const getRejectionMessage = () => ({
+  type: 'PUSH_MESSAGE',
+  payload: {
+    id: '3ac65afc-c605-45d5-a4f5-fbd51aa57f65',
+    user: 'coach',
+    text: translate('screens.Lifesaver.coachMsgRejectActivity', {
+      defaultValue:
+        "Ok, next time maybe. Remember you can come here any time you want to record a stress episode. I'm here to help!",
+    }),
   },
 })
 const getActivityOptions = () => ({
@@ -129,31 +142,43 @@ const getActivityOptions = () => ({
   payload: {
     id: '3ac60afc-c600-40d0-a4f0-fbd01aa07f63',
     user: 'coach',
-    text: 'Do you want to do an activity to improve your feelings?',
+    text: translate('screens.Lifesaver.coachMsgOfferActivity'),
     options: [
       {
         action: 'GO_TO_ACTIVITY',
         id: 'yes',
-        label: 'Yes',
+        label: translate('commons.general.yes'),
       },
       {
         action: 'CANCEL',
         id: 'no',
-        label: 'No',
+        label: translate('commons.general.no'),
       },
     ],
   },
 })
 
 const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
-  // const [dispatcher, setDispatcher] = useState<React.Dispatch<reducerActionType>>()
-  // useEffect(() => {
-  //   setDispatcher(dispatch)
-  // }, [dispatch])
+  // ================================
+  // Safe mechanism to clear timeouts when user leves the screen and no pending messages shows on background.
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const tId = useRef<NodeJS.Timeout>()
+  useEffect(() => {
+    const unsubsBlur = navigation.addListener('blur', () => {
+      if (tId.current) {
+        clearTimeout(tId.current)
+      }
+    })
+    return () => {
+      unsubsBlur()
+    }
+  }, [navigation])
+  // ================================
+
   const API: APIType = {
     sayWelcome: () => {
       dispatch(getWelcomeMessage())
-      setTimeout(() => {
+      tId.current = setTimeout(() => {
         dispatch(getUrgeQuestionMessage())
       }, 2000)
     },
@@ -161,8 +186,8 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
     handleUserAnswer: (eventType, optionLabel, optionId) => {
       dispatch({ type: eventType, payload: optionId })
       if (eventType === 'SET_USER_URGE') {
-        API.userMessage(`${translate('screens.lifesaver.userAnswerUrge')} ${optionLabel.toLowerCase()}`)
-        setTimeout(() => {
+        API.userMessage(`${translate('screens.Lifesaver.userAnswerUrge')} ${optionLabel.toLowerCase()}`)
+        tId.current = setTimeout(() => {
           API.askForPlace()
         }, 1000)
       }
@@ -170,10 +195,10 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
         const connector = (locale => {
           if (locale === 'es') {
             switch (optionLabel) {
-              case translate('screens.lifesaver.optionsPlaceWork'):
+              case translate('screens.Lifesaver.optionsPlaceWork'):
                 return 'en el'
-              case translate('screens.lifesaver.optionsPlaceHome'):
-              case translate('screens.lifesaver.optionsPlaceOther'):
+              case translate('screens.Lifesaver.optionsPlaceHome'):
+              case translate('screens.Lifesaver.optionsPlaceOther'):
                 return 'en'
               case 'Restaurant':
               case 'Car':
@@ -198,34 +223,27 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
           }
         })(getLocale())
         API.userMessage(
-          `${translate('screens.lifesaver.userAnswerPlaceIAM')} ${connector} ${optionLabel.toLowerCase()}`,
+          `${translate('screens.Lifesaver.userAnswerPlaceIAM')} ${connector} ${optionLabel.toLowerCase()}`,
         )
-        setTimeout(() => {
+        tId.current = setTimeout(() => {
           API.askForCompany()
         }, 1000)
       }
       if (eventType === 'SET_USER_COMPANY') {
-        API.userMessage(`${translate('screens.lifesaver.userAnswerCompanyIAM')} ${optionLabel.toLowerCase()}`)
-        setTimeout(() => {
+        API.userMessage(`${translate('screens.Lifesaver.userAnswerCompanyIAM')} ${optionLabel.toLowerCase()}`)
+        tId.current = setTimeout(() => {
           API.tellToPerformActivity()
         }, 1000)
       }
       if (eventType === 'CANCEL') {
-        dispatch(getCancelMessage())
-        setTimeout(() => {
-          dispatch({ type: 'RESET_STATE', payload: null })
-        }, 3000)
-        setTimeout(() => {
-          API.sayWelcome()
-        }, 5000)
+        API.userMessage(translate('commons.general.no', { defaultValue: 'No' }))
+        tId.current = setTimeout(() => {
+          dispatch(getRejectionMessage())
+        }, 1000)
       }
     },
     askForPlace: () => dispatch(getPlaceQuestionMessage()),
     askForCompany: () => dispatch(getCompanyQuestionMessage()),
-    tellFindingActivity: () => {
-      dispatch(getFindingActivityMessage())
-      dispatch({ type: 'SET_THINKING', payload: true })
-    },
     tellToPerformActivity: () => {
       dispatch({ type: 'SET_THINKING', payload: false })
       dispatch(getActivityOptions())

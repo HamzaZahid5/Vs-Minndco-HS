@@ -17,7 +17,7 @@ export type TabsParamList = {
   Program: undefined
   SmokeRecord: undefined
   Messages: undefined
-  LifesaverChat: undefined
+  Lifesaver: undefined
 }
 
 export const tabMarginTop = Platform.OS === 'ios' ? 10 : 0
@@ -134,7 +134,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         }}
       />
       <Tab.Screen
-        name="LifesaverChat"
+        name="Lifesaver"
         component={LifesaverScreen}
         options={{
           tabBarLabel: '',
