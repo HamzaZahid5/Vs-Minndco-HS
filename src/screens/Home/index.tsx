@@ -14,7 +14,7 @@ import {
   BackgroundArt,
 } from '@mindcoxr/rob'
 import { homeBGColors } from '../../utils/config'
-import { DefaultScreenPropType, ProgramActivityType, RootStackParamList } from '../../../types'
+import { ProgramActivityType, RootStackParamList } from '../../../types'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { DrawerParamList } from '../DrawerNavigator'
@@ -278,7 +278,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                 </Row>
                 <Row margin={0}>
                   <View style={{ flexDirection: 'row' }}>
-                    <Button light compact role="secondary" onPress={() => navigation.navigate('LifesaverChat')}>
+                    <Button light compact role="secondary" onPress={() => navigation.navigate('Lifesaver')}>
                       {translate('screens.Home.vc_slide_Subtitle', { defaultValue: 'Visit the Virtual Coach' })}
                     </Button>
                   </View>
