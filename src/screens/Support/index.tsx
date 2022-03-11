@@ -4,17 +4,14 @@ import { WebView } from 'react-native-webview'
 import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 // @ts-ignore: non-ts file
 import template from 'lodash.template'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { updateProfile } from '../../services/Firestore'
 import KeyboardSpacer from '../../utils/KeyboardSpacer'
 import { USER_SUPPORT_PROFILE } from '../../store/selectors'
 import { DefaultScreenPropType } from '../../../types'
 import { translate } from '../../utils/localization'
-import { useRobTheme, Theme as RobTheme } from '@mindcoxr/rob'
-
-const URL_UI_SUPPORT = 'https://www.mindcotine.com/wp-content/assets/support/index.html'
-const URL_UI_COACHING = 'https://mindco-relief-support.web.app/support/coach'
+import { useRobTheme, Theme as RobTheme, TabbedScreen } from '@mindcoxr/rob'
+import { URL_UI_SUPPORT, URL_UI_COACHING } from '../../utils/config'
 
 const Support = ({
   navigation,
@@ -22,6 +19,7 @@ const Support = ({
   // this flag is set at navigation level
   isCoachingSupport = true,
 }: DefaultScreenPropType<'Support'> & { isCoachingSupport: boolean }) => {
+  // REDUX
   const {
     crisp_session_id: crispSessionId,
     display_name: displayName,
@@ -32,15 +30,28 @@ const Support = ({
     uid,
     email,
   } = useSelector(USER_SUPPORT_PROFILE)
+
+  // TOOLS
   const theme = useRobTheme()
   const styles = getStyles(theme)
   // ref to inject JS on demand
   const webViewRef = useRef<WebView | null>(null)
+
+  // LOCAL
   // to hide overlay when Crisp chat is ready
   const [webViewVisible, setWebViewVisible] = useState<boolean>()
   // to store Crisp sess id at state leve and avoid refresh screen if sess id is updated.
   const [currentCrispSessionId] = useState(crispSessionId)
 
+  // HELPERS
+  useEffect(() => {
+    const unsubsBlur = navigation.addListener('blur', () => {
+      webViewRef.current?.reload()
+    })
+    return () => {
+      unsubsBlur()
+    }
+  }, [navigation])
   useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       // AWFUL HACK TO MAKE CRISP CHAT TO EXPAND ON KEYBOARD CLOSE
@@ -111,7 +122,7 @@ const Support = ({
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <TabbedScreen colors={[theme.colors.primaryPalette[600], 'white']}>
       <WebView
         ref={webViewRef}
         scrollEnabled={false}
@@ -125,7 +136,7 @@ const Support = ({
         onMessage={event => {
           // navigate back on chat close
           if (event.nativeEvent.data === 'chat:closed') {
-            navigation.goBack()
+            navigation.navigate('Home')
           }
           // on crisp ready actions
           if (event.nativeEvent.data === 'chat:opened') {
@@ -196,8 +207,8 @@ const Support = ({
           </Text>
         </View>
       )}
-      {Platform.OS === 'ios' && <KeyboardSpacer />}
-    </SafeAreaView>
+      {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={Platform.OS === 'ios' ? -80 : 0} />}
+    </TabbedScreen>
   )
 }
 
