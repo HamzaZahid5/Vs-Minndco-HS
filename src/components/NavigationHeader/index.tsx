@@ -69,6 +69,7 @@ const NavigationHeader = ({
         <AnimatedLinearGradient
           colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={{
+            height: 80,
             position: 'absolute',
             top: 0,
             bottom: 0,
@@ -82,6 +83,7 @@ const NavigationHeader = ({
         <AnimatedLinearGradient
           colors={['rgba(0,0,0,0.8)', 'transparent']}
           style={{
+            height: 60,
             position: 'absolute',
             top: 0,
             bottom: 0,

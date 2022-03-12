@@ -1886,10 +1886,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@mindcoxr/rob@^0.13.2":
-  version "0.13.2"
-  resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.13.2/22d616892b89dd167a723e178f34a40002236295adbfe1f23144cabc98de4dce#23897e498484ebf1676cc5c776ba895374bda8ce"
-  integrity sha512-/BO+a1Uce6dKfSRINFXBXPTwgg7oMzCp25w5N/5NK4AyAKhMfhAZvIPgH5XbdFYDW0HNBvtGNOhbC2O8DE6cFw==
+"@mindcoxr/rob@^0.13.4":
+  version "0.13.4"
+  resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.13.4/3c7e193d21b6c9932b5fec6a432bd5648506c74e16c265a691f907637662a4d3#9cee9f49a8b2cf13511aafb04b70544cae603559"
+  integrity sha512-Oir7jroS6sAi4TUAkTo3IZK9+spgQJT/dSfw7AwsU6CYXl5yKyStflrGyPC1pCCynpe2ms4aCSM1mcoCeKccRw==
   dependencies:
     "@expo-google-fonts/poppins" "^0.2.2"
     "@types/styled-components-react-native" "^5.1.3"

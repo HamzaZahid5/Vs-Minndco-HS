@@ -9,9 +9,9 @@ import {
   Paragraph,
   Button,
   Row,
-  PopupWrapper,
   Subheading,
   Icon,
+  ButtonSubVariant,
 } from '@mindcoxr/rob'
 import { useStorageDownloadURL } from '../../services/Storage'
 import { useSetHeaderProps } from '../../components/NavigationHeader'
@@ -20,6 +20,7 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
+import RoundPlayButton from '../../components/RoundPlayButton'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -162,32 +163,29 @@ const AudioActivityScreen = ({
       >
         <View style={styles.videoSpacer} />
         <View style={styles.infoContainer}>
-          <TouchableRipple
-            borderless
-            onPress={() => {
-              if (audioRef.current) {
-                if (isPlaying) {
-                  audioRef.current.pauseAsync().then(() => setIsPlaying(false))
-                } else {
-                  if (progress === 100) {
-                    audioRef.current
-                      .setPositionAsync(0)
-                      .then(() => audioRef.current?.playAsync())
-                      .then(() => setIsPlaying(true))
-                      .then(() => setProgress(0))
+          {!loading && (
+            <RoundPlayButton
+              onPress={() => {
+                if (audioRef.current) {
+                  if (isPlaying) {
+                    audioRef.current.pauseAsync().then(() => setIsPlaying(false))
                   } else {
-                    audioRef.current.playAsync().then(() => setIsPlaying(true))
+                    if (progress === 100) {
+                      audioRef.current
+                        .setPositionAsync(0)
+                        .then(() => audioRef.current?.playAsync())
+                        .then(() => setIsPlaying(true))
+                        .then(() => setProgress(0))
+                    } else {
+                      audioRef.current.playAsync().then(() => setIsPlaying(true))
+                    }
                   }
                 }
-              }
-              onPlayPressed && onPlayPressed()
-            }}
-            style={styles.playButton}
-          >
-            <View style={[styles.playContainer, loading && styles.hide]}>
-              <Icon name={isPlaying ? 'Pause' : 'Play'} color={theme.colors.monochrome.input} />
-            </View>
-          </TouchableRipple>
+                onPlayPressed && onPlayPressed()
+              }}
+              isPlaying={isPlaying}
+            />
+          )}
           <View style={[{ flexGrow: 1 }, loading && styles.hide]}>
             <View
               style={{
@@ -244,7 +242,7 @@ const AudioActivityScreen = ({
               </View>
             </View>
             <View style={[styles.fullWidth, { flexGrow: 1, justifyContent: 'flex-end' }]}>
-              <Button subVariant={progress < 95 ? '#D9DBE9' : undefined} onPress={onDonePressed}>
+              <Button subVariant={progress < 95 ? ButtonSubVariant.colorless : undefined} onPress={onDonePressed}>
                 {translate('screens.Activity.done')}
               </Button>
             </View>
@@ -332,14 +330,6 @@ const getStyles = (theme: typeof RobTheme) =>
       justifyContent: 'space-between',
       alignItems: 'stretch',
       paddingTop: 24,
-    },
-    playButton: {
-      width: 64,
-      height: 64,
-      borderRadius: 32,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginRight: 24,
     },
     textConteinarSmall: {
       paddingTop: 16,
