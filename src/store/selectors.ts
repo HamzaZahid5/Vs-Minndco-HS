@@ -2,7 +2,8 @@ import { RootState } from './reducer'
 import { SmokeRecordsState } from './slices/smokeRecord'
 
 export const PROGRESS = (store: RootState) => store?.user?.data?.progress
-// export const KIT_ACTIVATED = (store: RootState) => store?.user?.data?.kit_id !== ''
+export const IS_PREMIUM = (store: RootState) => store?.user?.data?.isPremium
+export const KIT_ACTIVATED = (store: RootState) => Boolean(store?.user?.data?.kit_id)
 export const KIT_CONFIRMED = (store: RootState) => store?.user?.data?.flags?.kit_confirmed === true
 export const QUIT_DAY = (store: RootState) => store?.user?.data?.quit_day
 export const TREATMENT_MODULE_AND_LEVEL = (store: RootState) => [
