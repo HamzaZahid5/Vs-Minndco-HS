@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Login: undefined
   ForgotPassword: undefined
   ThemeInspector: undefined
+  KitWelcome: undefined
   StressRate: { isTrigerIdentification: boolean } | undefined
   StressTrigger: { isTrigerIdentification: boolean }
   StressActivityType: undefined

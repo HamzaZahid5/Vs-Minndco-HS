@@ -28,6 +28,7 @@ import { TabsParamList } from '../TabsNavigator'
 import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
 import { QUIT_DAY } from '../../store/selectors'
 import { useSelector } from 'react-redux'
+import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -63,6 +64,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
 
   // LOCAL
   const [currentSlide, setCurrentSlide] = useState(1)
+  useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
 
   // REDUX
   const quit_day = useSelector(QUIT_DAY)

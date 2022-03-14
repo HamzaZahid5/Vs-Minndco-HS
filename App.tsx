@@ -31,6 +31,7 @@ import VRMet from './src/screens/VRMet'
 import ProfileScreen from './src/screens/Profile'
 import BasicModalScreen from './src/screens/BasicModalScreen'
 import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
+import KitWelcome from './src/screens/KitWelcomeScreen'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -237,6 +238,14 @@ export default function App() {
                   <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
                   <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
+                  <Stack.Screen
+                    name="KitWelcome"
+                    component={KitWelcome}
+                    options={{
+                      headerShown: true,
+                      header: (props: StackHeaderProps) => <NavigationHeader {...props} showGradient="always" />,
+                    }}
+                  />
                   <Stack.Screen
                     name="LifesaverActivity"
                     component={LifesaverActivityScreen}
