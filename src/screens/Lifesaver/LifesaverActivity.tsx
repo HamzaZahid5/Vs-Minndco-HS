@@ -4,12 +4,17 @@ import { View } from 'react-native'
 import AudioScreen from '../ActivityScreen/AudioActivity'
 import ReadScreen from '../ActivityScreen/Read'
 import { LifesaverAudioType, LifesaverDoType, LifesaverReadType } from '../../utils/lifesaverActivities'
+import saveLifesaverActivityDone from './actions'
 
 const ActivityScreen = ({
   navigation,
   route,
 }: DefaultScreenPropType<'LifesaverActivity'> & DefaultScreenRouteType<'LifesaverActivity'>) => {
   const [activityScreen, setActivityScreen] = useState<React.ReactElement | undefined>(undefined)
+  const saveLifesaverInteraction = () => {
+    saveLifesaverActivityDone(route.params.activity, route.params.urge, route.params.place, route.params.company)
+    navigation.navigate('Home')
+  }
   useEffect(() => {
     if (route.params.activity.type) {
       switch (route.params.activity.type) {
@@ -19,9 +24,7 @@ const ActivityScreen = ({
             <AudioScreen
               audioSrc={audParams.source}
               backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
-              onDonePressed={() => {
-                return
-              }}
+              onDonePressed={saveLifesaverInteraction}
               onPlayPressed={() => {
                 return
               }}
@@ -38,9 +41,7 @@ const ActivityScreen = ({
               title={textParams.title || ''}
               readPages={textParams.pages}
               backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
-              onDonePressed={() => {
-                return
-              }}
+              onDonePressed={saveLifesaverInteraction}
             />,
           )
           break
