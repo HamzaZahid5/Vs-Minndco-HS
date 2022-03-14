@@ -94,6 +94,11 @@ export const updateBasicTutorialCompleted = () =>
 
 export const getKitById = (code: string) => firestore().collection('kits').doc(code).get()
 
+export const activateKit = (code: string) =>
+  updateProfile({
+    kit_id: code,
+  })
+
 export const burnCode = (code: string) =>
   firestore().collection('kits').doc(code).update({
     burnt_at: firestore.FieldValue.serverTimestamp(),
