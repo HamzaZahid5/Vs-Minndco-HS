@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootStackParamList } from '../../../types'
-import { IS_PREMIUM, KIT_ACTIVATED } from '../../store/selectors'
+import { HAS_VIEWER, IS_PREMIUM } from '../../store/selectors'
 import { translate } from '../localization'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
@@ -55,7 +55,7 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
               <Button
                 role="primary"
                 onPress={() => {
-                  activateKit('123456')
+                  activateKit()
                   navigation.navigate('KitWelcome')
                 }}
               >
@@ -79,7 +79,7 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
 }
 const useQueryKitReceived = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
   const isPremium = useSelector(IS_PREMIUM)
-  const kitActivated = useSelector(KIT_ACTIVATED)
+  const kitActivated = useSelector(HAS_VIEWER)
   const [lastQuery, setLastQuery] = useState<string | undefined>(undefined)
   useEffect(() => {
     if (lastQuery === undefined) return
