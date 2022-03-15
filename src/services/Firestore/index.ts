@@ -89,7 +89,7 @@ export const updateUserHardware = ({
 
 export const updateBasicTutorialCompleted = () =>
   updateProfile({
-    'flags.show_basics_tutorial': false,
+    flag_show_basics_tutorial: false,
   })
 
 export const getKitById = (code: string) => firestore().collection('kits').doc(code).get()
