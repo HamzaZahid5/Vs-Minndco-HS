@@ -94,9 +94,9 @@ export const updateBasicTutorialCompleted = () =>
 
 export const getKitById = (code: string) => firestore().collection('kits').doc(code).get()
 
-export const activateKit = (code: string) =>
+export const activateKit = () =>
   updateProfile({
-    kit_id: code,
+    flag_hasViewer: true,
   })
 
 export const burnCode = (code: string) =>
