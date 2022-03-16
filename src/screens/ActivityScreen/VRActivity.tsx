@@ -19,6 +19,9 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
+import { useSelector } from 'react-redux'
+import { USER_PROFILE } from '../../store/selectors'
+import { setGender } from '../../services/Firestore'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -42,6 +45,50 @@ const PopupContent = () => (
   </>
 )
 
+const GenderPopupContent = ({ close }: { close: () => void }) => {
+  return (
+    <>
+      <Row gutter={10}>
+        <Subheading> {translate('screens.Activity.genderTitle')}</Subheading>
+      </Row>
+      <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+        <Paragraph size="xsmall" weight="normal" textAlign="left">
+          {translate('screens.Activity.genderSubTitle')}
+        </Paragraph>
+      </Row>
+      <Row gutter={10} grow justifyContentOnGrow="flex-end">
+        <Button
+          role="primary"
+          onPress={() => {
+            setGender('f')
+            close()
+          }}
+        >
+          {translate('screens.Activity.genderFemale')}
+        </Button>
+        <Button
+          role="primary"
+          onPress={() => {
+            setGender('m')
+            close()
+          }}
+        >
+          {translate('screens.Activity.genderMale')}
+        </Button>
+        <Button
+          role="secondary"
+          onPress={() => {
+            setGender('f')
+            close()
+          }}
+        >
+          {translate('screens.Activity.genderNo')}
+        </Button>
+      </Row>
+    </>
+  )
+}
+
 const VRActivityScreen = ({
   onPlayPressed,
   onDonePressed,
@@ -57,6 +104,13 @@ const VRActivityScreen = ({
   const { AnimatedViewElement, animatedEvent, animationControl } = useAnimatedParallax({
     styles: [styles.imageContainer],
   })
+  const { gender } = useSelector(USER_PROFILE)
+  useEffect(() => {
+    if (gender === 'm' || gender === 'f') return
+    navigation.navigate('BasicModal', { content: GenderPopupContent })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   useSetHeaderProps(
     {
       rightActions: [
@@ -72,21 +126,7 @@ const VRActivityScreen = ({
     },
     [],
   )
-
   const [colorlessButton, setColorlessButton] = useState(true)
-  const buttonPressed = useRef(false)
-
-  useEffect(() => {
-    const uns = navigation.addListener('focus', () => {
-      if (buttonPressed.current) {
-        setColorlessButton(false)
-      }
-    })
-
-    return () => {
-      uns()
-    }
-  }, [navigation])
 
   return (
     <View style={styles.externalContainer}>
@@ -127,7 +167,7 @@ const VRActivityScreen = ({
           <TouchableRipple
             borderless
             onPress={() => {
-              buttonPressed.current = true
+              setTimeout(() => setColorlessButton(false), 1000)
               onPlayPressed()
             }}
             style={styles.playButton}
