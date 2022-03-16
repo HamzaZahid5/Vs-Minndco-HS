@@ -46,6 +46,16 @@ const PopupContent = () => (
 )
 
 const GenderPopupContent = ({ close }: { close: () => void }) => {
+  const genderSelected = useRef(false)
+  const navigation = useNavigation()
+  useEffect(() => {
+    const unsub = navigation.addListener('beforeRemove', () => {
+      if (genderSelected.current === false) {
+        setGender('f')
+      }
+    })
+    return unsub
+  })
   return (
     <>
       <Row gutter={10}>
@@ -60,8 +70,8 @@ const GenderPopupContent = ({ close }: { close: () => void }) => {
         <Button
           role="primary"
           onPress={() => {
-            setGender('f')
-            close()
+            genderSelected.current = true
+            setGender('f').then(close)
           }}
         >
           {translate('screens.Activity.genderFemale')}
@@ -69,8 +79,8 @@ const GenderPopupContent = ({ close }: { close: () => void }) => {
         <Button
           role="primary"
           onPress={() => {
-            setGender('m')
-            close()
+            genderSelected.current = true
+            setGender('m').then(close)
           }}
         >
           {translate('screens.Activity.genderMale')}
@@ -78,8 +88,8 @@ const GenderPopupContent = ({ close }: { close: () => void }) => {
         <Button
           role="secondary"
           onPress={() => {
-            setGender('f')
-            close()
+            genderSelected.current = true
+            setGender('f').then(close)
           }}
         >
           {translate('screens.Activity.genderNo')}
