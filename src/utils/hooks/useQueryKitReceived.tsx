@@ -13,11 +13,11 @@ import { activateKit } from '../../services/Firestore'
 const NotRecivedContent = () => (
   <>
     <Row gutter={10}>
-      <Subheading>No te preocupes</Subheading>
+      <Subheading>{translate('screens.KitReceived.notReceivedTitle')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="center" gutter={10}>
       <Paragraph size="xsmall" weight="normal" textAlign="center">
-        Ten pasciencia pronto lo reciviras
+        {translate('screens.KitReceived.notReceivedSubTitle')}
       </Paragraph>
     </Row>
   </>
@@ -44,11 +44,11 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
         ) : (
           <>
             <Row gutter={10}>
-              <Subheading>Has recibido el kit?</Subheading>
+              <Subheading>{translate('screens.KitReceived.title')}</Subheading>
             </Row>
             <Row grow justifyContentOnGrow="flex-start" gutter={10}>
               <Paragraph size="xsmall" weight="normal" textAlign="left">
-                Si todavia no ha llegado el kit ten paciencia ya lo recibiras
+                {translate('screens.KitReceived.subTitle')}{' '}
               </Paragraph>
             </Row>
             <Row gutter={10} grow justifyContentOnGrow="flex-end">
@@ -59,7 +59,7 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
                   navigation.navigate('KitWelcome')
                 }}
               >
-                Confirmar
+                {translate('screens.KitReceived.confirm')}
               </Button>
               <Button
                 role="secondary"
@@ -67,7 +67,7 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
                   setNotReceived(true)
                 }}
               >
-                {translate('screens.Registration.cancel-button')}
+                {translate('screens.KitReceived.cancel')}
               </Button>
             </Row>
           </>
@@ -91,7 +91,7 @@ const useQueryKitReceived = (navigation: StackNavigationProp<RootStackParamList,
         showQuery = false
       }
     }
-    if (isPremium && !kitActivated) {
+    if (isPremium && !kitActivated && showQuery) {
       AsyncStorage.setItem('@lastQuery', moment().format('YYYY-MM-DD'))
       navigation.navigate('BasicModal', {
         content: MakePopupContent(navigation),

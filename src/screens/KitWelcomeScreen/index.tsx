@@ -24,11 +24,11 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
     return (
       <>
         <Row gutter={10}>
-          <Subheading>Are you sure?</Subheading>
+          <Subheading> {translate('screens.KitWelcome.popupTitle')}</Subheading>
         </Row>
         <Row grow justifyContentOnGrow="flex-start" gutter={10}>
           <Paragraph size="xsmall" weight="normal" textAlign="left">
-            We highly recommend you take a moment to review these quick guides to be able to play the VR contents
+            {translate('screens.KitWelcome.popupSubTitle')}
           </Paragraph>
         </Row>
         <Row gutter={10} grow justifyContentOnGrow="flex-end">
@@ -38,7 +38,7 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
               navigation.goBack()
             }}
           >
-            Go back
+            {translate('screens.KitWelcome.popupGoBack')}
           </Button>
           <Button
             role="secondary"
@@ -46,7 +46,7 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
               navigation.popToTop()
             }}
           >
-            {'Skip & watch later'}
+            {translate('screens.KitWelcome.popupSkip')}
           </Button>
         </Row>
       </>
@@ -78,18 +78,18 @@ const KitWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitWelcome'>) =
       </Row>
       <Row gutter={26}>
         <Headline size="huge" weight="bold" textAlign="center">
-          Yay!
+          {translate('screens.KitWelcome.title')}
         </Headline>
         <View style={{ marginHorizontal: 25 }}>
           <Paragraph size="small" weight="normal" textAlign="center">
-            Your kit has been successfuly activated
+            {translate('screens.KitWelcome.subTitle')}
           </Paragraph>
         </View>
       </Row>
       <Row gutter={20}>
         <View style={{ marginHorizontal: 15 }}>
           <Paragraph size="small" weight="normal" textAlign="left">
-            Next learn the basics
+            {translate('screens.KitWelcome.paragraph')}
           </Paragraph>
         </View>
         <ArrowBox
@@ -101,7 +101,7 @@ const KitWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitWelcome'>) =
             }
           }}
         >
-          Assemble headset
+          {translate('screens.KitWelcome.label1')}
         </ArrowBox>
         <ArrowBox
           bold={steep > 1}
@@ -112,7 +112,7 @@ const KitWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitWelcome'>) =
             }
           }}
         >
-          Test a VR content
+          {translate('screens.KitWelcome.label2')}
         </ArrowBox>
       </Row>
       <Row grow>
@@ -126,7 +126,7 @@ const KitWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitWelcome'>) =
             }
           }}
         >
-          I’m ready to start
+          {translate('screens.KitWelcome.ready')}
         </Button>
       </Row>
     </BasicScreen>

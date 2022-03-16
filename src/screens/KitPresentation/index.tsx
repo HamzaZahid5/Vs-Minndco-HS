@@ -1,6 +1,7 @@
 import React from 'react'
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA'
+import { translate } from '../../utils/localization'
 import VideoActivity from '../ActivityScreen/VideoActivity'
 import VRActivity from '../ActivityScreen/VRActivity'
 
@@ -30,8 +31,8 @@ const KitPresentation = ({
         openVRPlayer()
         return
       }}
-      title="Assemble your cardboard headset"
-      description="Follow the video instructions to easily get your headset ready."
+      title={translate('screens.KitPresentation.VRTitle')}
+      description={translate('screens.KitPresentation.VRDescription')}
       duration={1}
     />
   ) : (
@@ -43,8 +44,8 @@ const KitPresentation = ({
         return
       }}
       videoSrc="content/assemble-headset.mp4"
-      title="Assemble your cardboard headset"
-      description="Follow the video instructions to easily get your headset ready."
+      title={translate('screens.KitPresentation.VideoTitle')}
+      description={translate('screens.KitPresentation.VideoDescription')}
       duration={1}
     />
   )
