@@ -97,6 +97,7 @@ import Orientation from 'react-native-orientation-locker'
 // // @ts-ignore: non-ts file
 // import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler'
+import KitPresentation from './src/screens/KitPresentation'
 // import useDeepLinking from './src/utils/hooks/useDeepLinking';
 // import navigateToDeepLink from './src/utils/navigateToDeepLink';
 // import { translate, getLocale } from './src/utils/localization';
@@ -242,8 +243,14 @@ export default function App() {
                     name="KitWelcome"
                     component={KitWelcome}
                     options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="KitPresentation"
+                    component={KitPresentation}
+                    options={{
                       headerShown: true,
-                      header: (props: StackHeaderProps) => <NavigationHeader {...props} showGradient="always" />,
                     }}
                   />
                   <Stack.Screen
@@ -264,10 +271,11 @@ export default function App() {
                           color="#14142b"
                           backgroundColor="#F7F7FC"
                           routeName="Profile"
+                          height={100}
                         />
                       ),
                       headerTransparent: false,
-                      headerStyle: { backgroundColor: '#F7F7FC' },
+                      headerStyle: { backgroundColor: '#F7F7FC', height: 100 },
                     }}
                   />
                   <Stack.Screen
