@@ -14,7 +14,7 @@ export type HeaderExtraProps = {
   rightActions?: { icon: IconNamesTypes; action: () => void }[]
   routeName?: string
   backgroundColor?: string
-  height?: string
+  height?: string | number
   contentAtBottom?: boolean
   showGradient?: 'animated' | 'always'
   animatedControl?: { animatedValue: React.MutableRefObject<Animated.Value>; interpolationInput: [number, number] }
@@ -61,7 +61,7 @@ const NavigationHeader = ({
           justifyContent: 'space-between',
           flexDirection: 'row',
         },
-        height !== undefined && { height: 0 },
+        { height },
         backgroundColor !== undefined && { backgroundColor },
       ]}
     >
