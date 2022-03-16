@@ -31,6 +31,7 @@ import VRMet from './src/screens/VRMet'
 import ProfileScreen from './src/screens/Profile'
 import BasicModalScreen from './src/screens/BasicModalScreen'
 import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
+import KitWelcome from './src/screens/KitWelcomeScreen'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -96,6 +97,7 @@ import Orientation from 'react-native-orientation-locker'
 // // @ts-ignore: non-ts file
 // import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler'
+import KitPresentation from './src/screens/KitPresentation'
 // import useDeepLinking from './src/utils/hooks/useDeepLinking';
 // import navigateToDeepLink from './src/utils/navigateToDeepLink';
 // import { translate, getLocale } from './src/utils/localization';
@@ -238,6 +240,20 @@ export default function App() {
                   <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
                   <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
                   <Stack.Screen
+                    name="KitWelcome"
+                    component={KitWelcome}
+                    options={{
+                      headerShown: false,
+                    }}
+                  />
+                  <Stack.Screen
+                    name="KitPresentation"
+                    component={KitPresentation}
+                    options={{
+                      headerShown: true,
+                    }}
+                  />
+                  <Stack.Screen
                     name="LifesaverActivity"
                     component={LifesaverActivityScreen}
                     options={{ headerShown: true }}
@@ -255,10 +271,11 @@ export default function App() {
                           color="#14142b"
                           backgroundColor="#F7F7FC"
                           routeName="Profile"
+                          height={100}
                         />
                       ),
                       headerTransparent: false,
-                      headerStyle: { backgroundColor: '#F7F7FC' },
+                      headerStyle: { backgroundColor: '#F7F7FC', height: 100 },
                     }}
                   />
                   <Stack.Screen

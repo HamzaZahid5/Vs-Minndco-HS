@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import useProgram from './useProgram'
 import { useSelector } from 'react-redux'
 import { getActivityFromKey, getAllActivitiesKey } from '../helpers'
-import { PROGRESS, KIT_CONFIRMED, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
+import { PROGRESS, TREATMENT_MODULE_AND_LEVEL, HAS_VIEWER } from '../../store/selectors'
 import { ProgramActivity } from '../../../types'
 
 export default (fixedActivityId?: string) => {
@@ -13,7 +13,7 @@ export default (fixedActivityId?: string) => {
 
   // REDUX SELECTORS
   const progress = useSelector(PROGRESS)
-  const includeVR = useSelector(KIT_CONFIRMED)
+  const includeVR = useSelector(HAS_VIEWER)
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
 
   // PROGRAM

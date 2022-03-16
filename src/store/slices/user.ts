@@ -25,6 +25,7 @@ export type UserState = {
       show_welcome_message_on_chat?: boolean
       onboarding_complete?: boolean
       kit_confirmed?: boolean
+      hasViewer?: boolean
     }
     gender: string
     group?: string
@@ -36,7 +37,6 @@ export type UserState = {
     statistics: UserStatistics
     treatment_module: number
     treatment_level: number
-    quit_day?: string
   }
   auth: any
 }
@@ -94,6 +94,7 @@ const user = createSlice({
             show_welcome_message_on_chat: action.payload.flag_show_welcome_message_on_chat,
             onboarding_complete: action.payload.on_boarding_completed,
             kit_confirmed: action.payload.flag_kit_confirmed,
+            hasViewer: action.payload.flag_hasViewer,
           },
           gender: action.payload.gender,
           group: action.payload.group,
@@ -112,7 +113,6 @@ const user = createSlice({
           treatment_module: action.payload.treatment_module,
           treatment_level: action.payload.treatment_level,
           kit_id: action.payload.kit_id,
-          quit_day: action.payload.quit_day,
         },
       }
       // if (oldOnBoardingFlag) {

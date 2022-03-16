@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@mindcoxr/rob": "^0.13.4",
+    "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cli": "^5.0.1",
     "@react-native-community/cli-platform-ios": "^6.2.0",
