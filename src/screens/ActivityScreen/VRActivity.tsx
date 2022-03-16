@@ -74,19 +74,6 @@ const VRActivityScreen = ({
   )
 
   const [colorlessButton, setColorlessButton] = useState(true)
-  const buttonPressed = useRef(false)
-
-  useEffect(() => {
-    const uns = navigation.addListener('focus', () => {
-      if (buttonPressed.current) {
-        setColorlessButton(false)
-      }
-    })
-
-    return () => {
-      uns()
-    }
-  }, [navigation])
 
   return (
     <View style={styles.externalContainer}>
@@ -127,7 +114,7 @@ const VRActivityScreen = ({
           <TouchableRipple
             borderless
             onPress={() => {
-              buttonPressed.current = true
+              setTimeout(() => setColorlessButton(false), 1000)
               onPlayPressed()
             }}
             style={styles.playButton}
