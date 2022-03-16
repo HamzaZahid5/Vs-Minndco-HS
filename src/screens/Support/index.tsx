@@ -65,7 +65,7 @@ const Support = ({
 
     // flag user as pending message read on DB
     if (hasCoachMessages && isCoachingSupport) {
-      updateProfile({ 'flags.has_coach_messages': false })
+      updateProfile({ flag_has_coach_messages: false })
     }
 
     return () => {
@@ -179,7 +179,7 @@ const Support = ({
           // flag user into DB to avoid welcome messages in the future.
           if (event.nativeEvent.data === 'welcome_message:shown') {
             if (showWelcomeMessageOnChat && isCoachingSupport) {
-              updateProfile({ 'flags.show_welcome_message_on_chat': false })
+              updateProfile({ flag_show_welcome_message_on_chat: false })
             }
           }
         }}
