@@ -92,6 +92,11 @@ export const updateBasicTutorialCompleted = () =>
     'flags.show_basics_tutorial': false,
   })
 
+export const setGender = (gender: 'f' | 'm') =>
+  updateProfile({
+    gender,
+  })
+
 export const getKitById = (code: string) => firestore().collection('kits').doc(code).get()
 
 export const burnCode = (code: string) =>

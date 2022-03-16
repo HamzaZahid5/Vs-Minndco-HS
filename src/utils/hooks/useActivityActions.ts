@@ -49,7 +49,7 @@ const useActivityActions = () => {
         await functions().httpsCallable('completeActivity')({
           activity: {
             ...nextActivity,
-            asset: formatAsset(nextActivity.asset, language, gender),
+            asset: formatAsset(nextActivity.asset, language, gender ?? 'f'),
             key: activityKey,
           },
           answer,

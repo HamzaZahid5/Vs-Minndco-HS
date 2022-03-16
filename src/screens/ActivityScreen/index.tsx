@@ -49,7 +49,8 @@ const ActivityScreen = ({
   }, [nextActivity, IS])*/
 
   const openVRPlayer = useVRPlayerCTA({
-    resourceId: nextActivity && nextActivity.type === 'vr-met' ? formatAsset(nextActivity.asset, language, gender) : '',
+    resourceId:
+      nextActivity && nextActivity.type === 'vr-met' ? formatAsset(nextActivity.asset, language, gender ?? 'f') : '',
     onCancel: () => {
       // eslint-disable-next-line no-console
       console.log('cancel')
@@ -62,7 +63,7 @@ const ActivityScreen = ({
 
   let activityScreen: React.ReactElement | undefined
   if (nextActivity) {
-    const asset = formatAsset(nextActivity.asset, language, gender)
+    const asset = formatAsset(nextActivity.asset, language, gender ?? 'f')
     switch (nextActivity.type) {
       case '2d-video':
         activityScreen = (
