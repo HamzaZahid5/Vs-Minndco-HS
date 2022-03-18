@@ -27,6 +27,7 @@ export type RootStackParamList = {
   StressTrigger: { isTrigerIdentification: boolean }
   StressActivityType: undefined
   Activity: { activityId: string } | undefined
+  AuthByToken: { token: string } | undefined
   SmokeModal: undefined
   QuitDayModal: undefined
   Tutorial: undefined

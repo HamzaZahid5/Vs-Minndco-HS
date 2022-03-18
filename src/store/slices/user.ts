@@ -33,7 +33,6 @@ export type UserState = {
     isPremium: boolean
     language: string
     progress: Array<string>
-    quit_day?: string
     statistics: UserStatistics
     treatment_module: number
     treatment_level: number
@@ -74,7 +73,7 @@ const user = createSlice({
         ...state,
         auth: {
           uid: action.payload.uid,
-          email: obfuscate(action.payload.email),
+          email: action.payload.email ? obfuscate(action.payload.email) : '',
         },
       }
     },

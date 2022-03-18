@@ -62,9 +62,11 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const todayActivityDone = useTodaysActivityDone()
   const progressTrend = useProgressTrend()
 
+  // HELPERS
+  useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
+
   // LOCAL
   const [currentSlide, setCurrentSlide] = useState(1)
-  useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
 
   // REDUX
   const quit_day = useSelector(QUIT_DAY)

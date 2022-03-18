@@ -5,40 +5,17 @@ import { auth } from '../Auth'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { languagesType, ProgramActivityType } from '../../../types'
 import { PlatformOSType } from 'react-native'
-import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 import moment from 'moment'
 
 export default firestore
 
-// export const useFirestoreJournalListener = () => {
-//   const [snapshot, setSnapshot] = useState()
-//   useEffect(() => {
-//     let unsubscribe = Function
-//     try {
-//       unsubscribe = firestore()
-//         .collection('users')
-//         .doc(auth().currentUser.uid)
-//         .collection('journal')
-//         .orderBy('date', 'desc')
-//         .limit(10)
-//         .onSnapshot(sn => {
-//           setSnapshot(sn)
-//         })
-//     } catch (e) {
-//       crashlytics().recordError(e)
-//     }
-//     return () => unsubscribe
-//   }, [])
-//   return snapshot
-// }
-
 export const useFirestoreListener = (collection: string, id: string) => {
   const [snapshotData, setSnapshotData] = useState<Record<string, unknown> | null>()
+
   useEffect(() => {
     let unsubscribe
-
     if (id !== undefined) {
-      if (id === null) {
+      if (id === null || id === '') {
         setSnapshotData(null)
       } else {
         try {
@@ -49,7 +26,7 @@ export const useFirestoreListener = (collection: string, id: string) => {
               setSnapshotData(userSnapshot?.data() ?? null)
             })
         } catch (e) {
-          crashlytics().recordError(e)
+          crashlytics().recordError()
         }
       }
     }

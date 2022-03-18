@@ -20,6 +20,7 @@ import configureStore from './src/store'
 import LandingScreen from './src/screens/LandingScreen'
 import RegistrationScreen from './src/screens/Registration'
 import LoginScreen from './src/screens/Login'
+import AuthByTokenScreen from './src/screens/AuthByToken'
 import ForgotPasswordScreen from './src/screens/ForgotPassword'
 import DrawerHomeNavigator from './src/screens/DrawerNavigator'
 import Playground from './src/screens/Playground'
@@ -141,11 +142,17 @@ export default function App() {
   //   }
   // });
   const [navigatorReady, setNavigatorReady] = useState(false)
-  // useEffect(() => {
-  //   if (navigatorReady && navigatorRef.current && deepLink) {
-  //     navigateToDeepLink(deepLink, navigatorRef.current);
-  //   }
-  // }, [deepLink, navigatorReady]);
+  useEffect(() => {
+    if (navigatorReady && navigatorRef.current && deepLink) {
+      const isAuthDL = deepLink.includes('auth/')
+      if (isAuthDL) {
+        navigatorRef.current.navigate('AuthByToken', { token: deepLink.replace(new RegExp('(^.*)auth/'), '') })
+      } else {
+        navigatorRef.current.navigate(deepLink)
+      }
+    }
+  }, [deepLink, navigatorReady])
+
   useEffect(() => {
     Orientation.lockToPortrait()
   }, [])
@@ -192,6 +199,8 @@ export default function App() {
   // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
   //   return <LoadingScreen />;
   // }
+  // auth().signOut()
+  // console.log(userData)
   if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
     return null
   }
@@ -221,210 +230,178 @@ export default function App() {
             }}
             ref={navigatorRef}
           >
-            {userToken ? (
-              <Stack.Navigator
-                // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
-                initialRouteName="Main"
-              >
-                <Stack.Group
-                  screenOptions={{
-                    headerMode: 'float',
-                    // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                    headerTransparent: true,
-                    headerBackground,
-                    // eslint-disable-next-line react/display-name
-                    header: NavigationHeader,
-                  }}
-                >
-                  <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
-                  <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
-                  <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
+            <Stack.Navigator
+              initialRouteName={userToken ? 'Home' : 'Landing'}
+              // initialRouteName="Main"
+            >
+              {userToken ? (
+                <>
+                  <Stack.Group
+                    screenOptions={{
+                      headerMode: 'float',
+                      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                      headerTransparent: true,
+                      headerBackground,
+                      // eslint-disable-next-line react/display-name
+                      header: NavigationHeader,
+                    }}
+                  >
+                    <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
+                    <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
+                    <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
+                    <Stack.Screen
+                      name="KitWelcome"
+                      component={KitWelcome}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="KitPresentation"
+                      component={KitPresentation}
+                      options={{
+                        headerShown: true,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="LifesaverActivity"
+                      component={LifesaverActivityScreen}
+                      options={{ headerShown: true }}
+                    />
+                    <Stack.Screen name="VRMet" component={VRMet} options={{ headerShown: false }} />
+                    <Stack.Screen
+                      name="Profile"
+                      component={ProfileScreen}
+                      options={{
+                        headerShown: true,
+                        header: (props: StackHeaderProps) => (
+                          <NavigationHeader
+                            {...props}
+                            contentAtBottom
+                            color="#14142b"
+                            backgroundColor="#F7F7FC"
+                            routeName="Profile"
+                          />
+                        ),
+                        headerTransparent: false,
+                        headerStyle: { backgroundColor: '#F7F7FC' },
+                      }}
+                    />
+                    <Stack.Screen
+                      name="Playground"
+                      component={Playground}
+                      options={{
+                        headerShown: true,
+                        header: (props: StackHeaderProps) => <NavigationHeader {...props} color="#14142b" />,
+                      }}
+                    />
+                  </Stack.Group>
+                  <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
+                    <Stack.Screen
+                      name="SmokeModal"
+                      component={SmokeRecordScreen}
+                      options={{
+                        headerShown: false,
+                        cardStyle: { backgroundColor: 'transparent' },
+                      }}
+                    />
+                    <Stack.Screen
+                      name="QuitDayModal"
+                      component={QuitDayModal}
+                      options={{
+                        headerShown: false,
+                        cardStyle: { backgroundColor: 'transparent' },
+                      }}
+                    />
+                    <Stack.Screen
+                      name="BasicModal"
+                      component={BasicModalScreen}
+                      options={{
+                        headerShown: false,
+                        cardStyle: { backgroundColor: 'transparent' },
+                      }}
+                    />
+                  </Stack.Group>
+                </>
+              ) : (
+                <>
                   <Stack.Screen
-                    name="KitWelcome"
-                    component={KitWelcome}
+                    name="Landing"
+                    component={LandingScreen}
                     options={{
                       headerShown: false,
+                      // @ts-ignore seems to be bad typed by Navigation
+                      // headerMode: 'screen',
+                      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                      headerTransparent: true,
+                      headerBackground,
                     }}
                   />
                   <Stack.Screen
-                    name="KitPresentation"
-                    component={KitPresentation}
+                    name="Registration"
+                    component={RegistrationScreen}
                     options={{
-                      headerShown: true,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="LifesaverActivity"
-                    component={LifesaverActivityScreen}
-                    options={{ headerShown: true }}
-                  />
-                  <Stack.Screen name="VRMet" component={VRMet} options={{ headerShown: false }} />
-                  <Stack.Screen
-                    name="Profile"
-                    component={ProfileScreen}
-                    options={{
-                      headerShown: true,
-                      header: (props: StackHeaderProps) => (
-                        <NavigationHeader
-                          {...props}
-                          contentAtBottom
-                          color="#14142b"
-                          backgroundColor="#F7F7FC"
-                          routeName="Profile"
-                          height={100}
-                        />
+                      headerShown: false,
+                      // @ts-ignore seems to be bad typed by Navigation
+                      // headerMode: 'screen',
+                      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                      headerTransparent: true,
+                      headerBackground,
+                      // eslint-disable-next-line react/display-name
+                      headerLeft: ({ onPress: defaultOnPress, ...props }) => (
+                        <BackButton onPress={defaultOnPress} {...props} />
                       ),
-                      headerTransparent: false,
-                      headerStyle: { backgroundColor: '#F7F7FC', height: 100 },
                     }}
                   />
                   <Stack.Screen
-                    name="Playground"
-                    component={Playground}
+                    name="Login"
+                    component={LoginScreen}
                     options={{
-                      headerShown: true,
-                      header: (props: StackHeaderProps) => <NavigationHeader {...props} color="#14142b" />,
+                      headerShown: false,
+                      // @ts-ignore seems to be bad typed by Navigation
+                      // headerMode: 'screen',
+                      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                      headerTransparent: true,
+                      headerBackground,
+                      // eslint-disable-next-line react/display-name
+                      headerLeft: ({ onPress: defaultOnPress, ...props }) => (
+                        <BackButton onPress={defaultOnPress} {...props} />
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="ForgotPassword"
+                    component={ForgotPasswordScreen}
+                    options={{
+                      headerShown: false,
+                      // @ts-ignore seems to be bad typed by Navigation
+                      // headerMode: 'screen',
+                      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                      headerTransparent: true,
+                      headerBackground,
+                      // eslint-disable-next-line react/display-name
+                      headerLeft: ({ onPress: defaultOnPress, ...props }) => (
+                        <BackButton onPress={defaultOnPress} {...props} />
+                      ),
                     }}
                   />
                   {/* 
-                  <Stack.Screen name="Tutorial" component={WelcomeWizardScreen} options={{ headerShown: false }} />
-                  <Stack.Screen
-                    name="StressRate"
-                    component={StressRateScreen}
-                    options={{ headerShown: true, title: translate('screens.StressRate.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="StressTrigger"
-                    component={StressTriggerScreen}
-                    options={{ headerShown: true, title: translate('screens.StressTrigger.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="StressActivityType"
-                    component={StressActivityTypeScreen}
-                    options={{ title: translate('screens.StressActivityType.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="StressActivitySelect"
-                    component={StressActivitySelect}
-                    options={{ title: translate('screens.StressActivitySelect.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="ReadActivitySelect"
-                    component={ReadActivitySelect}
-                    options={{ title: translate('screens.StressActivitySelect.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="StressActivityToDo"
-                    component={StressActivityToDoScreen}
-                    options={{ title: '' }}
-                  />
-                  <Stack.Screen
-                    name="Activity"
-                    component={ActivityScreen}
-                    options={{ title: translate('screens.Activity.headerTitle') }}
-                  />
-                  <Stack.Screen name="KitActivation" component={KitActivationScreen} options={{ title: '' }} />
-                  <Stack.Screen
-                    name="Zoho"
-                    component={Zoho}
-                    options={{ title: translate('screens.Zoho.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="AboutVR"
-                    component={AboutVRScreen}
-                    options={{ title: translate('screens.AboutVR.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="Roadmap"
-                    component={RoadmapScreen}
-                    options={{ title: translate('screens.Roadmap.headerTitle') }}
-                  />
-                  <Stack.Screen name="VRMet" component={VRMetScreen} options={{ headerShown: false }} />
-                  <Stack.Screen name="Support" component={SupportScreen} options={{ headerShown: false }} />
-                  <Stack.Screen name="PathEnding" component={PathEndingScreen} options={{ title: '' }} />
-                  <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: '' }} />
-                  <Stack.Screen
-                    name="Statistics"
-                    component={StatisticsScreen}
-                    options={{ title: translate('screens.Statistics.headerTitle') }}
-                  />
-                  <Stack.Screen
-                    name="VRPlaygroundActivity"
-                    component={VRPlaygroundActivity}
-                    options={{ headerShown: false, title: '' }}
-                  />
-                  <Stack.Screen name="ContentsShelf" component={ContentsShelfScreen} options={{ title: '' }} />
-                  <Stack.Screen name="Playground" component={Playground} options={{ title: '' }} />
-                  <Stack.Screen
-                    name="KitAssemble"
-                    component={KitAssembleScreen}
-                    options={{ title: translate('screens.KitAssemble.headerTitle') }}
-                  />
-                  <Stack.Screen name="Library" component={LibraryScreen} options={{ title: '' }} />
-                  <Stack.Screen
-                    name="HowItWorks"
-                    component={HowItWorksScreen}
-                    options={{ title: translate('screens.HowItWorks.headerTitle') }}
-                  /> */}
-                </Stack.Group>
-                <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
-                  <Stack.Screen
-                    name="SmokeModal"
-                    component={SmokeRecordScreen}
-                    options={{
-                      headerShown: false,
-                      cardStyle: { backgroundColor: 'transparent' },
-                    }}
-                  />
-                  <Stack.Screen
-                    name="QuitDayModal"
-                    component={QuitDayModal}
-                    options={{
-                      headerShown: false,
-                      cardStyle: { backgroundColor: 'transparent' },
-                    }}
-                  />
-                  <Stack.Screen
-                    name="BasicModal"
-                    component={BasicModalScreen}
-                    options={{
-                      headerShown: false,
-                      cardStyle: { backgroundColor: 'transparent' },
-                    }}
-                  />
-                </Stack.Group>
-              </Stack.Navigator>
-            ) : (
-              <Stack.Navigator
-                // initialRouteName={userToken ? protectedInitialRouteName : 'Login'}
-                initialRouteName="Landing"
-                // mode="modal"
-                screenOptions={{
+                  <Stack.Screen name="ThemeInspector" component={ThemeInspector} /> */}
+                </>
+              )}
+              <Stack.Screen
+                name="AuthByToken"
+                component={AuthByTokenScreen}
+                options={{
+                  headerShown: false,
                   // @ts-ignore seems to be bad typed by Navigation
                   // headerMode: 'screen',
                   // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
                   headerTransparent: true,
                   headerBackground,
-                  // eslint-disable-next-line react/display-name
-                  headerLeft: ({ onPress: defaultOnPress, ...props }) => (
-                    <BackButton onPress={defaultOnPress} {...props} />
-                  ),
                 }}
-              >
-                <>
-                  <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
-                  <Stack.Screen name="Registration" component={RegistrationScreen} options={{ headerShown: false }} />
-                  <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-                  <Stack.Screen
-                    name="ForgotPassword"
-                    component={ForgotPasswordScreen}
-                    options={{ headerShown: false }}
-                  />
-                  {/* 
-                  <Stack.Screen name="ThemeInspector" component={ThemeInspector} /> */}
-                </>
-              </Stack.Navigator>
-            )}
+              />
+            </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaProvider>
       </PaperProvider>
