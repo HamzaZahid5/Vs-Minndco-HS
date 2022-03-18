@@ -23,7 +23,7 @@ const OnboardingWelcomeScreen = ({ navigation, onNext }: DefaultScreenPropType<'
       <Row grow />
       <Row>
         <Headline size="huge" weight="bold" light>
-          👋 {translate('screens.onboardingStart.title')} {display_name}!
+          👋 {display_name}! {translate('screens.onboardingStart.title')}
         </Headline>
       </Row>
       <Row>

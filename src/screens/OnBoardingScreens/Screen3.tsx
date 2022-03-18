@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BasicScreen, Row, Headline, Paragraph, Button, useRobTheme, Keyboard } from '@mindcoxr/rob'
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { TouchableRipple } from 'react-native-paper'
 import 'intl'
@@ -25,8 +25,8 @@ const textParser = (options: parserOptions) => (entry: string, oldText: string) 
     if (options.decimalSeparator === ',') {
       toCheck = toCheck.replace(/,/g, '.')
     }
-    const checkNan = formater.format(toCheck).replace(/,/g, '')
-    if (!isNaN(checkNan)) {
+    const checkNan = formater.format(Number(toCheck)).replace(/,/g, '')
+    if (!isNaN(Number(checkNan))) {
       const splitted = entry.split(options.decimalSeparator)
       if (splitted[0].length > options.maxDecimals) return oldText
       if (splitted[1]?.length > options.maxFractional) return oldText
@@ -56,50 +56,52 @@ const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <BasicScreen>
-      <Row gutter={5}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: 20,
-          }}
-        >
-          <TouchableRipple
-            borderless
-            onPress={navigation.goBack}
-            style={{ borderRadius: 18, padding: 5, alignItems: 'center', justifyContent: 'center' }}
+    <ScrollView style={{ flex: 1 }}>
+      <BasicScreen>
+        <Row gutter={5}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: 20,
+            }}
           >
-            <SimpleLineIcons name="arrow-left" size={18} color="black" />
-          </TouchableRipple>
+            <TouchableRipple
+              borderless
+              onPress={navigation.goBack}
+              style={{ borderRadius: 18, padding: 5, alignItems: 'center', justifyContent: 'center' }}
+            >
+              <SimpleLineIcons name="arrow-left" size={18} color="black" />
+            </TouchableRipple>
+          </View>
+        </Row>
+        <Row gutter={1}>
+          <Headline size="huge" weight="bold">
+            {translate('screens.onboardingHowMuchPay.title')}
+          </Headline>
+          {/* <Paragraph size="small" weight="normal" textAlign="center">
+            {translate('screens.onboardingHowMuchPay.description')}
+          </Paragraph> */}
+        </Row>
+        <Row gutter={27} grow justifyContentOnGrow="flex-end">
+          <Headline size="huge" weight="bold">
+            ${text}
+          </Headline>
+          <Button
+            role="primary"
+            onPress={() => {
+              onNext(navigation, Number(text.replace(',', '.')))
+            }}
+          >
+            {translate('screens.onboardingHowMuchPay.button')}
+          </Button>
+        </Row>
+        <View style={{ justifyContent: 'flex-end' }}>
+          <Keyboard decimalSeparator="," value={text} setValue={protectedSetText} />
         </View>
-      </Row>
-      <Row gutter={1}>
-        <Headline size="huge" weight="bold">
-          {translate('screens.onboardingHowMuchPay.title')}
-        </Headline>
-        <Paragraph size="small" weight="normal" textAlign="center">
-          {translate('screens.onboardingHowMuchPay.description')}
-        </Paragraph>
-      </Row>
-      <Row gutter={27} grow justifyContentOnGrow="flex-end">
-        <Headline size="huge" weight="bold">
-          ${text}
-        </Headline>
-        <Button
-          role="primary"
-          onPress={() => {
-            onNext(navigation, Number(text.replace(',', '.')))
-          }}
-        >
-          {translate('screens.onboardingHowMuchPay.button')}
-        </Button>
-      </Row>
-      <View style={{ justifyContent: 'flex-end' }}>
-        <Keyboard decimalSeparator="," value={text} setValue={protectedSetText} />
-      </View>
-    </BasicScreen>
+      </BasicScreen>
+    </ScrollView>
   )
 }
 

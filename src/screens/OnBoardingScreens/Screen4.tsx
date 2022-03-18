@@ -66,6 +66,12 @@ const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
               {translate('screens.onboardingWhatSentence.option:2-bold')}
             </Paragraph>
           </Selectable>
+          <Selectable selected={selected === 3} setSelected={setSelectedWrap(2)}>
+            {translate('screens.onboardingWhatSentence.option:3')}{' '}
+            <Paragraph size="large" weight="bold" textAlign="left">
+              {translate('screens.onboardingWhatSentence.option:3-bold')}
+            </Paragraph>
+          </Selectable>
         </Row>
         <Row gutter={20}>
           <View style={{ height: buttonHeigth }} />
