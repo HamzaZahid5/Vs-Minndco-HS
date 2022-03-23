@@ -42,60 +42,55 @@ export default function OnboardingContainer({ navigation: rootNavigation }: Root
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingComplete])
   return (
-    <Stack.Navigator
-      initialRouteName="Screen1"
-      mode="modal"
-      headerMode="float"
-      screenOptions={{
-        headerTransparent: true,
-      }}
-    >
-      <Stack.Screen name="Screen1" options={{ headerShown: false }}>
-        {props => <Screen1 {...props} onNext={navigation => navigation.navigate('Screen2')} />}
-      </Stack.Screen>
-      <Stack.Screen name="Screen2" options={{ headerShown: false }}>
-        {props => (
-          <Screen2
-            {...props}
-            defaultValue={currentInput.how_much_smoke}
-            onNext={(navigation, n) => {
-              if (n === undefined) return
-              if (n !== undefined && n <= 0) return
-              dispatch({ type: 'currentOnboarding/setHowMuchSmoke', payload: n })
-              navigation.navigate('Screen3')
-            }}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="Screen3" options={{ headerShown: false }}>
-        {props => (
-          <Screen3
-            {...props}
-            defaultValue={currentInput.how_much_pay}
-            onNext={(navigation, n) => {
-              if (n === undefined) return
-              if (n !== undefined && n <= 0) return
-              dispatch({ type: 'currentOnboarding/setHowMuchPay', payload: n })
-              navigation.navigate('Screen4')
-            }}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="Screen4" options={{ headerShown: false }}>
-        {props => (
-          <Screen4
-            {...props}
-            defaultValue={currentInput.what_sentence}
-            onNext={(navigation, n) => {
-              if (n === undefined) return
-              if (n && n < 0) return
-              dispatch({ type: 'user/onBoardingComplete' })
-              dispatch({ type: 'currentOnboarding/setWhatSentence', payload: n })
-              dispatch({ type: 'currentOnboarding/finishOnboarding' })
-            }}
-          />
-        )}
-      </Stack.Screen>
+    <Stack.Navigator initialRouteName="Screen1">
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="Screen1" options={{ headerShown: false }}>
+          {props => <Screen1 {...props} onNext={navigation => navigation.navigate('Screen2')} />}
+        </Stack.Screen>
+        <Stack.Screen name="Screen2" options={{ headerShown: false }}>
+          {props => (
+            <Screen2
+              {...props}
+              defaultValue={currentInput.how_much_smoke}
+              onNext={(navigation, n) => {
+                if (n === undefined) return
+                if (n !== undefined && n <= 0) return
+                dispatch({ type: 'currentOnboarding/setHowMuchSmoke', payload: n })
+                navigation.navigate('Screen3')
+              }}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Screen3" options={{ headerShown: false }}>
+          {props => (
+            <Screen3
+              {...props}
+              defaultValue={currentInput.how_much_pay}
+              onNext={(navigation, n) => {
+                if (n === undefined) return
+                if (n !== undefined && n <= 0) return
+                dispatch({ type: 'currentOnboarding/setHowMuchPay', payload: n })
+                navigation.navigate('Screen4')
+              }}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="Screen4" options={{ headerShown: false }}>
+          {props => (
+            <Screen4
+              {...props}
+              defaultValue={currentInput.what_sentence}
+              onNext={(navigation, n) => {
+                if (n === undefined) return
+                if (n && n < 0) return
+                dispatch({ type: 'user/onBoardingComplete' })
+                dispatch({ type: 'currentOnboarding/setWhatSentence', payload: n })
+                dispatch({ type: 'currentOnboarding/finishOnboarding' })
+              }}
+            />
+          )}
+        </Stack.Screen>
+      </Stack.Group>
     </Stack.Navigator>
   )
 }
