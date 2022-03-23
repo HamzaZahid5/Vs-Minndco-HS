@@ -29,6 +29,7 @@ import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
 import { QUIT_DAY } from '../../store/selectors'
 import { useSelector } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
+import auth from '../../services/Auth/auth'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -63,7 +64,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const progressTrend = useProgressTrend()
 
   // HELPERS
-  useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
+  // useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>) // For now, don't query for kit
 
   // LOCAL
   const [currentSlide, setCurrentSlide] = useState(1)
@@ -157,8 +158,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                   <View style={{ flexDirection: 'row' }}>
                     <Button
                       compact
-                      onPress={() => {
-                        navigation.navigate('Activity')
+                      onPress={async () => {
+                        await auth().signOut()
                       }}
                     >
                       {translate('screens.Home.program_slide_startActivity')}

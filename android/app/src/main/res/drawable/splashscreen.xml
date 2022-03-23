@@ -2,6 +2,10 @@
 <!--
   This file was created by '@expo/configure-splash-screen' and some of it's content shouldn't be modified by hand
 -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:drawable="@color/splashscreen_background"/>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+    <item android:drawable="@color/splashscreen_background" />
+
+    <item>
+        <bitmap android:src="@mipmap/splashscreen_image" android:gravity="center" />
+    </item>
 </layer-list>
