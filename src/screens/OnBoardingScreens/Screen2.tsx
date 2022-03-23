@@ -6,7 +6,7 @@ import { TouchableRipple } from 'react-native-paper'
 import { DefaultScreenPropType } from './index'
 import { translate } from '../../utils/localization'
 
-const OnboardingWelcomeScreen = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen1'>) => {
+const OnboardingWelcomeScreen = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen2'>) => {
   const theme = useRobTheme()
   const [text, setText] = useState(defaultValue?.toString() ?? '0')
   const protectedSetText = (e: string) => {

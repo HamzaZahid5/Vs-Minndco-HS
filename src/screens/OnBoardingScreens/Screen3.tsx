@@ -41,7 +41,7 @@ const textParserWrapper =
     setText(oldText => toWrap(newText, oldText))
   }
 
-const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen1'>) => {
+const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen3'>) => {
   const theme = useRobTheme()
   const [text, setText] = useState(defaultValue?.toString() ?? '0')
 
