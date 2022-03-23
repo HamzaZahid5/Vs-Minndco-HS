@@ -29,7 +29,6 @@ import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
 import { QUIT_DAY } from '../../store/selectors'
 import { useSelector } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
-import auth from '../../services/Auth/auth'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
