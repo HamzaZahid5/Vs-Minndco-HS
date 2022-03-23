@@ -18,6 +18,8 @@ import {
   ActionButton,
 } from '@mindcoxr/rob'
 import NoContent from './NoContent'
+import { translate } from '../../utils/localization'
+import HeaderPadding from '../../utils/HeaderPadding'
 export type PropType = {
   audios: LifesaverAudioType[]
   readings: LifesaverReadType[]
@@ -29,125 +31,126 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
   const theme = useRobTheme()
 
   return (
-    <View style={{ backgroundColor: '#f7f7fc', flex: 1, overflow: 'visible' }}>
-      <Screen>
-        <Row gutter={20}>
-          <Headline size="huge" weight="bold" textAlign="center">
-            Playground
+    <Screen>
+      <HeaderPadding />
+      <Row gutter={20}>
+        <Headline size="huge" weight="bold" textAlign="center">
+          {translate('screens.Playground.headline')}
+        </Headline>
+        <Paragraph textAlign="center" size="small">
+          {translate('screens.Playground.description')}
+        </Paragraph>
+        <View style={{ height: 0 }} />
+      </Row>
+
+      <Row margin={0} gutter={15}>
+        <View style={{ marginHorizontal: theme.spaces.sidesMargin }}>
+          <Headline size="small" weight="bold" textAlign="left">
+            {translate('screens.Playground.audio-title')}
           </Headline>
-          <Paragraph textAlign="center" size="small">
-            Lorem ipsum sit amet elit
-          </Paragraph>
-          <View style={{ height: 0 }} />
-        </Row>
-        <Row margin={0} gutter={15}>
-          <View style={{ marginHorizontal: theme.spaces.sidesMargin }}>
-            <Headline size="small" weight="bold" textAlign="left">
-              Audio
-            </Headline>
-          </View>
-          {audios.length > 0 ? (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-              <View style={{ width: theme.spaces.sidesMargin }} />
+        </View>
+        {audios.length > 0 ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+            <View style={{ width: theme.spaces.sidesMargin }} />
 
-              {audios.map(aud => (
-                <View
-                  key={aud.id + aud.source}
-                  style={{
-                    marginRight: 16,
-                    maxWidth: 250,
-                    minWidth: 200,
+            {audios.map(aud => (
+              <View
+                key={aud.id + aud.source}
+                style={{
+                  marginRight: 16,
+                  maxWidth: 250,
+                  minWidth: 200,
+                  height: 400,
+                }}
+              >
+                <Card
+                  onPress={() => onPress(aud)}
+                  small
+                  title={aud.title ?? 'No title'}
+                  image={{
+                    uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                   }}
-                >
-                  <Card
-                    onPress={() => onPress(aud)}
-                    small
-                    title={aud.title ?? 'No title'}
-                    image={{
-                      uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
-                    }}
-                    actions={[<ActionButton key={aud.id + aud.source + '_audio'} icon="Audio" label="" />]}
-                  />
-                </View>
-              ))}
-            </ScrollView>
-          ) : (
-            <NoContent />
-          )}
-        </Row>
+                  actions={[<ActionButton key={aud.id + aud.source + '_audio'} icon="Audio" label="" />]}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <NoContent />
+        )}
+      </Row>
 
-        <Row margin={0} gutter={15}>
-          <View style={{ marginHorizontal: theme.spaces.sidesMargin }}>
-            <Headline size="small" weight="bold" textAlign="left">
-              Readings
-            </Headline>
-          </View>
-          {readings.length > 0 ? (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-              <View style={{ width: theme.spaces.sidesMargin }} />
-              {readings.map(read => (
-                <View
-                  key={read.id + read.title}
-                  style={{
-                    marginRight: 16,
-                    maxWidth: 250,
-                    minWidth: 200,
+      <Row margin={0} gutter={15}>
+        <View style={{ marginHorizontal: theme.spaces.sidesMargin }}>
+          <Headline size="small" weight="bold" textAlign="left">
+            {translate('screens.Playground.readings-title')}
+          </Headline>
+        </View>
+        {readings.length > 0 ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+            <View style={{ width: theme.spaces.sidesMargin }} />
+            {readings.map(read => (
+              <View
+                key={read.id + read.title}
+                style={{
+                  marginRight: 16,
+                  maxWidth: 250,
+                  minWidth: 200,
+                }}
+              >
+                <Card
+                  onPress={() => onPress(read)}
+                  small
+                  title={read.title ?? 'No title'}
+                  image={{
+                    uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                   }}
-                >
-                  <Card
-                    onPress={() => onPress(read)}
-                    small
-                    title={read.title ?? 'No title'}
-                    image={{
-                      uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
-                    }}
-                    actions={[<ActionButton key={read.id} icon="Read" label="" />]}
-                  />
-                </View>
-              ))}
-            </ScrollView>
-          ) : (
-            <NoContent />
-          )}
-        </Row>
+                  actions={[<ActionButton key={read.id} icon="Read" label="" />]}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <NoContent />
+        )}
+      </Row>
 
-        <Row margin={0} gutter={15}>
-          <View style={{ marginHorizontal: theme.spaces.sidesMargin }}>
-            <Headline size="small" weight="bold" textAlign="left">
-              Do
-            </Headline>
-          </View>
-          {activities.length > 0 ? (
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-              <View style={{ width: theme.spaces.sidesMargin }} />
-              {activities.map(act => (
-                <View
-                  key={act.id + act.title}
-                  style={{
-                    marginRight: 16,
-                    maxWidth: 250,
-                    minWidth: 200,
+      <Row margin={0} gutter={15}>
+        <View style={{ marginHorizontal: theme.spaces.sidesMargin }}>
+          <Headline size="small" weight="bold" textAlign="left">
+            {translate('screens.Playground.doable-title')}
+          </Headline>
+        </View>
+        {activities.length > 0 ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+            <View style={{ width: theme.spaces.sidesMargin }} />
+            {activities.map(act => (
+              <View
+                key={act.id + act.title}
+                style={{
+                  marginRight: 16,
+                  maxWidth: 250,
+                  minWidth: 200,
+                }}
+              >
+                <Card
+                  onPress={() => onPress(act)}
+                  small
+                  title={act.title ?? 'No title'}
+                  image={{
+                    uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
                   }}
-                >
-                  <Card
-                    onPress={() => onPress(act)}
-                    small
-                    title={act.title ?? 'No title'}
-                    image={{
-                      uri: 'https://news.harvard.edu/wp-content/uploads/2018/02/mindful-science_2500-1600x900.jpg',
-                    }}
-                    actions={[<ActionButton key={act.id} icon="Gym" label="" />]}
-                  />
-                </View>
-              ))}
-            </ScrollView>
-          ) : (
-            <NoContent />
-          )}
-          <View style={{ height: 30 }} />
-        </Row>
-      </Screen>
-    </View>
+                  actions={[<ActionButton key={act.id} icon="Gym" label="" />]}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <NoContent />
+        )}
+        <View style={{ height: 30 }} />
+      </Row>
+    </Screen>
   )
 }
 
