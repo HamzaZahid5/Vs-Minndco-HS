@@ -11,18 +11,18 @@ import { translate } from '../../utils/localization'
 
 const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen4'>) => {
   const [selected, setSelected] = useState(defaultValue ?? -1)
-  /**
-   * DISCLAIMER: Something is wrong here. Testing the app on iOS device the animation of the circle into the
-   * Selectable component do not triggers until next screen refresh. So, after 2 hours of digging into the screens and Rob's components
-   * I decided to offset 1 cycle the render by putting the state update into a timeout.
-   * I give this bug 3 shitties: 💩💩💩
-   */
   const handleSelection = (id: number) => () => {
+    /**
+     * DISCLAIMER: Something is wrong here. Testing the app on iOS device the animation of the circle into the
+     * Selectable component do not triggers until next screen refresh. So, after 2 hours of digging into the screens and Rob's components
+     * I decided to offset 1 cycle the render by putting the state update into a timeout.
+     * I give this bug 3 shitties: 💩💩💩
+     */
     setTimeout(() => {
       setSelected(id)
     }, 0)
+    // end of shitty code
   }
-  // end of shitty code
 
   const [buttonHeigth, setButtonHeigth] = useState(0)
 
