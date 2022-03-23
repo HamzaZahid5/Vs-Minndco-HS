@@ -36,6 +36,7 @@ export type UserState = {
     statistics: UserStatistics
     treatment_module: number
     treatment_level: number
+    quit_day: string
   }
   auth: any
 }

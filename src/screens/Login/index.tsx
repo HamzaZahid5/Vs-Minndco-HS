@@ -13,7 +13,6 @@ import {
   Paragraph,
   Button,
   Link,
-  Text,
   PopupWrapper,
   Subheading,
   useRobTheme,
@@ -23,6 +22,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { RootStackParamList } from '../../../types'
 import Blob from '../../../assets/SVG/Blob'
+import functions from '../../services/Functions'
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>
 
@@ -36,15 +36,37 @@ const LoginScreen = () => {
   const onFormSubmit = async (form: { email: string; password: string }) => {
     setLoading(true)
     try {
-      // console.log(form.email, form.password)
+      // Try to login to local server
       await auth().signInWithEmailAndPassword(form.email, form.password)
-    } catch (e) {
-      const error = e as { message: string; code: string }
-      // @ts-ignore expect no param but requires 1
-      crashlytics().recordError(e)
-      setErrorLoginText(translate(`firebase.errormessages.${error.code}`))
-      setErrorPopup(true)
-      setLoading(false)
+    } catch (localError) {
+      try {
+        const error = localError as { code: string }
+
+        // only on user-not-found we handle the error, otherwise we throw it
+        if (error.code !== 'auth/user-not-found') {
+          throw error
+        }
+
+        // handling error, attempt remote login (against Mindco Health server)
+        const { data: result } = await functions().httpsCallable('remoteLogin')({
+          email: form.email,
+          password: form.password,
+        })
+
+        // on success we authenticate user we given JWT
+        if (result.success) {
+          await auth().signInWithCustomToken(result.jwt)
+        } else {
+          throw { code: result.error }
+        }
+      } catch (jwtError) {
+        const error = jwtError as { code: string }
+        // @ts-ignore expect no param but requires 1
+        crashlytics().recordError(e)
+        setErrorLoginText(translate(`firebase.errormessages.${error.code}`))
+        setErrorPopup(true)
+        setLoading(false)
+      }
     }
   }
 
@@ -75,7 +97,7 @@ const LoginScreen = () => {
             }}
             validationSchema={getRegisterSchema()}
           >
-            {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched }) => {
+            {({ handleChange, submitForm, values, errors, touched }) => {
               return (
                 <>
                   <Row gutter={22} grow justifyContentOnGrow="flex-end">
@@ -126,7 +148,7 @@ const LoginScreen = () => {
       </Screen>
       <PopupWrapper show={errorPopup} onClose={() => setErrorPopup(false)}>
         <Row gutter={10}>
-          <Subheading>Something went wrong</Subheading>
+          <Subheading>{translate('commons.messages.genericInternalError')}</Subheading>
         </Row>
         <Row grow justifyContentOnGrow="flex-start" gutter={10}>
           <Paragraph size="xsmall" weight="normal" textAlign="center">
@@ -140,7 +162,7 @@ const LoginScreen = () => {
               setErrorPopup(false)
             }}
           >
-            Close
+            {translate('commons.messages.close')}
           </Button>
         </Row>
       </PopupWrapper>
@@ -152,7 +174,7 @@ const LoginScreen = () => {
 const getRegisterSchema = () => {
   return Yup.object().shape({
     password: Yup.string()
-      // .min(6, translate('screens.Register.error-password-short'))
+      .min(6, translate('screens.Register.error-password-short'))
       .required(translate('commons.messages.fieldRequired')),
     email: Yup.string()
       .email(translate('screens.Register.error-email-invalid'))
