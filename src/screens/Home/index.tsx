@@ -159,7 +159,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                     <Button
                       compact
                       onPress={async () => {
-                        await auth().signOut()
+                        navigation.navigate('Activity')
                       }}
                     >
                       {translate('screens.Home.program_slide_startActivity')}
