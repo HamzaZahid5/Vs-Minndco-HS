@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BasicScreen, Selectable, Row, Headline, Paragraph, Button, useRobTheme } from '@mindcoxr/rob'
 import { View, Text } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
@@ -9,17 +9,23 @@ import 'intl/locale-data/jsonp/es'
 import { DefaultScreenPropType } from '.'
 import { translate } from '../../utils/localization'
 
-const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen1'>) => {
-  const theme = useRobTheme()
+const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen4'>) => {
   const [selected, setSelected] = useState(defaultValue ?? -1)
-  const [buttonHeigth, setButtonHeigth] = useState(0)
-  const setSelectedWrap = (i: number) => (e: boolean) => {
-    if (e) {
-      setSelected(i)
-    } else if (selected === i) {
-      setSelected(-1)
-    }
+  /**
+   * DISCLAIMER: Something is wrong here. Testing the app on iOS device the animation of the circle into the
+   * Selectable component do not triggers until next screen refresh. So, after 2 hours of digging into the screens and Rob's components
+   * I decided to offset 1 cycle the render by putting the state update into a timeout.
+   * I give this bug 3 shitties: 💩💩💩
+   */
+  const handleSelection = (id: number) => () => {
+    setTimeout(() => {
+      setSelected(id)
+    }, 0)
   }
+  // end of shitty code
+
+  const [buttonHeigth, setButtonHeigth] = useState(0)
+
   return (
     <>
       <BasicScreen>
@@ -48,25 +54,25 @@ const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
           </Headline>
         </Row>
         <Row gutter={22}>
-          <Selectable selected={selected === 0} setSelected={setSelectedWrap(0)}>
+          <Selectable selected={selected === 0} onClick={handleSelection(0)}>
             {translate('screens.onboardingWhatSentence.option:0')}{' '}
             <Paragraph size="large" weight="bold" textAlign="left">
               {translate('screens.onboardingWhatSentence.option:0-bold')}
             </Paragraph>
           </Selectable>
-          <Selectable selected={selected === 1} setSelected={setSelectedWrap(1)}>
+          <Selectable selected={selected === 1} onClick={handleSelection(1)}>
             {translate('screens.onboardingWhatSentence.option:1')}{' '}
             <Paragraph size="large" weight="bold" textAlign="left">
               {translate('screens.onboardingWhatSentence.option:1-bold')}
             </Paragraph>
           </Selectable>
-          <Selectable selected={selected === 2} setSelected={setSelectedWrap(2)}>
+          <Selectable selected={selected === 2} onClick={handleSelection(2)}>
             {translate('screens.onboardingWhatSentence.option:2')}{' '}
             <Paragraph size="large" weight="bold" textAlign="left">
               {translate('screens.onboardingWhatSentence.option:2-bold')}
             </Paragraph>
           </Selectable>
-          <Selectable selected={selected === 3} setSelected={setSelectedWrap(2)}>
+          <Selectable selected={selected === 3} onClick={handleSelection(3)}>
             {translate('screens.onboardingWhatSentence.option:3')}{' '}
             <Paragraph size="large" weight="bold" textAlign="left">
               {translate('screens.onboardingWhatSentence.option:3-bold')}
