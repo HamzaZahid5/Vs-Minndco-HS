@@ -10,6 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
+import { RobThemeProvider } from '@mindcoxr/rob'
 
 // SERVICES
 // @ts-ignore: non-ts file
@@ -44,7 +45,6 @@ import { Icon } from '@mindcoxr/rob'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
 import Orientation from 'react-native-orientation-locker'
-import { RobThemeProvider } from './src/utils/config'
 // // @ts-ignore: non-ts file
 // import AboutVRScreen from './src/screens/AboutVR';
 // // @ts-ignore: non-ts file
@@ -212,7 +212,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <RobThemeProvider>
+      <RobThemeProvider theme={getProductTheme()}>
         <PaperProvider theme={theme}>
           {/* {config.name !== 'production' && <NoProductionIndicator nav={navigatorRef} />} */}
           <SafeAreaProvider>
