@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as Font from 'expo-font'
 
 export default () => {
-  const [fontsLoaded, setFontsLoaded] = useState()
+  const [fontsLoaded, setFontsLoaded] = useState<boolean>()
   const loadFonts = async () => {
     await Font.loadAsync({
       Poppins_400Regular: require('../../../assets/fonts/Poppins/Poppins-Regular.ttf'),
