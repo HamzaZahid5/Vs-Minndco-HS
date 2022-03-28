@@ -1,27 +1,13 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text, ScrollView, TextInput, Animated } from 'react-native'
-import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
-import {
-  useRobTheme,
-  Theme as RobTheme,
-  Headline,
-  Paragraph,
-  Button,
-  Row,
-  PopupWrapper,
-  Subheading,
-  Icon,
-} from '@mindcoxr/rob'
-import { StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
-import NavigationHeader, { useSetHeaderProps } from '../../components/NavigationHeader'
-import { DefaultScreenPropType, RootStackParamList } from '../../../types'
+import React, { useState } from 'react'
+import { View, StyleSheet, Platform, Image, Text, ScrollView } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
+import { useRobTheme, Theme as RobTheme, Headline, Paragraph, Button, Row, Subheading } from '@mindcoxr/rob'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { useSetHeaderProps } from '../../components/NavigationHeader'
+import { RootStackParamList } from '../../../types'
 import { translate } from '../../utils/localization'
 import { useNavigation } from '@react-navigation/native'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
-
-function lerp(start: number, end: number, amt: number): number {
-  return (1 - amt) * start + amt * end
-}
 
 export type ReadActivityScreenProps = {
   onDonePressed: () => void
@@ -68,27 +54,23 @@ const ReadActivityScreen = ({ onDonePressed, backImage, title, readPages }: Read
   )
   return (
     <View style={styles.externalContainer}>
-      {AnimatedViewElement({
-        children: (
-          <>
-            {loading && (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
-              </View>
-            )}
-            <Image
-              source={{
-                uri: backImage,
-              }}
-              resizeMode="cover"
-              style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
-              onLoad={() => {
-                setLoading(false)
-              }}
-            />
-          </>
-        ),
-      })}
+      <AnimatedViewElement>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
+          </View>
+        )}
+        <Image
+          source={{
+            uri: backImage,
+          }}
+          resizeMode="cover"
+          style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
+          onLoad={() => {
+            setLoading(false)
+          }}
+        />
+      </AnimatedViewElement>
 
       <ScrollView
         showsHorizontalScrollIndicator={false}
