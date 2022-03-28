@@ -55,6 +55,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.HOME],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_HOME_calm_en'),
   },
   {
     id: 'LS_WORK_visualization_en.mp3',
@@ -62,6 +63,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.WORK],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_visualization_en'),
   },
   {
     id: 'LS_PARTY_move_your_attention_en.mp3',
@@ -69,6 +71,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.PARTY],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_PARTY_move_your_attention_en'),
   },
   {
     id: 'LS_PARTY_resist_en.mp3',
@@ -76,6 +79,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.OTHER],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_PARTY_resist_en'),
   },
   {
     id: 'LS_OTHER_love_en.mp3',
@@ -83,6 +87,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.OTHER],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_OTHER_love_en'),
   },
   {
     id: 'LS_WORK_calm_en.mp3',
@@ -90,6 +95,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.WORK],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_calm_en'),
   },
   {
     id: 'LS_STREET_breath_en.mp3',
@@ -97,6 +103,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.STREET],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_breath_en'),
   },
   {
     id: 'LS_WORK_positive_perspective_en.mp3',
@@ -104,6 +111,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.WORK],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_positive_perspective_en'),
   },
   {
     id: 'LS_STREET_pause_en.mp3',
@@ -111,6 +119,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.STREET],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_pause_en'),
   },
   {
     id: 'LS_STREET_step_by_step_en.mp3',
@@ -118,6 +127,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.STREET],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_step_by_step_en'),
   },
   {
     id: 'LS_HOME_compassion.mp3',
@@ -125,6 +135,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     only: [LIFESAVER_PLACES.HOME],
     type: 'audio',
     category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_HOME_compassion'),
   },
 ]
 export type LifesaverReadType = {
@@ -140,6 +151,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
     type: 'text',
     category: 'learning',
     contentCategory: 'testimony',
+    title: translate('contents.readTestimony1.title'),
     author: translate('contents.readTestimony1.author'),
     pages: [
       translate('contents.readTestimony1.page1'),
@@ -153,6 +165,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
     type: 'text',
     category: 'learning',
     contentCategory: 'testimony',
+    title: translate('contents.readTestimony2.title'),
     author: translate('contents.readTestimony2.author'),
     pages: [
       translate('contents.readTestimony2.page1'),
@@ -167,6 +180,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
     type: 'text',
     category: 'learning',
     contentCategory: 'testimony',
+    title: translate('contents.readTestimony3.title'),
     author: translate('contents.readTestimony3.author'),
     pages: [
       translate('contents.readTestimony3.page2'),
@@ -216,7 +230,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
     type: 'text',
     category: 'learning',
     contentCategory: 'fact',
-    title: 'contents.readFactPleasure.title',
+    title: translate('contents.readFactPleasure.title'),
     pages: [
       translate('contents.readFactPleasure.page1'),
       translate('contents.readFactPleasure.page2'),

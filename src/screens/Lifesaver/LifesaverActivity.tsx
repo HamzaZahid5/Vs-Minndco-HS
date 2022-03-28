@@ -23,7 +23,7 @@ const ActivityScreen = ({
           setActivityScreen(
             <AudioScreen
               audioSrc={audParams.source}
-              backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
+              backImage={require('../../../assets/images/bg_act_05.jpeg')}
               onDonePressed={saveLifesaverInteraction}
               onPlayPressed={() => {
                 return
