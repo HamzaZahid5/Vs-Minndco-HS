@@ -12,7 +12,7 @@ const Registration = () => {
       navigation.goBack()
     }
   }
-  const uri = 'http://192.168.0.17:19006/enroll?app=APP2&embedd=1'
+  const uri = 'https://app.mindco.health/enroll?app=APP2&embedd=1'
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <WebView
