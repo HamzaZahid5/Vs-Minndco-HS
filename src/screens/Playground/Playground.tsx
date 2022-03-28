@@ -73,7 +73,7 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                       <ActionButton
                         key={aud.id + aud.source + '_audio'}
                         icon="Audio"
-                        label={translate('screens.Home.activity-audio')}
+                        label={translate('commons.activities.audio-label')}
                       />,
                       <ActionButton key={aud.id + aud.source + '_duration'} icon="Clock" label="2 min" />,
                     ]}
@@ -110,7 +110,7 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                     title={read.title ?? 'No title'}
                     image={require('../../../assets/images/bg_act_03.png')}
                     actions={[
-                      <ActionButton key={read.id} icon="Read" label={translate('screens.Home.activity-read')} />,
+                      <ActionButton key={read.id} icon="Read" label={translate('commons.activities.reading-label')} />,
                       <ActionButton key={`${read.id}_duration`} icon="Clock" label="2 min" />,
                     ]}
                   />
