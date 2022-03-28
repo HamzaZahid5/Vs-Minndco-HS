@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Text, Image, Platform, ScrollView } from 'react-native'
-import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
+import { View, StyleSheet, Text, Image, Platform, ScrollView, ImageSourcePropType } from 'react-native'
+import { Paragraph as PaperParagraph } from 'react-native-paper'
 import { Audio, AVPlaybackStatus } from 'expo-av'
 import {
   useRobTheme,
@@ -21,12 +21,13 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 import RoundPlayButton from '../../components/RoundPlayButton'
+import InlineAudioPlayer from '../../components/Skeletons/InlineAudioPlayer'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
   onDonePressed: () => void
   audioSrc: string
-  backImage: string
+  backImage: string | ImageSourcePropType
   title: string
   description: string
   duration: string | number
@@ -132,21 +133,15 @@ const AudioActivityScreen = ({
   return (
     <View style={styles.externalContainer}>
       <AnimatedViewElement>
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
-          </View>
-        )}
-        <View
-          style={[
-            styles.loadingPosition,
-            loading && styles.hideLoading, // Render on top (iOS fix)
-          ]}
-        >
+        <View style={[styles.loadingPosition]}>
           <Image
-            source={{
-              uri: backImage,
-            }}
+            source={
+              typeof backImage === 'string'
+                ? {
+                    uri: backImage,
+                  }
+                : backImage
+            }
             resizeMode="cover"
             style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
           />
@@ -163,59 +158,62 @@ const AudioActivityScreen = ({
       >
         <View style={styles.videoSpacer} />
         <View style={styles.infoContainer}>
+          {loading && <InlineAudioPlayer style={{ height: 65 }} />}
           {!loading && (
-            <RoundPlayButton
-              onPress={() => {
-                if (audioRef.current) {
-                  if (isPlaying) {
-                    audioRef.current.pauseAsync().then(() => setIsPlaying(false))
-                  } else {
-                    if (progress === 100) {
-                      audioRef.current
-                        .setPositionAsync(0)
-                        .then(() => audioRef.current?.playAsync())
-                        .then(() => setIsPlaying(true))
-                        .then(() => setProgress(0))
+            <>
+              <RoundPlayButton
+                onPress={() => {
+                  if (audioRef.current) {
+                    if (isPlaying) {
+                      audioRef.current.pauseAsync().then(() => setIsPlaying(false))
                     } else {
-                      audioRef.current.playAsync().then(() => setIsPlaying(true))
+                      if (progress === 100) {
+                        audioRef.current
+                          .setPositionAsync(0)
+                          .then(() => audioRef.current?.playAsync())
+                          .then(() => setIsPlaying(true))
+                          .then(() => setProgress(0))
+                      } else {
+                        audioRef.current.playAsync().then(() => setIsPlaying(true))
+                      }
                     }
                   }
-                }
-                onPlayPressed && onPlayPressed()
-              }}
-              isPlaying={isPlaying}
-            />
-          )}
-          <View style={[{ flexGrow: 1 }, loading && styles.hide]}>
-            <View
-              style={{
-                height: 12,
-                borderRadius: 6,
-                backgroundColor: theme.colors.monochrome.line,
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                flexDirection: 'row',
-                overflow: 'hidden',
-              }}
-              onLayout={e => {
-                maxWidth.current = e.nativeEvent.layout.width
-              }}
-            >
-              <View
-                style={{
-                  height: '100%',
-                  width: (maxWidth.current * progress) / 100,
-                  backgroundColor: theme.colors.monochrome.offBlack,
-                  borderRadius: 6,
+                  onPlayPressed && onPlayPressed()
                 }}
+                isPlaying={isPlaying}
               />
-            </View>
-            <View style={{ marginLeft: 5 }}>
-              <Paragraph weight="bold" size="small" textAlign="left">
-                <Text style={{ color: theme.colors.monochrome.offBlack }}>{progress}%</Text> Complete
-              </Paragraph>
-            </View>
-          </View>
+              <View style={[{ flexGrow: 1 }, loading && styles.hideLoading]}>
+                <View
+                  style={{
+                    height: 12,
+                    borderRadius: 6,
+                    backgroundColor: theme.colors.monochrome.line,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    overflow: 'hidden',
+                  }}
+                  onLayout={e => {
+                    maxWidth.current = e.nativeEvent.layout.width
+                  }}
+                >
+                  <View
+                    style={{
+                      height: '100%',
+                      width: (maxWidth.current * progress) / 100,
+                      backgroundColor: theme.colors.monochrome.offBlack,
+                      borderRadius: 6,
+                    }}
+                  />
+                </View>
+                <View style={{ marginLeft: 5 }}>
+                  <Paragraph weight="bold" size="small" textAlign="left">
+                    <Text style={{ color: theme.colors.monochrome.offBlack }}>{progress}%</Text> Complete
+                  </Paragraph>
+                </View>
+              </View>
+            </>
+          )}
         </View>
         <View style={styles.textContainer}>
           <View style={styles.internalText}>
@@ -264,7 +262,7 @@ const getStyles = (theme: typeof RobTheme) =>
       color: theme.colors.monochrome.label,
     },
     title: { marginBottom: 15 },
-    image: { height: 314, borderRadius: 0, display: 'flex' },
+    image: { height: 314, width: 'auto', borderRadius: 0, display: 'flex' },
     loadingPosition: { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 },
     hideLoading: { top: -314, bottom: 314 },
     videoSpacer: { maxHeight: 314, minHeight: 200, flexGrow: 50, justifyContent: 'flex-end', alignItems: 'flex-start' },
@@ -346,7 +344,10 @@ const getStyles = (theme: typeof RobTheme) =>
     containerAlingLeft: { justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
     containerAlingRigth: { justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' },
     loadingContainer: {
-      position: 'absolute',
+      // position: 'absolute',
+      width: 85,
+      height: 64,
+      // marginHorizontal: 10,
       top: 0,
       bottom: 0,
       left: 0,
