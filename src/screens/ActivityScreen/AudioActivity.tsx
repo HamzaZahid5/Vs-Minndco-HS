@@ -182,7 +182,7 @@ const AudioActivityScreen = ({
                 }}
                 isPlaying={isPlaying}
               />
-              <View style={[{ flexGrow: 1 }, loading && styles.hideLoading]}>
+              <View style={[{ flexGrow: 1 }, loading && styles.hide]}>
                 <View
                   style={{
                     height: 12,
@@ -343,18 +343,6 @@ const getStyles = (theme: typeof RobTheme) =>
     containerAlingCenter: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
     containerAlingLeft: { justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
     containerAlingRigth: { justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' },
-    loadingContainer: {
-      // position: 'absolute',
-      width: 85,
-      height: 64,
-      // marginHorizontal: 10,
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     horizontalMargin: { marginHorizontal: 32 },
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
