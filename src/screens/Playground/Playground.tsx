@@ -29,7 +29,6 @@ export type PropType = {
 
 const Playground = ({ audios, readings, activities, onPress }: PropType) => {
   const theme = useRobTheme()
-
   return (
     <View style={{ backgroundColor: '#eff0f7', flex: 1 }}>
       <Screen>
