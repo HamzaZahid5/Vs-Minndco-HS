@@ -108,15 +108,15 @@ const ReadActivityScreen = ({ onDonePressed, backImage, title, readPages }: Read
             </View>
             {readPages.map((read, i) => (
               <View key={i.toString()}>
-                {i !== 0 && <View style={styles.separatorLine} />}
                 <Paragraph size="small" textAlign="left" weight="normal">
                   <Text style={styles.textColor}>{read}</Text>
                 </Paragraph>
+                <View style={styles.separatorLine} />
               </View>
             ))}
           </View>
           <View style={styles.fullWidth}>
-            <Button onPress={onDonePressed}>Submit</Button>
+            <Button onPress={onDonePressed}>{translate('screens.Activity.done')}</Button>
           </View>
         </View>
       </ScrollView>
@@ -168,7 +168,7 @@ const getStyles = (theme: typeof RobTheme) =>
     titleColor: { color: '#FCFCFC' },
     titlePosition: { marginBottom: 27, marginLeft: 24 },
     textColor: { color: '#14142b' },
-    separatorLine: { height: 5, backgroundColor: '#EFF0F6', width: '100%', marginVertical: 15, borderRadius: 5 },
+    separatorLine: { height: 5, backgroundColor: 'transparent', width: '100%', marginVertical: 15, borderRadius: 5 },
     fullWidth: { width: '100%', marginTop: 20, marginBottom: 15 },
     paragraphStyle: {
       ...theme.fonts.regular,
