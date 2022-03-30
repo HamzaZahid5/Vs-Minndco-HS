@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Platform, Text, View } from 'react-native'
 import HomeScreen from '../Home'
@@ -7,10 +7,11 @@ import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
-import { ONBOARDING_COMPLETE, USER_SUPPORT_PROFILE } from '../../store/selectors'
+import { ONBOARDING_COMPLETE, USER_SUPPORT_PROFILE, FLAGS } from '../../store/selectors'
 import ProgramScreen from '../Program'
 import SupportScreen from '../Support'
 import LifesaverScreen from '../Lifesaver'
+import TargetIndicator from '../../components/TargetIndicator'
 
 export type TabsParamList = {
   Home: undefined
@@ -34,9 +35,10 @@ const Notifications = () => {
 }
 
 function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) {
-  // const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const [screenFocused, setFocused] = useState<string>('Home')
   const { has_coach_messages } = useSelector(USER_SUPPORT_PROFILE)
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
+  const { showJournalCTAHelper, showChatCTAHelper, showLifeSaverCTAHelper } = useSelector(FLAGS)
   useEffect(() => {
     if (onboardingComplete === false) {
       navigation.reset({
@@ -66,6 +68,9 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           maxHeight: tabHeight,
           backgroundColor: 'white',
         },
+      }}
+      screenListeners={{
+        focus: e => setFocused(e.target!.split('-')[0]),
       }}
     >
       <Tab.Screen
@@ -102,11 +107,13 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <Icon
-              name="Plus"
-              color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-              size={30}
-            />
+            <TargetIndicator round show={showJournalCTAHelper && screenFocused === 'Home'}>
+              <Icon
+                name="Plus"
+                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                size={30}
+              />
+            </TargetIndicator>
           ),
         }}
         listeners={({ navigation }) => ({
@@ -124,11 +131,13 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <Icon
-              name="Comment"
-              color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-              size={22}
-            />
+            <TargetIndicator round show={showChatCTAHelper && screenFocused === 'Home'}>
+              <Icon
+                name="Comment"
+                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                size={22}
+              />
+            </TargetIndicator>
           ),
           tabBarBadge: has_coach_messages ? '!' : undefined,
           tabBarBadgeStyle: { backgroundColor: theme.colors.danger.dark },
@@ -140,11 +149,13 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <Icon
-              name="Help"
-              color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-              size={22}
-            />
+            <TargetIndicator round show={showLifeSaverCTAHelper && screenFocused === 'Home'}>
+              <Icon
+                name="Help"
+                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                size={22}
+              />
+            </TargetIndicator>
           ),
         }}
       />

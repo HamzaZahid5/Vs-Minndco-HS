@@ -7,7 +7,7 @@ import moment from 'moment'
 import { RootStackParamList } from '../../../types'
 import WeekDaysBar from './WeekDaysBar'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fillWeek, EmptyRecordsType } from './helpers'
 import { SMOKE_RECORD } from '../../store/selectors'
 import { translate, getDayRefFormat, getLocale } from '../../utils/localization'
@@ -23,6 +23,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
 
   // REDUX
   const smokeRecords = useSelector(SMOKE_RECORD)
+  const dispatch = useDispatch()
 
   // HELPERS
   const insets = useSafeAreaInsets()
@@ -34,6 +35,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       setAgendaItems(newItems)
     }
   }
+
+  // LISTENER
 
   const closePanel = () => {
     setShow(false)
@@ -65,6 +68,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       // delay for make the auto-open to work
       setTimeout(() => {
         setShow(true)
+        // @todo trigger this conditionally only if it's needed
+        dispatch({ type: 'flags/showJournalHelper', payload: false })
       }, 100)
     })
     const unsubsBlur = navigation.addListener('blur', () => {
@@ -75,7 +80,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       unsubsBlur()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [agendaItems])
+  }, [agendaItems, dispatch])
 
   const isToday = selectedDay === moment().format('YYYY-MM-DD')
   const isYesterday = selectedDay === moment().subtract(1, 'd').format('YYYY-MM-DD')

@@ -26,15 +26,17 @@ import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
 import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
-import { QUIT_DAY } from '../../store/selectors'
-import { useSelector } from 'react-redux'
+import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, FLAGS } from '../../store/selectors'
+import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
+import TargetIndicator from '../../components/TargetIndicator'
+import TutorialCarousel from './TutorialCarousel'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
   BottomTabNavigationProp<TabsParamList, 'Home'>
 >
-type HomeScreenNavigationProp = CompositeNavigationProp<
+export type HomeScreenNavigationProp = CompositeNavigationProp<
   InternalNavigationProp,
   StackNavigationProp<RootStackParamList, 'Home'>
 >
@@ -58,15 +60,26 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   // TOOLS
   const theme = useRobTheme()
   const windowsDimension = useWindowDimensions()
+  const dispatch = useDispatch()
   const { nextActivity, isLastActivity } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
   const progressTrend = useProgressTrend()
+  const smokeRecord = useSelector(SMOKE_RECORD)
+  const hasSmokeRecords = Object.keys(smokeRecord).length > 0
+  const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
+
+  useEffect(() => {
+    if (showBasicTutorial && !hasSmokeRecords) {
+      dispatch({ type: 'flags/showJournalCTAHelper', payload: true })
+      dispatch({ type: 'flags/showJournalHelper', payload: true })
+    }
+  }, [showBasicTutorial, hasSmokeRecords, dispatch])
 
   // HELPERS
   // useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>) // For now, don't query for kit
 
   // LOCAL
-  const [currentSlide, setCurrentSlide] = useState(1)
+  // const [currentSlide, setCurrentSlide] = useState(1)
 
   // REDUX
   const quit_day = useSelector(QUIT_DAY)
@@ -88,9 +101,9 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       break
   }
 
-  useEffect(() => {
-    if (isLastActivity === false && todayActivityDone === false) [setCurrentSlide(0)]
-  }, [isLastActivity, todayActivityDone])
+  // useEffect(() => {
+  //   if (isLastActivity === false && todayActivityDone === false) [setCurrentSlide(0)]
+  // }, [isLastActivity, todayActivityDone])
 
   return (
     <TabbedScreen colors={homeBGColors}>
@@ -118,179 +131,182 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       </Row>
 
       <Row grow margin={0}>
-        <Carousel
-          currentSlide={currentSlide}
-          dotConfig={{
-            justify: 'flex-end',
-          }}
-        >
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
-            {progressTrend !== TRENDS.FULL && (
-              <>
-                <Row margin={0}>
-                  <Text light>
-                    {todayActivityDone
-                      ? translate('screens.Home.program_slide_tomorrowActivity')
-                      : translate('screens.Home.program_slide_todayActivity')}
-                  </Text>
-                </Row>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {nextActivity?.name}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <Icon
-                      name={programActivityToCardActivity(nextActivity?.type)}
-                      color={theme.colors.onSurface}
-                      wrapperStyle={{
-                        marginRight: 10,
-                      }}
-                    />
-                    <Paragraph size="medium" light weight="normal">
-                      {activityTypeText} {nextActivity?.duration} min
+        {showBasicTutorial && <TutorialCarousel />}
+        {!showBasicTutorial && (
+          <Carousel
+            // currentSlide={currentSlide}
+            dotConfig={{
+              justify: 'flex-end',
+            }}
+          >
+            <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+              {progressTrend !== TRENDS.FULL && (
+                <>
+                  <Row margin={0}>
+                    <Text light>
+                      {todayActivityDone
+                        ? translate('screens.Home.program_slide_tomorrowActivity')
+                        : translate('screens.Home.program_slide_todayActivity')}
+                    </Text>
+                  </Row>
+                  <Row margin={0}>
+                    <Billboard textAlign="left" light>
+                      {nextActivity?.name}
+                    </Billboard>
+                  </Row>
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                      <Icon
+                        name={programActivityToCardActivity(nextActivity?.type)}
+                        color={theme.colors.onSurface}
+                        wrapperStyle={{
+                          marginRight: 10,
+                        }}
+                      />
+                      <Paragraph size="medium" light weight="normal">
+                        {activityTypeText} {nextActivity?.duration} min
+                      </Paragraph>
+                    </View>
+                  </Row>
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button
+                        compact
+                        onPress={async () => {
+                          navigation.navigate('Activity')
+                        }}
+                      >
+                        {translate('screens.Home.program_slide_startActivity')}
+                      </Button>
+                    </View>
+                  </Row>
+                </>
+              )}
+              {progressTrend === TRENDS.FULL && (
+                <>
+                  <Row margin={0}>
+                    <Billboard textAlign="left" light>
+                      {translate('screens.Home.program_slide_programFinishedTitle')}
+                    </Billboard>
+                  </Row>
+                  <Row margin={0}>
+                    <Paragraph size="medium" light weight="normal" textAlign="left">
+                      {translate('screens.Home.program_slide_programFinishedSubtitle')}
                     </Paragraph>
-                  </View>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button
-                      compact
-                      onPress={async () => {
-                        navigation.navigate('Activity')
-                      }}
-                    >
-                      {translate('screens.Home.program_slide_startActivity')}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            )}
-            {progressTrend === TRENDS.FULL && (
-              <>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {translate('screens.Home.program_slide_programFinishedTitle')}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <Paragraph size="medium" light weight="normal" textAlign="left">
-                    {translate('screens.Home.program_slide_programFinishedSubtitle')}
-                  </Paragraph>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button
-                      compact
-                      onPress={() => {
-                        navigation.navigate('Program')
-                      }}
-                    >
-                      {translate('screens.Home.program_slide_programFinishedButton')}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            )}
-          </View>
+                  </Row>
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button
+                        compact
+                        onPress={() => {
+                          navigation.navigate('Program')
+                        }}
+                      >
+                        {translate('screens.Home.program_slide_programFinishedButton')}
+                      </Button>
+                    </View>
+                  </Row>
+                </>
+              )}
+            </View>
 
-          {!quit_day && (
+            {!quit_day && (
+              <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+                <Row margin={0}>
+                  <Icon name="Calendar" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
+                </Row>
+                <TouchableRipple rippleColor="transparent">
+                  <>
+                    <Row margin={0}>
+                      <Billboard textAlign="left" light>
+                        {translate('screens.Home.qd_slide_title', {
+                          defaultValue: 'Reinforce your commitment',
+                        })}
+                      </Billboard>
+                    </Row>
+                    <Row margin={0}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Button light compact role="secondary" onPress={() => navigation.navigate('QuitDayModal')}>
+                          {translate('screens.Home.qd_slide_subTitle', { defaultValue: 'Set your Quit Day' })}
+                        </Button>
+                      </View>
+                    </Row>
+                  </>
+                </TouchableRipple>
+              </View>
+            )}
+
             <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
               <Row margin={0}>
-                <Icon name="Calendar" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
+                <Icon name="Paste" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
               </Row>
               <TouchableRipple rippleColor="transparent">
                 <>
                   <Row margin={0}>
                     <Billboard textAlign="left" light>
-                      {translate('screens.Home.qd_slide_title', {
-                        defaultValue: 'Reinforce your commitment',
+                      {translate('screens.Home.progress_slide_title', {
+                        defaultValue: 'Check your progress and savings',
                       })}
                     </Billboard>
                   </Row>
                   <Row margin={0}>
                     <View style={{ flexDirection: 'row' }}>
-                      <Button light compact role="secondary" onPress={() => navigation.navigate('QuitDayModal')}>
-                        {translate('screens.Home.qd_slide_subTitle', { defaultValue: 'Set your Quit Day' })}
+                      <Button light compact role="secondary" onPress={() => navigation.navigate('Program')}>
+                        {translate('screens.Home.progress_slide_subTitle', { defaultValue: 'Visit your Overview' })}
                       </Button>
                     </View>
                   </Row>
                 </>
               </TouchableRipple>
             </View>
-          )}
 
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
-            <Row margin={0}>
-              <Icon name="Paste" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
-            </Row>
-            <TouchableRipple rippleColor="transparent">
-              <>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {translate('screens.Home.progress_slide_title', {
-                      defaultValue: 'Check your progress and savings',
-                    })}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button light compact role="secondary" onPress={() => navigation.navigate('Program')}>
-                      {translate('screens.Home.progress_slide_subTitle', { defaultValue: 'Visit your Overview' })}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            </TouchableRipple>
-          </View>
+            <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+              <Row margin={0}>
+                <Icon name="Plus" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
+              </Row>
+              <TouchableRipple rippleColor="transparent">
+                <>
+                  <Row margin={0}>
+                    <Billboard textAlign="left" light>
+                      {translate('screens.Home.journal_slide_title', {
+                        defaultValue: "Don't forget to log your daily smoking",
+                      })}
+                    </Billboard>
+                  </Row>
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button light compact role="secondary" onPress={() => navigation.navigate('SmokeModal')}>
+                        {translate('screens.Home.journal_slide_Subtitle', { defaultValue: 'Open your smoke journal' })}
+                      </Button>
+                    </View>
+                  </Row>
+                </>
+              </TouchableRipple>
+            </View>
 
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
-            <Row margin={0}>
-              <Icon name="Plus" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
-            </Row>
-            <TouchableRipple rippleColor="transparent">
-              <>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {translate('screens.Home.journal_slide_title', {
-                      defaultValue: "Don't forget to log your daily smoking",
-                    })}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button light compact role="secondary" onPress={() => navigation.navigate('SmokeModal')}>
-                      {translate('screens.Home.journal_slide_Subtitle', { defaultValue: 'Open your smoke journal' })}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            </TouchableRipple>
-          </View>
-
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
-            <Row margin={0}>
-              <Icon name="Help" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
-            </Row>
-            <TouchableRipple rippleColor="transparent">
-              <>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {translate('screens.Home.vc_slide_title', { defaultValue: 'Manage the urge' })}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button light compact role="secondary" onPress={() => navigation.navigate('Lifesaver')}>
-                      {translate('screens.Home.vc_slide_Subtitle', { defaultValue: 'Visit the Virtual Coach' })}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            </TouchableRipple>
-          </View>
-        </Carousel>
+            <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+              <Row margin={0}>
+                <Icon name="Help" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
+              </Row>
+              <TouchableRipple rippleColor="transparent">
+                <>
+                  <Row margin={0}>
+                    <Billboard textAlign="left" light>
+                      {translate('screens.Home.vc_slide_title', { defaultValue: 'Manage the urge' })}
+                    </Billboard>
+                  </Row>
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button light compact role="secondary" onPress={() => navigation.navigate('Lifesaver')}>
+                        {translate('screens.Home.vc_slide_Subtitle', { defaultValue: 'Visit the Virtual Coach' })}
+                      </Button>
+                    </View>
+                  </Row>
+                </>
+              </TouchableRipple>
+            </View>
+          </Carousel>
+        )}
       </Row>
     </TabbedScreen>
   )

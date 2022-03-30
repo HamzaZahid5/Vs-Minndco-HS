@@ -1,0 +1,184 @@
+import React, { useEffect, useMemo } from 'react'
+import { Carousel, Row, Icon, Paragraph, Billboard, Button } from '@mindcoxr/rob'
+import { translate } from '../../utils/localization'
+import { View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import TargetIndicator from '../../components/TargetIndicator'
+import { useDispatch, useSelector } from 'react-redux'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
+import { SHOW_BASIC_TUTORIAL, SMOKE_RECORD, FLAGS, IS_PREMIUM } from '../../store/selectors'
+import { updateBasicTutorialCompleted } from '../../services/Firestore'
+
+const SlideSmokeJournal = () => (
+  <Row>
+    <Row margin={0}>
+      <Billboard textAlign="left" light>
+        {translate('screens.BasicsTutorial.tutorial_program_title', { defaultValue: 'Fisrt steps' })}
+      </Billboard>
+    </Row>
+    <Row margin={0}>
+      <Paragraph size="medium" light weight="normal" textAlign="left">
+        {translate('screens.BasicsTutorial.tutorial_program_subtitle_1', {
+          defaultValue: "Let's regiter your first smoke journal together. Press the icon with the plus (",
+        })}
+        <Icon name="Plus" size={20} color="#00ceb9" />
+        {translate('screens.BasicsTutorial.tutorial_program_subtitle_2', {
+          defaultValue: ') sign to open your journal.',
+        })}
+      </Paragraph>
+    </Row>
+  </Row>
+)
+const SlideCoachChat = () => (
+  <Row>
+    <Row margin={0}>
+      <Billboard textAlign="left" light>
+        {translate('screens.BasicsTutorial.tutorial_chat_title', { defaultValue: 'Fisrt steps' })}
+      </Billboard>
+    </Row>
+    <Row margin={0}>
+      <Paragraph size="medium" light weight="normal" textAlign="left">
+        {translate('screens.BasicsTutorial.tutorial_chat_subtitle_1', {
+          defaultValue: 'Send a message to your Coach. Press the icon with the chat bubble (',
+        })}
+        <Icon name="Comment" size={20} color="#00ceb9" />
+        {translate('screens.BasicsTutorial.tutorial_chat_subtitle_2', {
+          defaultValue: ') sign to see your messages.',
+        })}
+      </Paragraph>
+    </Row>
+  </Row>
+)
+const SlideProgramActivity = () => {
+  const stackNavigator = useNavigation<StackNavigationProp<RootStackParamList>>()
+  return (
+    <Row>
+      <Row margin={0}>
+        <Billboard textAlign="left" light>
+          {translate('screens.BasicsTutorial.tutorial_program_title', { defaultValue: 'Fisrt steps' })}
+        </Billboard>
+      </Row>
+      <Row margin={0}>
+        <Paragraph size="medium" light weight="normal" textAlign="left">
+          {translate('screens.BasicsTutorial.tutorial_program_subtitle', {
+            defaultValue: 'Take your first lesson. Click the following button to perform your next program activty',
+          })}
+        </Paragraph>
+      </Row>
+      <Row margin={0}>
+        <View style={{ flexDirection: 'row' }}>
+          <TargetIndicator show>
+            <Button
+              compact
+              onPress={() => {
+                stackNavigator.navigate('Activity')
+              }}
+            >
+              {translate('screens.BasicsTutorial.tutorial_program_CTA')}
+            </Button>
+          </TargetIndicator>
+        </View>
+      </Row>
+    </Row>
+  )
+}
+const SlideLifeSaverChat = () => (
+  <Row>
+    <Row margin={0}>
+      <Billboard textAlign="left" light>
+        {translate('screens.BasicsTutorial.tutorial_LS_title', { defaultValue: 'Fisrt steps' })}
+      </Billboard>
+    </Row>
+    <Row margin={0}>
+      <Paragraph size="medium" light weight="normal" textAlign="left">
+        {translate('screens.BasicsTutorial.tutorial_LS_subtitle_1', {
+          defaultValue: "Let's try a useful tool to manage the urge. Press the icon with the help (",
+        })}
+        <Icon name="Help" size={20} color="#00ceb9" />
+        {translate('screens.BasicsTutorial.tutorial_LS_subtitle_2', {
+          defaultValue: ') sign to chat with your Virtual Coach.',
+        })}
+      </Paragraph>
+    </Row>
+  </Row>
+)
+const TutorialCarousel = () => {
+  const smokeRecord = useSelector(SMOKE_RECORD)
+  const hasSmokeRecords = Object.keys(smokeRecord).length > 0
+  const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
+  const { showJournalHelper, showChatHelper, showProgramHelper, showLifeSaverHelper } = useSelector(FLAGS)
+  const isPremium = useSelector(IS_PREMIUM)
+  const dispatch = useDispatch()
+
+  const slides = useMemo(
+    () => [
+      {
+        id: 0,
+        component: SlideSmokeJournal,
+        show: showJournalHelper,
+        effect: () => {
+          if (showBasicTutorial && !hasSmokeRecords) {
+            dispatch({ type: 'flags/showJournalCTAHelper', payload: true })
+          }
+        },
+      },
+      {
+        id: 1,
+        component: SlideCoachChat,
+        show: showChatHelper && isPremium,
+        effect: () => {
+          dispatch({ type: 'flags/showChatCTAHelper', payload: true })
+        },
+      },
+      {
+        id: 2,
+        component: SlideLifeSaverChat,
+        show: showLifeSaverHelper && !isPremium,
+        effect: () => {
+          dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: true })
+        },
+      },
+      {
+        id: 3,
+        component: SlideProgramActivity,
+        show: showProgramHelper,
+        effect: () => {
+          dispatch({ type: 'flags/showJournalCTAHelper', payload: false })
+          dispatch({ type: 'flags/showChatCTAHelper', payload: false })
+          dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: false })
+        },
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showJournalHelper, hasSmokeRecords, showChatHelper, showProgramHelper],
+  )
+  const onSlideEntered = (idx: number) => {
+    slides.filter(s => s.show)[idx].effect()
+  }
+
+  useEffect(() => {
+    const activeSlides = slides.filter(s => s.show)
+    if (activeSlides.length > 0) {
+      activeSlides[0].effect()
+    } else {
+      // finish tutorial
+      updateBasicTutorialCompleted()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides])
+
+  return (
+    <Carousel
+      onSlideEntered={onSlideEntered}
+      // currentSlide={currentSlide}
+      dotConfig={{
+        justify: 'flex-end',
+      }}
+    >
+      {slides.map(S => (S.show ? <S.component key={S.id} /> : null))}
+    </Carousel>
+  )
+}
+
+export default TutorialCarousel

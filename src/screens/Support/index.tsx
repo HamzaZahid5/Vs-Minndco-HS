@@ -4,7 +4,7 @@ import { WebView } from 'react-native-webview'
 import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 // @ts-ignore: non-ts file
 import template from 'lodash.template'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateProfile } from '../../services/Firestore'
 import KeyboardSpacer from '../../utils/KeyboardSpacer'
 import { USER_SUPPORT_PROFILE } from '../../store/selectors'
@@ -30,6 +30,7 @@ const Support = ({
     uid,
     email,
   } = useSelector(USER_SUPPORT_PROFILE)
+  const dispatch = useDispatch()
 
   // TOOLS
   const theme = useRobTheme()
@@ -45,13 +46,18 @@ const Support = ({
 
   // HELPERS
   useEffect(() => {
+    const unsubsFocus = navigation.addListener('focus', () => {
+      // @todo trigger this conditionally only if it's needed
+      dispatch({ type: 'flags/showChatHelper', payload: false })
+    })
     const unsubsBlur = navigation.addListener('blur', () => {
       webViewRef.current?.reload()
     })
     return () => {
+      unsubsFocus()
       unsubsBlur()
     }
-  }, [navigation])
+  }, [navigation, dispatch])
   useEffect(() => {
     const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       // AWFUL HACK TO MAKE CRISP CHAT TO EXPAND ON KEYBOARD CLOSE

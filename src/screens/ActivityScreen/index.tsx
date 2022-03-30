@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useNextActivity from '../../utils/hooks/useNextActivity'
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import { USER_PROFILE } from '../../store/selectors'
@@ -20,6 +20,7 @@ const ActivityScreen = ({
   const { nextActivity, nextActivityKey } = useNextActivity(route.params?.activityId)
   const { language, gender } = useSelector(USER_PROFILE)
   const { saveActivityDone } = useActivityActions()
+  const dispatch = useDispatch()
 
   const handleActivityComplete = async (answer?: string) => {
     if (nextActivityKey) {
@@ -47,6 +48,18 @@ const ActivityScreen = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nextActivity, IS])*/
+
+  // HELPERS
+  useEffect(() => {
+    const unsubsFocus = navigation.addListener('focus', () => {
+      // @todo trigger this conditionally only if it's needed
+      dispatch({ type: 'flags/showProgramHelper', payload: false })
+    })
+
+    return () => {
+      unsubsFocus()
+    }
+  }, [navigation, dispatch])
 
   const openVRPlayer = useVRPlayerCTA({
     resourceId:
