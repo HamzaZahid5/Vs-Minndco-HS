@@ -172,7 +172,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                     <View style={{ flexDirection: 'row' }}>
                       <Button
                         compact
-                        onPress={async () => {
+                        onPress={() => {
                           navigation.navigate('Activity')
                         }}
                       >

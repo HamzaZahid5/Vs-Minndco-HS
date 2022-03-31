@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from 'react'
 import { FlatList } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { USER_SUPPORT_PROFILE } from '../../store/selectors'
 import { initialState, reducer, messageType } from './storage'
 import { CompositeNavigationProp } from '@react-navigation/native'
@@ -29,10 +29,14 @@ const Lifesaver = ({ navigation }: { navigation: LifesaverScreenNavigationProp }
   const { display_name } = useSelector(USER_SUPPORT_PROFILE)
   const actions = useLifesaverActions(dispatch)
   const noWayBackNavigate = useDoNotBackHere('Home')
+  const reduxDispatch = useDispatch()
 
   // BOOT UP CHAT
   useEffect(() => {
     const unsubsFocus = navigation.addListener('focus', () => {
+      // @todo trigger this conditionally only if it's needed
+      reduxDispatch({ type: 'flags/showLifeSaverHelper', payload: false })
+
       actions.sayWelcome()
     })
     const unsubsBlur = navigation.addListener('blur', () => {

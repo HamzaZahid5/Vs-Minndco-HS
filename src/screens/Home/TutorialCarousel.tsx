@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
-import { Carousel, Row, Icon, Paragraph, Billboard, Button } from '@mindcoxr/rob'
+import { Carousel, Row, Icon, Paragraph, Billboard, Button, useRobTheme } from '@mindcoxr/rob'
 import { translate } from '../../utils/localization'
 import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -10,48 +10,56 @@ import { RootStackParamList } from '../../../types'
 import { SHOW_BASIC_TUTORIAL, SMOKE_RECORD, FLAGS, IS_PREMIUM } from '../../store/selectors'
 import { updateBasicTutorialCompleted } from '../../services/Firestore'
 
-const SlideSmokeJournal = () => (
-  <Row>
-    <Row margin={0}>
-      <Billboard textAlign="left" light>
-        {translate('screens.BasicsTutorial.tutorial_program_title', { defaultValue: 'Fisrt steps' })}
-      </Billboard>
+const SlideSmokeJournal = () => {
+  const theme = useRobTheme()
+  return (
+    <Row>
+      <Row margin={0}>
+        <Billboard textAlign="left" light>
+          {translate('screens.BasicsTutorial.tutorial_program_title', { defaultValue: 'Fisrt steps' })}
+        </Billboard>
+      </Row>
+      <Row margin={0}>
+        <Paragraph size="medium" light weight="normal" textAlign="left">
+          {translate('screens.BasicsTutorial.tutorial_program_subtitle_1', {
+            defaultValue: "Let's regiter your first smoke journal together. Press the icon with the plus (",
+          })}
+          <Icon name="Plus" size={20} color={theme.colors.primaryPalette[500]} />
+          {translate('screens.BasicsTutorial.tutorial_program_subtitle_2', {
+            defaultValue: ') sign to open your journal.',
+          })}
+        </Paragraph>
+      </Row>
     </Row>
-    <Row margin={0}>
-      <Paragraph size="medium" light weight="normal" textAlign="left">
-        {translate('screens.BasicsTutorial.tutorial_program_subtitle_1', {
-          defaultValue: "Let's regiter your first smoke journal together. Press the icon with the plus (",
-        })}
-        <Icon name="Plus" size={20} color="#00ceb9" />
-        {translate('screens.BasicsTutorial.tutorial_program_subtitle_2', {
-          defaultValue: ') sign to open your journal.',
-        })}
-      </Paragraph>
+  )
+}
+const SlideCoachChat = () => {
+  const theme = useRobTheme()
+  return (
+    <Row>
+      <Row margin={0}>
+        <Billboard textAlign="left" light>
+          {translate('screens.BasicsTutorial.tutorial_chat_title', { defaultValue: 'Fisrt steps' })}
+        </Billboard>
+      </Row>
+      <Row margin={0}>
+        <Paragraph size="medium" light weight="normal" textAlign="left">
+          {translate('screens.BasicsTutorial.tutorial_chat_subtitle_1', {
+            defaultValue: 'Send a message to your Coach. Press the icon with the chat bubble (',
+          })}
+          <Icon name="Comment" size={20} color={theme.colors.primaryPalette[500]} />
+          {translate('screens.BasicsTutorial.tutorial_chat_subtitle_2', {
+            defaultValue: ') sign to see your messages.',
+          })}
+        </Paragraph>
+      </Row>
     </Row>
-  </Row>
-)
-const SlideCoachChat = () => (
-  <Row>
-    <Row margin={0}>
-      <Billboard textAlign="left" light>
-        {translate('screens.BasicsTutorial.tutorial_chat_title', { defaultValue: 'Fisrt steps' })}
-      </Billboard>
-    </Row>
-    <Row margin={0}>
-      <Paragraph size="medium" light weight="normal" textAlign="left">
-        {translate('screens.BasicsTutorial.tutorial_chat_subtitle_1', {
-          defaultValue: 'Send a message to your Coach. Press the icon with the chat bubble (',
-        })}
-        <Icon name="Comment" size={20} color="#00ceb9" />
-        {translate('screens.BasicsTutorial.tutorial_chat_subtitle_2', {
-          defaultValue: ') sign to see your messages.',
-        })}
-      </Paragraph>
-    </Row>
-  </Row>
-)
+  )
+}
 const SlideProgramActivity = () => {
   const stackNavigator = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const theme = useRobTheme()
+
   return (
     <Row>
       <Row margin={0}>
@@ -83,26 +91,29 @@ const SlideProgramActivity = () => {
     </Row>
   )
 }
-const SlideLifeSaverChat = () => (
-  <Row>
-    <Row margin={0}>
-      <Billboard textAlign="left" light>
-        {translate('screens.BasicsTutorial.tutorial_LS_title', { defaultValue: 'Fisrt steps' })}
-      </Billboard>
+const SlideLifeSaverChat = () => {
+  const theme = useRobTheme()
+  return (
+    <Row>
+      <Row margin={0}>
+        <Billboard textAlign="left" light>
+          {translate('screens.BasicsTutorial.tutorial_LS_title', { defaultValue: 'Fisrt steps' })}
+        </Billboard>
+      </Row>
+      <Row margin={0}>
+        <Paragraph size="medium" light weight="normal" textAlign="left">
+          {translate('screens.BasicsTutorial.tutorial_LS_subtitle_1', {
+            defaultValue: "Let's try a useful tool to manage the urge. Press the icon with the help (",
+          })}
+          <Icon name="Help" size={20} color={theme.colors.primaryPalette[500]} />
+          {translate('screens.BasicsTutorial.tutorial_LS_subtitle_2', {
+            defaultValue: ') sign to chat with your Virtual Coach.',
+          })}
+        </Paragraph>
+      </Row>
     </Row>
-    <Row margin={0}>
-      <Paragraph size="medium" light weight="normal" textAlign="left">
-        {translate('screens.BasicsTutorial.tutorial_LS_subtitle_1', {
-          defaultValue: "Let's try a useful tool to manage the urge. Press the icon with the help (",
-        })}
-        <Icon name="Help" size={20} color="#00ceb9" />
-        {translate('screens.BasicsTutorial.tutorial_LS_subtitle_2', {
-          defaultValue: ') sign to chat with your Virtual Coach.',
-        })}
-      </Paragraph>
-    </Row>
-  </Row>
-)
+  )
+}
 const TutorialCarousel = () => {
   const smokeRecord = useSelector(SMOKE_RECORD)
   const hasSmokeRecords = Object.keys(smokeRecord).length > 0
@@ -114,7 +125,7 @@ const TutorialCarousel = () => {
   const slides = useMemo(
     () => [
       {
-        id: 0,
+        id: 'journal-slide',
         component: SlideSmokeJournal,
         show: showJournalHelper,
         effect: () => {
@@ -124,7 +135,7 @@ const TutorialCarousel = () => {
         },
       },
       {
-        id: 1,
+        id: 'chat-slide',
         component: SlideCoachChat,
         show: showChatHelper && isPremium,
         effect: () => {
@@ -132,7 +143,7 @@ const TutorialCarousel = () => {
         },
       },
       {
-        id: 2,
+        id: 'lifesaver-slide',
         component: SlideLifeSaverChat,
         show: showLifeSaverHelper && !isPremium,
         effect: () => {
@@ -140,7 +151,7 @@ const TutorialCarousel = () => {
         },
       },
       {
-        id: 3,
+        id: 'program-slide',
         component: SlideProgramActivity,
         show: showProgramHelper,
         effect: () => {
