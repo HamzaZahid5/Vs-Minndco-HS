@@ -6,6 +6,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { languagesType, ProgramActivityType } from '../../../types'
 import { PlatformOSType } from 'react-native'
 import moment from 'moment'
+import functions from '../Functions'
 
 export default firestore
 
@@ -81,11 +82,9 @@ export const activateKit = () =>
     flag_hasViewer: true,
   })
 
-export const burnCode = (code: string) =>
-  firestore().collection('kits').doc(code).update({
-    burnt_at: firestore.FieldValue.serverTimestamp(),
-    used_by: auth().currentUser.uid,
-  })
+export const burnCode = async (code: string) => {
+  await functions().httpsCallable('burnCode')(code)
+}
 
 export const saveQuitDay = (date: moment.Moment) => {
   const { uid } = auth().currentUser

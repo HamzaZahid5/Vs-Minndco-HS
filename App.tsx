@@ -34,6 +34,7 @@ import ProfileScreen from './src/screens/Profile'
 import BasicModalScreen from './src/screens/BasicModalScreen'
 import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
 import KitWelcome from './src/screens/KitWelcomeScreen'
+import KitActivation from './src/screens/KitActivation'
 
 // UTILS & HELPERS
 import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
@@ -294,6 +295,14 @@ export default function App() {
                         options={{
                           headerShown: true,
                           header: (props: StackHeaderProps) => <NavigationHeader {...props} color="#14142b" />,
+                        }}
+                      />
+                      <Stack.Screen
+                        name="KitActivation"
+                        component={KitActivation}
+                        options={{
+                          headerShown: true,
+                          header: (props: StackHeaderProps) => <NavigationHeader {...props} showGradient="always" />,
                         }}
                       />
                     </Stack.Group>

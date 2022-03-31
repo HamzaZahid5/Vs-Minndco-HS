@@ -4,6 +4,8 @@ import { DrawerContentComponentProps, DrawerContentScrollView } from '@react-nav
 import { Icon, Paragraph, useRobTheme } from '@mindcoxr/rob'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import Logo from '../../../assets/SVG/Logo'
+import { useSelector } from 'react-redux'
+import { IS_PREMIUM } from '../../store/selectors'
 
 type CustomDrawerItemPropType = {
   name: string
@@ -38,6 +40,7 @@ const CustomDrawerItem = ({ name, icon, onPress, testID, color }: CustomDrawerIt
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { navigation } = props
+  const isPremium = useSelector(IS_PREMIUM)
   const theme = useRobTheme()
   return (
     <DrawerContentScrollView {...props}>
@@ -78,17 +81,19 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           color={theme.colors.monochrome.offBlack}
           testID="drawer-profile"
         />
-        <CustomDrawerItem
-          onPress={() => {
-            // auth().signOut();
-            navigation.navigate('Profile')
-            navigation.closeDrawer()
-          }}
-          icon="VR"
-          name={'Redeem code'}
-          color={theme.colors.monochrome.offBlack}
-          testID="drawer-profile"
-        />
+        {!isPremium && (
+          <CustomDrawerItem
+            onPress={() => {
+              // auth().signOut();
+              navigation.navigate('KitActivation')
+              navigation.closeDrawer()
+            }}
+            icon="Code"
+            name={'Redeem code'}
+            color={theme.colors.monochrome.offBlack}
+            testID="drawer-profile"
+          />
+        )}
       </View>
     </DrawerContentScrollView>
   )
