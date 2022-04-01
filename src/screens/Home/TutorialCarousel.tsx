@@ -20,13 +20,10 @@ const SlideSmokeJournal = () => {
         </Billboard>
       </Row>
       <Row margin={0}>
+        <Icon name="Plus" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
         <Paragraph size="medium" light weight="normal" textAlign="left">
-          {translate('screens.BasicsTutorial.tutorial_program_subtitle_1', {
+          {translate('screens.BasicsTutorial.tutorial_program_subtitle', {
             defaultValue: "Let's regiter your first smoke journal together. Press the icon with the plus (",
-          })}
-          <Icon name="Plus" size={20} color={theme.colors.primaryPalette[500]} />
-          {translate('screens.BasicsTutorial.tutorial_program_subtitle_2', {
-            defaultValue: ') sign to open your journal.',
           })}
         </Paragraph>
       </Row>
@@ -43,13 +40,10 @@ const SlideCoachChat = () => {
         </Billboard>
       </Row>
       <Row margin={0}>
+        <Icon name="Comment" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
         <Paragraph size="medium" light weight="normal" textAlign="left">
-          {translate('screens.BasicsTutorial.tutorial_chat_subtitle_1', {
+          {translate('screens.BasicsTutorial.tutorial_chat_subtitle', {
             defaultValue: 'Send a message to your Coach. Press the icon with the chat bubble (',
-          })}
-          <Icon name="Comment" size={20} color={theme.colors.primaryPalette[500]} />
-          {translate('screens.BasicsTutorial.tutorial_chat_subtitle_2', {
-            defaultValue: ') sign to see your messages.',
           })}
         </Paragraph>
       </Row>
@@ -101,13 +95,10 @@ const SlideLifeSaverChat = () => {
         </Billboard>
       </Row>
       <Row margin={0}>
+        <Icon name="Help" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
         <Paragraph size="medium" light weight="normal" textAlign="left">
-          {translate('screens.BasicsTutorial.tutorial_LS_subtitle_1', {
+          {translate('screens.BasicsTutorial.tutorial_LS_subtitle', {
             defaultValue: "Let's try a useful tool to manage the urge. Press the icon with the help (",
-          })}
-          <Icon name="Help" size={20} color={theme.colors.primaryPalette[500]} />
-          {translate('screens.BasicsTutorial.tutorial_LS_subtitle_2', {
-            defaultValue: ') sign to chat with your Virtual Coach.',
           })}
         </Paragraph>
       </Row>
