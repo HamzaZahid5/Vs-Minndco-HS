@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import {
   BasicScreen as Screen,
@@ -18,13 +18,67 @@ import { RootStackParamList } from '../../../types'
 import Blob from '../../../assets/SVG/Blob'
 import { translate } from '../../utils/localization'
 import { useNavigation } from '@react-navigation/native'
+import { auth } from '../../services/Auth'
+import functions from '../../services/Functions'
+
+const emailValidationRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation()
   const [showResetPassword, setShowResetPassword] = useState(false)
   const [showMagicLink, setShowMagicLink] = useState(false)
+  const [isValidEmail, setIsValidEmail] = useState(false)
+  const [email, setEmail] = useState('')
   const isOpenForiOS = showMagicLink || showResetPassword
   const theme = useRobTheme()
+  useEffect(() => {
+    setIsValidEmail(emailValidationRegexp.test(email))
+  }, [email])
+
+  const onForgotPassword = useCallback(async () => {
+    try {
+      // Try to login to local server
+      await auth().sendPasswordResetEmail(email)
+    } catch (localError) {
+      try {
+        const error = localError as { code: string }
+
+        // only on user-not-found we handle the error, otherwise we throw it
+        if (error.code !== 'auth/user-not-found') {
+          throw error
+        }
+
+        // handling error, attempt remote (against Mindco Health server)
+        const { data: result } = await functions().httpsCallable('remoteResetPassword')({
+          email: email,
+        })
+
+        // on success we authenticate user we given JWT
+        if (!result.success) {
+          throw { code: result.error, remote: true }
+        }
+      } catch (jwtError) {
+        const error = jwtError as { code: string; remote?: boolean }
+        //setErrorLoginText(translate(`firebase.errormessages.${error.code}`))
+        //setErrorPopup(true)
+        //setLoading(false)
+      }
+    }
+  }, [email])
+
+  const onMagicLink = useCallback(async () => {
+    try {
+      const { data: result } = await functions().httpsCallable('sendMagicLink')({
+        email: email,
+      })
+      if (!result.success) {
+        throw { code: result.error, remote: result.remoteError }
+      }
+    } catch (localError) {
+      const error = localError as { code: string; remote?: boolean }
+    }
+  }, [email])
+
   return (
     <View style={{ flexGrow: 1, overflow: 'hidden' }}>
       <Screen bounces={isOpenForiOS}>
@@ -38,7 +92,12 @@ const ForgotPasswordScreen = () => {
           </Paragraph>
         </Row>
         <Row gutter={5}>
-          <Input theme={theme} label={translate('screens.ForgotPassword.email-input-label')} />
+          <Input
+            value={email}
+            onChangeText={setEmail}
+            theme={theme}
+            label={translate('screens.ForgotPassword.email-input-label')}
+          />
         </Row>
         <View style={{ height: 30 }} />
         <Row gutter={22} grow justifyContentOnGrow="flex-end">
@@ -46,8 +105,9 @@ const ForgotPasswordScreen = () => {
             role="primary"
             outline
             onPress={() => {
-              setShowResetPassword(true)
+              onForgotPassword()
             }}
+            disabled={!isValidEmail}
           >
             {translate('screens.ForgotPassword.reset-pass-btn-label')}
           </Button>
@@ -56,8 +116,9 @@ const ForgotPasswordScreen = () => {
               role="primary"
               outline
               onPress={() => {
-                setShowResetPassword(true)
+                onMagicLink()
               }}
+              disabled={!isValidEmail}
             >
               {translate('screens.ForgotPassword.magic-link-btn-label')}
             </Button>
