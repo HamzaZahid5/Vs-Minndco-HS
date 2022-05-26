@@ -7,11 +7,15 @@ import authentication from './auth'
 export const auth = authentication
 
 export const useAuth = () => {
-  const [userToken, setUserToken] = useState<FirebaseAuthTypes.User | undefined>()
+  const [userToken, setUserToken] = useState<FirebaseAuthTypes.User | undefined | null>()
 
   useEffect(() => {
     const unsubscribe = authentication().onAuthStateChanged(async (authCredentials: FirebaseAuthTypes.User) => {
-      setUserToken(authCredentials)
+      if (authCredentials) {
+        setUserToken(authCredentials)
+      } else {
+        setUserToken(null)
+      }
     })
 
     return () => {

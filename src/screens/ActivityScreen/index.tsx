@@ -10,7 +10,6 @@ import VideoScreen from './VideoActivity'
 import ReflectionScreen from './ReflectionActivity'
 import { View } from 'react-native'
 import useActivityActions from '../../utils/hooks/useActivityActions'
-import { useStorageDownloadURL } from '../../services/Storage'
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA'
 
 const ActivityScreen = ({

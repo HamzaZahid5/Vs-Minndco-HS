@@ -6,7 +6,7 @@ import Screen2 from './Screen2'
 import Screen3 from './Screen3'
 import Screen4 from './Screen4'
 import { useDispatch, useSelector } from 'react-redux'
-import { ONBOARDING_COMPLETE, ONBOARDING_CURRENT_INPUT } from '../../store/selectors'
+import { IS_PREMIUM, ONBOARDING_COMPLETE, ONBOARDING_CURRENT_INPUT } from '../../store/selectors'
 import { DefaultScreenPropType as RootScreenPropTyle } from '../../../types'
 
 export type OnboardingScreensType = {
@@ -28,15 +28,12 @@ export default function OnboardingContainer({ navigation: rootNavigation }: Root
   const dispatch = useDispatch()
   const currentInput = useSelector(ONBOARDING_CURRENT_INPUT)
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
+  const isPremium = useSelector(IS_PREMIUM)
   useEffect(() => {
     if (onboardingComplete === true) {
       rootNavigation.reset({
         index: 0,
-        routes: [
-          {
-            name: 'Main',
-          },
-        ],
+        routes: isPremium ? [{ name: 'Main' }] : [{ name: 'Main' }, { name: 'KitActivationLanding' }],
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

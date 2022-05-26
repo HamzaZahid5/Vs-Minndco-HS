@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { LayoutRectangle, ScrollView, View, Text as NativeText } from 'react-native'
 import {
+  fromActivityIdToDictionaryEntry,
   LifesaverActivityBase,
   LifesaverAudioType,
   LifesaverDoType,
@@ -142,9 +143,15 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                   <Card
                     onPress={() => onPress(act)}
                     small
-                    title={act.title ?? 'No title'}
+                    title={translate(`contents.${fromActivityIdToDictionaryEntry(act.id)}.screen_title`) ?? 'No title'}
                     image={require('../../../assets/images/bg_act_02.png')}
-                    actions={[<ActionButton key={act.id} icon="Gym" label="" />]}
+                    actions={[
+                      <ActionButton
+                        key={act.id}
+                        icon="Gym"
+                        label={translate('commons.activities.interactive-label')}
+                      />,
+                    ]}
                   />
                 </View>
               ))}

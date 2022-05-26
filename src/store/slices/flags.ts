@@ -4,6 +4,8 @@ import { PathsType } from '../../../types'
 export type FlagsState = {
   isLoading: number
   currentPath: PathsType
+  // local flag for detection on Home screen focus
+  basicTutorialFinished: boolean
   showJournalCTAHelper: boolean
   showChatCTAHelper: boolean
   showProgramCTAHelper: boolean
@@ -18,9 +20,10 @@ const initialState: FlagsState = {
   isLoading: 0,
   currentPath: null,
   showJournalCTAHelper: false,
+  basicTutorialFinished: false,
   showChatCTAHelper: false,
   showProgramCTAHelper: false,
-  showLifeSaverCTAHelper: true,
+  showLifeSaverCTAHelper: false,
   showJournalHelper: true,
   showChatHelper: true,
   showProgramHelper: true,
@@ -33,6 +36,9 @@ const flagger = createSlice({
   reducers: {
     setIsLoading: (state, action) => {
       state.isLoading += action.payload
+    },
+    setBasicTutorialFinished: (state, action) => {
+      state.basicTutorialFinished = action.payload
     },
     setCurrentPath: (state, action: PayloadAction<PathsType>) => {
       state.currentPath = action.payload
@@ -87,6 +93,11 @@ const flagger = createSlice({
     showLifeSaverHelper: (state, action) => {
       state.showLifeSaverHelper = action.payload
       state.showLifeSaverCTAHelper = action.payload
+    },
+    hideAllCTAHelper: state => {
+      state.showChatCTAHelper = false
+      state.showProgramCTAHelper = false
+      state.showLifeSaverCTAHelper = false
     },
   },
 })

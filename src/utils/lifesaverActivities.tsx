@@ -43,6 +43,17 @@ export const LIFESAVER_ACTIVITIES: LifesaverDoType[] = [
   },
 ]
 
+export const fromActivityIdToDictionaryEntry = (id: string) => {
+  switch (id) {
+    case 'breath-sync':
+      return 'BREATH_SYNC'
+    case 'deep-breath-sync':
+      return 'DEEP_BREATH_SYNC'
+    case 'bubbles-wrapper':
+      return 'BUBBLE_WRAP'
+  }
+}
+
 export type LifesaverAudioType = {
   source: string
   only: string[]

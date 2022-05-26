@@ -26,11 +26,14 @@ import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
 import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
-import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, FLAGS } from '../../store/selectors'
+import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, FLAGS, PROGRESS, IS_PREMIUM } from '../../store/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
 import TargetIndicator from '../../components/TargetIndicator'
 import TutorialCarousel from './TutorialCarousel'
+import ActivitySlide from '../../components/Skeletons/ActivitySlide'
+import useTutorialFinished from '../../utils/hooks/useTutorialFinished'
+import { isActivityDone } from '../../utils/helpers'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -61,22 +64,28 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const theme = useRobTheme()
   const windowsDimension = useWindowDimensions()
   const dispatch = useDispatch()
-  const { nextActivity, isLastActivity } = useNextActivity()
+  const { nextActivity, nextActivityKey, isLastActivity } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
-  const progressTrend = useProgressTrend()
   const smokeRecord = useSelector(SMOKE_RECORD)
   const hasSmokeRecords = Object.keys(smokeRecord).length > 0
   const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
+  const progress = useSelector(PROGRESS)
+  const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
+  const isPremium = useSelector(IS_PREMIUM)
 
   useEffect(() => {
     if (showBasicTutorial && !hasSmokeRecords) {
-      dispatch({ type: 'flags/showJournalCTAHelper', payload: true })
-      dispatch({ type: 'flags/showJournalHelper', payload: true })
+      if (isPremium) {
+        dispatch({ type: 'flags/showChatCTAHelper', payload: true })
+      } else {
+        dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: true })
+      }
     }
-  }, [showBasicTutorial, hasSmokeRecords, dispatch])
+  }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
 
   // HELPERS
-  // useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>) // For now, don't query for kit
+  useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
+  useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
 
   // LOCAL
   // const [currentSlide, setCurrentSlide] = useState(1)
@@ -100,10 +109,6 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       activityTypeText = translate('screens.Home.activity-vr')
       break
   }
-
-  // useEffect(() => {
-  //   if (isLastActivity === false && todayActivityDone === false) [setCurrentSlide(0)]
-  // }, [isLastActivity, todayActivityDone])
 
   return (
     <TabbedScreen colors={homeBGColors}>
@@ -140,7 +145,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             }}
           >
             <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
-              {progressTrend !== TRENDS.FULL && (
+              {!nextActivity && <ActivitySlide />}
+              {nextActivity && !isLastActivityDone && (
                 <>
                   <Row margin={0}>
                     <Text light>
@@ -182,7 +188,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                   </Row>
                 </>
               )}
-              {progressTrend === TRENDS.FULL && (
+              {nextActivity && isLastActivityDone && (
                 <>
                   <Row margin={0}>
                     <Billboard textAlign="left" light>

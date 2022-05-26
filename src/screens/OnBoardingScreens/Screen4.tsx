@@ -8,6 +8,7 @@ import 'intl/locale-data/jsonp/en'
 import 'intl/locale-data/jsonp/es'
 import { DefaultScreenPropType } from '.'
 import { translate } from '../../utils/localization'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen4'>) => {
   const [selected, setSelected] = useState(defaultValue ?? -1)
@@ -28,61 +29,63 @@ const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
 
   return (
     <>
-      <BasicScreen>
-        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: '#fcfcfc' }} />
-        <Row gutter={5}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 20,
-            }}
-          >
-            <TouchableRipple
-              borderless
-              onPress={navigation.goBack}
-              style={{ borderRadius: 18, padding: 5, alignItems: 'center', justifyContent: 'center' }}
+      <SafeAreaView style={{ flex: 1 }}>
+        <BasicScreen>
+          <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: '#fcfcfc' }} />
+          <Row gutter={5}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: 20,
+              }}
             >
-              <SimpleLineIcons name="arrow-left" size={18} color="black" />
-            </TouchableRipple>
-          </View>
-        </Row>
-        <Row gutter={1}>
-          <Headline size="huge" weight="bold">
-            {translate('screens.onboardingWhatSentence.title')}
-          </Headline>
-        </Row>
-        <Row gutter={22}>
-          <Selectable selected={selected === 0} onClick={handleSelection(0)}>
-            {translate('screens.onboardingWhatSentence.option:0')}{' '}
-            <Paragraph size="large" weight="bold" textAlign="left">
-              {translate('screens.onboardingWhatSentence.option:0-bold')}
-            </Paragraph>
-          </Selectable>
-          <Selectable selected={selected === 1} onClick={handleSelection(1)}>
-            {translate('screens.onboardingWhatSentence.option:1')}{' '}
-            <Paragraph size="large" weight="bold" textAlign="left">
-              {translate('screens.onboardingWhatSentence.option:1-bold')}
-            </Paragraph>
-          </Selectable>
-          <Selectable selected={selected === 2} onClick={handleSelection(2)}>
-            {translate('screens.onboardingWhatSentence.option:2')}{' '}
-            <Paragraph size="large" weight="bold" textAlign="left">
-              {translate('screens.onboardingWhatSentence.option:2-bold')}
-            </Paragraph>
-          </Selectable>
-          <Selectable selected={selected === 3} onClick={handleSelection(3)}>
-            {translate('screens.onboardingWhatSentence.option:3')}{' '}
-            <Paragraph size="large" weight="bold" textAlign="left">
-              {translate('screens.onboardingWhatSentence.option:3-bold')}
-            </Paragraph>
-          </Selectable>
-        </Row>
-        <Row gutter={20}>
-          <View style={{ height: buttonHeigth }} />
-        </Row>
-      </BasicScreen>
+              <TouchableRipple
+                borderless
+                onPress={navigation.goBack}
+                style={{ borderRadius: 18, padding: 5, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <SimpleLineIcons name="arrow-left" size={18} color="black" />
+              </TouchableRipple>
+            </View>
+          </Row>
+          <Row gutter={1}>
+            <Headline size="huge" weight="bold">
+              {translate('screens.onboardingWhatSentence.title')}
+            </Headline>
+          </Row>
+          <Row gutter={22}>
+            <Selectable selected={selected === 0} onClick={handleSelection(0)}>
+              {translate('screens.onboardingWhatSentence.option:0')}{' '}
+              <Paragraph size="large" weight="bold" textAlign="left">
+                {translate('screens.onboardingWhatSentence.option:0-bold')}
+              </Paragraph>
+            </Selectable>
+            <Selectable selected={selected === 1} onClick={handleSelection(1)}>
+              {translate('screens.onboardingWhatSentence.option:1')}{' '}
+              <Paragraph size="large" weight="bold" textAlign="left">
+                {translate('screens.onboardingWhatSentence.option:1-bold')}
+              </Paragraph>
+            </Selectable>
+            <Selectable selected={selected === 2} onClick={handleSelection(2)}>
+              {translate('screens.onboardingWhatSentence.option:2')}{' '}
+              <Paragraph size="large" weight="bold" textAlign="left">
+                {translate('screens.onboardingWhatSentence.option:2-bold')}
+              </Paragraph>
+            </Selectable>
+            <Selectable selected={selected === 3} onClick={handleSelection(3)}>
+              {translate('screens.onboardingWhatSentence.option:3')}{' '}
+              <Paragraph size="large" weight="bold" textAlign="left">
+                {translate('screens.onboardingWhatSentence.option:3-bold')}
+              </Paragraph>
+            </Selectable>
+          </Row>
+          <Row gutter={20}>
+            <View style={{ height: buttonHeigth }} />
+          </Row>
+        </BasicScreen>
+      </SafeAreaView>
       <View
         onLayout={e => !buttonHeigth && setButtonHeigth(e.nativeEvent.layout.height)}
         style={{ position: 'absolute', bottom: 20, left: 25, right: 25 }}

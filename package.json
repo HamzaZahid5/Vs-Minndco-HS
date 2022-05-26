@@ -35,7 +35,7 @@
     "test-run-emu": "detox test --configuration android-emu"
   },
   "dependencies": {
-    "@mindcoxr/rob": "^0.15.2",
+    "@mindcoxr/rob": "^0.19.3",
     "@react-native-async-storage/async-storage": "^1.16.1",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cli": "^5.0.1",
@@ -100,6 +100,7 @@
     "react-native-screens": "~3.8.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "12.1.1",
+    "react-native-utils-scale": "^2.4.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "0.17.1",
     "react-native-webview": "11.13.0",

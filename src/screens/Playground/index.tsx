@@ -16,12 +16,6 @@ const ProgramScreen = ({
   navigation,
   route,
 }: DefaultScreenPropType<'Playground'> & DefaultScreenRouteType<'Playground'>) => {
-  useSetHeaderProps(
-    {
-      showGradient: 'always',
-    },
-    [],
-  )
   return (
     <Playground
       audios={

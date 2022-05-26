@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { LAST_ACTIVITY_AT, PROGRESS, TREATMENT_MODULE_AND_LEVEL, USER_PROFILE } from '../../store/selectors'
+import { isActivityDone } from '../helpers'
 import useNextActivity from './useNextActivity'
 
 export enum TRENDS {
@@ -12,8 +13,7 @@ export enum TRENDS {
 }
 const useProgressTrend = () => {
   // TOOLS
-  const nextActivity = useNextActivity()
-  const [module] = useSelector(TREATMENT_MODULE_AND_LEVEL)
+  const { nextActivityKey, isLastActivity } = useNextActivity()
 
   // REDUX
   const lastActivityAt = useSelector(LAST_ACTIVITY_AT)
@@ -24,7 +24,7 @@ const useProgressTrend = () => {
   const daysFromCreation = moment().diff(created_at?.toDate(), 'd')
   const daysFromLastActivity = moment().diff(lastActivityAt, 'd')
   const isProgressBlankslate = progress.length === 0 && daysFromCreation <= 3
-  const isProgramFinished = module === 3 && nextActivity === null
+  const isProgramFinished = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
   const progressTrend = isProgressBlankslate
     ? TRENDS.EMPTY
     : isProgramFinished

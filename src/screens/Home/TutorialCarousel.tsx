@@ -52,7 +52,6 @@ const SlideCoachChat = () => {
 }
 const SlideProgramActivity = () => {
   const stackNavigator = useNavigation<StackNavigationProp<RootStackParamList>>()
-  const theme = useRobTheme()
 
   return (
     <Row>
@@ -116,16 +115,6 @@ const TutorialCarousel = () => {
   const slides = useMemo(
     () => [
       {
-        id: 'journal-slide',
-        component: SlideSmokeJournal,
-        show: showJournalHelper,
-        effect: () => {
-          if (showBasicTutorial && !hasSmokeRecords) {
-            dispatch({ type: 'flags/showJournalCTAHelper', payload: true })
-          }
-        },
-      },
-      {
         id: 'chat-slide',
         component: SlideCoachChat,
         show: showChatHelper && isPremium,
@@ -142,6 +131,16 @@ const TutorialCarousel = () => {
         },
       },
       {
+        id: 'journal-slide',
+        component: SlideSmokeJournal,
+        show: showJournalHelper,
+        effect: () => {
+          if (showBasicTutorial && !hasSmokeRecords) {
+            dispatch({ type: 'flags/showJournalCTAHelper', payload: true })
+          }
+        },
+      },
+      {
         id: 'program-slide',
         component: SlideProgramActivity,
         show: showProgramHelper,
@@ -149,11 +148,12 @@ const TutorialCarousel = () => {
           dispatch({ type: 'flags/showJournalCTAHelper', payload: false })
           dispatch({ type: 'flags/showChatCTAHelper', payload: false })
           dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: false })
+          dispatch({ type: 'flags/hideAllCTAHelper' })
         },
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showJournalHelper, hasSmokeRecords, showChatHelper, showProgramHelper],
+    [showJournalHelper, hasSmokeRecords, showChatHelper, showProgramHelper, showLifeSaverHelper],
   )
   const onSlideEntered = (idx: number) => {
     slides.filter(s => s.show)[idx].effect()
@@ -165,6 +165,7 @@ const TutorialCarousel = () => {
       activeSlides[0].effect()
     } else {
       // finish tutorial
+      dispatch({ type: 'flags/setBasicTutorialFinished', payload: true })
       updateBasicTutorialCompleted()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

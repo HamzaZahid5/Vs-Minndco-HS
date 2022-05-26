@@ -14,8 +14,9 @@ const BasicModalScreen = ({ route }: DefaultScreenRouteType<'BasicModal'>) => {
   // HELPERS
   const insets = useSafeAreaInsets()
   const navigation = useNavigation()
-  const closePromiseReolver = useRef((value?: unknown) => value)
-
+  const closePromiseReolver = useRef(() => {
+    return
+  })
   // BOOT UP PANEL STATE
   useEffect(() => {
     const unsubsFocus = navigation.addListener('focus', () => {
@@ -41,7 +42,7 @@ const BasicModalScreen = ({ route }: DefaultScreenRouteType<'BasicModal'>) => {
         {content({
           close: () => {
             setShow(false)
-            return new Promise(res => {
+            return new Promise<void>(res => {
               closePromiseReolver.current = res
             })
           },

@@ -98,3 +98,94 @@ export const calculateSavedCigarettesFromJournal = (record: SmokeRecordsState, b
   const res = Object.keys(record).length * baselineIntake - calculateSmokedCigarettesFromJournal(record)
   return res >= 0 ? res : 0
 }
+
+enum KEYS {
+  NAV = 'nav',
+  AUTH = 'auth',
+  SIGNIN_CODE = 'signin',
+}
+
+const HEALTH_DL_PATH = 'https://app.mindco.health/dl'
+
+export const parseRawDeepLink = (url: string) => {
+  // since RN do not have built-in URL methods, we parse url by RegExp (I don't want to add a lib for this)
+  const queryString = url.replace(new RegExp(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/), '$7')
+  const deepLink = queryString.match(new RegExp(/link=([^&]*)/))
+  return deepLink![1]
+}
+
+export const parseDeepLink = (deepLink: string) => {
+  const isDLNextGeneration = deepLink.includes(HEALTH_DL_PATH)
+  const command = deepLink.replace(HEALTH_DL_PATH, '') || ''
+  const isNavCommand = command.startsWith(`/${KEYS.NAV}/`)
+  const isAuthCommand = command.startsWith(`/${KEYS.AUTH}/`)
+  const isSignInCommand = command.startsWith(`/${KEYS.SIGNIN_CODE}/`)
+
+  const INTENT_KEY = isAuthCommand ? KEYS.AUTH : isSignInCommand ? KEYS.SIGNIN_CODE : isNavCommand ? KEYS.NAV : ''
+
+  return {
+    isNextGen: isDLNextGeneration,
+    // command is [INTENT_KEY]/[value], somthing like:
+    // nav/Profile
+    // signin/[enrollment id]
+    // auth/[JWT]
+    command: command.replace(new RegExp(`^(.*?)/${INTENT_KEY}/`), `${INTENT_KEY}/`),
+  }
+}
+export const parseCommand = (command: string) => {
+  const isAuth = command.startsWith(`${KEYS.AUTH}/`)
+  const isSignInCode = command.startsWith(`${KEYS.SIGNIN_CODE}/`)
+  const isNav = command.startsWith(`${KEYS.NAV}/`)
+
+  const INTENT_KEY = isAuth ? KEYS.AUTH : isSignInCode ? KEYS.SIGNIN_CODE : isNav ? KEYS.NAV : ''
+
+  // removes intent key from command and gets only the value (screen name, jwt or enrollment id)
+  const value = command.replace(new RegExp(`(^.*)${INTENT_KEY}/`), '')
+
+  return { isAuth, isSignInCode, isNav, value }
+}
+
+export const isActivityDone = (activityKey: string, progress: string[]) => progress.includes(activityKey)
+
+export const getAspectRatio = (sizeX: number, sizeY: number) => {
+  let min = sizeX
+  let max = sizeY
+  if (min > max) {
+    min = sizeY
+    max = sizeX
+  }
+  return max / min
+}
+
+export const getRealWidth = (inches: number, sizeX: number, sizeY: number) => {
+  const ar = getAspectRatio(sizeX, sizeY)
+  const widthFactor = Math.sqrt(ar ** 2 + 1)
+  // factor 2.54 converts inch to cm
+  return (2.54 * inches) / widthFactor
+}
+
+export const getRealHeight = (inches: number, sizeX: number, sizeY: number) => {
+  const ar = getAspectRatio(sizeX, sizeY)
+  const width = getRealWidth(inches, sizeX, sizeY)
+  return ar * width
+}
+
+// calculates completion percentage for program, based on last activity into progress.
+export const calculateProgramCompletion = (program: ProgramType, progressArray: string[], includeVR?: boolean) => {
+  const allActKeys = getAllActivitiesKey(program, !!includeVR)
+  const firstNonCompletedIndex = allActKeys.findIndex(aKey => !progressArray.includes(aKey))
+
+  //All activities was done
+  if (firstNonCompletedIndex === -1) {
+    return 100
+  }
+
+  if (firstNonCompletedIndex === 0) {
+    return 0
+  }
+
+  const maxProgressKey = allActKeys[firstNonCompletedIndex - 1]
+  const currentIdIndex = allActKeys.indexOf(maxProgressKey)
+  const progress = (currentIdIndex + 1) / allActKeys.length
+  return Math.round(progress * 100)
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text, TextInput } from 'react-native'
+import { View, StyleSheet, Platform, Image, Text, TextInput, ImageSourcePropType } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph } from 'react-native-paper'
 import { useRobTheme, Theme as RobTheme, Headline, Paragraph, Button, Row, Subheading, Icon } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -12,22 +12,27 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export type ReflectionActivityScreenProps = {
   onDonePressed: (answer: string) => void
-  backImage: string
+  backImage: string | ImageSourcePropType
   asset: string
   title: string
   description: string
   duration: string | number
 }
 
-const PopupContent = () => (
+const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
       <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="xsmall" weight="normal" textAlign="left">
-        {translate('screens.Activity.tipsAudio')}
+        {translate('screens.Activity.tipsReflection')}
       </Paragraph>
+    </Row>
+    <Row>
+      <Button onPress={close} round>
+        {translate('commons.messages.close')}
+      </Button>
     </Row>
   </>
 )
@@ -41,7 +46,7 @@ const ReflectionActivityScreen = ({
   asset,
 }: ReflectionActivityScreenProps) => {
   // LOCAL
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(typeof backImage === 'string')
   const [answer, setAnswer] = useState('')
 
   // TOOLS
@@ -77,9 +82,13 @@ const ReflectionActivityScreen = ({
           </View>
         )}
         <Image
-          source={{
-            uri: backImage,
-          }}
+          source={
+            typeof backImage === 'string'
+              ? {
+                  uri: backImage,
+                }
+              : backImage
+          }
           resizeMode="cover"
           style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
           onLoad={() => {

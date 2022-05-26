@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Text, ScrollView, Image, ImageSourcePropType } from 'react-native'
+import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 import { Video } from 'expo-av'
 import {
@@ -27,17 +27,16 @@ export type VRActivityScreenProps = {
   title: string
   description: string
   duration: string | number
-  backImage: string | ImageSourcePropType
 }
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
-      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+      <Subheading>{translate('screens.AssembleCardboardScreen.tipsTitle')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="xsmall" weight="normal" textAlign="left">
-        {translate('screens.Activity.tipsVideo')}
+        {translate('screens.AssembleCardboardScreen.tipsVideo')}
       </Paragraph>
     </Row>
     <Row>
@@ -48,34 +47,26 @@ const PopupContent = ({ close }: { close: () => void }) => (
   </>
 )
 
-const VideoActivity = ({
+const AssembleCardboardScreen = ({
   onPlayPressed,
   onDonePressed,
   videoSrc,
   title,
   description,
   duration,
-  backImage = 'https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg',
 }: VRActivityScreenProps) => {
   const [loading, setLoading] = useState(true)
   const video = useRef<Video | null>(null)
+  const initialPositionSetted = useRef(false)
+  const firstPlay = useRef(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const theme = useRobTheme()
   const styles = getStyles(theme)
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [colorlessButton, setColorlessButton] = useState(true)
-  const [shouldRestart, setShouldRestar] = useState(false)
+
   useSetHeaderProps(
     {
-      rightActions: [
-        {
-          icon: 'QuestionMark',
-          action: () =>
-            navigation.navigate('BasicModal', {
-              content: PopupContent,
-            }),
-        },
-      ],
       showGradient: 'always',
     },
     [],
@@ -85,35 +76,30 @@ const VideoActivity = ({
   useEffect(() => {
     if (loading) return
     if (isFullscreen) {
-      video.current?.presentFullscreenPlayerAsync().then(() => {
-        if (shouldRestart) {
-          video.current?.replayAsync()
-          setShouldRestar(false)
-        } else {
-          video.current?.playAsync()
-        }
-      })
+      if (firstPlay.current === false) {
+        video.current
+          ?.presentFullscreenPlayerAsync()
+          .then(() => video.current?.setPositionAsync(0))
+          .then(() => video.current?.playAsync())
+          .then(() => {
+            firstPlay.current = true
+          })
+      } else {
+        video.current?.presentFullscreenPlayerAsync().then(() => video.current?.playAsync())
+      }
     } else {
       video.current?.pauseAsync()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFullscreen, shouldRestart]) //Run only when fullscreen status change
+  }, [isFullscreen]) //Run only when fullscreen status change
   return (
     <View style={styles.externalContainer}>
       <View style={styles.imageContainer}>
-        <View style={styles.loadingContainer}>
-          <Image
-            source={
-              typeof backImage === 'string'
-                ? {
-                    uri: backImage,
-                  }
-                : backImage
-            }
-            resizeMode="cover"
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
-          />
-        </View>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
+          </View>
+        )}
         <View
           style={[
             styles.loadingPosition,
@@ -136,21 +122,18 @@ const VideoActivity = ({
               resizeMode={isFullscreen ? 'contain' : 'cover'}
               onPlaybackStatusUpdate={status => {
                 if (status.isLoaded) {
+                  if (initialPositionSetted.current === false && status.durationMillis) {
+                    video.current?.setPositionAsync(status.durationMillis / 2)
+                    initialPositionSetted.current = true
+                  }
                   if (status.durationMillis) {
                     const actualProgress = Math.round((status.positionMillis * 100) / status.durationMillis)
-                    if (actualProgress > 95 && colorlessButton) {
+                    if (actualProgress > 95) {
                       setColorlessButton(false)
                     }
                   }
-
-                  if (status.didJustFinish) {
-                    setShouldRestar(true)
-                    if (video.current) {
-                      video.current.dismissFullscreenPlayer()
-                    }
-                  }
                 }
-                if (status.isLoaded && !status.isBuffering) {
+                if (status.isLoaded && !status.isBuffering && initialPositionSetted.current) {
                   setLoading(false)
                 }
               }}
@@ -167,24 +150,18 @@ const VideoActivity = ({
       >
         <View style={styles.videoSpacer} />
         <View style={styles.infoContainer}>
-          {!loading ? (
-            <TouchableRipple
-              borderless
-              onPress={() => {
-                onPlayPressed()
-                setIsFullscreen(true)
-              }}
-              style={styles.playButton}
-            >
-              <View style={[styles.playContainer, loading && styles.hide]}>
-                <Icon name="Play" color={theme.colors.monochrome.input} />
-              </View>
-            </TouchableRipple>
-          ) : (
-            <View style={styles.playButton}>
-              <ActivityIndicator animating color={theme.colors.monochrome.label} size="large" />
+          <TouchableRipple
+            borderless
+            onPress={() => {
+              onPlayPressed()
+              setIsFullscreen(true)
+            }}
+            style={styles.playButton}
+          >
+            <View style={[styles.playContainer, loading && styles.hide]}>
+              <Icon name="Play" color={theme.colors.monochrome.input} />
             </View>
-          )}
+          </TouchableRipple>
         </View>
         <View style={styles.textContainer}>
           <View style={styles.internalText}>
@@ -210,11 +187,11 @@ const VideoActivity = ({
                 </PaperParagraph>
               </View>
             </View>
-            <View style={styles.fullWidth}>
+            <Row grow margin={0}>
               <Button subVariant={colorlessButton ? ButtonSubVariant.colorless : undefined} onPress={onDonePressed}>
-                Done
+                {translate('screens.Activity.done')}
               </Button>
-            </View>
+            </Row>
           </View>
         </View>
       </ScrollView>
@@ -255,7 +232,7 @@ const getStyles = (theme: typeof RobTheme) =>
       backgroundColor: '#fcfcfc',
       paddingVertical: 32,
       paddingHorizontal: 24,
-      alignItems: 'flex-start',
+      // alignItems: 'flex-start',
       flexGrow: 1,
     },
     fullWidth: { width: '100%' },
@@ -327,10 +304,9 @@ const getStyles = (theme: typeof RobTheme) =>
       right: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      zIndex: 999,
     },
     horizontalMargin: { marginHorizontal: 32 },
     horizontalMarginSmall: { marginHorizontal: 16 },
   })
 
-export default VideoActivity
+export default AssembleCardboardScreen

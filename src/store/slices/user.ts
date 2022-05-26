@@ -147,6 +147,15 @@ const user = createSlice({
         },
       }
     },
+    logout: (state, action) => {
+      return {
+        ...state,
+        auth: {
+          uid: undefined,
+          email: undefined,
+        },
+      }
+    },
   },
 })
 

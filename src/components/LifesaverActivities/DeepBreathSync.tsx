@@ -12,6 +12,7 @@ import { translate } from './../../utils/localization'
 import FadeEffect from '../FadeEffect'
 import { useRobTheme } from '@mindcoxr/rob'
 import { RobTheme } from '@mindcoxr/rob/dist/typescript/theme'
+import { useNavigation } from '@react-navigation/native'
 let tId: NodeJS.Timeout
 
 const holdBreath = (callback: () => void) => (tId = setTimeout(callback, 1500))
@@ -80,6 +81,15 @@ const BreathSync = ({ onClose = Function, testID = '' }) => {
     transform: [{ scaleX: size, scaleY: size }],
   }
   const icon = step === 'INIT' ? 'minus' : step === 'IN' ? 'chevron-up' : step === 'OUT' ? 'chevron-down' : 'minus'
+  const navigation = useNavigation()
+  useEffect(() => {
+    const uns = navigation.addListener('beforeRemove', () => {
+      uns()
+      animation.stopAnimation()
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.headerContainer}>
@@ -99,7 +109,7 @@ const BreathSync = ({ onClose = Function, testID = '' }) => {
             <Pressable onPress={() => setPlay(true)} style={() => styles.startButton}>
               <Text
                 style={{
-                  fontSize: 30,
+                  ...theme.fontSizes.exeptions.deepBreathSync0,
                   color: theme.colors.primary,
                   textAlign: 'center',
                 }}
@@ -156,11 +166,11 @@ const getStyles = (theme: RobTheme) =>
       justifyContent: 'center',
       position: 'relative',
       alignItems: 'center',
-      backgroundColor: theme.colors.monochrome.offWhite,
+      backgroundColor: theme.colors.primaryPalette['500'] + '88',
       borderRadius: 140,
     },
     circle: {
-      backgroundColor: Color(theme.colors.accent).alpha(0.5).toString(),
+      backgroundColor: theme.colors.primaryPalette['600'],
       width: 100,
       height: 100,
       borderRadius: 50,
@@ -186,11 +196,11 @@ const getStyles = (theme: RobTheme) =>
       marginVertical: 20,
       paddingHorizontal: 24,
       textAlign: 'center',
-      fontSize: 20,
+      ...theme.fontSizes.exeptions.deepBreathSync1,
       color: theme.colors.backdrop,
     },
     legendFont: {
-      fontSize: 24,
+      ...theme.fontSizes.exeptions.deepBreathSync2,
       color: theme.colors.monochrome.label,
     },
     bodyContainer: {
@@ -215,8 +225,8 @@ const getStyles = (theme: RobTheme) =>
     counter: {
       position: 'absolute',
       right: 0,
-      fontSize: 150,
-      lineHeight: 150,
+      ...theme.fontSizes.exeptions.deepBreathSync3,
+      lineHeight: 120,
       margin: 20,
       marginTop: 40,
       color: theme.colors.backdrop,

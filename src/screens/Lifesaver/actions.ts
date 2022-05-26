@@ -15,6 +15,6 @@ const saveLifesaverActivityDone = async (
     place: place.toLowerCase(),
     company: company.toLowerCase(),
   }
-  await functions().httpsCallable('saveLifesaverInteraction')(payload)
+  functions().httpsCallable('saveLifesaverInteraction')(payload)
 }
 export default saveLifesaverActivityDone

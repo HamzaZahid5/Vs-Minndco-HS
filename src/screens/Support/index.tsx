@@ -1,24 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native'
+import { View, Text, StyleSheet, Keyboard, Platform, KeyboardAvoidingView } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 // @ts-ignore: non-ts file
 import template from 'lodash.template'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateProfile } from '../../services/Firestore'
+import { updateCrispSessionId, updateNoPendingCoachMessage, updateWelcomeMessageSeen } from '../../services/Firestore'
 import KeyboardSpacer from '../../utils/KeyboardSpacer'
-import { USER_SUPPORT_PROFILE } from '../../store/selectors'
+import { IS_PREMIUM, USER_SUPPORT_PROFILE } from '../../store/selectors'
 import { DefaultScreenPropType } from '../../../types'
 import { translate } from '../../utils/localization'
 import { useRobTheme, Theme as RobTheme, TabbedScreen } from '@mindcoxr/rob'
 import { URL_UI_SUPPORT, URL_UI_COACHING } from '../../utils/config'
+const FAKE_SESSION_ID = 'session_fake_to_destroy_previous_one'
 
-const Support = ({
-  navigation,
-  // flag to determine if user comes from support or coach.
-  // this flag is set at navigation level
-  isCoachingSupport = true,
-}: DefaultScreenPropType<'Support'> & { isCoachingSupport: boolean }) => {
+const Support = ({ navigation }: DefaultScreenPropType<'Support'>) => {
   // REDUX
   const {
     crisp_session_id: crispSessionId,
@@ -31,6 +27,7 @@ const Support = ({
     email,
   } = useSelector(USER_SUPPORT_PROFILE)
   const dispatch = useDispatch()
+  const isCoachingSupport = useSelector(IS_PREMIUM)
 
   // TOOLS
   const theme = useRobTheme()
@@ -42,7 +39,16 @@ const Support = ({
   // to hide overlay when Crisp chat is ready
   const [webViewVisible, setWebViewVisible] = useState<boolean>()
   // to store Crisp sess id at state leve and avoid refresh screen if sess id is updated.
-  const [currentCrispSessionId] = useState(crispSessionId)
+  const [currentCrispSessionId, setCrispSessionId] = useState(crispSessionId)
+
+  useEffect(() => {
+    const unsubscribeBlur = navigation.addListener('blur', () => setWebViewVisible(false))
+
+    return () => {
+      unsubscribeBlur()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // HELPERS
   useEffect(() => {
@@ -71,7 +77,7 @@ const Support = ({
 
     // flag user as pending message read on DB
     if (hasCoachMessages && isCoachingSupport) {
-      updateProfile({ flag_has_coach_messages: false })
+      updateNoPendingCoachMessage()
     }
 
     return () => {
@@ -127,34 +133,42 @@ const Support = ({
     return
   }
 
+  const uri = isCoachingSupport
+    ? `${URL_UI_COACHING}?crisp_sid=${currentCrispSessionId || FAKE_SESSION_ID}`
+    : URL_UI_SUPPORT
+
+  // flag to remove overlay, only when webview loads and crisp session is set and real
+  const chatReady = crispSessionId?.length && crispSessionId !== FAKE_SESSION_ID && webViewVisible
+
   return (
-    <TabbedScreen colors={[theme.colors.primaryPalette[600], 'white']}>
-      <WebView
-        ref={webViewRef}
-        scrollEnabled={false}
-        style={styles.webView}
-        onNavigationStateChange={async event => {
-          if (!event.url.includes(URL_UI_COACHING)) {
-            webViewRef.current?.stopLoading()
-            openUrl(event.url)
-          }
-        }}
-        onMessage={event => {
-          // navigate back on chat close
-          if (event.nativeEvent.data === 'chat:closed') {
-            navigation.navigate('Home')
-          }
-          // on crisp ready actions
-          if (event.nativeEvent.data === 'chat:opened') {
-            // show automatic 2 messages conversation
-            if (showWelcomeMessageOnChat && isCoachingSupport) {
-              webViewRef.current?.injectJavaScript(welcomeMessageCommand)
+    <TabbedScreen colors={[theme.colors.primaryPalette[400], 'white']}>
+      <KeyboardAvoidingView behavior="height" style={{ flex: 1 }} enabled={Platform.OS === 'android'}>
+        <WebView
+          ref={webViewRef}
+          scrollEnabled={false}
+          style={styles.webView}
+          onNavigationStateChange={async event => {
+            if (!event.url.includes(URL_UI_COACHING) && !event.url.includes(URL_UI_SUPPORT)) {
+              webViewRef.current?.stopLoading()
+              openUrl(event.url)
             }
-            // updates session id if changed and triggers readyness event to hide overlay
-            webViewRef.current?.injectJavaScript(`
-              const session_id = window.$crisp.get("session:identifier");
-              if (session_id !== "${currentCrispSessionId}") {
-                window.ReactNativeWebView.postMessage("session:loaded:" + session_id);
+          }}
+          onMessage={event => {
+            // navigate back on chat close
+            if (event.nativeEvent.data === 'chat:closed') {
+              navigation.navigate('Home')
+            }
+            // on crisp ready actions
+            if (event.nativeEvent.data === 'chat:opened') {
+              // show automatic 2 messages conversation
+              if (showWelcomeMessageOnChat && isCoachingSupport && chatReady) {
+                webViewRef.current?.injectJavaScript(welcomeMessageCommand)
+              }
+              // updates session id if changed and triggers readyness event to hide overlay
+              webViewRef.current?.injectJavaScript(`
+              window.session_id = window.$crisp.get("session:identifier");
+              if (window.session_id !== "${currentCrispSessionId}") {
+                window.ReactNativeWebView.postMessage("session:loaded:" + window.session_id);
               }
               window.ReactNativeWebView.postMessage("session:ready");
 
@@ -164,56 +178,56 @@ const Support = ({
                 ["user-name", "${displayName}"],
                 ["user-kit-id", "${kitId}"],
                 ["user-id", "${uid}"],
-                ["profile-page", "https://app.mindcotine.com/admin/users/${uid}"],
               ]]]);
               true;
             `)
-          }
-          // all ready, hide overlay and reveal the chat.
-          if (event.nativeEvent.data === 'session:ready') {
-            setWebViewVisible(true)
-          }
-          // updates session id if is coaching screen
-          if (event.nativeEvent.data.includes('session:loaded:') && isCoachingSupport) {
-            const session_id = event.nativeEvent.data.split(':').pop()
-            if (session_id !== currentCrispSessionId) {
-              // Firebase.updateUser({ crisp_session_id: session_id });
-              updateProfile({ crisp_session_id: session_id })
             }
-          }
+            // all ready, hide overlay and reveal the chat.
+            if (event.nativeEvent.data === 'session:ready') {
+              setWebViewVisible(true)
+            }
+            // updates session id if is coaching screen
+            if (event.nativeEvent.data.includes('session:loaded:') && isCoachingSupport) {
+              const session_id = event.nativeEvent.data.split(':').pop()
+              if (session_id && session_id !== currentCrispSessionId) {
+                //local update
+                setCrispSessionId(session_id)
+                // db update
+                updateCrispSessionId(session_id)
+              }
+            }
 
-          // flag user into DB to avoid welcome messages in the future.
-          if (event.nativeEvent.data === 'welcome_message:shown') {
-            if (showWelcomeMessageOnChat && isCoachingSupport) {
-              updateProfile({ flag_show_welcome_message_on_chat: false })
+            // flag user into DB to avoid welcome messages in the future.
+            if (event.nativeEvent.data === 'welcome_message:shown') {
+              if (showWelcomeMessageOnChat && isCoachingSupport) {
+                updateWelcomeMessageSeen()
+              }
             }
-          }
-        }}
-        // include session id in URL in case of coaching screen.
-        // if no session id is stored in DB use some fake value to let Crisp
-        // to generate a new session id.
-        source={{
-          uri: isCoachingSupport
-            ? `${URL_UI_COACHING}?crisp_sid=${currentCrispSessionId || 'session_fake_to_destroy_previous_one'}`
-            : URL_UI_SUPPORT,
-        }}
-        injectedJavaScriptBeforeContentLoaded={runFirst}
-        onError={syntheticEvent => {
-          const { nativeEvent } = syntheticEvent
-          // eslint-disable-next-line no-console
-          console.warn('WebView error: ', nativeEvent)
-        }}
-      />
-      {!webViewVisible && (
-        <View style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}>
-          <Text>
-            {isCoachingSupport
-              ? translate('screens.Support.starting-coach-chat')
-              : translate('screens.Support.starting-support-chat')}
-          </Text>
-        </View>
-      )}
-      {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={Platform.OS === 'ios' ? -80 : 0} />}
+          }}
+          // include session id in URL in case of coaching screen.
+          // if no session id is stored in DB use some fake value to let Crisp
+          // to generate a new session id.
+          source={{
+            uri,
+          }}
+          injectedJavaScriptBeforeContentLoaded={runFirst}
+          onError={syntheticEvent => {
+            const { nativeEvent } = syntheticEvent
+            // eslint-disable-next-line no-console
+            console.warn('WebView error: ', nativeEvent)
+          }}
+        />
+        {!chatReady && (
+          <View style={[styles.overlay, webViewVisible ? styles.overlayHidden : null]}>
+            <Text>
+              {isCoachingSupport
+                ? translate('screens.Support.starting-coach-chat')
+                : translate('screens.Support.starting-support-chat')}
+            </Text>
+          </View>
+        )}
+        {Platform.OS === 'ios' && <KeyboardSpacer topSpacing={Platform.OS === 'ios' ? -80 : 0} />}
+      </KeyboardAvoidingView>
     </TabbedScreen>
   )
 }
@@ -233,7 +247,7 @@ const getStyles = (theme: typeof RobTheme) =>
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: theme.colors.primaryPalette[700],
+      backgroundColor: theme.colors.primaryPalette[400],
       alignItems: 'center',
       justifyContent: 'center',
     },

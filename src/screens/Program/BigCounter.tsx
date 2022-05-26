@@ -16,8 +16,7 @@ const BigCounter = ({ value, label }: ScreenProps) => {
           style={{
             color: theme.colors.monochrome.offBlack,
             fontStyle: 'normal',
-            fontSize: 100,
-            letterSpacing: 1,
+            ...theme.fontSizes.exeptions.bigCounter,
             fontFamily: 'Poppins_700Bold',
             fontWeight: '700',
           }}

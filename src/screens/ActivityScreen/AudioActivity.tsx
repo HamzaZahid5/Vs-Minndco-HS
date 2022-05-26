@@ -33,15 +33,20 @@ export type VRActivityScreenProps = {
   duration: string | number
 }
 
-const PopupContent = () => (
+const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
       <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-      <Paragraph size="xsmall" weight="normal" textAlign="left">
+      <Paragraph size="small" weight="normal" textAlign="left">
         {translate('screens.Activity.tipsAudio')}
       </Paragraph>
+    </Row>
+    <Row>
+      <Button onPress={close} round>
+        {translate('commons.messages.close')}
+      </Button>
     </Row>
   </>
 )
@@ -229,13 +234,13 @@ const AudioActivityScreen = ({
               <View style={[styles.iconsWrapper]}>
                 <Icon name="Audio" color={theme.colors.monochrome.placeholder} />
                 <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                  Audio
+                  {translate('commons.activities.audio-label')}
                 </PaperParagraph>
               </View>
               <View style={[styles.iconsWrapper]}>
                 <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
                 <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                  {duration} min
+                  {duration} {translate('commons.values.minute-abbr')}
                 </PaperParagraph>
               </View>
             </View>

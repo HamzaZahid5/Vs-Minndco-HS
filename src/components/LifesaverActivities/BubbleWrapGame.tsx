@@ -22,7 +22,7 @@ const Bubble = ({ onSmash = _ => _ }: { onSmash: (e: boolean) => void }) => {
   // BUBBLE ASSET REAL SIZE: 105x105
   const BUBBLE_COUNT_BY_ROW = 8
   const bubble_size = width / BUBBLE_COUNT_BY_ROW
-  const topBarHeight = 100
+  const topBarHeight = 150
   const rows = Math.round((height - topBarHeight) / bubble_size)
   const columns = Math.round(width / bubble_size)
   const evenRows = Math.round(rows / 2)

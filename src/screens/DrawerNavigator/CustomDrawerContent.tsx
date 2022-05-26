@@ -1,11 +1,17 @@
 import React from 'react'
 import { View, Text as NativeText, TouchableOpacity } from 'react-native'
 import { DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer'
-import { Icon, Paragraph, useRobTheme } from '@mindcoxr/rob'
+import { Button, Icon, Paragraph, Row, Subheading, useRobTheme, ButtonSubVariant } from '@mindcoxr/rob'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
-import Logo from '../../../assets/SVG/Logo'
 import { useSelector } from 'react-redux'
-import { IS_PREMIUM } from '../../store/selectors'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
+import Logo from '../../../assets/SVG/Logo'
+import { HAS_VIEWER, IS_PREMIUM } from '../../store/selectors'
+import { translate } from '../../utils/localization'
+import auth from '../../services/Auth/auth'
+import { activateKit } from '../../services/Firestore'
 
 type CustomDrawerItemPropType = {
   name: string
@@ -40,8 +46,12 @@ const CustomDrawerItem = ({ name, icon, onPress, testID, color }: CustomDrawerIt
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { navigation } = props
-  const isPremium = useSelector(IS_PREMIUM)
+  const StackNavigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+
   const theme = useRobTheme()
+  const isPremium = useSelector(IS_PREMIUM)
+  const hasViewer = useSelector(HAS_VIEWER)
+
   return (
     <DrawerContentScrollView {...props}>
       <View style={{ paddingHorizontal: 26, paddingVertical: 46 }}>
@@ -50,34 +60,11 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         </View>
         <CustomDrawerItem
           onPress={() => {
-            // auth().signOut();
-            navigation.navigate('Profile')
+            StackNavigation.navigate('Profile')
             navigation.closeDrawer()
           }}
-          icon="VR"
-          name={'Profile'}
-          color={theme.colors.monochrome.offBlack}
-          testID="drawer-profile"
-        />
-        <CustomDrawerItem
-          onPress={() => {
-            // auth().signOut();
-            navigation.navigate('Profile')
-            navigation.closeDrawer()
-          }}
-          icon="VR"
-          name={'Settings'}
-          color={theme.colors.monochrome.offBlack}
-          testID="drawer-profile"
-        />
-        <CustomDrawerItem
-          onPress={() => {
-            // auth().signOut();
-            navigation.navigate('Profile')
-            navigation.closeDrawer()
-          }}
-          icon="VR"
-          name={'Learn the basics'}
+          icon="TwoPeople"
+          name={translate('screens.Drawer.profile', { defaultValue: 'Profile' })}
           color={theme.colors.monochrome.offBlack}
           testID="drawer-profile"
         />
@@ -89,11 +76,77 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
               navigation.closeDrawer()
             }}
             icon="Code"
-            name={'Redeem code'}
+            name={translate('screens.Drawer.activate_by_code', { defaultValue: 'Redeem code' })}
             color={theme.colors.monochrome.offBlack}
             testID="drawer-profile"
           />
         )}
+        {hasViewer && (
+          <CustomDrawerItem
+            onPress={() => {
+              StackNavigation.navigate('KitWelcome')
+              navigation.closeDrawer()
+            }}
+            icon="VR"
+            name={translate('screens.Drawer.vr_basics', { defaultValue: 'VR Basics' })}
+            color={theme.colors.monochrome.offBlack}
+            testID="drawer-profile"
+          />
+        )}
+        {!hasViewer && isPremium && (
+          <CustomDrawerItem
+            onPress={() => {
+              activateKit()
+              StackNavigation.navigate('KitWelcome')
+              navigation.closeDrawer()
+            }}
+            icon="VR"
+            name={translate('screens.Drawer.kit_received', { defaultValue: "I've received my kit" })}
+            color={theme.colors.monochrome.offBlack}
+            testID="drawer-profile"
+          />
+        )}
+        <CustomDrawerItem
+          onPress={() => {
+            const PopupContent = ({ close }: { close: () => Promise<void> }) => (
+              <>
+                <Row gutter={10}>
+                  <Subheading>
+                    {translate('screens.Drawer.sign_out_title', { defaultValue: "You'll be signed out" })}
+                  </Subheading>
+                </Row>
+                <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+                  <Paragraph size="xsmall" weight="normal" textAlign="center">
+                    {translate('screens.Drawer.sign_out_description', {
+                      defaultValue: "Next time you open the app you'll be required to sign in again",
+                    })}
+                  </Paragraph>
+                </Row>
+                <Row>
+                  <Button
+                    onPress={() => {
+                      close().then(() => auth().signOut())
+                    }}
+                    subVariant={ButtonSubVariant.danger}
+                  >
+                    {translate('screens.Drawer.sign_out_CTA_yes', { defaultValue: 'Yes, sign out' })}
+                  </Button>
+                  <Button role="secondary" onPress={close}>
+                    {translate('screens.Drawer.sign_out_CTA_no', { defaultValue: 'Keep me signed in' })}
+                  </Button>
+                </Row>
+              </>
+            )
+            navigation.navigate('BasicModal', {
+              content: PopupContent,
+            })
+            navigation.closeDrawer()
+          }}
+          icon="LogOutCircle"
+          name={translate('screens.Drawer.sign_out_menuOption', { defaultValue: 'Sign out' })}
+          color={theme.colors.monochrome.offBlack}
+          testID="drawer-profile"
+        />
       </View>
     </DrawerContentScrollView>
   )

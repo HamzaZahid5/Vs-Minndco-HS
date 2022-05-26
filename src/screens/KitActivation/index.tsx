@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   useRobTheme,
   Headline,
@@ -10,11 +10,12 @@ import {
   Keyboard,
   Icon,
 } from '@mindcoxr/rob'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, ScrollView } from 'react-native'
 import { DefaultScreenPropType } from '../../../types'
 import { burnCode, getKitById } from '../../services/Firestore'
 import { translate } from '../../utils/localization'
-import { ActivityIndicator } from 'react-native-paper'
+import { ActivityIndicator, TouchableRipple } from 'react-native-paper'
+import { useSetHeaderProps } from '../../components/NavigationHeader'
 
 const PopupContent = ({ close }: { close: () => void }) => {
   const theme = useRobTheme()
@@ -93,6 +94,19 @@ const OnboardingWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitActiv
   const theme = useRobTheme()
   const [text, setText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const scrollViewRef = useRef<ScrollView>(null)
+
+  useSetHeaderProps(
+    {
+      backgroundColor: isLoading ? theme.colors.monochrome.label : '#F7F7FC',
+      opacity: isLoading ? 0.5 : 1,
+      contentAtBottom: true,
+      color: '#14142b',
+      height: 100,
+    },
+    [isLoading],
+  )
+
   const completeSpace = (e: string) => {
     let newText = ''
     for (let i = 0; i < kitCodeLength - e.length; i++) {
@@ -114,7 +128,7 @@ const OnboardingWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitActiv
         throw { message: error }
       }
       await burnCode(text)
-      navigation.navigate('KitWelcome')
+      navigation.replace('KitWelcome')
     } catch (e) {
       const error = e as { message: string }
       setIsLoading(false)
@@ -123,19 +137,7 @@ const OnboardingWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitActiv
   }
   return (
     <>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 999,
-          justifyContent: 'center',
-          alignItems: 'center',
-          display: isLoading ? 'flex' : 'none',
-        }}
-      >
+      {isLoading && (
         <View
           style={{
             position: 'absolute',
@@ -143,47 +145,72 @@ const OnboardingWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitActiv
             left: 0,
             right: 0,
             bottom: 0,
-            opacity: 0.5,
-            backgroundColor: theme.colors.monochrome.label,
+            zIndex: 999,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
-        <ActivityIndicator size={70} color={theme.colors.monochrome.offWhite} />
-      </View>
-      <Screen>
-        <Row gutter={5} />
-        <Row gutter={25}>
-          <Headline size="huge" weight="bold">
-            {translate('screens.kitActivation.activate-your-kit')}
-          </Headline>
-          <Paragraph size="small" weight="normal" textAlign="center">
-            {translate('screens.kitActivation.insert-the-activation-code-printed-in-your-box-')}
-          </Paragraph>
-          <Paragraph size="medium" weight="bold" textAlign="center">
-            <Text
-              onPress={() => navigation.navigate('BasicModal', { content: PopupContent })}
-              style={{ color: theme.colors.primaryPalette[500] }}
-            >
-              {translate('screens.kitActivation.where-is-the-code')}
-            </Text>
-          </Paragraph>
-        </Row>
-        <Row gutter={27} grow justifyContentOnGrow="flex-end">
-          <Headline size="huge" weight="bold">
-            <Text style={{ letterSpacing: 15 }}>
-              {text}
-              <Text style={{ color: theme.colors.monochrome.placeholder, textAlignVertical: 'center' }}>
-                {completeSpace(text)}
+        >
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              opacity: 0.5,
+              backgroundColor: theme.colors.monochrome.label,
+            }}
+          />
+          <ActivityIndicator size={70} color={theme.colors.monochrome.offWhite} />
+        </View>
+      )}
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ minHeight: '100%' }} ref={scrollViewRef} bounces={false}>
+        <Screen ignoreTopSafeArea bounces={false}>
+          <Row gutter={5} />
+          <Row gutter={25}>
+            <Headline size="huge" weight="bold">
+              {translate('screens.kitActivation.activate-your-kit')}
+            </Headline>
+            <Paragraph size="small" weight="normal" textAlign="center">
+              {translate('screens.kitActivation.insert-the-activation-code-printed-in-your-box-')}
+            </Paragraph>
+            <Paragraph size="medium" weight="bold" textAlign="center">
+              <Text
+                onPress={() => navigation.navigate('BasicModal', { content: PopupContent })}
+                style={{ color: theme.colors.primaryPalette[500] }}
+              >
+                {translate('screens.kitActivation.where-is-the-code')}
               </Text>
-            </Text>
-          </Headline>
-          <Button role="primary" onPress={submitCode} disabled={text.length !== kitCodeLength}>
-            {translate('screens.kitActivation.use-this-code')}
-          </Button>
-        </Row>
+            </Paragraph>
+          </Row>
+          <Row gutter={27} grow justifyContentOnGrow="flex-end">
+            <TouchableRipple
+              borderless
+              style={{ borderRadius: 20 }}
+              onPress={() => {
+                if (scrollViewRef.current) {
+                  scrollViewRef.current.scrollToEnd()
+                }
+              }}
+            >
+              <Headline size="huge" weight="bold">
+                <Text style={{ letterSpacing: 15 }}>
+                  {text}
+                  <Text style={{ color: theme.colors.monochrome.placeholder, textAlignVertical: 'center' }}>
+                    {completeSpace(text)}
+                  </Text>
+                </Text>
+              </Headline>
+            </TouchableRipple>
+            <Button role="primary" onPress={submitCode} disabled={text.length !== kitCodeLength}>
+              {translate('screens.kitActivation.use-this-code')}
+            </Button>
+          </Row>
+        </Screen>
         <View style={{ justifyContent: 'flex-end' }}>
           <Keyboard value={text} setValue={protectedSetText} />
         </View>
-      </Screen>
+      </ScrollView>
     </>
   )
 }

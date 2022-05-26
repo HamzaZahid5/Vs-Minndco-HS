@@ -3,7 +3,7 @@
  * SMALL VERSION OF GENERIC BUTTON TO USE INLINE LOKE INTO PROFILE SCREEN
  */
 import React, { ReactChildren, ReactElement } from 'react'
-import { useRobTheme, Theme } from '@mindcoxr/rob'
+import { useRobTheme, Theme, RobThemeType } from '@mindcoxr/rob'
 import { View, StyleSheet, TouchableOpacity, RegisteredStyle, ViewStyle, TextStyle } from 'react-native'
 import { Button } from 'react-native-paper'
 
@@ -23,6 +23,7 @@ const ChipButton = ({
   children,
 }: ChipButtonType & { children: ReactElement | string }) => {
   const theme = useRobTheme()
+  const styles = getStyles(theme)
   const Wrapper = disabled
     ? ({ children }: { children: ReactElement }) => <View>{children}</View>
     : ({ children }: { children: ReactElement }) => <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>
@@ -32,7 +33,7 @@ const ChipButton = ({
         mode="outlined"
         compact
         uppercase={false}
-        theme={{ roundness: 50, colors: { primary: '#ffffff' } }}
+        theme={{ ...theme, roundness: 50, colors: { primary: '#ffffff' } }}
         style={[styles.chipButton, style]}
         contentStyle={[styles.chipButtonContent, contentStyle]}
         labelStyle={[styles.chipButtonLabel, { color: theme.colors.dark }, labelStyle]}
@@ -46,21 +47,21 @@ const ChipButton = ({
 
 export default ChipButton
 
-const styles = StyleSheet.create({
-  chipButton: {
-    height: 28,
-    marginHorizontal: 10,
-    paddingHorizontal: 5,
-    backgroundColor: 'white',
-  },
-  chipButtonContent: { marginTop: 0 },
+const getStyles = (theme: RobThemeType) =>
+  StyleSheet.create({
+    chipButton: {
+      height: 28,
+      marginHorizontal: 10,
+      paddingHorizontal: 5,
+      backgroundColor: 'white',
+    },
+    chipButtonContent: { marginTop: 0 },
 
-  chipButtonLabel: {
-    fontSize: 13,
-    lineHeight: 22,
-    height: 27,
-    marginTop: 2,
-    fontWeight: 'normal',
-    ...Theme.fonts.light,
-  },
-})
+    chipButtonLabel: {
+      ...theme.fontSizes.exeptions.chipButtonLabel,
+      height: 27,
+      marginTop: 2,
+      fontWeight: 'normal',
+      ...Theme.fonts.light,
+    },
+  })

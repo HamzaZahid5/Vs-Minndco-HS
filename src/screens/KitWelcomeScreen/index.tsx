@@ -57,79 +57,82 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
 
 const KitWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitWelcome'>) => {
   const theme = useRobTheme()
-  const [steep, setSteep] = useState(0)
+  const [steep, setSteep] = useState<number[]>([])
   return (
-    <BasicScreen bounces={false}>
-      <Row gutter={15}>
-        <View style={{ alignItems: 'flex-end' }}>
-          <TouchableRipple
-            borderless
-            style={{ borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5 }}
-            onPress={() => {
-              navigation.popToTop()
-              return
+    <>
+      <View style={{ height: 100, width: '100%' }} />
+      <BasicScreen bounces={false}>
+        <Row gutter={15}>
+          <View style={{ alignItems: 'flex-end' }}>
+            <TouchableRipple
+              borderless
+              style={{ borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5 }}
+              onPress={() => {
+                navigation.popToTop()
+                return
+              }}
+            >
+              <Paragraph size="small" weight="bold" textAlign="right">
+                <Text style={{ color: theme.colors.monochrome.line }}>Skip</Text>
+              </Paragraph>
+            </TouchableRipple>
+          </View>
+        </Row>
+        <Row gutter={26}>
+          <Headline size="huge" weight="bold" textAlign="center">
+            {translate('screens.KitWelcome.title')}
+          </Headline>
+          <View style={{ marginHorizontal: 25 }}>
+            <Paragraph size="small" weight="normal" textAlign="center">
+              {translate('screens.KitWelcome.subTitle')}
+            </Paragraph>
+          </View>
+        </Row>
+        <Row gutter={20}>
+          <View style={{ marginHorizontal: 15 }}>
+            <Paragraph size="small" weight="normal" textAlign="left">
+              {translate('screens.KitWelcome.paragraph')}
+            </Paragraph>
+          </View>
+          <ArrowBox
+            bold={!steep.includes(0)}
+            onClick={() => {
+              if (!steep.includes(0)) {
+                setTimeout(() => setSteep([...steep, 0]), 500)
+              }
+              navigation.navigate('KitPresentation', { demoVr: false })
             }}
           >
-            <Paragraph size="small" weight="bold" textAlign="right">
-              <Text style={{ color: theme.colors.monochrome.line }}>Skip</Text>
-            </Paragraph>
-          </TouchableRipple>
-        </View>
-      </Row>
-      <Row gutter={26}>
-        <Headline size="huge" weight="bold" textAlign="center">
-          {translate('screens.KitWelcome.title')}
-        </Headline>
-        <View style={{ marginHorizontal: 25 }}>
-          <Paragraph size="small" weight="normal" textAlign="center">
-            {translate('screens.KitWelcome.subTitle')}
-          </Paragraph>
-        </View>
-      </Row>
-      <Row gutter={20}>
-        <View style={{ marginHorizontal: 15 }}>
-          <Paragraph size="small" weight="normal" textAlign="left">
-            {translate('screens.KitWelcome.paragraph')}
-          </Paragraph>
-        </View>
-        <ArrowBox
-          bold={steep > 0}
-          onClick={() => {
-            if (steep < 1) {
-              setSteep(1)
-              navigation.navigate('KitPresentation', { demoVr: false })
-            }
-          }}
-        >
-          {translate('screens.KitWelcome.label1')}
-        </ArrowBox>
-        <ArrowBox
-          bold={steep > 1}
-          onClick={() => {
-            if (steep < 2) {
-              setTimeout(() => setSteep(2), 500)
+            {translate('screens.KitWelcome.label1')}
+          </ArrowBox>
+          <ArrowBox
+            bold={!steep.includes(1)}
+            onClick={() => {
+              if (!steep.includes(1)) {
+                setTimeout(() => setSteep([...steep, 1]), 500)
+              }
               navigation.navigate('KitPresentation', { demoVr: true })
-            }
-          }}
-        >
-          {translate('screens.KitWelcome.label2')}
-        </ArrowBox>
-      </Row>
-      <Row grow>
-        <Button
-          subVariant={steep < 2 ? ButtonSubVariant.colorless : undefined}
-          onPress={() => {
-            if (steep < 2) {
-              navigation.navigate('BasicModal', { content: MakePopupContent(navigation) })
-            } else {
-              navigation.popToTop()
-            }
-          }}
-        >
-          {translate('screens.KitWelcome.ready')}
-        </Button>
-      </Row>
-    </BasicScreen>
+            }}
+          >
+            {translate('screens.KitWelcome.label2')}
+          </ArrowBox>
+        </Row>
+        <Row grow>
+          <Button
+            subVariant={steep.length < 2 ? ButtonSubVariant.colorless : undefined}
+            onPress={() => {
+              if (steep.length < 2) {
+                navigation.navigate('BasicModal', { content: MakePopupContent(navigation) })
+              } else {
+                navigation.popToTop()
+              }
+            }}
+          >
+            {translate('screens.KitWelcome.ready')}
+          </Button>
+        </Row>
+      </BasicScreen>
+    </>
   )
 }
 

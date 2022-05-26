@@ -11,6 +11,11 @@ import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
 import { RobThemeProvider } from '@mindcoxr/rob'
+import config from './env'
+import crashlytics from './src/services/Crashlytics'
+import analytics from './src/services/Analytics'
+// @ts-ignore not typescript file
+import Smartlook from 'smartlook-react-native-wrapper'
 
 // SERVICES
 // @ts-ignore: non-ts file
@@ -41,7 +46,7 @@ import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
-import { useFirestoreListener, updateProfile } from './src/services/Firestore'
+import { useFirestoreListener, updateProfile, updateDevideInfo } from './src/services/Firestore'
 import { Icon } from '@mindcoxr/rob'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
@@ -100,6 +105,10 @@ import Orientation from 'react-native-orientation-locker'
 // import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler'
 import KitPresentation from './src/screens/KitPresentation'
+import LoginCode from './src/screens/LoginCode'
+import functions from './src/services/Functions'
+import LoadingBackground from './src/components/LoadingBackground'
+import { parseCommand } from './src/utils/helpers'
 // import useDeepLinking from './src/utils/hooks/useDeepLinking';
 // import navigateToDeepLink from './src/utils/navigateToDeepLink';
 // import { translate, getLocale } from './src/utils/localization';
@@ -115,41 +124,50 @@ import KitPresentation from './src/screens/KitPresentation'
 // import Zoho from './src/screens/Zoho';
 // import StressActivitySelect from './src/screens/StressActivitySelect';
 // import ReadActivitySelect from './src/screens/ReadActivitySelect';
+import { getCommonRoutes, getPostLoginRoutes, getPreLoginRoutes } from './src/utils/routes'
+import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
+import { getLocale } from './src/utils/localization'
+import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
-const theme = getProductTheme() //Appearance.getColorScheme() === 'dark' ? DarkTheme : DefaultTheme;
+
+const PostLoginRoutes = getPostLoginRoutes(Stack)
+const PreLoginRoutes = getPreLoginRoutes(Stack)
+const CommonRoutes = getCommonRoutes(Stack)
 
 export default function App() {
   const userToken = useAuth()
-  // auth().signOut()
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
-  const navigatorRef: RefObject<NavigationContainerRef<Record<string, unknown>>> = useRef(null)
-  // useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
-  //   if (Platform.OS !== 'web') {
-  //     if (oldScreen) {
-  //       Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit);
-  //     }
-  //     Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter);
-  //   }
-  // });
-  // useOnScreenChange(navigatorRef, async ({ newScreen }) => {
-  //   if (Platform.OS !== 'web') {
-  //     await analytics().logScreenView({
-  //       screen_name: newScreen,
-  //       screen_class: newScreen,
-  //     });
-  //   }
-  // });
+  const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
+  useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
+    if (Platform.OS !== 'web') {
+      if (oldScreen) {
+        Smartlook.trackNavigationEvent(oldScreen, Smartlook.ViewState.Exit)
+      }
+      Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter)
+    }
+  })
+  useOnScreenChange(navigatorRef, async ({ newScreen }) => {
+    if (Platform.OS !== 'web') {
+      await analytics().logScreenView({
+        screen_name: newScreen,
+        screen_class: newScreen,
+      })
+    }
+  })
   const [navigatorReady, setNavigatorReady] = useState(false)
+
   useEffect(() => {
     if (navigatorReady && navigatorRef.current && deepLink) {
-      const isAuthDL = deepLink.includes('auth/')
-      if (isAuthDL) {
-        navigatorRef.current.navigate('AuthByToken', { token: deepLink.replace(new RegExp('(^.*)auth/'), '') })
+      const { value, isAuth, isSignInCode } = parseCommand(deepLink)
+      if (isAuth) {
+        navigatorRef.current.navigate('AuthByToken', { token: value })
+      } else if (isSignInCode) {
+        navigatorRef.current.navigate('LoginCode', { eid: value })
       } else {
-        navigatorRef.current.navigate(deepLink)
+        navigatorRef.current.navigate(value as keyof RootStackParamList)
       }
     }
   }, [deepLink, navigatorReady])
@@ -171,11 +189,13 @@ export default function App() {
   useEffect(() => {
     if (userToken) {
       if (Platform.OS !== 'web') {
-        // Smartlook.setUserIdentifier(userToken.uid);
+        Smartlook.setUserIdentifier(userToken.uid)
       }
-      // analytics().setUserId(userToken.uid);
-      // crashlytics().log('User authenticated.');
-      // crashlytics().setUserId(userToken.uid);
+      analytics().setUserId(userToken.uid)
+      //@ts-ignore bad typed
+      crashlytics().log('User authenticated.')
+      //@ts-ignore bad typed
+      crashlytics().setUserId(userToken.uid)
     }
   }, [userToken])
 
@@ -184,18 +204,20 @@ export default function App() {
   const isNotAuthed = userToken === null // auth response with no-authed
   const isAuthed = !isWaitingForAuth && !isNotAuthed
   const [fontsLoaded] = useFontLoader()
+  const isSmallDevice = useIsSmallDevice()
+  const theme = getProductTheme(!!isSmallDevice)
 
-  // useEffect(() => {
-  //   if (isAuthed && i18nReady && userData) {
-  //     updateProfile({
-  //       app_version: config.APP_VERSION,
-  //       language: getLocale(),
-  //       tz: Localization.timezone,
-  //       tz_offset: new Date().getTimezoneOffset() * -60,
-  //       platform: `${Platform.OS}(${Platform.Version})`,
-  //     });
-  //   }
-  // }, [i18nReady, isAuthed, userData]);
+  useEffect(() => {
+    if (isAuthed && i18nReady) {
+      updateDevideInfo({
+        app_version: config.APP_VERSION,
+        language: getLocale(),
+        tz: Localization.timezone,
+        tz_offset: new Date().getTimezoneOffset() * -60,
+        platform: `${Platform.OS}(${Platform.Version})`,
+      })
+    }
+  }, [i18nReady, isAuthed])
 
   // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
   //   return <LoadingScreen />;
@@ -213,10 +235,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <RobThemeProvider theme={getProductTheme()}>
+      <RobThemeProvider theme={theme}>
         <PaperProvider theme={theme}>
           {/* {config.name !== 'production' && <NoProductionIndicator nav={navigatorRef} />} */}
           <SafeAreaProvider>
+            {/*<LoadingBackground isLoading={isGoingToLogin} />*/}
             <NavigationContainer
               theme={
                 {
@@ -248,169 +271,13 @@ export default function App() {
                         header: NavigationHeader,
                       }}
                     >
-                      <Stack.Screen name="Main" component={DrawerHomeNavigator} options={{ headerShown: false }} />
-                      <Stack.Screen name="Onboarding" component={OnBoardingScreens} options={{ headerShown: false }} />
-                      <Stack.Screen name="Activity" component={ActivityScreen} options={{ headerShown: true }} />
-                      <Stack.Screen
-                        name="KitWelcome"
-                        component={KitWelcome}
-                        options={{
-                          headerShown: false,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="KitPresentation"
-                        component={KitPresentation}
-                        options={{
-                          headerShown: true,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="LifesaverActivity"
-                        component={LifesaverActivityScreen}
-                        options={{ headerShown: true }}
-                      />
-                      <Stack.Screen name="VRMet" component={VRMet} options={{ headerShown: false }} />
-                      <Stack.Screen
-                        name="Profile"
-                        component={ProfileScreen}
-                        options={{
-                          headerShown: true,
-                          header: (props: StackHeaderProps) => (
-                            <NavigationHeader
-                              {...props}
-                              contentAtBottom
-                              color="#14142b"
-                              backgroundColor="#F7F7FC"
-                              routeName="Profile"
-                            />
-                          ),
-                          headerTransparent: false,
-                          headerStyle: { backgroundColor: '#F7F7FC' },
-                        }}
-                      />
-                      <Stack.Screen
-                        name="Playground"
-                        component={Playground}
-                        options={{
-                          headerShown: true,
-                          header: (props: StackHeaderProps) => <NavigationHeader {...props} color="#14142b" />,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="KitActivation"
-                        component={KitActivation}
-                        options={{
-                          headerShown: true,
-                          header: (props: StackHeaderProps) => <NavigationHeader {...props} showGradient="always" />,
-                        }}
-                      />
-                    </Stack.Group>
-                    <Stack.Group screenOptions={{ presentation: 'transparentModal' }}>
-                      <Stack.Screen
-                        name="SmokeModal"
-                        component={SmokeRecordScreen}
-                        options={{
-                          headerShown: false,
-                          cardStyle: { backgroundColor: 'transparent' },
-                        }}
-                      />
-                      <Stack.Screen
-                        name="QuitDayModal"
-                        component={QuitDayModal}
-                        options={{
-                          headerShown: false,
-                          cardStyle: { backgroundColor: 'transparent' },
-                        }}
-                      />
-                      <Stack.Screen
-                        name="BasicModal"
-                        component={BasicModalScreen}
-                        options={{
-                          headerShown: false,
-                          cardStyle: { backgroundColor: 'transparent' },
-                        }}
-                      />
+                      {PostLoginRoutes}
                     </Stack.Group>
                   </>
                 ) : (
-                  <>
-                    <Stack.Screen
-                      name="Landing"
-                      component={LandingScreen}
-                      options={{
-                        headerShown: false,
-                        // @ts-ignore seems to be bad typed by Navigation
-                        // headerMode: 'screen',
-                        // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                        headerTransparent: true,
-                        headerBackground,
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Registration"
-                      component={RegistrationScreen}
-                      options={{
-                        headerShown: false,
-                        // @ts-ignore seems to be bad typed by Navigation
-                        // headerMode: 'screen',
-                        // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                        headerTransparent: true,
-                        headerBackground,
-                        // eslint-disable-next-line react/display-name
-                        headerLeft: ({ onPress: defaultOnPress, ...props }) => (
-                          <BackButton onPress={defaultOnPress} {...props} />
-                        ),
-                      }}
-                    />
-                    <Stack.Screen
-                      name="Login"
-                      component={LoginScreen}
-                      options={{
-                        headerShown: false,
-                        // @ts-ignore seems to be bad typed by Navigation
-                        // headerMode: 'screen',
-                        // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                        headerTransparent: true,
-                        headerBackground,
-                        // eslint-disable-next-line react/display-name
-                        headerLeft: ({ onPress: defaultOnPress, ...props }) => (
-                          <BackButton onPress={defaultOnPress} {...props} />
-                        ),
-                      }}
-                    />
-                    <Stack.Screen
-                      name="ForgotPassword"
-                      component={ForgotPasswordScreen}
-                      options={{
-                        headerShown: false,
-                        // @ts-ignore seems to be bad typed by Navigation
-                        // headerMode: 'screen',
-                        // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                        headerTransparent: true,
-                        headerBackground,
-                        // eslint-disable-next-line react/display-name
-                        headerLeft: ({ onPress: defaultOnPress, ...props }) => (
-                          <BackButton onPress={defaultOnPress} {...props} />
-                        ),
-                      }}
-                    />
-                    {/* 
-                  <Stack.Screen name="ThemeInspector" component={ThemeInspector} /> */}
-                  </>
+                  <>{PreLoginRoutes}</>
                 )}
-                <Stack.Screen
-                  name="AuthByToken"
-                  component={AuthByTokenScreen}
-                  options={{
-                    headerShown: false,
-                    // @ts-ignore seems to be bad typed by Navigation
-                    // headerMode: 'screen',
-                    // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                    headerTransparent: true,
-                    headerBackground,
-                  }}
-                />
+                {CommonRoutes}
               </Stack.Navigator>
             </NavigationContainer>
           </SafeAreaProvider>

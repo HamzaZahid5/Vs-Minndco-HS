@@ -16,13 +16,13 @@ const useAnimatedParallax = ({ styles = [], marginOffsett = -20, interpolationRa
     extrapolate: 'clamp',
   })
 
-  const AnimatedViewElement = ({ children }: { children?: React.ReactNode }) => (
+  const AnimatedViewElement = useRef(({ children }: { children?: React.ReactNode }) => (
     <Animated.View
       style={[...styles, { opacity: fadeAnimInterpolation, transform: [{ translateY: marginAnimInterpolation }] }]}
     >
       {children}
     </Animated.View>
-  )
+  )).current
   const animatedEvent = () =>
     Animated.event([{ nativeEvent: { contentOffset: { y: scrollViewAnimatedOffset.current } } }], {
       useNativeDriver: false,

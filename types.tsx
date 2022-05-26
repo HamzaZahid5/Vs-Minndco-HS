@@ -18,10 +18,12 @@ export type RootStackParamList = {
   Main: undefined
   Home: undefined
   Registration: undefined
+  KitActivationLanding: undefined
   Login: undefined
   ForgotPassword: undefined
   ThemeInspector: undefined
   KitWelcome: undefined
+  LoginCode: { email: string } | { eid: string }
   KitPresentation: { demoVr: boolean }
   StressRate: { isTrigerIdentification: boolean } | undefined
   StressTrigger: { isTrigerIdentification: boolean }
@@ -41,7 +43,7 @@ export type RootStackParamList = {
     selectedContent?: LifesaverContentType
   }
   BasicModal: {
-    content: (props: { close: () => void }) => React.ReactNode
+    content: (props: { close: () => Promise<void> }) => React.ReactNode
   }
   VRMet: {
     assetUrl: string

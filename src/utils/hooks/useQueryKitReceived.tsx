@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { RootStackParamList } from '../../../types'
-import { HAS_VIEWER, IS_PREMIUM } from '../../store/selectors'
+import { HAS_VIEWER, IS_PREMIUM, ONBOARDING_COMPLETE } from '../../store/selectors'
 import { translate } from '../localization'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
@@ -81,8 +81,9 @@ const useQueryKitReceived = (navigation: StackNavigationProp<RootStackParamList,
   const isPremium = useSelector(IS_PREMIUM)
   const kitActivated = useSelector(HAS_VIEWER)
   const [lastQuery, setLastQuery] = useState<string | undefined>(undefined)
+  const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
   useEffect(() => {
-    if (lastQuery === undefined) return
+    if (lastQuery === undefined || onboardingComplete === false) return
     let showQuery = true
     if (lastQuery !== '') {
       const actualDate = moment()
@@ -91,11 +92,13 @@ const useQueryKitReceived = (navigation: StackNavigationProp<RootStackParamList,
         showQuery = false
       }
     }
-    if (isPremium && !kitActivated && showQuery) {
+    if (!kitActivated && showQuery) {
       AsyncStorage.setItem('@lastQuery', moment().format('YYYY-MM-DD'))
-      navigation.navigate('BasicModal', {
-        content: MakePopupContent(navigation),
-      })
+      if (isPremium) {
+        navigation.navigate('BasicModal', {
+          content: MakePopupContent(navigation),
+        })
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastQuery])

@@ -102,10 +102,10 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
   const scrollViewRef = useRef<ScrollView>(null)
   const [internalScrollEnabled, setInternalScrollEnabled] = useState(false)
   const heroHeight = 450
-  const internalHandlerMargin = 2
+  const internalHandlerMargin = 50
   const [tabsHeaderSize, setTabsHeaderSize] = useState(0)
   const internalScrollHandler = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    if (e.nativeEvent.contentOffset.y >= heroHeight - internalHandlerMargin) {
+    if (e.nativeEvent.contentOffset.y >= internalHandlerMargin) {
       setInternalScrollEnabled(true)
     } else {
       setInternalScrollEnabled(false)
@@ -114,6 +114,8 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
   const internalScrollHandlerInternalScrollview = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (e.nativeEvent.contentOffset.y > 0) {
       setInternalScrollEnabled(true)
+    } else if (e.nativeEvent.contentOffset.y < 0) {
+      setInternalScrollEnabled(false)
     }
   }
 
@@ -162,8 +164,7 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
                     style={{
                       color: theme.colors.monochrome.offWhite,
                       fontStyle: 'normal',
-                      fontSize: 17,
-                      letterSpacing: 0.75,
+                      ...theme.fontSizes.exeptions.program,
                       fontFamily: 'Poppins_700Bold',
                       fontWeight: '700',
                     }}
@@ -174,8 +175,7 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
                     style={{
                       color: item.valueColor,
                       fontStyle: 'normal',
-                      fontSize: 17,
-                      letterSpacing: 0.75,
+                      ...theme.fontSizes.exeptions.program,
                       fontFamily: 'Poppins_700Bold',
                       fontWeight: '700',
                     }}

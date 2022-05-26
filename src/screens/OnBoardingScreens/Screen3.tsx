@@ -8,6 +8,7 @@ import 'intl/locale-data/jsonp/en'
 import 'intl/locale-data/jsonp/es'
 import { DefaultScreenPropType } from './index'
 import { translate } from '../../utils/localization'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type parserOptions = { decimalSeparator: '.' | ','; maxDecimals: number; maxFractional: number }
 
@@ -57,50 +58,52 @@ const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
   }, [])
   return (
     <ScrollView style={{ flex: 1 }}>
-      <BasicScreen>
-        <Row gutter={5}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: 20,
-            }}
-          >
-            <TouchableRipple
-              borderless
-              onPress={navigation.goBack}
-              style={{ borderRadius: 18, padding: 5, alignItems: 'center', justifyContent: 'center' }}
+      <SafeAreaView style={{ flex: 1 }}>
+        <BasicScreen>
+          <Row gutter={5}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: 20,
+              }}
             >
-              <SimpleLineIcons name="arrow-left" size={18} color="black" />
-            </TouchableRipple>
-          </View>
-        </Row>
-        <Row gutter={1}>
-          <Headline size="huge" weight="bold">
-            {translate('screens.onboardingHowMuchPay.title')}
-          </Headline>
-          {/* <Paragraph size="small" weight="normal" textAlign="center">
+              <TouchableRipple
+                borderless
+                onPress={navigation.goBack}
+                style={{ borderRadius: 18, padding: 5, alignItems: 'center', justifyContent: 'center' }}
+              >
+                <SimpleLineIcons name="arrow-left" size={18} color="black" />
+              </TouchableRipple>
+            </View>
+          </Row>
+          <Row gutter={1}>
+            <Headline size="huge" weight="bold">
+              {translate('screens.onboardingHowMuchPay.title')}
+            </Headline>
+            {/* <Paragraph size="small" weight="normal" textAlign="center">
             {translate('screens.onboardingHowMuchPay.description')}
           </Paragraph> */}
-        </Row>
-        <Row gutter={27} grow justifyContentOnGrow="flex-end">
-          <Headline size="huge" weight="bold">
-            ${text}
-          </Headline>
-          <Button
-            role="primary"
-            onPress={() => {
-              onNext(navigation, Number(text.replace(',', '.')))
-            }}
-          >
-            {translate('screens.onboardingHowMuchPay.button')}
-          </Button>
-        </Row>
-        <View style={{ justifyContent: 'flex-end' }}>
-          <Keyboard decimalSeparator="," value={text} setValue={protectedSetText} />
-        </View>
-      </BasicScreen>
+          </Row>
+          <Row gutter={27} grow justifyContentOnGrow="flex-end">
+            <Headline size="huge" weight="bold">
+              ${text}
+            </Headline>
+            <Button
+              role="primary"
+              onPress={() => {
+                onNext(navigation, Number(text.replace(',', '.')))
+              }}
+            >
+              {translate('screens.onboardingHowMuchPay.button')}
+            </Button>
+          </Row>
+          <View style={{ justifyContent: 'flex-end' }}>
+            <Keyboard decimalSeparator="," value={text} setValue={protectedSetText} />
+          </View>
+        </BasicScreen>
+      </SafeAreaView>
     </ScrollView>
   )
 }

@@ -3,17 +3,51 @@ import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import { View } from 'react-native'
 import AudioScreen from '../ActivityScreen/AudioActivity'
 import ReadScreen from '../ActivityScreen/Read'
-import { LifesaverAudioType, LifesaverDoType, LifesaverReadType } from '../../utils/lifesaverActivities'
+import {
+  fromActivityIdToDictionaryEntry,
+  LifesaverAudioType,
+  LifesaverDoType,
+  LifesaverReadType,
+} from '../../utils/lifesaverActivities'
 import saveLifesaverActivityDone from './actions'
+import { useRobTheme, BasicScreen as Screen, PopupWrapper, Row, Subheading, Paragraph, Button } from '@mindcoxr/rob'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { translate } from '../../utils/localization'
+import { useSetHeaderProps } from '../../components/NavigationHeader'
+import HeaderPadding from '../../utils/HeaderPadding'
 
 const ActivityScreen = ({
   navigation,
   route,
 }: DefaultScreenPropType<'LifesaverActivity'> & DefaultScreenRouteType<'LifesaverActivity'>) => {
   const [activityScreen, setActivityScreen] = useState<React.ReactElement | undefined>(undefined)
+  const theme = useRobTheme()
+  const dictionaryEntry = fromActivityIdToDictionaryEntry(route.params.activity.id)
+  const insets = useSafeAreaInsets()
+  const [showTips, setShowTips] = useState(false)
+  const headerProps =
+    route.params.activity.type !== 'activity'
+      ? undefined
+      : {
+          contentAtBottom: true,
+          color: '#14142b',
+          backgroundColor: theme.colors.monochrome.input,
+          routeName: translate(`contents.${dictionaryEntry}.screen_title`),
+          height: 100,
+          opacity: showTips ? 0 : 1,
+          rightActions: [
+            {
+              icon: 'QuestionMark' as const,
+              action: () => setShowTips(true),
+            },
+          ],
+        }
+
+  useSetHeaderProps(headerProps, [showTips])
+
   const saveLifesaverInteraction = () => {
     saveLifesaverActivityDone(route.params.activity, route.params.urge, route.params.place, route.params.company)
-    navigation.navigate('Home')
+    navigation.popToTop()
   }
   useEffect(() => {
     if (route.params.activity.type) {
@@ -47,7 +81,14 @@ const ActivityScreen = ({
           break
         case 'activity':
           const activityParams = route.params.activity as LifesaverDoType
-          setActivityScreen(activityParams.screen)
+          setActivityScreen(
+            <SafeAreaView style={{ backgroundColor: '#eff0f7', flex: 1 }}>
+              <Screen>
+                <HeaderPadding />
+                <View style={{ marginTop: 30 }}>{activityParams.screen}</View>
+              </Screen>
+            </SafeAreaView>,
+          )
           break
         default:
           setActivityScreen(
@@ -68,16 +109,40 @@ const ActivityScreen = ({
 
   // PREVENT RETURNING TO LIFESAVER
   useEffect(() => {
-    const unsub = navigation.addListener('beforeRemove', e => {
-      // Prevent default behavior of leaving the screen
+    const unsubscribe = navigation.addListener('beforeRemove', async e => {
       e.preventDefault()
-      navigation.navigate('Home')
+      unsubscribe()
+      navigation.popToTop()
+      return
     })
-    return () => unsub()
+    return unsubscribe
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return activityScreen ? activityScreen : <View style={{ width: '100%', height: '100%' }} />
+  return activityScreen ? (
+    <>
+      {activityScreen}
+      <PopupWrapper noPaddingHorizontal show={showTips} onClose={() => setShowTips(false)}>
+        <Row gutter={10}>
+          <Subheading>{translate(`contents.${dictionaryEntry}.tips_title`)}</Subheading>
+        </Row>
+        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+          <Paragraph size="small" weight="normal" textAlign="left">
+            {translate(`contents.${dictionaryEntry}.tips_description`)}
+          </Paragraph>
+        </Row>
+        <Row>
+          <Button onPress={() => setShowTips(false)} round>
+            {translate('commons.messages.close')}
+          </Button>
+        </Row>
+        <View style={{ marginBottom: insets.bottom }} />
+      </PopupWrapper>
+    </>
+  ) : (
+    <View style={{ width: '100%', height: '100%' }} />
+  )
 }
 
 export default ActivityScreen

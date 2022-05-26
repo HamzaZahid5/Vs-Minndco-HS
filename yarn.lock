@@ -1886,12 +1886,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-
-"@mindcoxr/rob@^0.15.2":
-  version "0.15.2"
-  resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.15.2/1ee2d840a71b41280b02e5ac0a1c30e52d9f9aab7a1aca126d921bc81cc0be2d#7bf5b983a75a45b9168fe4a168b5d71138da5ee3"
-  integrity sha512-eF+mCnHcaLwYzL9RYFQ5M3CDQsvo4e9YvD8dqwHo5vFlOhWS5XMvA1W4aTjmtkEYvYPZ7hcfYnIC9S/UmF3NSw==
-
+"@mindcoxr/rob@^0.19.3":
+  version "0.19.3"
+  resolved "https://npm.pkg.github.com/download/@mindcoxr/rob/0.19.3/e9d1a4e20a741a134c8483910f3707867535f4b527e2e4cf83aa241ed2cb5bbc#e913bfbf92427884c47d2187274805a3d64642f2"
+  integrity sha512-9OpL5/hI5Bm+xXjInthXoeaQWq/yxpnJYfEokwoPbe//Tb6Sb/4CwPl1qllZ+H0vDy7hQzWNutqV1Br1e6x9lg==
   dependencies:
     "@expo-google-fonts/poppins" "^0.2.2"
     "@types/styled-components-react-native" "^5.1.3"
@@ -9466,6 +9464,11 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
+
+react-native-utils-scale@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-utils-scale/-/react-native-utils-scale-2.4.1.tgz#9fd6f5f63de442f2983d583a4a250eebba674447"
+  integrity sha512-JVsvUh8sZC3UFpvQQIHVbqK3Z+RiVkGTfp3mfj0WhkDph5ySueyGTotzTyZ967/LKXnzBySRFbRgNTlLCcoqDQ==
 
 react-native-vector-icons@^8.1.0:
   version "8.1.0"

@@ -2,7 +2,7 @@ import React from 'react'
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA'
 import { translate } from '../../utils/localization'
-import VideoActivity from '../ActivityScreen/VideoActivity'
+import AssembleCardboardScreen from './AssembleCardboardScreen'
 import VRActivity from '../ActivityScreen/VRActivity'
 
 const KitPresentation = ({
@@ -36,7 +36,7 @@ const KitPresentation = ({
       duration={1}
     />
   ) : (
-    <VideoActivity
+    <AssembleCardboardScreen
       onDonePressed={() => {
         navigation.goBack()
       }}

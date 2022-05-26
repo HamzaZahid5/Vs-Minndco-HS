@@ -10,6 +10,7 @@ import { useKeepAwake } from 'expo-keep-awake'
 import { translate } from './../../utils/localization'
 import { useRobTheme } from '@mindcoxr/rob'
 import { RobTheme } from '@mindcoxr/rob/dist/typescript/theme'
+import { useNavigation } from '@react-navigation/native'
 
 const BreathSync = ({ onClose = Function, testID = '' }) => {
   const theme = useRobTheme()
@@ -108,6 +109,16 @@ const BreathSync = ({ onClose = Function, testID = '' }) => {
     transform,
   }
 
+  const navigation = useNavigation()
+  useEffect(() => {
+    const uns = navigation.addListener('beforeRemove', () => {
+      uns()
+      position.stopAnimation()
+      size.stopAnimation()
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <View style={styles.container} testID={testID}>
       <View style={styles.headerContainer}>
@@ -136,7 +147,7 @@ const BreathSync = ({ onClose = Function, testID = '' }) => {
             >
               <Text
                 style={{
-                  fontSize: 21,
+                  ...theme.fontSizes.exeptions.breathSync0,
                   color: theme.colors.primary,
                   textAlign: 'center',
                 }}
@@ -184,7 +195,7 @@ const getStyles = (theme: RobTheme) =>
       height: 300,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      backgroundColor: theme.colors.background + '88',
+      backgroundColor: theme.colors.primaryPalette['500'] + '88',
       borderRadius: 5,
     },
     legend: {
@@ -204,11 +215,11 @@ const getStyles = (theme: RobTheme) =>
       marginVertical: 20,
       paddingHorizontal: 24,
       textAlign: 'center',
-      fontSize: 20,
+      ...theme.fontSizes.exeptions.breathSync1,
       color: theme.colors.backdrop,
     },
     legendFont: {
-      fontSize: 24,
+      ...theme.fontSizes.exeptions.breathSync2,
       color: theme.colors.backdrop,
       width: '100%',
       textAlign: 'center',
@@ -236,14 +247,14 @@ const getStyles = (theme: RobTheme) =>
       right: 0,
       width: 250,
       textAlign: 'right',
-      fontSize: 150,
-      lineHeight: 150,
+      ...theme.fontSizes.exeptions.breathSync3,
+      lineHeight: 120,
       margin: 20,
       marginTop: 40,
       color: theme.colors.backdrop,
     },
     indicator: {
-      backgroundColor: Color(theme.colors.accent).alpha(0.5).toString(),
+      backgroundColor: theme.colors.primaryPalette['600'],
       width: 20,
       height: 20,
       borderRadius: 5,

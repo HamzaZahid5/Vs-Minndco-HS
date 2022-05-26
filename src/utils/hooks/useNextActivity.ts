@@ -22,8 +22,7 @@ export default (fixedActivityId?: string) => {
   useEffect(() => {
     if (program && progress) {
       const allActivityKeys = getAllActivitiesKey(program, includeVR)
-      const lastCompletedActivity = [...progress].pop()
-      const lastCompletedIndex = allActivityKeys.findIndex(aKey => aKey === lastCompletedActivity)
+      const firstNonCompletedIndex = allActivityKeys.findIndex(aKey => !progress.includes(aKey))
       // when we got a fixed activity id it doesn't matter if the activity is repeated into another
       // module or level. The first match we find into the array of activity key is enough to let the
       // user to perform that activity again.
@@ -34,14 +33,13 @@ export default (fixedActivityId?: string) => {
       }
       // if fixed act id, fixed activity index, otherwise the next index from last completed act.
       const activityIndex =
-        fixedActivityIndex !== undefined && fixedActivityIndex >= 0 ? fixedActivityIndex : lastCompletedIndex + 1
-
+        fixedActivityIndex !== undefined && fixedActivityIndex >= 0 ? fixedActivityIndex : firstNonCompletedIndex
       // if exists, the activity key by index, otherwise the last activity key.
-      const nextActKey = (allActivityKeys[activityIndex] || allActivityKeys.pop()) as string
+      const nextActKey = (allActivityKeys[activityIndex] || [...allActivityKeys].pop()) as string
       // if fixed activity id, it will be the last activity when index + 1 is equal to array length.
       // if next activity is the last one, index plus 1 it will be equal to array length.
       // if next activity is unexistent (current activity was the last one), act index plus one will be greather than array length.
-      const isLastActivity = allActivityKeys.length <= activityIndex + 1
+      const isLastActivity = nextActKey === allActivityKeys[allActivityKeys.length - 1]
       const nextActivity = getActivityFromKey(program, nextActKey)
 
       setIsLastActivity(isLastActivity)

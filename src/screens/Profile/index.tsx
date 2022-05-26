@@ -16,6 +16,7 @@ import {
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { translate } from '../../utils/localization'
+import { updateUserProfile } from '../../services/Firestore'
 
 const ProfileScreen = () => {
   const theme = useRobTheme()
@@ -38,8 +39,8 @@ const ProfileScreen = () => {
           qday: '',
           wlike: '',
         }}
-        onSubmit={(values, actions) => {
-          // actions.setSubmitting(false)
+        onSubmit={async (values, actions) => {
+          await updateUserProfile({ display_name: values.name })
         }}
         validationSchema={getRegisterSchema()}
       >

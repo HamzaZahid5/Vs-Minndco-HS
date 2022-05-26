@@ -21,8 +21,8 @@ export type TabsParamList = {
   Lifesaver: undefined
 }
 
-export const tabMarginTop = Platform.OS === 'ios' ? 10 : 0
-export const tabHeight = Platform.OS === 'ios' ? 80 : 70
+export const tabMarginTop = Platform.OS === 'ios' ? 20 : 5
+export const tabHeight = Platform.OS === 'ios' ? 90 : 75
 
 const Tab = createBottomTabNavigator<TabsParamList>()
 
@@ -60,6 +60,10 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         lazy: false,
         headerTransparent: true,
         headerShown: false,
+        tabBarItemStyle: {
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
         tabBarIconStyle: {
           marginTop: tabMarginTop,
         },
@@ -67,6 +71,8 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           flex: 1,
           maxHeight: tabHeight,
           backgroundColor: 'white',
+          alignItems: 'center',
+          justifyContent: 'center',
         },
       }}
       screenListeners={{
@@ -79,11 +85,13 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color, size, focused }) => (
-            <Icon
-              name="Home"
-              color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-              size={22}
-            />
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+              <Icon
+                name="Home"
+                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                size={22}
+              />
+            </View>
           ),
         }}
       />
@@ -92,12 +100,16 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         component={ProgramScreen}
         options={{
           tabBarLabel: '',
+          unmountOnBlur: true,
+          lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <Icon
-              name="Paste"
-              color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-              size={22}
-            />
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+              <Icon
+                name="Paste"
+                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                size={22}
+              />
+            </View>
           ),
         }}
       />
@@ -107,13 +119,15 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <TargetIndicator round show={showJournalCTAHelper && screenFocused === 'Home'}>
-              <Icon
-                name="Plus"
-                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                size={30}
-              />
-            </TargetIndicator>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+              <TargetIndicator round show={showJournalCTAHelper && screenFocused === 'Home'}>
+                <Icon
+                  name="Plus"
+                  color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                  size={30}
+                />
+              </TargetIndicator>
+            </View>
           ),
         }}
         listeners={({ navigation }) => ({
@@ -130,14 +144,18 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         component={SupportScreen}
         options={{
           tabBarLabel: '',
+          unmountOnBlur: true,
+          lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <TargetIndicator round show={showChatCTAHelper && screenFocused === 'Home'}>
-              <Icon
-                name="Comment"
-                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                size={22}
-              />
-            </TargetIndicator>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+              <TargetIndicator round show={showChatCTAHelper && screenFocused === 'Home'}>
+                <Icon
+                  name="Comment"
+                  color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                  size={22}
+                />
+              </TargetIndicator>
+            </View>
           ),
           tabBarBadge: has_coach_messages ? '!' : undefined,
           tabBarBadgeStyle: { backgroundColor: theme.colors.danger.dark },
@@ -149,13 +167,15 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <TargetIndicator round show={showLifeSaverCTAHelper && screenFocused === 'Home'}>
-              <Icon
-                name="Help"
-                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                size={22}
-              />
-            </TargetIndicator>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+              <TargetIndicator round show={showLifeSaverCTAHelper && screenFocused === 'Home'}>
+                <Icon
+                  name="Help"
+                  color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
+                  size={22}
+                />
+              </TargetIndicator>
+            </View>
           ),
         }}
       />

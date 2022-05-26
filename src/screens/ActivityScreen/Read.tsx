@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text, ScrollView } from 'react-native'
+import { View, StyleSheet, Platform, Image, Text, ScrollView, ImageSourcePropType } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { useRobTheme, Theme as RobTheme, Headline, Paragraph, Button, Row, Subheading } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -11,26 +11,31 @@ import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 
 export type ReadActivityScreenProps = {
   onDonePressed: () => void
-  backImage: string
+  backImage: string | ImageSourcePropType
   title: string
   readPages: string[]
 }
 
-const PopupContent = () => (
+const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
       <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="xsmall" weight="normal" textAlign="left">
-        {translate('screens.Activity.tipsAudio')}
+        {translate('screens.Activity.tipsRead')}
       </Paragraph>
+    </Row>
+    <Row>
+      <Button onPress={close} round>
+        {translate('commons.messages.close')}
+      </Button>
     </Row>
   </>
 )
 
 const ReadActivityScreen = ({ onDonePressed, backImage, title, readPages }: ReadActivityScreenProps) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(typeof backImage === 'string')
   const theme = useRobTheme()
   const styles = getStyles(theme)
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
@@ -61,9 +66,13 @@ const ReadActivityScreen = ({ onDonePressed, backImage, title, readPages }: Read
           </View>
         )}
         <Image
-          source={{
-            uri: backImage,
-          }}
+          source={
+            typeof backImage === 'string'
+              ? {
+                  uri: backImage,
+                }
+              : backImage
+          }
           resizeMode="cover"
           style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
           onLoad={() => {
@@ -177,7 +186,7 @@ const getStyles = (theme: typeof RobTheme) =>
       left: 24,
       zIndex: 999,
     },
-    image: { height: 314, borderRadius: 0, display: 'flex' },
+    image: { height: 314, width: 'auto', borderRadius: 0, display: 'flex' },
     imageSmall: { height: 120, borderRadius: 24 },
     imageLoading: { display: 'none' },
     textConteinar: {

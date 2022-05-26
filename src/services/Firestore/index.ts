@@ -42,23 +42,32 @@ export const useFirestoreListener = (collection: string, id: string) => {
 export const updateProfile = (updateObject: Record<string, unknown>) =>
   firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
 
+export const updateUserProfile = ({ display_name }: { display_name: string }) =>
+  updateProfile({
+    // add more props as we need to update them from Profile screen
+    display_name,
+  })
+
 export const updateUserLanguage = (lang: languagesType) =>
   updateProfile({
     language: lang,
   })
 
-export const updateUserHardware = ({
+export const updateDevideInfo = ({
+  app_version,
   language,
   tz,
   tz_offset,
   platform,
 }: {
-  language: languagesType
+  app_version: string
+  language: string
   tz: string
   tz_offset: number
-  platform: PlatformOSType
+  platform: string
 }) =>
   updateProfile({
+    app_version,
     language,
     tz,
     tz_offset,
@@ -139,10 +148,13 @@ export const resetUserStreak = () =>
     'statistics.activity_days_in_a_row': 0,
   })
 
-export const updateDeviceInfo = ({ token }: { token: string }) =>
-  updateProfile({
-    pushToken: firestore.FieldValue.arrayUnion(token),
-  })
+export const updateDeviceInfo = async ({ token }: { token: string }) => {
+  try {
+    updateProfile({
+      pn_tokens: firestore.FieldValue.arrayUnion(token),
+    })
+  } catch (error) {}
+}
 
 export const getFirestoreTimestamp = (date = new Date()) => firestore.Timestamp.fromDate(date)
 
@@ -161,6 +173,19 @@ export const getVrSession = async (sessionId: string) => {
   const docRef = await firestore().collection('vr_sessions').doc(sessionId).get()
   return { state: docRef.data()?.state, progress: docRef.data()?.progress }
 }
+
+export const updateNoPendingCoachMessage = () =>
+  updateProfile({
+    'flags.has_coach_messages': false,
+  })
+export const updateCrispSessionId = (sessionId: string) =>
+  updateProfile({
+    crisp_session_id: sessionId,
+  })
+export const updateWelcomeMessageSeen = () =>
+  updateProfile({
+    'flags.show_welcome_message_on_chat': false,
+  })
 
 export const updateActivityCounter = async (activityType: ProgramActivityType) => {
   let oldCounter = 0

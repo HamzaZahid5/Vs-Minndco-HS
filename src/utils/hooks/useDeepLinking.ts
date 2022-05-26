@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import useDynamicLinks from './useDynamicLinks'
 import usePushNotifications from './usePushNotifications'
+import { parseDeepLink } from '../helpers'
 
 export default function useDeepLinking(initialValue: string | undefined = undefined): string | null | undefined {
   const dynamicLink = useDynamicLinks()
@@ -23,23 +24,12 @@ export default function useDeepLinking(initialValue: string | undefined = undefi
   }, [remoteMessage])
 
   useEffect(() => {
-    const HEALTH_DL_PATH = 'https://app.mindco.health/dl'
-    const NAV_KEY = '/nav'
-    const AUTH_KEY = '/auth'
-    // next generation of DL are pointing to MindCo Health
-    const isDLNextGeneration = dynamicLink?.url.includes(HEALTH_DL_PATH)
-    if (isDLNextGeneration) {
-      const command = dynamicLink?.url.replace(HEALTH_DL_PATH, '') || ''
-      const isNavCommand = command.includes(NAV_KEY)
-      const isAuthCommand = command.includes(AUTH_KEY)
-      if (isNavCommand) {
-        const screen = command.replace(new RegExp(`^(.*?)${NAV_KEY}/`), '')
-        setDynamicLinkDL(screen)
-      }
-      if (isAuthCommand) {
-        const authKey = command.replace(new RegExp(`(^.*)${AUTH_KEY}`), AUTH_KEY)
-        setDynamicLinkDL(authKey)
-      }
+    const { isNextGen, command } = parseDeepLink(dynamicLink?.url || '')
+    if (isNextGen) {
+      // sets nav/[screen name] or
+      // sets auth/[JWT] or
+      // sets signin/[enrollment id]
+      setDynamicLinkDL(command)
     } else {
       // old way to manage DL preserved for legacy, versions < 5
       // wildcard to handle navigation from dynamic link.
@@ -47,11 +37,11 @@ export default function useDeepLinking(initialValue: string | undefined = undefi
         // converts something like https://relief.the-mind.company/nav/KitActivation
         // into => KitActivation
         const screen = dynamicLink.url.replace('https://www.mindcotine.com/nav/', '')
-        setDynamicLinkDL(screen)
+        setDynamicLinkDL(`nav/${screen}`)
       } else if (dynamicLink?.url.includes('https://www.mindcotine.com/auth/')) {
         // detects token auth attempt, saves auth/{token}
         const authKey = dynamicLink.url.replace('https://www.mindcotine.com/', '')
-        setDynamicLinkDL(authKey)
+        setDynamicLinkDL(`auth/${authKey}`)
       } else {
         // add custom dlink resolution here.
 

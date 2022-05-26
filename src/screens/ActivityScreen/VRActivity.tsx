@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, Platform, Image, Text, ScrollView } from 'react-native'
+import { View, StyleSheet, Platform, Image, Text, ScrollView, ImageSourcePropType } from 'react-native'
 import { ActivityIndicator, Paragraph as PaperParagraph, TouchableRipple } from 'react-native-paper'
 
 import {
@@ -26,21 +26,26 @@ import { setGender } from '../../services/Firestore'
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
   onDonePressed: () => void
-  backImage: string
+  backImage: string | ImageSourcePropType
   title: string
   description: string
   duration: string | number
 }
 
-const PopupContent = () => (
+const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
       <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="xsmall" weight="normal" textAlign="left">
-        {translate('screens.Activity.tipsAudio')}
+        {translate('screens.Activity.tipsVr')}
       </Paragraph>
+    </Row>
+    <Row>
+      <Button onPress={close} round>
+        {translate('commons.messages.close')}
+      </Button>
     </Row>
   </>
 )
@@ -107,7 +112,7 @@ const VRActivityScreen = ({
   description,
   duration,
 }: VRActivityScreenProps) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(typeof backImage === 'string')
   const theme = useRobTheme()
   const styles = getStyles(theme)
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
@@ -147,9 +152,13 @@ const VRActivityScreen = ({
           </View>
         )}
         <Image
-          source={{
-            uri: backImage,
-          }}
+          source={
+            typeof backImage === 'string'
+              ? {
+                  uri: backImage,
+                }
+              : backImage
+          }
           resizeMode="cover"
           style={[styles.image, Platform.OS !== 'ios' && loading && styles.hide]}
           onLoad={() => {
@@ -256,7 +265,6 @@ const getStyles = (theme: typeof RobTheme) =>
       backgroundColor: '#14142B',
       justifyContent: 'center',
       alignItems: 'center',
-      paddingLeft: 6,
     },
     externalGrowContainer: { backgroundColor: theme.colors.monochrome.input, flexGrow: 1 },
     imageSpacer: { maxHeight: 298, minHeight: 200, flexGrow: 50, justifyContent: 'flex-end', alignItems: 'flex-start' },

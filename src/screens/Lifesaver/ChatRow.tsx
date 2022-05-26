@@ -1,5 +1,6 @@
 import React, { ReactComponentElement, ReactElement } from 'react'
 import { RegisteredStyle, StyleSheet, View, ViewStyle } from 'react-native'
+import useIsSmallDevice from '../../utils/hooks/useIsSmallDevice'
 import UserAvatar from './UserAvatar'
 import VirtualCoachAvatar from './VirtualCoachAvatar'
 
@@ -9,6 +10,8 @@ export type chatRowType = {
   style?: RegisteredStyle<ViewStyle>
 }
 const ChatRow = ({ away, avatar, style, children }: chatRowType & { children: ReactElement[] }) => {
+  const isSmall = useIsSmallDevice()
+  const styles = getStyles(isSmall)
   const childrenWithProps = React.Children.map(children, child => child && React.cloneElement(child, { away }))
   return (
     <View style={[styles.chatRow, away ? styles.chatRowAway : styles.chatRowHome, style]}>
@@ -19,28 +22,29 @@ const ChatRow = ({ away, avatar, style, children }: chatRowType & { children: Re
     </View>
   )
 }
-const styles = StyleSheet.create({
-  chatRow: {
-    marginBottom: 20,
-    alignItems: 'flex-start',
-    marginHorizontal: 10,
-  },
-  chatRowHome: {
-    flexDirection: 'row-reverse',
-  },
-  chatRowAway: {
-    flexDirection: 'row',
-  },
-  chatRowContent: {
-    height: 'auto',
-    alignItems: 'stretch',
-  },
-  chatRowContentHome: {
-    marginLeft: 80,
-  },
-  chatRowContentAway: {
-    marginRight: 80,
-  },
-})
+const getStyles = (isSmall?: boolean) =>
+  StyleSheet.create({
+    chatRow: {
+      marginBottom: 20,
+      alignItems: 'flex-start',
+      marginHorizontal: 10,
+    },
+    chatRowHome: {
+      flexDirection: 'row-reverse',
+    },
+    chatRowAway: {
+      flexDirection: 'row',
+    },
+    chatRowContent: {
+      height: 'auto',
+      alignItems: 'stretch',
+    },
+    chatRowContentHome: {
+      marginLeft: isSmall ? 40 : 80,
+    },
+    chatRowContentAway: {
+      marginRight: isSmall ? 40 : 80,
+    },
+  })
 
 export default ChatRow
