@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PathsType } from '../../../types'
+import {
+  updateShowChatHelper,
+  updateShowJournalHelper,
+  updateShowLifeSaverHelper,
+  updateShowProgramHelper,
+} from '../../services/Firestore'
 
 export type FlagsState = {
   isLoading: number
@@ -19,11 +25,14 @@ export type FlagsState = {
 const initialState: FlagsState = {
   isLoading: 0,
   currentPath: null,
-  showJournalCTAHelper: false,
   basicTutorialFinished: false,
+  // usados para manejar el boton que parpadea en el tab
+  // CallToAction
+  showJournalCTAHelper: false,
   showChatCTAHelper: false,
   showProgramCTAHelper: false,
   showLifeSaverCTAHelper: false,
+  // usados para guardar el progreso del usuario
   showJournalHelper: true,
   showChatHelper: true,
   showProgramHelper: true,
@@ -35,69 +44,154 @@ const flagger = createSlice({
   initialState,
   reducers: {
     setIsLoading: (state, action) => {
-      state.isLoading += action.payload
+      return {
+        ...state,
+        isLoading: state.isLoading + action.payload,
+      }
     },
-    setBasicTutorialFinished: (state, action) => {
-      state.basicTutorialFinished = action.payload
+    setFlags: (state, action) => {
+      return {
+        ...state,
+        basicTutorialFinished: action.payload.flag_show_basics_tutorial,
+        showChatHelper:
+          action.payload.flags && typeof action.payload.flags.show_chat_helper === 'boolean'
+            ? action.payload.flags.show_chat_helper
+            : true,
+        showLifeSaverHelper:
+          action.payload.flags && typeof action.payload.flags.show_life_saver_helper === 'boolean'
+            ? action.payload.flags.show_life_saver_helper
+            : true,
+        showJournalHelper:
+          action.payload.flags && typeof action.payload.flags.show_journal_helper === 'boolean'
+            ? action.payload.flags.show_journal_helper
+            : true,
+        showProgramHelper:
+          action.payload.flags && typeof action.payload.flags.show_program_helper === 'boolean'
+            ? action.payload.flags.show_program_helper
+            : true,
+        showChatCTAHelper:
+          action.payload.flags && typeof action.payload.flags.show_chat_helper === 'boolean'
+            ? action.payload.flags.show_chat_helper
+            : false,
+        showLifeSaverCTAHelper:
+          action.payload.flags && typeof action.payload.flags.show_life_saver_helper === 'boolean'
+            ? action.payload.flags.show_life_saver_helper
+            : false,
+        showJournalCTAHelper:
+          action.payload.flags && typeof action.payload.flags.show_journal_helper === 'boolean'
+            ? action.payload.flags.show_journal_helper
+            : false,
+        showProgramCTAHelper:
+          action.payload.flags && typeof action.payload.flags.show_program_helper === 'boolean'
+            ? action.payload.flags.show_program_helper
+            : false,
+      }
+    },
+    setShowBasicTutorialFinished: (state, action) => {
+      return {
+        ...state,
+        basicTutorialFinished: action.payload,
+      }
     },
     setCurrentPath: (state, action: PayloadAction<PathsType>) => {
-      state.currentPath = action.payload
+      return {
+        ...state,
+        currentPath: action.payload,
+      }
     },
     resetCurrentPath: state => {
-      state.currentPath = null
+      return {
+        ...state,
+        currentPath: null,
+      }
     },
     // CTA Helpers are glowing circles over bottom tab icons
     // When we change one, we hide the others.
-    showJournalCTAHelper: (state, action) => {
-      state.showJournalCTAHelper = action.payload
-      state.showChatCTAHelper = false
-      state.showProgramCTAHelper = false
-      state.showLifeSaverCTAHelper = false
+    showChatCTAHelper: (state, action) => {
+      return {
+        ...state,
+        // Update cta's
+        showChatCTAHelper: action.payload,
+        showJournalCTAHelper: false,
+        showProgramCTAHelper: false,
+        showLifeSaverCTAHelper: false,
+      }
     },
     // When we change one, we hide the others.
-    showChatCTAHelper: (state, action) => {
-      state.showChatCTAHelper = action.payload
-      state.showJournalCTAHelper = false
-      state.showProgramCTAHelper = false
-      state.showLifeSaverCTAHelper = false
+    showLifeSaverCTAHelper: (state, action) => {
+      return {
+        ...state,
+        // Update cta's
+        showLifeSaverCTAHelper: action.payload,
+        showChatCTAHelper: false,
+        showProgramCTAHelper: false,
+        showJournalCTAHelper: false,
+      }
+    },
+    // When we change one, we hide the others.
+    showJournalCTAHelper: (state, action) => {
+      return {
+        ...state,
+        // Update cta's
+        showJournalCTAHelper: action.payload,
+        showChatCTAHelper: false,
+        showProgramCTAHelper: false,
+        showLifeSaverCTAHelper: false,
+      }
     },
     // When we change one, we hide the others.
     showProgramCTAHelper: (state, action) => {
-      state.showProgramCTAHelper = action.payload
-      state.showChatCTAHelper = false
-      state.showJournalCTAHelper = false
-      state.showLifeSaverCTAHelper = false
+      return {
+        ...state,
+        // Update cta's
+        showProgramCTAHelper: action.payload,
+        showChatCTAHelper: false,
+        showJournalCTAHelper: false,
+        showLifeSaverCTAHelper: false,
+      }
     },
-    showLifeSaverCTAHelper: (state, action) => {
-      state.showLifeSaverCTAHelper = action.payload
-      state.showChatCTAHelper = false
-      state.showProgramCTAHelper = false
-      state.showJournalCTAHelper = false
-    },
+
     // Helpers are the slides into the home carousel
     // We change helper status and it proper CTA helper
     showJournalHelper: (state, action) => {
-      state.showJournalHelper = action.payload
-      state.showJournalCTAHelper = action.payload
+      return {
+        ...state,
+        showJournalHelper: action.payload,
+        showJournalCTAHelper: action.payload,
+      }
     },
     // We change helper status and it proper CTA helper
     showChatHelper: (state, action) => {
-      state.showChatHelper = action.payload
-      state.showChatCTAHelper = action.payload
+      return {
+        ...state,
+        showChatHelper: action.payload,
+        showChatCTAHelper: action.payload,
+      }
     },
     // We change helper status and it proper CTA helper
     showProgramHelper: (state, action) => {
-      state.showProgramHelper = action.payload
-      state.showProgramCTAHelper = action.payload
+      return {
+        ...state,
+        showProgramHelper: action.payload,
+        showProgramCTAHelper: action.payload,
+      }
     },
+    // We change helper status and it proper CTA helper
     showLifeSaverHelper: (state, action) => {
-      state.showLifeSaverHelper = action.payload
-      state.showLifeSaverCTAHelper = action.payload
+      return {
+        ...state,
+        showLifeSaverHelper: action.payload,
+        showLifeSaverCTAHelper: action.payload,
+      }
     },
     hideAllCTAHelper: state => {
-      state.showChatCTAHelper = false
-      state.showProgramCTAHelper = false
-      state.showLifeSaverCTAHelper = false
+      return {
+        ...state,
+        showChatCTAHelper: false,
+        showProgramCTAHelper: false,
+        showLifeSaverCTAHelper: false,
+        showJournalCTAHelper: false,
+      }
     },
   },
 })

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import { SHOW_BASIC_TUTORIAL, SMOKE_RECORD, FLAGS, IS_PREMIUM } from '../../store/selectors'
-import { updateBasicTutorialCompleted } from '../../services/Firestore'
+import { updateShowBasicTutorialCompleted, updateShowChatHelper, updateShowJournalHelper, updateShowLifeSaverHelper, updateShowProgramHelper } from '../../services/Firestore'
 
 const SlideSmokeJournal = () => {
   const theme = useRobTheme()
@@ -145,9 +145,6 @@ const TutorialCarousel = () => {
         component: SlideProgramActivity,
         show: showProgramHelper,
         effect: () => {
-          dispatch({ type: 'flags/showJournalCTAHelper', payload: false })
-          dispatch({ type: 'flags/showChatCTAHelper', payload: false })
-          dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: false })
           dispatch({ type: 'flags/hideAllCTAHelper' })
         },
       },
@@ -164,9 +161,8 @@ const TutorialCarousel = () => {
     if (activeSlides.length > 0) {
       activeSlides[0].effect()
     } else {
-      // finish tutorial
-      dispatch({ type: 'flags/setBasicTutorialFinished', payload: true })
-      updateBasicTutorialCompleted()
+      dispatch({ type: 'flags/setShowBasicTutorialFinished', payload: false })
+      updateShowBasicTutorialCompleted(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slides])

@@ -37,7 +37,7 @@ const useTutorialFinished = (navigation: StackNavigationProp<RootStackParamList>
         navigation.navigate('BasicModal', {
           content: PopupContent,
         })
-        dispatch({ type: 'flags/setBasicTutorialFinished', payload: false })
+        dispatch({ type: 'flags/setShowBasicTutorialFinished', payload: false })
       }
     })
 

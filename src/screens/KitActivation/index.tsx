@@ -19,15 +19,21 @@ import { useSetHeaderProps } from '../../components/NavigationHeader'
 
 const PopupContent = ({ close }: { close: () => void }) => {
   const theme = useRobTheme()
+  const mailGif = require('../../../assets/images/mail.gif')
+
   return (
     <>
-      <Row gutter={40}>
-        <Image
-          source={require('../../../assets/images/kitActivation.png')}
-          style={{ height: 172, borderRadius: 20 }}
-          resizeMode="cover"
-        />
-      </Row>
+      <View
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '40%',
+        }}
+      >
+        <Image source={mailGif} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
+      </View>
       <Row gutter={15}>
         <Subheading>{translate('screens.kitActivation.where-is-the-code-title')}</Subheading>
         <Paragraph size="small" weight="normal" textAlign="center">
@@ -166,8 +172,8 @@ const OnboardingWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitActiv
       )}
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ minHeight: '100%' }} ref={scrollViewRef} bounces={false}>
         <Screen ignoreTopSafeArea bounces={false}>
-          <Row gutter={5} />
-          <Row gutter={25}>
+          {/* <Row gutter={5} /> */}
+          <Row gutter={18}>
             <Headline size="huge" weight="bold">
               {translate('screens.kitActivation.activate-your-kit')}
             </Headline>

@@ -1,6 +1,6 @@
 {
   "name": "MindCotine",
-  "version": "1.2.11",
+  "version": "5.0.0",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
@@ -133,6 +133,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^27.3.1",
     "jest-expo": "^43.0.0",
     "jest-puppeteer": "^5.0.4",

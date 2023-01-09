@@ -74,11 +74,6 @@ export const updateDevideInfo = ({
     platform,
   })
 
-export const updateBasicTutorialCompleted = () =>
-  updateProfile({
-    flag_show_basics_tutorial: false,
-  })
-
 export const setGender = (gender: 'f' | 'm') =>
   updateProfile({
     gender,
@@ -178,10 +173,37 @@ export const updateNoPendingCoachMessage = () =>
   updateProfile({
     'flags.has_coach_messages': false,
   })
+
+export const updateShowBasicTutorialCompleted = (show: boolean) =>
+  updateProfile({
+    'flag_show_basics_tutorial': show,
+  })
+
+export const updateShowLifeSaverHelper = (show: boolean) =>
+  updateProfile({
+    'flags.show_life_saver_helper': show,
+  })
+
+export const updateShowChatHelper = (show: boolean) =>
+  updateProfile({
+    'flags.show_chat_helper': show,
+  })
+
+export const updateShowProgramHelper = (show: boolean) =>
+  updateProfile({
+    'flags.show_program_helper': show,
+  })
+
+export const updateShowJournalHelper = (show: boolean) =>
+  updateProfile({
+    'flags.show_journal_helper': show,
+  })
+
 export const updateCrispSessionId = (sessionId: string) =>
   updateProfile({
     crisp_session_id: sessionId,
   })
+
 export const updateWelcomeMessageSeen = () =>
   updateProfile({
     'flags.show_welcome_message_on_chat': false,

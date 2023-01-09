@@ -1,6 +1,7 @@
 import { useRobTheme } from '@mindcoxr/rob'
 import React, { useEffect, useRef } from 'react'
 import { View, ViewProps, Animated, Easing } from 'react-native'
+
 const TargetIndicator = (props: ViewProps & { show?: boolean; round?: boolean }) => {
   const theme = useRobTheme()
   const fadeAnim = useRef(new Animated.Value(1)).current
@@ -15,6 +16,7 @@ const TargetIndicator = (props: ViewProps & { show?: boolean; round?: boolean })
       { resetBeforeIteration: true, iterations: Number.MAX_SAFE_INTEGER },
     ).start()
   }
+
   useEffect(() => {
     if (props.show) {
       fadeOut()
@@ -23,6 +25,7 @@ const TargetIndicator = (props: ViewProps & { show?: boolean; round?: boolean })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.show, fadeAnim])
+  
   return (
     <View style={{ position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
       {props.children}

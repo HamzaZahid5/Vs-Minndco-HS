@@ -60,7 +60,7 @@ const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
     <ScrollView style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
         <BasicScreen>
-          <Row gutter={5}>
+          {/* <Row gutter={5}>
             <View
               style={{
                 flexDirection: 'row',
@@ -77,7 +77,7 @@ const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
                 <SimpleLineIcons name="arrow-left" size={18} color="black" />
               </TouchableRipple>
             </View>
-          </Row>
+          </Row> */}
           <Row gutter={1}>
             <Headline size="huge" weight="bold">
               {translate('screens.onboardingHowMuchPay.title')}
@@ -86,7 +86,7 @@ const Onboarding3 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
             {translate('screens.onboardingHowMuchPay.description')}
           </Paragraph> */}
           </Row>
-          <Row gutter={27} grow justifyContentOnGrow="flex-end">
+          <Row gutter={27}/*  grow  */justifyContentOnGrow="flex-end">
             <Headline size="huge" weight="bold">
               ${text}
             </Headline>

@@ -25,6 +25,7 @@ import { BackButton } from './hooks/useSetDefaultBackOnPress'
 import LoginCode from '../screens/LoginCode'
 import { translate } from './localization'
 import KitActivationLanding from '../screens/KitActivationLanding'
+import ProfileNavigator from '../screens/ProfileNavigator'
 
 // ReturnType<> doesn't support generics, so it needs to be wrapped
 const createStackNavigatorWrapper = () => createStackNavigator<RootStackParamList>()
@@ -76,25 +77,26 @@ export const getPostLoginRoutes = (Stack: StackType) => [
     options={{ headerShown: true }}
   />,
   <Stack.Screen key="VRMet" name="VRMet" component={VRMet} options={{ headerShown: false }} />,
-  <Stack.Screen
-    key="Profile"
-    name="Profile"
-    component={ProfileScreen}
-    options={{
-      headerShown: true,
-      header: (props: StackHeaderProps) => (
-        <NavigationHeader
-          {...props}
-          contentAtBottom
-          color="#14142b"
-          backgroundColor="#F7F7FC"
-          routeName={translate('screens.Drawer.profile')}
-        />
-      ),
-      headerTransparent: false,
-      headerStyle: { backgroundColor: '#F7F7FC' },
-    }}
-  />,
+  // <Stack.Screen
+  //   key="Profile"
+  //   name="Profile"
+  //   component={ProfileScreen}
+  //   options={{
+  //     headerShown: true,
+  //     header: (props: StackHeaderProps) => (
+  //       <NavigationHeader
+  //         {...props}
+  //         contentAtBottom
+  //         color="#14142b"
+  //         backgroundColor="#F7F7FC"
+  //         routeName={translate('screens.Drawer.profile')}
+  //       />
+  //     ),
+  //     headerTransparent: false,
+  //     headerStyle: { backgroundColor: '#F7F7FC' },
+  //   }}
+  // />,
+  <Stack.Screen key="Profile" name="Profile" component={ProfileNavigator} options={{ headerShown: true }} />,
   <Stack.Screen
     key="Playground"
     name="Playground"
@@ -120,7 +122,7 @@ export const getPostLoginRoutes = (Stack: StackType) => [
     name="KitActivation"
     component={KitActivation}
     options={{
-      headerShown: true,
+      headerShown: false,
       header: (props: StackHeaderProps) => (
         <NavigationHeader
           {...props}

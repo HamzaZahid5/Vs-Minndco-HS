@@ -2,6 +2,7 @@ import React from 'react'
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import useVRPlayerCTA, { VRPlayerCTAPropType } from '../../utils/hooks/useVRPlayerCTA'
 import { translate } from '../../utils/localization'
+import i18n from 'i18n-js'
 import AssembleCardboardScreen from './AssembleCardboardScreen'
 import VRActivity from '../ActivityScreen/VRActivity'
 
@@ -43,7 +44,7 @@ const KitPresentation = ({
       onPlayPressed={() => {
         return
       }}
-      videoSrc="content/assemble-headset.mp4"
+      videoSrc={`content/assemble-headset-${i18n.locale}.mp4`}
       title={translate('screens.KitPresentation.VideoTitle')}
       description={translate('screens.KitPresentation.VideoDescription')}
       duration={1}

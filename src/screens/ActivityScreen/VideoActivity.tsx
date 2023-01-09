@@ -27,7 +27,7 @@ export type VRActivityScreenProps = {
   title: string
   description: string
   duration: string | number
-  backImage: string | ImageSourcePropType
+  backImage?: string | ImageSourcePropType
 }
 
 const PopupContent = ({ close }: { close: () => void }) => (
@@ -65,6 +65,7 @@ const VideoActivity = ({
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [colorlessButton, setColorlessButton] = useState(true)
   const [shouldRestart, setShouldRestar] = useState(false)
+
   useSetHeaderProps(
     {
       rightActions: [
@@ -80,8 +81,8 @@ const VideoActivity = ({
     },
     [],
   )
-  const asset = useStorageDownloadURL(videoSrc)
 
+  const asset = useStorageDownloadURL(videoSrc)
   useEffect(() => {
     if (loading) return
     if (isFullscreen) {
@@ -98,6 +99,7 @@ const VideoActivity = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFullscreen, shouldRestart]) //Run only when fullscreen status change
+
   return (
     <View style={styles.externalContainer}>
       <View style={styles.imageContainer}>

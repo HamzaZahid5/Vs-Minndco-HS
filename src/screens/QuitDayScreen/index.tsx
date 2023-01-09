@@ -9,8 +9,9 @@ import { Calendar, CalendarProps } from 'react-native-calendars'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import DayComponent from './DayComponent'
 import useSaveQuitDay from './useSaveQuitDay'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { QUIT_DAY } from '../../store/selectors'
+import userActions from '../../store/slices/user'
 
 const momentToCalendarDate = (m?: moment.Moment) => (m ? m.format('YYYY-MM-DD') : '')
 
@@ -24,6 +25,7 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
   )
   const minDate = moment().add(1, 'day')
   const saveQuitDay = useSaveQuitDay()
+  const dispatch = useDispatch()
 
   const onDayPress: CalendarProps['onDayPress'] = useCallback(day => {
     setSelected(moment(day.dateString))
@@ -82,8 +84,15 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
               <Button
                 round
                 disabled={selected === undefined}
-                onPress={() => {
-                  selected && saveQuitDay(selected, closePanel)
+                onPress={async () => {
+                  if (selected) {
+                    try {
+                      await saveQuitDay(selected, closePanel)
+                      dispatch(userActions.actions.setQuitDay(selected))
+                    } catch (error) {
+                      console.log(error)
+                    }
+                  }
                 }}
               >
                 Set my goal

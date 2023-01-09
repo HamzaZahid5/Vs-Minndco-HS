@@ -17,9 +17,9 @@ export const LAST_ACTIVITY_AT = (store: RootState) => {
 }
 export const ACTIVITY_DAYS_IN_A_ROW = (store: RootState) => store?.user?.data?.statistics?.activity_days_in_a_row
 export const CURRENT_PATH = (store: RootState) => store?.flags.currentPath
-export const SHOW_BASIC_TUTORIAL = (store: RootState) => store?.user?.data?.flags?.show_basics_tutorial
+export const SHOW_BASIC_TUTORIAL = (store: RootState) => store?.user?.data?.flag_show_basics_tutorial
 export const ONBOARDING_CURRENT_INPUT = (store: RootState) => store?.currentOnboarding
-export const ONBOARDING_COMPLETE = (store: RootState) => store?.user?.data?.flags?.onboarding_complete
+export const ONBOARDING_COMPLETE = (store: RootState) => store?.user?.data?.on_boarding_completed
 // export const AVERAGE_STRESS = (store: RootState) => store?.user?.data?.statistics?.average_stress
 export const USER_PROFILE = (store: RootState) => {
   const { language, gender, created_at } = store?.user?.data
@@ -47,6 +47,7 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
 }
 
 export const FLAGS = (store: RootState) => store?.flags
+// export const USER_FLAGS = (store: RootState) => store?.user?.data?.flags
 export const AUTH_INFO = (store: RootState) => store?.user?.auth
 export const CURRENT_STRESS_INPUT = (store: RootState) => store?.currentStressInput
 export const TUTORIALS_STATE = (store: RootState) => store?.tutorials

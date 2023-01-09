@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { LayoutRectangle, ScrollView, View, Text as NativeText } from 'react-native'
 import {
   BasicScreen as Screen,
@@ -16,16 +16,30 @@ import {
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { translate } from '../../utils/localization'
-import { updateUserProfile } from '../../services/Firestore'
+import { saveQuitDay, updateUserProfile } from '../../services/Firestore'
+import { USER_SUPPORT_PROFILE, QUIT_DAY } from '../../store/selectors'
+import { useSelector } from 'react-redux'
+import moment from 'moment'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
+import actionsUser from '../../store/slices/user'
 
 const ProfileScreen = () => {
   const theme = useRobTheme()
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const user = useSelector(USER_SUPPORT_PROFILE)
+  const quitDay = useSelector(QUIT_DAY)
+
+  // console.log({ quitDay: moment(quitDay) })
+  // console.log({ user })
+  // console.log(actionsUser.actions.setQuitDay(new Date()))
 
   return (
     <>
       <Formik
         initialValues={{
-          name: '',
+          name: user.display_name,
           lastname: '',
           pronouns: '',
           email: '',
@@ -36,15 +50,16 @@ const ProfileScreen = () => {
           dailySmocking: '',
           unitPerPackage: '',
           costPerPackage: '',
-          qday: '',
+          qday: quitDay,
           wlike: '',
         }}
         onSubmit={async (values, actions) => {
           await updateUserProfile({ display_name: values.name })
+          // await saveQuitDay(moment(values.qday))
         }}
         validationSchema={getRegisterSchema()}
       >
-        {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched }) => {
+        {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched, setValues }) => {
           return (
             <>
               <Screen>
@@ -65,7 +80,7 @@ const ProfileScreen = () => {
                     error={touched.name && errors.name !== undefined}
                     label={translate('screens.Profile.name')}
                   />
-                  <TextInput
+                  {/* <TextInput
                     value={values.lastname}
                     onChangeText={handleChange('lastname')}
                     theme={theme}
@@ -79,9 +94,9 @@ const ProfileScreen = () => {
                     error={touched.pronouns && errors.pronouns !== undefined}
                     label={translate('screens.Profile.pronouns')}
                   />
-                  <View style={{ height: 10 }} />
+                  <View style={{ height: 10 }} /> */}
                 </Row>
-                <Row gutter={23}>
+                {/* <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}> {translate('screens.Profile.contact')}</NativeText>
                   </Paragraph>
@@ -112,8 +127,8 @@ const ProfileScreen = () => {
                     label={translate('screens.Profile.phoneNumber')}
                   />
                   <View style={{ height: 10 }} />
-                </Row>
-                <Row gutter={23}>
+                </Row> */}
+                {/* <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.smokeHabits')}</NativeText>
                   </Paragraph>
@@ -158,28 +173,45 @@ const ProfileScreen = () => {
                     </Paragraph>
                   </View>
                   <View style={{ height: 10 }} />
-                </Row>
+                </Row> */}
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
+                    <NativeText style={{ color: '#000000' }}>
+                      {translate('screens.Profile.goals')}: {quitDay}
+                    </NativeText>
                   </Paragraph>
-                  <TextInput
+                  {/* <TextInput
                     value={values.wlike}
                     onChangeText={handleChange('wlike')}
                     theme={theme}
                     error={touched.wlike && errors.wlike !== undefined}
                     label={translate('screens.Profile.phoneNumber')}
-                  />
-                  <TextInput
+                  /> */}
+                  {/* <TextInput
                     value={values.qday}
-                    onChangeText={handleChange('qday')}
+                    onChangeText={() => {
+                      handleChange('qday')
+                      setValues({
+                        ...values,
+                        qday: quitDay,
+                      })
+                    }}
                     theme={theme}
+                    disabled
                     error={touched.qday && errors.qday !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  />
+                    label={translate('screens.Profile.quitDay')}
+                  /> */}
+                  <Button
+                    role="secondary"
+                    onPress={() => {
+                      navigation.navigate('QuitDayModalProfile')
+                    }}
+                  >
+                    {translate('screens.Profile.quitDay')}
+                  </Button>
                   <View style={{ height: 10 }} />
                 </Row>
-                <Row gutter={50} />
+                <Row gutter={70} />
               </Screen>
               <View style={{ position: 'absolute', bottom: 20, left: 25, right: 25 }}>
                 <Button role="primary" onPress={() => submitForm()}>
@@ -200,18 +232,18 @@ const phoneValidationRegex =
 const getRegisterSchema = () => {
   return Yup.object().shape({
     name: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
-    lastname: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
-    pronouns: Yup.string().email(translate('screens.Register.error-email-invalid')),
-    email: Yup.string().email(translate('screens.Register.error-email-invalid')),
-    countryCode: Yup.string().email(translate('screens.Register.error-email-invalid')),
-    phoneNumber: Yup.string().matches(phoneValidationRegex, translate('screens.Register.error-email-invalid')),
-    yearsSmocking: Yup.number().integer(),
-    product: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
-    dailySmocking: Yup.number().integer(),
-    unitPerPackage: Yup.number().integer(),
-    costPerPackage: Yup.number(),
+    // lastname: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
+    // pronouns: Yup.string().email(translate('screens.Register.error-email-invalid')),
+    // email: Yup.string().email(translate('screens.Register.error-email-invalid')),
+    // countryCode: Yup.string().email(translate('screens.Register.error-email-invalid')),
+    // phoneNumber: Yup.string().matches(phoneValidationRegex, translate('screens.Register.error-email-invalid')),
+    // yearsSmocking: Yup.number().integer(),
+    // product: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
+    // dailySmocking: Yup.number().integer(),
+    // unitPerPackage: Yup.number().integer(),
+    // costPerPackage: Yup.number(),
     qday: Yup.date(),
-    wlike: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
+    // wlike: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
   })
 }
 

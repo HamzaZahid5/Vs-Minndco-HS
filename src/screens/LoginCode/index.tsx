@@ -19,7 +19,7 @@ const ErrorPopopContent =
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const theme = useRobTheme()
     return (
-      <>
+      <SafeAreaView style={{ flex: 1 }}>
         <Row gutter={20}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Icon name="Warning" color={theme.colors.errors.darkmode} size={90} />
@@ -38,7 +38,7 @@ const ErrorPopopContent =
             {translate('commons.messages.close')}
           </Button>
         </Row>
-      </>
+      </SafeAreaView>
     )
   }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BasicScreen, Row, Headline, Paragraph, Button, useRobTheme, Keyboard } from '@mindcoxr/rob'
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Dimensions } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import { TouchableRipple } from 'react-native-paper'
 import { DefaultScreenPropType } from './index'
@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const OnboardingWelcomeScreen = ({ navigation, onNext, defaultValue }: DefaultScreenPropType<'Screen2'>) => {
   const theme = useRobTheme()
   const [text, setText] = useState(defaultValue?.toString() ?? '0')
+  const { height, width } = Dimensions.get("screen");
   const protectedSetText = (e: string) => {
     if (e && text === '0') {
       setText(e.substring(1))
@@ -19,9 +20,9 @@ const OnboardingWelcomeScreen = ({ navigation, onNext, defaultValue }: DefaultSc
   }
   return (
     <ScrollView style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, width, height }}>
         <BasicScreen>
-          <Row gutter={5}>
+          {/* <Row gutter={5}>
             <View
               style={{
                 flexDirection: 'row',
@@ -38,7 +39,7 @@ const OnboardingWelcomeScreen = ({ navigation, onNext, defaultValue }: DefaultSc
                 <SimpleLineIcons name="arrow-left" size={18} color="black" />
               </TouchableRipple>
             </View>
-          </Row>
+          </Row> */}
           <Row gutter={1}>
             <Headline size="huge" weight="bold">
               {translate('screens.onboardingHowMuchSmoke.title')}
@@ -47,7 +48,7 @@ const OnboardingWelcomeScreen = ({ navigation, onNext, defaultValue }: DefaultSc
               {translate('screens.onboardingHowMuchSmoke.description')}
             </Paragraph>
           </Row>
-          <Row gutter={27} grow justifyContentOnGrow="flex-end">
+          <Row gutter={27}/*  grow  */justifyContentOnGrow="flex-end">
             <Headline size="huge" weight="bold">
               {text}
             </Headline>

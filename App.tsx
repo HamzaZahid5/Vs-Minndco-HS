@@ -141,6 +141,7 @@ export default function App() {
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
+
   useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
     if (Platform.OS !== 'web') {
       if (oldScreen) {
@@ -149,6 +150,7 @@ export default function App() {
       Smartlook.trackNavigationEvent(newScreen, Smartlook.ViewState.Enter)
     }
   })
+
   useOnScreenChange(navigatorRef, async ({ newScreen }) => {
     if (Platform.OS !== 'web') {
       await analytics().logScreenView({
@@ -157,8 +159,8 @@ export default function App() {
       })
     }
   })
-  const [navigatorReady, setNavigatorReady] = useState(false)
 
+  const [navigatorReady, setNavigatorReady] = useState(false)
   useEffect(() => {
     if (navigatorReady && navigatorRef.current && deepLink) {
       const { value, isAuth, isSignInCode } = parseCommand(deepLink)
@@ -175,17 +177,32 @@ export default function App() {
   useEffect(() => {
     Orientation.lockToPortrait()
   }, [])
+
   useEffect(() => {
     if (userToken) {
       store.dispatch({ type: 'user/setAuth', payload: userToken })
     }
+    if (userToken === null) {
+      store.dispatch({ type: 'user/logout' })
+    }
   }, [userToken])
+
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   useEffect(() => {
     if (userData) {
       store.dispatch({ type: 'user/setUser', payload: userData })
     }
+    if (userData?.on_boarding_completed) {
+      store.dispatch({ type: 'user/setOnBoardingComplete', payload: userData?.on_boarding_completed })
+    }
   }, [userData])
+
+  useEffect(() => {
+    if (userData?.flags) {
+      store.dispatch({ type: 'flags/setFlags', payload: userData?.flags })
+    }
+  }, [userData])
+
   useEffect(() => {
     if (userToken) {
       if (Platform.OS !== 'web') {

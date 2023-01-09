@@ -24,6 +24,7 @@ import { RootStackParamList } from '../../../types'
 import Blob from '../../../assets/SVG/Blob'
 import functions from '../../services/Functions'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Logo from '../../../assets/SVG/Logo'
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>
 
@@ -78,11 +79,14 @@ const LoginScreen = () => {
       <SafeAreaView style={{ flex: 1 }}>
         <Screen bounces={isOpenForiOS}>
           <KeyboardAwareScrollView
-            keyboardShouldPersistTaps
+            keyboardShouldPersistTaps="always"
             enableOnAndroid
             extraHeight={140}
             contentContainerStyle={{ flexGrow: 1 }}
           >
+            <Row>
+              <Logo />
+            </Row>
             <Blob style={{ position: 'absolute', top: '16%', right: 0, opacity: 0.7 }} />
             <Row gutter={15}>
               <Headline size="huge" weight="bold">

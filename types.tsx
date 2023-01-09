@@ -32,6 +32,7 @@ export type RootStackParamList = {
   AuthByToken: { token: string } | undefined
   SmokeModal: undefined
   QuitDayModal: undefined
+  QuitDayModalProfile: undefined
   Tutorial: undefined
   KitActivation: undefined
   AboutVR: undefined
@@ -69,6 +70,7 @@ export type RootStackParamList = {
     }
   }
   Profile: undefined
+  ProfileUser: undefined
   Statistics: undefined
   HowItWorks: undefined
   VRDemo: undefined

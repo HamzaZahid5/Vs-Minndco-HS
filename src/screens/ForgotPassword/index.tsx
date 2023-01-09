@@ -108,6 +108,7 @@ const ForgotPasswordScreen = ({ navigation }: DefaultScreenPropType<'ForgotPassw
     try {
       // Try to login to local server
       await auth().sendPasswordResetEmail(email)
+      setisLoading(false)
     } catch (localError) {
       try {
         const error = localError as { code: string }
@@ -116,7 +117,6 @@ const ForgotPasswordScreen = ({ navigation }: DefaultScreenPropType<'ForgotPassw
         if (error.code !== 'auth/user-not-found') {
           throw error
         }
-
         // handling error, attempt remote (against Mindco Health server)
         const { data: result } = await functions().httpsCallable('remoteResetPassword')({
           email: email,
@@ -218,7 +218,7 @@ const ForgotPasswordScreen = ({ navigation }: DefaultScreenPropType<'ForgotPassw
                 >
                   {translate('screens.ForgotPassword.login-code-btn-label')}
                 </Button>
-                <View style={{ marginTop: 9, marginLeft: 5, justifyContent: 'center', alignItems: 'flex-start' }}>
+                <View style={{ marginTop: 20, marginLeft: 5, justifyContent: 'center', alignItems: 'center' }}>
                   <Paragraph size="small">
                     <Link
                       onPress={() => {

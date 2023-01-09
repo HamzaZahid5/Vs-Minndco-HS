@@ -19,6 +19,9 @@ export type UserState = {
     created_at?: FirebaseFirestoreTypes.Timestamp
     crisp_session_id?: string
     display_name: string
+    on_boarding_completed: boolean
+    flag_show_basics_tutorial: boolean
+    flag_use_vr_fallback: boolean
     flags: {
       show_basics_tutorial?: boolean
       has_coach_messages?: boolean
@@ -26,6 +29,10 @@ export type UserState = {
       onboarding_complete?: boolean
       kit_confirmed?: boolean
       hasViewer?: boolean
+      show_life_saver_helper?: boolean
+      show_chat_helper?: boolean
+      show_program_helper?: boolean
+      show_journal_helper?: boolean
     }
     gender: string
     group?: string
@@ -45,7 +52,15 @@ const initialState: UserState = {
   auth: {},
   data: {
     display_name: '',
-    flags: {},
+    on_boarding_completed: false,
+    flag_show_basics_tutorial: true,
+    flag_use_vr_fallback: true,
+    flags: {
+      show_life_saver_helper: true,
+      show_chat_helper: true,
+      show_program_helper: true,
+      show_journal_helper: true,
+    },
     gender: '',
     isPremium: false,
     language: '',
@@ -78,6 +93,15 @@ const user = createSlice({
         },
       }
     },
+    setQuitDay: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          quit_day: action.payload.split('T')[0],
+        },
+      }
+    },
     setUser: (state, action) => {
       const oldOnBoardingFlag = state.data.flags.onboarding_complete
       // Firebase to Redux
@@ -88,6 +112,8 @@ const user = createSlice({
           created_at: action.payload.created_at,
           crisp_session_id: action.payload.crisp_session_id,
           display_name: action.payload.display_name,
+          flag_show_basics_tutorial: action.payload.flag_show_basics_tutorial,
+          on_boarding_completed: action.payload.on_boarding_completed ?? false,
           flags: {
             show_basics_tutorial: action.payload.flag_show_basics_tutorial,
             has_coach_messages: action.payload.flag_has_coach_messages,
@@ -95,6 +121,22 @@ const user = createSlice({
             onboarding_complete: action.payload.on_boarding_completed,
             kit_confirmed: action.payload.flag_kit_confirmed,
             hasViewer: action.payload.flag_hasViewer,
+            showChatHelper:
+              action.payload.flags && typeof action.payload.flags.show_chat_helper === 'boolean'
+                ? action.payload.flags.show_chat_helper
+                : true,
+            showLifeSaverHelper:
+              action.payload.flags && typeof action.payload.flags.show_life_saver_helper === 'boolean'
+                ? action.payload.flags.show_life_saver_helper
+                : true,
+            showJournalHelper:
+              action.payload.flags && typeof action.payload.flags.show_journal_helper === 'boolean'
+                ? action.payload.flags.show_journal_helper
+                : true,
+            showProgramHelper:
+              action.payload.flags && typeof action.payload.flags.show_program_helper === 'boolean'
+                ? action.payload.flags.show_program_helper
+                : true,
           },
           gender: action.payload.gender,
           group: action.payload.group,
@@ -129,6 +171,15 @@ const user = createSlice({
           ...state.data,
           statistics: newStatistics,
           progress: newProgress,
+        },
+      }
+    },
+    setOnBoardingComplete: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          on_boarding_completed: action.payload,
         },
       }
     },

@@ -29,6 +29,7 @@ export default function OnboardingContainer({ navigation: rootNavigation }: Root
   const currentInput = useSelector(ONBOARDING_CURRENT_INPUT)
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
   const isPremium = useSelector(IS_PREMIUM)
+  
   useEffect(() => {
     if (onboardingComplete === true) {
       rootNavigation.reset({

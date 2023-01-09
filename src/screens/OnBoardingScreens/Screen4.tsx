@@ -32,7 +32,7 @@ const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
       <SafeAreaView style={{ flex: 1 }}>
         <BasicScreen>
           <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: '#fcfcfc' }} />
-          <Row gutter={5}>
+          {/* <Row gutter={5}>
             <View
               style={{
                 flexDirection: 'row',
@@ -49,7 +49,7 @@ const Onboarding4 = ({ navigation, onNext, defaultValue }: DefaultScreenPropType
                 <SimpleLineIcons name="arrow-left" size={18} color="black" />
               </TouchableRipple>
             </View>
-          </Row>
+          </Row> */}
           <Row gutter={1}>
             <Headline size="huge" weight="bold">
               {translate('screens.onboardingWhatSentence.title')}
