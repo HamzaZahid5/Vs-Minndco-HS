@@ -8,6 +8,7 @@ import useIconSmokeSavings from './IconSmokeSavings'
 import HeroMainContent from './HeroMainContent'
 import { useSelector } from 'react-redux'
 import { PROGRESS } from '../../store/selectors'
+import useIconSmokeSpend from './IconSmokeSpend'
 
 const ProgramScreen = ({ navigation }: DefaultScreenPropType<'Main'>) => {
   const activities = useProgramActivities()
@@ -16,6 +17,8 @@ const ProgramScreen = ({ navigation }: DefaultScreenPropType<'Main'>) => {
   const icon1 = useIconSmokeLog()
   const icon2 = useIconProgress()
   const icon3 = useIconSmokeSavings()
+  const icon4 = useIconSmokeSpend()
+
   return (
     <Program
       tab1={activities.filter(act => act.activity.type === 'vr-met')}
@@ -26,7 +29,7 @@ const ProgramScreen = ({ navigation }: DefaultScreenPropType<'Main'>) => {
         navigation.navigate('Activity', { activityId: activityKey })
       }}
       heroCenterComponent={<HeroMainContent />}
-      heroBottomActions={[icon1, icon2, icon3]}
+      heroBottomActions={[icon1, icon2, icon3, icon4]}
     />
   )
 }

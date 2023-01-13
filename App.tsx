@@ -46,7 +46,7 @@ import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
-import { useFirestoreListener, updateProfile, updateDevideInfo } from './src/services/Firestore'
+import { useFirestoreListener, updateDevideInfo } from './src/services/Firestore'
 import { Icon } from '@mindcoxr/rob'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
@@ -225,6 +225,8 @@ export default function App() {
   const theme = getProductTheme(!!isSmallDevice)
 
   useEffect(() => {
+    console.log({isAuthed});
+    console.log({i18nReady})
     if (isAuthed && i18nReady) {
       updateDevideInfo({
         app_version: config.APP_VERSION,

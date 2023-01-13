@@ -121,7 +121,9 @@ const VerificationCode = ({
       if (isVerificationByEnrollmentId && !functionData.uid) {
         throw new Error('invalid-code')
       }
+      console.log({ functionData })
       const { data: result } = await functions().httpsCallable('verifyLoginCode')(functionData)
+      console.log('verifyLoginCode', { result })
       if (!result.success) {
         throw new Error(result.error)
       }

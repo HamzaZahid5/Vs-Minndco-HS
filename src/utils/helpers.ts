@@ -92,7 +92,7 @@ export const listOfLastXDays = (x: number) => {
   return result
 }
 // formulas coming from back-end
-const calculateSmokedCigarettesFromJournal = (record: SmokeRecordsState) =>
+export const calculateSmokedCigarettesFromJournal = (record: SmokeRecordsState) =>
   Object.keys(record).reduce((t, d) => t + record[d], 0)
 export const calculateSavedCigarettesFromJournal = (record: SmokeRecordsState, baselineIntake: number) => {
   const res = Object.keys(record).length * baselineIntake - calculateSmokedCigarettesFromJournal(record)

@@ -39,8 +39,11 @@ export const useFirestoreListener = (collection: string, id: string) => {
   return snapshotData
 }
 
-export const updateProfile = (updateObject: Record<string, unknown>) =>
-  firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
+export const updateProfile = (updateObject: Record<string, unknown>) =>{
+  console.log({updateObject})
+  console.log({ auth: auth().currentUser.uid })
+  return firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
+}
 
 export const updateUserProfile = ({ display_name }: { display_name: string }) =>
   updateProfile({

@@ -144,6 +144,7 @@ const ForgotPasswordScreen = ({ navigation }: DefaultScreenPropType<'ForgotPassw
       const { data: result } = await functions().httpsCallable('sendLoginCode')({
         email,
       })
+      console.log('sendLoginCode', { result })
       if (!result.success) {
         throw new Error(result.error)
       }

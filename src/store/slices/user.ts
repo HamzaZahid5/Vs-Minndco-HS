@@ -10,6 +10,7 @@ export type UserStatistics = {
   activity_days_in_a_row: number
   smokes_by_day: SmokeRecordsState
   money_saved: number
+  money_spent: number
   money_by_unit?: number
   cigarettes_baseline?: number
   // average_stress?: number
@@ -70,6 +71,7 @@ const initialState: UserState = {
       activity_days_in_a_row: 0,
       smokes_by_day: {},
       money_saved: 0,
+      money_spent: 0,
       money_by_unit: 0,
       cigarettes_baseline: 0,
     },
@@ -149,6 +151,7 @@ const user = createSlice({
             activity_days_in_a_row: 0,
             smokes_by_day: action.payload.statistics.smokes_by_day,
             money_saved: action.payload.statistics.money_saved,
+            money_spent: action.payload.statistics.money_spent,
             money_by_unit: action.payload.statistics.money_by_unit,
             cigarettes_baseline: action.payload.statistics.cigarettes_baseline,
           },
