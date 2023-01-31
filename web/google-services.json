@@ -1,10 +1,10 @@
 {
-  "apiKey": "AIzaSyDNt8jwB1aq2_o6O9fv6sj0hkT3-e9-2Bg",
-  "authDomain": "mindcotine-v4-dev.firebaseapp.com",
-  "databaseURL": "https://mindcotine-v4-dev.firebaseio.com",
-  "projectId": "mindcotine-v4-dev",
-  "storageBucket": "mindcotine-v4-dev.appspot.com",
-  "messagingSenderId": "353015682620",
-  "appId": "1:353015682620:web:edf5bdb4e8446088101539",
-  "measurementId": "G-Z9RKTTYY01"
+  "apiKey": "AIzaSyBANcxC5KquItpycugBdLbvMAYGZSYMP1w",
+  "authDomain": "mindcotine-v4-production.firebaseapp.com",
+  "databaseURL": "https://mindcotine-v4-production.firebaseio.com",
+  "projectId": "mindcotine-v4-production",
+  "storageBucket": "mindcotine-v4-production.appspot.com",
+  "messagingSenderId": "1034939302281",
+  "appId": "1:1034939302281:web:bb1a4a55dfbb49337d6158",
+  "measurementId": "G-82QMW56X6X"
 }

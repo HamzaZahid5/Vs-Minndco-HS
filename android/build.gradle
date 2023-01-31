@@ -9,7 +9,7 @@ buildscript {
         // androidXAnnotation = "1.1.0"
         // androidXBrowser = "1.0.0"
         // supportLibVersion = "28.0.0"
-        kotlinVersion = '1.6.0'
+        kotlinVersion = '1.8.0'
     }
     repositories {
         google()

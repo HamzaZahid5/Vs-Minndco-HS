@@ -39,9 +39,7 @@ export const useFirestoreListener = (collection: string, id: string) => {
   return snapshotData
 }
 
-export const updateProfile = (updateObject: Record<string, unknown>) =>{
-  console.log({updateObject})
-  console.log({ auth: auth().currentUser.uid })
+export const updateProfile = (updateObject: Record<string, unknown>) => {
   return firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
 }
 
@@ -179,7 +177,7 @@ export const updateNoPendingCoachMessage = () =>
 
 export const updateShowBasicTutorialCompleted = (show: boolean) =>
   updateProfile({
-    'flag_show_basics_tutorial': show,
+    flag_show_basics_tutorial: show,
   })
 
 export const updateShowLifeSaverHelper = (show: boolean) =>

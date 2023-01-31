@@ -67,7 +67,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const { nextActivity, nextActivityKey, isLastActivity } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
   const smokeRecord = useSelector(SMOKE_RECORD)
-  const hasSmokeRecords = Object.keys(smokeRecord).length > 0
+  console.log({ smokeRecord })
+  const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
   const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
   const progress = useSelector(PROGRESS)
   const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)

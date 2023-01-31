@@ -180,6 +180,7 @@ export default function App() {
 
   useEffect(() => {
     if (userToken) {
+      // console.log({ userToken })
       store.dispatch({ type: 'user/setAuth', payload: userToken })
     }
     if (userToken === null) {
@@ -190,6 +191,7 @@ export default function App() {
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   useEffect(() => {
     if (userData) {
+      // console.log({ userData })
       store.dispatch({ type: 'user/setUser', payload: userData })
     }
     if (userData?.on_boarding_completed) {
