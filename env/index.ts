@@ -20,7 +20,8 @@ const envs: Record<EnvNames, EnvConfig> = {
     name: 'production',
     SmartlookApiKey: 'ef7b65fc05cee7e87d7014619355120f7a8a47e6',
     APP_VERSION: packageJson.version,
-    webVrURL: 'mindco-vr-player-v5.web.app',
+    webVrURL: 'mindcotine-player.web.app',
+    // webVrURL: 'mindco-vr-player-v5.web.app',
     surveys: {
       stressSurvey: 'https://survey.zohopublic.com/zs/zaCzbK',
       resilienceSurvey: 'https://survey.zohopublic.com/zs/8PCzC8',
