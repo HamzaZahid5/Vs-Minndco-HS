@@ -1,8 +1,13 @@
 /* eslint-disable no-console */
-import React, { ReactComponentElement, useRef, useState } from 'react'
-import { ScrollView, View, Text as NativeText, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
-
-import { useWindowDimensions } from 'react-native'
+import React, { ReactComponentElement, useEffect, useRef, useState } from 'react'
+import {
+  ScrollView,
+  View,
+  Text as NativeText,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  useWindowDimensions,
+} from 'react-native'
 import {
   Row,
   Headline,
@@ -49,6 +54,7 @@ const programActivityToBGImage = (actType: ProgramActivityType): ImageBitmap => 
       return require('../../../assets/images/bg_act_01.png')
   }
 }
+
 const programActivityToLabel = (actType: ProgramActivityType): string => {
   switch (actType) {
     case '2d-video':
@@ -104,6 +110,7 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
   const heroHeight = 450
   const internalHandlerMargin = 50
   const [tabsHeaderSize, setTabsHeaderSize] = useState(0)
+
   const internalScrollHandler = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (e.nativeEvent.contentOffset.y >= internalHandlerMargin) {
       setInternalScrollEnabled(true)
@@ -111,6 +118,7 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
       setInternalScrollEnabled(false)
     }
   }
+
   const internalScrollHandlerInternalScrollview = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (e.nativeEvent.contentOffset.y > 0) {
       setInternalScrollEnabled(true)

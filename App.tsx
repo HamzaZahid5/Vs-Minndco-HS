@@ -227,8 +227,6 @@ export default function App() {
   const theme = getProductTheme(!!isSmallDevice)
 
   useEffect(() => {
-    console.log({isAuthed});
-    console.log({i18nReady})
     if (isAuthed && i18nReady) {
       updateDevideInfo({
         app_version: config.APP_VERSION,

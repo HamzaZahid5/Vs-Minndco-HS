@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
-import { LayoutRectangle, ScrollView, View, Text as NativeText } from 'react-native'
+import React from 'react'
+import { View, Text as NativeText } from 'react-native'
 import {
   BasicScreen as Screen,
   Row,
@@ -7,23 +7,55 @@ import {
   Headline,
   Paragraph,
   Button,
-  Text,
-  Link,
-  Checkbox,
-  Snackbar,
   useRobTheme,
+  Subheading,
 } from '@mindcoxr/rob'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { translate } from '../../utils/localization'
-import { saveQuitDay, updateUserProfile } from '../../services/Firestore'
+import { updateUserProfile } from '../../services/Firestore'
 import { USER_SUPPORT_PROFILE, QUIT_DAY } from '../../store/selectors'
 import { useSelector } from 'react-redux'
-import moment from 'moment'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
-import actionsUser from '../../store/slices/user'
+import config from "../../../env"
+
+const PopupContent = ({ close }: { close: () => void }) => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('commons.messages.popup_title')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="small" weight="normal" textAlign="left">
+        {translate('commons.messages.popup_description')}
+      </Paragraph>
+    </Row>
+    <Row>
+      <Button onPress={close} round>
+        {translate('commons.messages.close')}
+      </Button>
+    </Row>
+  </>
+)
+
+const PopupContentError = ({ close }: { close: () => void }) => (
+  <>
+    <Row gutter={10}>
+      <Subheading>{translate('commons.messages.popup_title_error')}</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="small" weight="normal" textAlign="left">
+        {translate('commons.messages.popup_description_error')}
+      </Paragraph>
+    </Row>
+    <Row>
+      <Button onPress={close} round>
+        {translate('commons.messages.close')}
+      </Button>
+    </Row>
+  </>
+)
 
 const ProfileScreen = () => {
   const theme = useRobTheme()
@@ -54,9 +86,19 @@ const ProfileScreen = () => {
           wlike: '',
         }}
         onSubmit={async (values, actions) => {
-          await updateUserProfile({ display_name: values.name })
-          // await saveQuitDay(moment(values.qday))
+          if (values.name.length > 2) {
+            await updateUserProfile({ display_name: values.name })
+            // await saveQuitDay(moment(values.qday))
+            navigation.navigate('BasicModal', {
+              content: PopupContent,
+            })
+          } else {
+            navigation.navigate('BasicModal', {
+              content: PopupContentError,
+            })
+          }
         }}
+        
         validationSchema={getRegisterSchema()}
       >
         {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched, setValues }) => {
@@ -210,6 +252,22 @@ const ProfileScreen = () => {
                     {translate('screens.Profile.quitDay')}
                   </Button>
                   <View style={{ height: 10 }} />
+                </Row>
+                <Row gutter={23}>
+                  <Paragraph textAlign="left" size="medium" weight="bold">
+                    <NativeText style={{ color: '#000000' }}>
+                      {' '}
+                      {translate('screens.Profile.app', { defaultValue: 'App info' })}
+                    </NativeText>
+                  </Paragraph>
+                  <Row margin={10} gutter={1}>
+                    <Paragraph textAlign="left" size="small" weight="normal">
+                      v{config.APP_VERSION}
+                    </Paragraph>
+                    {/* <Paragraph textAlign="left" size="small" weight="normal">
+                      {uid}
+                    </Paragraph> */}
+                  </Row>
                 </Row>
                 <Row gutter={70} />
               </Screen>
