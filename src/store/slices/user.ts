@@ -96,11 +96,13 @@ const user = createSlice({
       }
     },
     setQuitDay: (state, action) => {
+      let quitDayFormat = action.payload as string
+      let quitDayFinal = quitDayFormat.split('T')[0]
       return {
         ...state,
         data: {
           ...state.data,
-          quit_day: action.payload.split('T')[0],
+          quit_day: quitDayFinal,
         },
       }
     },
