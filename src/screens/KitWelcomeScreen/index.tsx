@@ -73,7 +73,9 @@ const KitWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitWelcome'>) =
               }}
             >
               <Paragraph size="small" weight="bold" textAlign="right">
-                <Text style={{ color: theme.colors.monochrome.line }}>Skip</Text>
+                <Text style={{ color: theme.colors.monochrome.line }}>
+                  {translate('screens.KitWelcome.skip', { default: 'Skip' })}
+                </Text>
               </Paragraph>
             </TouchableRipple>
           </View>

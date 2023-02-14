@@ -10,7 +10,7 @@ import { RootStackParamList } from '../../../types'
 import Logo from '../../../assets/SVG/Logo'
 import { HAS_VIEWER, IS_PREMIUM } from '../../store/selectors'
 import { translate } from '../../utils/localization'
-import auth from '../../services/Auth/auth'
+import { auth } from '../../services/Auth/index'
 import { activateKit } from '../../services/Firestore'
 
 type CustomDrawerItemPropType = {
@@ -118,7 +118,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 <Row grow justifyContentOnGrow="flex-start" gutter={10}>
                   <Paragraph size="xsmall" weight="normal" textAlign="center">
                     {translate('screens.Drawer.sign_out_description', {
-                      defaultValue: "Next time you open the app you'll be required to sign in again",
+                      defaultValue: "Next time you open the app you'll be required to sign in again.",
                     })}
                   </Paragraph>
                 </Row>
