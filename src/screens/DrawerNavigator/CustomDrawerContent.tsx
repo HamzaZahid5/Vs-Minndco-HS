@@ -10,7 +10,7 @@ import { RootStackParamList } from '../../../types'
 import Logo from '../../../assets/SVG/Logo'
 import { HAS_VIEWER, IS_PREMIUM } from '../../store/selectors'
 import { translate } from '../../utils/localization'
-import { auth } from '../../services/Auth/index'
+import auth from '../../services/Auth/auth'
 import { activateKit } from '../../services/Firestore'
 
 type CustomDrawerItemPropType = {

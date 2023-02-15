@@ -3,19 +3,20 @@ import { Provider as PaperProvider, TouchableRipple } from 'react-native-paper'
 import { Theme as PaperTheme } from 'react-native-paper/src/types'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Provider } from 'react-redux'
-import { Platform, View, Text } from 'react-native'
-import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
+import { Platform, View, ActivityIndicator } from 'react-native'
+import { Theme as NavTheme, NavigationContainer, NavigationContainerRef, useNavigation } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack'
+import { createStackNavigator, StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
-import { RobThemeProvider } from '@mindcoxr/rob'
+import { BasicScreen, Button, Paragraph, RobThemeProvider, Row, Text } from '@mindcoxr/rob'
 import config from './env'
 import crashlytics from './src/services/Crashlytics'
 import analytics from './src/services/Analytics'
 // @ts-ignore not typescript file
 import Smartlook from 'smartlook-react-native-wrapper'
+import Logo from './assets/SVG/Logo'
 
 // SERVICES
 // @ts-ignore: non-ts file
@@ -126,8 +127,9 @@ import { parseCommand } from './src/utils/helpers'
 // import ReadActivitySelect from './src/screens/ReadActivitySelect';
 import { getCommonRoutes, getPostLoginRoutes, getPreLoginRoutes } from './src/utils/routes'
 import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
-import { getLocale } from './src/utils/localization'
+import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
+import Blob from './assets/SVG/Blob'
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
@@ -138,6 +140,7 @@ const CommonRoutes = getCommonRoutes(Stack)
 
 export default function App() {
   const userToken = useAuth()
+  const userData = useFirestoreListener('users', userToken?.uid ?? '')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
@@ -159,6 +162,14 @@ export default function App() {
       })
     }
   })
+
+  // useEffect(() => {
+  //   if (!userData) {
+  //     auth().signOut()
+  //     store.dispatch({ type: 'user/logout' })
+  //     navigatorRef.current?.navigate('Login')
+  //   }
+  // }, [userData])
 
   const [navigatorReady, setNavigatorReady] = useState(false)
   useEffect(() => {
@@ -188,10 +199,11 @@ export default function App() {
     }
   }, [userToken])
 
-  const userData = useFirestoreListener('users', userToken?.uid ?? '')
   useEffect(() => {
+    if (userData === null) {
+      store.dispatch({ type: 'user/logout' })
+    }
     if (userData) {
-      // console.log({ userData })
       store.dispatch({ type: 'user/setUser', payload: userData })
     }
     if (userData?.on_boarding_completed) {
@@ -206,7 +218,7 @@ export default function App() {
   }, [userData])
 
   useEffect(() => {
-    if (userToken) {
+    if (userToken && userData) {
       if (Platform.OS !== 'web') {
         Smartlook.setUserIdentifier(userToken.uid)
       }
@@ -227,7 +239,7 @@ export default function App() {
   const theme = getProductTheme(!!isSmallDevice)
 
   useEffect(() => {
-    if (isAuthed && i18nReady) {
+    if (isAuthed && i18nReady && userData !== null) {
       updateDevideInfo({
         app_version: config.APP_VERSION,
         language: getLocale(),
@@ -235,8 +247,50 @@ export default function App() {
         tz_offset: new Date().getTimezoneOffset() * -60,
         platform: `${Platform.OS}(${Platform.Version})`,
       })
+    } else {
+      navigatorRef.current?.navigate('Login')
     }
-  }, [i18nReady, isAuthed])
+  }, [i18nReady, isAuthed, userData])
+
+  const ActivityComponent = () => {
+    const [loading, setLoading] = useState(true)
+
+    const execute = () => {
+      setTimeout(() => {
+        setLoading(false)
+      }, 3000)
+    }
+    execute()
+
+    if (loading) {
+      return (
+        <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator />
+        </View>
+      )
+    }
+
+    return (
+      <View style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Blob style={{ position: 'absolute', top: '16%', right: 0 }} />
+        <Row>
+          <Logo />
+        </Row>
+        <Row>
+          <View style={{ marginBottom: 20 }}>
+            <Paragraph>
+              {translate('commons.messages.error_message', {
+                defaultValue: 'An unexpected error occurred, please contact support so that we can best assist you.',
+              })}
+            </Paragraph>
+          </View>
+        </Row>
+        <Button role="primary" onPress={() => auth().signOut()}>
+          {translate('commons.messages.button_back', { defaultValue: 'Back' })}
+        </Button>
+      </View>
+    )
+  }
 
   // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
   //   return <LoadingScreen />;
@@ -244,7 +298,7 @@ export default function App() {
   // auth().signOut()
   // console.log(userData)
   if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
-    return null
+    return <ActivityComponent />
   }
 
   handleMessaging()
