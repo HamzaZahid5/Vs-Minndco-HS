@@ -12,6 +12,7 @@ import useSaveQuitDay from './useSaveQuitDay'
 import { useDispatch, useSelector } from 'react-redux'
 import { QUIT_DAY } from '../../store/selectors'
 import userActions from '../../store/slices/user'
+import { translate } from '../../utils/localization'
 
 const momentToCalendarDate = (m?: moment.Moment) => (m ? m.format('YYYY-MM-DD') : '')
 
@@ -68,7 +69,7 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
         <PopupWrapper noPaddingHorizontal show={show} onClose={() => navigation.pop()}>
           <Row gutter={45}>
             <Headline size="medium" weight="bold" textAlign="center">
-              I’d love to quit by..
+              {translate('screens.QuitDay.title', { defaultValue: 'I’d love to quit by..' })}
             </Headline>
             <Calendar
               minDate={momentToCalendarDate(minDate)}
@@ -95,19 +96,19 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
                   }
                 }}
               >
-                Set my goal
+                {translate('screens.QuitDay.goal', { defaultValue: 'Set my goal' })}
               </Button>
             </View>
             <View style={{ marginHorizontal: 30 }}>
               <Button
                 role="secondary"
                 round
-                subVariant="#14142b"
+                // subVariant="#14142b"
                 onPress={() => {
                   closePanel()
                 }}
               >
-                I’ll set the date later
+                {translate('screens.QuitDay.later', { defaultValue: 'I’ll set the date later' })}
               </Button>
             </View>
           </Row>

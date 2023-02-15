@@ -118,7 +118,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 <Row grow justifyContentOnGrow="flex-start" gutter={10}>
                   <Paragraph size="xsmall" weight="normal" textAlign="center">
                     {translate('screens.Drawer.sign_out_description', {
-                      defaultValue: "Next time you open the app you'll be required to sign in again",
+                      defaultValue: "Next time you open the app you'll be required to sign in again.",
                     })}
                   </Paragraph>
                 </Row>

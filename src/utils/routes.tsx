@@ -48,7 +48,7 @@ export const getPostLoginRoutes = (Stack: StackType) => [
           contentAtBottom
           color="#14142b"
           backgroundColor="#F7F7FC"
-          routeName="Welcome"
+          routeName={translate('screens.KitWelcome.welcome')}
           height={100}
         />
       ),
