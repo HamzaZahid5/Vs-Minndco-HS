@@ -68,7 +68,8 @@ const ProfileScreen = () => {
   let textButton =
     (isInAbstinence ? translate('screens.quitDay.stopSmokingAt') : translate('screens.quitDay.commitmentCTA')) +
     ' ' +
-    moment(quitDay).format(getDayRefFormat(getLocale())) + '...'
+    moment(quitDay).format(getDayRefFormat(getLocale())) +
+    '...'
 
   return (
     <>
@@ -220,7 +221,8 @@ const ProfileScreen = () => {
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}>
-                      {translate('screens.Profile.goals')}{/* : {quitDay} */}
+                      {translate('screens.Profile.goals')}
+                      {/* : {quitDay} */}
                     </NativeText>
                   </Paragraph>
                   {/* <TextInput
@@ -252,7 +254,7 @@ const ProfileScreen = () => {
                       navigation.navigate('QuitDayModalProfile')
                     }}
                   >
-                    {textButton}
+                    {quitDay.length === 0 ? translate('screens.quitDay.inviteUser') : textButton}
                   </Button>
                   <View style={{ height: 10 }} />
                 </Row>
