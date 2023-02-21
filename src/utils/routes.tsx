@@ -96,7 +96,7 @@ export const getPostLoginRoutes = (Stack: StackType) => [
   //     headerStyle: { backgroundColor: '#F7F7FC' },
   //   }}
   // />,
-  <Stack.Screen key="Profile" name="Profile" component={ProfileNavigator} options={{ headerShown: true }} />,
+  <Stack.Screen key="Profile" name="Profile" component={ProfileNavigator} options={{ headerShown: false }} />,
   <Stack.Screen
     key="Playground"
     name="Playground"

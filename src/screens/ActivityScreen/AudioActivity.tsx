@@ -240,7 +240,7 @@ const AudioActivityScreen = ({
               <View style={[styles.iconsWrapper]}>
                 <Icon name="Clock" color={theme.colors.monochrome.placeholder} />
                 <PaperParagraph numberOfLines={1} style={styles.paragraphStyle}>
-                  {duration} {translate('commons.values.minute')}
+                  {duration} {duration === 1 ? translate('commons.values.minute') : translate('commons.values.minutes')}
                 </PaperParagraph>
               </View>
             </View>

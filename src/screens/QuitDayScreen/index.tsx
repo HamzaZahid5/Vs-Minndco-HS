@@ -94,6 +94,7 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
                       console.log(error)
                     }
                   }
+                  closePanel()
                 }}
               >
                 {translate('screens.QuitDay.goal', { defaultValue: 'Set my goal' })}

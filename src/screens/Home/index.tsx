@@ -26,14 +26,25 @@ import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
 import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
-import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, FLAGS, PROGRESS, IS_PREMIUM } from '../../store/selectors'
+import {
+  QUIT_DAY,
+  SMOKE_RECORD,
+  SHOW_BASIC_TUTORIAL,
+  FLAGS,
+  PROGRESS,
+  IS_PREMIUM,
+  MISSING_JOURNAL_WARNING_SHOWN,
+} from '../../store/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
+import useRelapseWarningPopup from '../../utils/hooks/useRelapseWarningPopup'
 import TargetIndicator from '../../components/TargetIndicator'
 import TutorialCarousel from './TutorialCarousel'
 import ActivitySlide from '../../components/Skeletons/ActivitySlide'
 import useTutorialFinished from '../../utils/hooks/useTutorialFinished'
 import { isActivityDone } from '../../utils/helpers'
+import useSmokeAlertPopup from '../../utils/hooks/useSmokeAlertPopup'
+import useCongratsQuitDayPopup from '../../utils/hooks/useCongratsQuitDayPopUp'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -86,6 +97,9 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   // HELPERS
   useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
   useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
+  useRelapseWarningPopup(navigation as StackNavigationProp<RootStackParamList>)
+  useSmokeAlertPopup(navigation as StackNavigationProp<RootStackParamList>)
+  useCongratsQuitDayPopup(navigation as StackNavigationProp<RootStackParamList>)
 
   // LOCAL
   // const [currentSlide, setCurrentSlide] = useState(1)

@@ -12,14 +12,15 @@ import {
 } from '@mindcoxr/rob'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { translate } from '../../utils/localization'
+import { getDayRefFormat, getLocale, translate } from '../../utils/localization'
 import { updateUserProfile } from '../../services/Firestore'
 import { USER_SUPPORT_PROFILE, QUIT_DAY } from '../../store/selectors'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
-import config from "../../../env"
+import config from '../../../env'
+import moment from 'moment'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -62,10 +63,12 @@ const ProfileScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const user = useSelector(USER_SUPPORT_PROFILE)
   const quitDay = useSelector(QUIT_DAY)
+  const isInAbstinence = quitDay && moment(quitDay).startOf('d') < moment().startOf('d')
 
-  // console.log({ quitDay: moment(quitDay) })
-  // console.log({ user })
-  // console.log(actionsUser.actions.setQuitDay(new Date()))
+  let textButton =
+    (isInAbstinence ? translate('screens.quitDay.stopSmokingAt') : translate('screens.quitDay.commitmentCTA')) +
+    ' ' +
+    moment(quitDay).format(getDayRefFormat(getLocale())) + '...'
 
   return (
     <>
@@ -88,7 +91,6 @@ const ProfileScreen = () => {
         onSubmit={async (values, actions) => {
           if (values.name.length > 2) {
             await updateUserProfile({ display_name: values.name })
-            // await saveQuitDay(moment(values.qday))
             navigation.navigate('BasicModal', {
               content: PopupContent,
             })
@@ -98,7 +100,6 @@ const ProfileScreen = () => {
             })
           }
         }}
-        
         validationSchema={getRegisterSchema()}
       >
         {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched, setValues }) => {
@@ -219,7 +220,7 @@ const ProfileScreen = () => {
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}>
-                      {translate('screens.Profile.goals')}: {quitDay}
+                      {translate('screens.Profile.goals')}{/* : {quitDay} */}
                     </NativeText>
                   </Paragraph>
                   {/* <TextInput
@@ -245,11 +246,13 @@ const ProfileScreen = () => {
                   /> */}
                   <Button
                     role="secondary"
+                    compact
+                    outline
                     onPress={() => {
                       navigation.navigate('QuitDayModalProfile')
                     }}
                   >
-                    {translate('screens.Profile.quitDay')}
+                    {textButton}
                   </Button>
                   <View style={{ height: 10 }} />
                 </Row>

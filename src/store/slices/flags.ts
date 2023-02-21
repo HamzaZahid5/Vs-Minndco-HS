@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PathsType } from '../../../types'
-import {
-  updateShowChatHelper,
-  updateShowJournalHelper,
-  updateShowLifeSaverHelper,
-  updateShowProgramHelper,
-} from '../../services/Firestore'
 
 export type FlagsState = {
   isLoading: number
@@ -26,13 +20,13 @@ const initialState: FlagsState = {
   isLoading: 0,
   currentPath: null,
   basicTutorialFinished: false,
-  // usados para manejar el boton que parpadea en el tab
+  // used for the handling of call to action states of the tutorial
   // CallToAction
   showJournalCTAHelper: false,
   showChatCTAHelper: false,
   showProgramCTAHelper: false,
   showLifeSaverCTAHelper: false,
-  // usados para guardar el progreso del usuario
+  // used for the handling of states of the tutorial
   showJournalHelper: true,
   showChatHelper: true,
   showProgramHelper: true,
