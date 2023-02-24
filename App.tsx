@@ -297,6 +297,9 @@ export default function App() {
   // }
   // auth().signOut()
   // console.log(userData)
+  // if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
+  //   return null
+  // }
   if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
     return <ActivityComponent />
   }

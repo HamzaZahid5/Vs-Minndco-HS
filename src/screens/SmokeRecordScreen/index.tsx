@@ -9,10 +9,11 @@ import WeekDaysBar from './WeekDaysBar'
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { fillWeek, EmptyRecordsType } from './helpers'
-import { SMOKE_RECORD } from '../../store/selectors'
+import { SMOKE_RECORD, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
 import { translate, getDayRefFormat, getLocale } from '../../utils/localization'
 import { saveSmokeJurnal } from '../../services/Functions'
 import { SmokeRecordsState } from '../../store/slices/smokeRecord'
+import { filter, reduce } from 'lodash'
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
@@ -23,12 +24,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
 
   // REDUX
   const smokeRecords = useSelector(SMOKE_RECORD)
+  const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
   const dispatch = useDispatch()
 
   // HELPERS
-  const { height } = Dimensions.get("screen")
+  const { height } = Dimensions.get('screen')
   // ADAPT TO SMALL SCREENS
-  const popUpCustomTop = height > 640 ? height - height * 30 / 100 : height - height * 20 / 100
+  const popUpCustomTop = height > 640 ? height - (height * 30) / 100 : height - (height * 20) / 100
 
   const insets = useSafeAreaInsets()
   const theme = useRobTheme()
@@ -46,17 +48,31 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     setShow(false)
   }
 
-  const saveJournal = () => {
-    saveSmokeJurnal(
-      // builds a SmokeRecordsState object
-      Object.keys(agendaItems).reduce(
-        (res: SmokeRecordsState, k: string) => ({
-          ...res,
-          [k]: agendaItems[k].count,
-        }),
-        {},
-      ),
+  const saveJournal = async () => {
+    const isAbstinence = treatment_module === 3
+    const sevenDaysAgo = moment().subtract(7, 'd')
+    const daysSmokedMoreThan1ThisWeek = reduce(
+      filter(smokeRecords, (_, date) => moment(date) > sevenDaysAgo),
+      (r, i) => r + (i > 1 ? 1 : 0),
+      0,
     )
+    try {
+      await saveSmokeJurnal(
+        // builds a SmokeRecordsState object
+        Object.keys(agendaItems).reduce(
+          (res: SmokeRecordsState, k: string) => ({
+            ...res,
+            [k]: agendaItems[k].count,
+          }),
+          {},
+        ),
+      )
+      if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
+        dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: true })
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   // BOOT UP CALENDAR

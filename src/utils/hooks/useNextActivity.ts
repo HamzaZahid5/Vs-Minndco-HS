@@ -15,6 +15,7 @@ export default (fixedActivityId?: string) => {
   const progress = useSelector(PROGRESS)
   const includeVR = useSelector(HAS_VIEWER)
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
+  console.log({ mId, lId })
 
   // PROGRAM
   const program = useProgram()
@@ -22,7 +23,9 @@ export default (fixedActivityId?: string) => {
   useEffect(() => {
     if (program && progress) {
       const allActivityKeys = getAllActivitiesKey(program, includeVR)
-      const firstNonCompletedIndex = allActivityKeys.findIndex(aKey => !progress.includes(aKey))
+      const firstNonCompletedIndex = allActivityKeys.findIndex(
+        aKey => !progress.includes(aKey) && aKey.includes(`M${mId}`),
+      )
       // when we got a fixed activity id it doesn't matter if the activity is repeated into another
       // module or level. The first match we find into the array of activity key is enough to let the
       // user to perform that activity again.

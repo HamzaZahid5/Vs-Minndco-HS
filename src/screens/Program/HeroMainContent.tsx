@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { TREATMENT_MODULE_AND_LEVEL, SMOKE_RECORD, QUIT_DAY } from '../../store/selectors'
 import { translate } from '../../utils/localization'
@@ -20,6 +20,8 @@ const HeroMainContent = () => {
     }
     return count
   }, 0)
+
+  useEffect(() => {}, [smokeAmuont, isSmokeFree])
 
   return isSmokeFree ? (
     <SmokeFreeCounter />

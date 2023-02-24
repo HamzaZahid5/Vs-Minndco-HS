@@ -25,7 +25,6 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
             compact
             onPress={() => {
               navigation.navigate('SmokeModal')
-              close()
             }}
           >
             {translate('screens.missingJournalPopUp.confirmButtonLabel')}
