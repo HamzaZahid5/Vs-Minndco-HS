@@ -3,6 +3,7 @@ import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit'
 import obfuscate from '../../utils/emailObfuscator'
 import { SmokeRecordsState } from './smokeRecord'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import moment from 'moment'
 // import { FirebaseTimestamp } from '../../../types';
 
 export type UserStatistics = {
@@ -38,6 +39,7 @@ export type UserState = {
     }
     showRelapseWarning?: boolean
     missingJournalWarningShown?: boolean
+    showFinishProgramPopup?: boolean
     gender: string
     group?: string
     kit_id: string
@@ -68,6 +70,7 @@ const initialState: UserState = {
     },
     showRelapseWarning: true,
     missingJournalWarningShown: false,
+    showFinishProgramPopup: false,
     gender: '',
     isPremium: false,
     language: '',
@@ -102,13 +105,11 @@ const user = createSlice({
       }
     },
     setQuitDay: (state, action) => {
-      let quitDayFormat = action.payload as string
-      let quitDayFinal = quitDayFormat.split('T')[0]
       return {
         ...state,
         data: {
           ...state.data,
-          quit_day: quitDayFinal,
+          quit_day: action.payload,
         },
       }
     },
@@ -235,6 +236,15 @@ const user = createSlice({
         data: {
           ...state.data,
           congratulated_on_quit_date: action.payload,
+        },
+      }
+    },
+    setShowFinishProgramPopup: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          showFinishProgramPopup: action.payload,
         },
       }
     },

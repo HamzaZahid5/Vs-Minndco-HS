@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Dimensions } from 'react-native'
-import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading } from '@mindcoxr/rob'
+import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading, Paragraph } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { TouchableRipple, Paragraph as PaperParagraph } from 'react-native-paper'
 import moment from 'moment'
@@ -9,11 +9,13 @@ import WeekDaysBar from './WeekDaysBar'
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { fillWeek, EmptyRecordsType } from './helpers'
-import { SMOKE_RECORD, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
+import { PROGRESS, QUIT_DAY, SMOKE_RECORD, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
 import { translate, getDayRefFormat, getLocale } from '../../utils/localization'
 import { saveSmokeJurnal } from '../../services/Functions'
 import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 import { filter, reduce } from 'lodash'
+import { revertQuitDay } from '../../services/Firestore'
+import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
@@ -25,6 +27,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   // REDUX
   const smokeRecords = useSelector(SMOKE_RECORD)
   const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
+  const actualQuitDay = useSelector(QUIT_DAY)
+  const progress = useSelector(PROGRESS)
   const dispatch = useDispatch()
 
   // HELPERS
@@ -42,36 +46,33 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     }
   }
 
+  const isAbstinence = treatment_module === 3
+  const sevenDaysAgo = moment().subtract(7, 'd')
+  const daysSmokedMoreThan1ThisWeek = reduce(
+    filter(smokeRecords, (_, date) => moment(date) > sevenDaysAgo),
+    (r, i) => r + (i > 1 ? 1 : 0),
+    0,
+  )
+
   // LISTENER
 
-  const closePanel = () => {
+  const closePanel = async () => {
     setShow(false)
   }
 
   const saveJournal = async () => {
-    const isAbstinence = treatment_module === 3
-    const sevenDaysAgo = moment().subtract(7, 'd')
-    const daysSmokedMoreThan1ThisWeek = reduce(
-      filter(smokeRecords, (_, date) => moment(date) > sevenDaysAgo),
-      (r, i) => r + (i > 1 ? 1 : 0),
-      0,
+    await saveSmokeJurnal(
+      // builds a SmokeRecordsState object
+      Object.keys(agendaItems).reduce(
+        (res: SmokeRecordsState, k: string) => ({
+          ...res,
+          [k]: agendaItems[k].count,
+        }),
+        {},
+      ),
     )
-    try {
-      await saveSmokeJurnal(
-        // builds a SmokeRecordsState object
-        Object.keys(agendaItems).reduce(
-          (res: SmokeRecordsState, k: string) => ({
-            ...res,
-            [k]: agendaItems[k].count,
-          }),
-          {},
-        ),
-      )
-      if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
-        dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: true })
-      }
-    } catch (error) {
-      console.log(error)
+    if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
+      navigation.navigate('BasicModal', { content: MakePopupContent(progress, moment(actualQuitDay)) })
     }
   }
 
@@ -105,6 +106,50 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const isToday = selectedDay === moment().format('YYYY-MM-DD')
   const isYesterday = selectedDay === moment().subtract(1, 'd').format('YYYY-MM-DD')
   const currentCount = agendaItems[selectedDay]?.count
+
+  const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
+    const PopupContent = ({ close }: { close: () => Promise<void> }) => {
+      const dispatch = useDispatch()
+      return (
+        <>
+          <Row gutter={10}>
+            <Subheading>{translate('screens.relapseWarningPopUp.title')}</Subheading>
+          </Row>
+          <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+            <Paragraph size="medium" weight="normal" textAlign="left">
+              {translate('screens.relapseWarningPopUp.message')}
+            </Paragraph>
+          </Row>
+          <Row gutter={10} grow justifyContentOnGrow="flex-end">
+            <Button
+              role="primary"
+              compact
+              onPress={() => {
+                const [highestModule, highestLevelOnModule] = calculateProgressForQuitDayRevert(progress)
+                revertQuitDay(actualQuitDay, highestModule, highestLevelOnModule)
+                dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
+                close()
+              }}
+            >
+              {translate('screens.relapseWarningPopUp.confirmButtonLabel')}
+            </Button>
+            <Button
+              role="secondary"
+              compact
+              outline
+              onPress={() => {
+                dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
+                close()
+              }}
+            >
+              {translate('screens.relapseWarningPopUp.cancelButtonLabel')}
+            </Button>
+          </Row>
+        </>
+      )
+    }
+    return PopupContent
+  }
 
   return (
     <>
@@ -184,8 +229,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
               <View style={{ marginHorizontal: 10 }}>
                 <Button
                   round
-                  onPress={() => {
-                    closePanel()
+                  onPress={async () => {
+                    await closePanel()
                   }}
                 >
                   {translate('screens.smokeRecording.confirmCTA')}

@@ -21,6 +21,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import config from '../../../env'
 import moment from 'moment'
+import useChangeQuitDayInAbsPopup from '../../utils/hooks/useChangeQuitDayInAbsPopup'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>

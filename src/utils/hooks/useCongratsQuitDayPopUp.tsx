@@ -51,7 +51,7 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
         content: PopupContent,
       })
     }
-  }, [navigation, dispatch])
+  }, [navigation, dispatch, actualQuitDay, congratulatedOnQuitDate, treatment_module])
 }
 
 export default useCongratsQuitDayPopup

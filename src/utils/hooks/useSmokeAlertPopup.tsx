@@ -8,7 +8,7 @@ import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
-  const PopupContent = ({ close }: { close: () => void }) => {
+  const PopupContent = ({ close }: { close: () => Promise<void> }) => {
     return (
       <>
         <Row gutter={10}>
@@ -23,7 +23,8 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
           <Button
             role="primary"
             compact
-            onPress={() => {
+            onPress={async () => {
+              await close()
               navigation.navigate('SmokeModal')
             }}
           >

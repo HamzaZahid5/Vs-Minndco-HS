@@ -47,6 +47,7 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
 }
 export const MISSING_JOURNAL_WARNING_SHOWN = (store: RootState) => store?.user?.data?.missingJournalWarningShown
 export const CONGRATULATED_ON_QUIT_DATE = (store: RootState) => store?.user?.data?.congratulated_on_quit_date
+export const SHOW_FINISH_PROGRAM = (store: RootState) => store?.user?.data?.showFinishProgramPopup
 export const SHOW_RELAPSE_WARNING = (store: RootState) => store?.user?.data?.showRelapseWarning
 export const FLAGS = (store: RootState) => store?.flags
 // export const USER_FLAGS = (store: RootState) => store?.user?.data?.flags

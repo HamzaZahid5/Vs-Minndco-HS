@@ -60,6 +60,7 @@ export type RootStackParamList = {
     customData?: Record<string, unknown>
   }
   Support: undefined
+  Messages: undefined
   PathEnding: {
     header: {
       type: string

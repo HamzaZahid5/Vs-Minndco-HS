@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import useProgram from './useProgram'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getActivityFromKey, getAllActivitiesKey } from '../helpers'
 import { PROGRESS, TREATMENT_MODULE_AND_LEVEL, HAS_VIEWER } from '../../store/selectors'
 import { ProgramActivity } from '../../../types'
 
 export default (fixedActivityId?: string) => {
+  const dispatch = useDispatch()
   // STATE
   const [nextActivityInState, setNextActivity] = useState<ProgramActivity>()
   const [nextActivityKey, setNextActivityKey] = useState<string>()
@@ -15,7 +16,6 @@ export default (fixedActivityId?: string) => {
   const progress = useSelector(PROGRESS)
   const includeVR = useSelector(HAS_VIEWER)
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
-  console.log({ mId, lId })
 
   // PROGRAM
   const program = useProgram()
@@ -48,6 +48,10 @@ export default (fixedActivityId?: string) => {
       setIsLastActivity(isLastActivity)
       setNextActivity(nextActivity)
       setNextActivityKey(nextActKey)
+
+      if (isLastActivity) {
+        dispatch({ type: 'user/finishProgramPopup', payload: true })
+      }
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId])
   return { nextActivity: nextActivityInState, nextActivityKey, isLastActivity: isLastActivityInState }

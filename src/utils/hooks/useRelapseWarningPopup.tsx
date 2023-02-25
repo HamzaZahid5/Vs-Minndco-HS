@@ -17,7 +17,7 @@ import { calculateProgressForQuitDayRevert } from '../helpers'
 import { revertQuitDay, updateRelapseWarningPopup } from '../../services/Firestore'
 
 const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
-  const PopupContent = ({ close }: { close: () => void }) => {
+  const PopupContent = ({ close }: { close: () => Promise<void> }) => {
     const dispatch = useDispatch()
     return (
       <>
@@ -86,6 +86,9 @@ const useRelapseWarningPopup = (navigation: StackNavigationProp<RootStackParamLi
   )
 
   useEffect(() => {
+    console.log({ isAbstinence })
+    console.log({ daysSmokedMoreThan1ThisWeek })
+    console.log({ showRelapseWarningPopup })
     if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1 && showRelapseWarningPopup) {
       // condition to display relapse warning
       dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
