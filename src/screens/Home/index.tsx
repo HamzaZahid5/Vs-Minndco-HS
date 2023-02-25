@@ -28,7 +28,6 @@ import { TabsParamList } from '../TabsNavigator'
 import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, PROGRESS, IS_PREMIUM } from '../../store/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
-import useRelapseWarningPopup from '../../utils/hooks/useRelapseWarningPopup'
 import TutorialCarousel from './TutorialCarousel'
 import ActivitySlide from '../../components/Skeletons/ActivitySlide'
 import useTutorialFinished from '../../utils/hooks/useTutorialFinished'
@@ -88,7 +87,6 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   // HELPERS
   useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
   useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
-  // useRelapseWarningPopup(navigation as StackNavigationProp<RootStackParamList>)
   useSmokeAlertPopup(navigation as StackNavigationProp<RootStackParamList>)
   useCongratsQuitDayPopup(navigation as StackNavigationProp<RootStackParamList>)
   useFinishProgramPopup(navigation as StackNavigationProp<RootStackParamList>)
@@ -97,7 +95,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   // const [currentSlide, setCurrentSlide] = useState(1)
 
   // REDUX
-  const quit_day = useSelector(QUIT_DAY)
+  // const quit_day = useSelector(QUIT_DAY)
 
   // HELPERS
   let activityTypeText = ''
@@ -194,6 +192,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                   </Row>
                 </>
               )}
+
               {nextActivity && isLastActivityDone && (
                 <>
                   <Row margin={0}>
@@ -222,7 +221,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
               )}
             </View>
 
-            {!quit_day && (
+            {/* {(quit_day === undefined || !quit_day) && (
               <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
                 <Row margin={0}>
                   <Icon name="Calendar" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
@@ -246,7 +245,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                   </>
                 </TouchableRipple>
               </View>
-            )}
+            )} */}
 
             <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
               <Row margin={0}>

@@ -36,8 +36,8 @@ target 'MindCotine' do
     # Reference: https://github.com/software-mansion/react-native-screens/issues/842#issuecomment-812543933
     installer.pods_project.targets.each do |target|
       installer.pods_project.build_configurations.each do |config|
-        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
-        # config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
+        # config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+        config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
       end
       if (target.name&.eql?('FBReactNativeSpec'))
         target.build_phases.each do |build_phase|

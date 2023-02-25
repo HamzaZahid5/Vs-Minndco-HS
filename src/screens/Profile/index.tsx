@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text as NativeText } from 'react-native'
 import {
   BasicScreen as Screen,
@@ -21,7 +21,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import config from '../../../env'
 import moment from 'moment'
-import useChangeQuitDayInAbsPopup from '../../utils/hooks/useChangeQuitDayInAbsPopup'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -71,6 +70,11 @@ const ProfileScreen = () => {
     ' ' +
     moment(quitDay).format(getDayRefFormat(getLocale())) +
     '...'
+
+  useEffect(() => {
+    console.log(quitDay)
+  }, [quitDay])
+  
 
   return (
     <>
@@ -255,7 +259,9 @@ const ProfileScreen = () => {
                       navigation.navigate('QuitDayModalProfile')
                     }}
                   >
-                    {quitDay.length === 0 ? translate('screens.quitDay.inviteUser') : textButton}
+                    {quitDay.length === 0 || quitDay === undefined
+                      ? translate('screens.quitDay.inviteUser')
+                      : textButton}
                   </Button>
                   <View style={{ height: 10 }} />
                 </Row>
