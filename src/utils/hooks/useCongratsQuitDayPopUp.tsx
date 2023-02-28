@@ -3,12 +3,13 @@ import moment from 'moment'
 import { useSelector, useDispatch } from 'react-redux'
 import { Subheading, Row, Paragraph, Button } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { CONGRATULATED_ON_QUIT_DATE, QUIT_DAY, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
+import { CONGRATULATED_ON_QUIT_DATE, PROGRESS, QUIT_DAY, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
 import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
 import { userWasCongratulatedOnQuitDay } from '../../services/Firestore'
+import { calculateProgressForQuitDayCongratulated } from '../helpers'
 
-const PopupContent = ({ close }: { close: () => void }) => {
+const PopupContent = ({ close }: { close: () => Promise<void> }) => {
   const dispatch = useDispatch()
   return (
     <>
@@ -24,9 +25,9 @@ const PopupContent = ({ close }: { close: () => void }) => {
         <Button
           role="primary"
           compact
-          onPress={() => {
+          onPress={async () => {
             dispatch({ type: 'user/setCongratulatedOnQuitDay', payload: true })
-            close()
+            await close()
           }}
         >
           {translate('screens.congratsOnQDPopUp.confirmButtonLabel')}
@@ -41,12 +42,20 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
   const actualQuitDay = useSelector(QUIT_DAY)
   const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
   const congratulatedOnQuitDate = useSelector(CONGRATULATED_ON_QUIT_DATE)
-  let congrats = moment().diff(moment(actualQuitDay)) > 0 && !congratulatedOnQuitDate && treatment_module === 3
+  const progress = useSelector(PROGRESS)
+  // let congrats = moment().diff(moment(actualQuitDay)) > 0
+  //   && !congratulatedOnQuitDate
+  //   && treatment_module === 3
+  const congrats =
+    moment().format('YYYY-MM-DD') === moment(actualQuitDay).format('YYYY-MM-DD') &&
+    moment().diff(moment(actualQuitDay).format('YYYY-MM-DD')) &&
+    !congratulatedOnQuitDate
 
   useEffect(() => {
     if (congrats) {
+      const [highestModule, highestLevelOnModule] = calculateProgressForQuitDayCongratulated(progress)
       dispatch({ type: 'user/setCongratulatedOnQuitDay', payload: true })
-      userWasCongratulatedOnQuitDay()
+      userWasCongratulatedOnQuitDay(highestModule, highestLevelOnModule)
       navigation.navigate('BasicModal', {
         content: PopupContent,
       })

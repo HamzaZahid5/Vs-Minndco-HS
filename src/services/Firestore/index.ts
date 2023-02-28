@@ -117,11 +117,13 @@ export const revertQuitDay = (newDate: moment.Moment, newModule: number, newLeve
     })
 }
 
-export const userWasCongratulatedOnQuitDay = () => {
+export const userWasCongratulatedOnQuitDay = (newModule: number, newLevelOnModule: number) => {
   const { uid } = auth().currentUser
   return firestore().collection('users').doc(uid).update({
     congratulated_on_quit_date: true,
     state: 'ABSTINENCE',
+    treatment_module: newModule,
+    treatment_level: newLevelOnModule,
   })
 }
 

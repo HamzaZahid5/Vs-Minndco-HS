@@ -50,6 +50,7 @@ export type UserState = {
     treatment_module: number
     treatment_level: number
     quit_day: string
+    state: string
   }
   auth: any
 }
@@ -87,6 +88,7 @@ const initialState: UserState = {
     kit_id: '',
     treatment_module: 1,
     treatment_level: 1,
+    state: 'RELAPSE',
   },
 }
 // const setFlag = createAction('flags/set')
@@ -245,6 +247,15 @@ const user = createSlice({
         data: {
           ...state.data,
           showFinishProgramPopup: action.payload,
+        },
+      }
+    },
+    setState: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          state: action.payload,
         },
       }
     },

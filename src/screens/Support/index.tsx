@@ -29,6 +29,17 @@ const Support = ({ navigation }: DefaultScreenPropType<'Support'>) => {
   const dispatch = useDispatch()
   const isCoachingSupport = useSelector(IS_PREMIUM)
 
+  console.log({
+    crisp_session_id: crispSessionId,
+    display_name: displayName,
+    has_coach_messages: hasCoachMessages,
+    group,
+    kit_id: kitId,
+    show_welcome_message_on_chat: showWelcomeMessageOnChat,
+    uid,
+    email,
+  })
+
   // TOOLS
   const theme = useRobTheme()
   const styles = getStyles(theme)
@@ -210,7 +221,7 @@ const Support = ({ navigation }: DefaultScreenPropType<'Support'>) => {
           source={{
             uri,
           }}
-          injectedJavaScriptBeforeContentLoaded={runFirst}
+          // injectedJavaScriptBeforeContentLoaded={runFirst}
           onError={syntheticEvent => {
             const { nativeEvent } = syntheticEvent
             // eslint-disable-next-line no-console

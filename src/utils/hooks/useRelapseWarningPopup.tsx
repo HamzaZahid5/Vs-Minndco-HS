@@ -33,11 +33,11 @@ const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
           <Button
             role="primary"
             compact
-            onPress={() => {
+            onPress={async () => {
               const [highestModule, highestLevelOnModule] = calculateProgressForQuitDayRevert(progress)
               revertQuitDay(actualQuitDay, highestModule, highestLevelOnModule)
               dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
-              close()
+              await close()
             }}
           >
             {translate('screens.relapseWarningPopUp.confirmButtonLabel')}
@@ -46,9 +46,9 @@ const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
             role="secondary"
             compact
             outline
-            onPress={() => {
+            onPress={async () => {
               dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
-              close()
+              await close()
             }}
           >
             {translate('screens.relapseWarningPopUp.cancelButtonLabel')}

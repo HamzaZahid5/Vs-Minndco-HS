@@ -65,7 +65,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const theme = useRobTheme()
   const windowsDimension = useWindowDimensions()
   const dispatch = useDispatch()
-  const { nextActivity, nextActivityKey, isLastActivity } = useNextActivity()
+  const { nextActivity, nextActivityKey, isLastActivity, withoutActKey } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
   const smokeRecord = useSelector(SMOKE_RECORD)
   const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
@@ -150,7 +150,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
           >
             <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
               {!nextActivity && <ActivitySlide />}
-              {nextActivity && !isLastActivityDone && (
+              {nextActivity && !isLastActivityDone && !withoutActKey && (
                 <>
                   <Row margin={0}>
                     <Text light>
@@ -187,6 +187,48 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                         }}
                       >
                         {translate('screens.Home.program_slide_startActivity')}
+                      </Button>
+                    </View>
+                  </Row>
+                </>
+              )}
+
+              {nextActivity && !isLastActivityDone && withoutActKey && (
+                <>
+                  {/* <Row margin={0}>
+                    <Text light>
+                      {translate('screens.home.allCompletedLabel')}
+                    </Text>
+                  </Row> */}
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                      <Icon
+                        name={'Achieve'}
+                        color={theme.colors.onSurface}
+                        wrapperStyle={{
+                          marginRight: 10,
+                        }}
+                      />
+                      <Paragraph size="medium" light weight="normal">
+                        {translate('screens.home.allCompletedLabel')}
+                      </Paragraph>
+                    </View>
+                  </Row>
+                  <Row margin={0}>
+                    <Billboard textAlign="left" light>
+                      {translate('screens.home.programFinishCircleMessage')}
+                    </Billboard>
+                  </Row>
+
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button
+                        compact
+                        onPress={() => {
+                          navigation.navigate('Program')
+                        }}
+                      >
+                        {translate('screens.home.programFinishCTALabel')}
                       </Button>
                     </View>
                   </Row>
