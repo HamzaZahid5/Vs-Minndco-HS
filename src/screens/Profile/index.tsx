@@ -68,10 +68,10 @@ const ProfileScreen = () => {
   const dayInProfile = moment(quitDay).format(getDayRefFormat(getLocale()))
 
   let textButton = isInAbstinence
-    ? translate('screens.quitDay.stopSmokingAt') + ' ' + dayInProfile + '...'
-    : template(translate('screens.quitDay.commitmentCTA'))({
+    ? template(translate('screens.quitDay.commitmentCTA'))({
         dayInProfile,
       })
+    : translate('screens.quitDay.stopSmokingAt') + dayInProfile + '...'
 
   useEffect(() => {
     console.log(quitDay)
