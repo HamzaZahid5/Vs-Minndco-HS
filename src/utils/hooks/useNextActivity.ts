@@ -20,11 +20,6 @@ export default (fixedActivityId?: string) => {
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
   const state = useSelector(STATE)
 
-  const calculateLevel = (mId: number, lId: number) => {
-    if ((mId === 1 || mId === 2) && lId === 10) return 1
-    return lId + 1
-  }
-
   useEffect(() => {
     if (program && progress) {
       const allActivityKeys = getAllActivitiesKey(program, includeVR)

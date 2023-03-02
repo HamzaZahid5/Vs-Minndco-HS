@@ -21,6 +21,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import config from '../../../env'
 import moment from 'moment'
+import { template } from 'lodash'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -64,35 +65,35 @@ const ProfileScreen = () => {
   const user = useSelector(USER_SUPPORT_PROFILE)
   const quitDay = useSelector(QUIT_DAY)
   const isInAbstinence = quitDay && moment(quitDay).startOf('d') < moment().startOf('d')
+  const dayInProfile = moment(quitDay).format(getDayRefFormat(getLocale()))
 
-  let textButton =
-    (isInAbstinence ? translate('screens.quitDay.stopSmokingAt') : translate('screens.quitDay.commitmentCTA')) +
-    ' ' +
-    moment(quitDay).format(getDayRefFormat(getLocale())) +
-    '...'
+  let textButton = isInAbstinence
+    ? translate('screens.quitDay.stopSmokingAt') + ' ' + dayInProfile + '...'
+    : template(translate('screens.quitDay.commitmentCTA'))({
+        dayInProfile,
+      })
 
   useEffect(() => {
     console.log(quitDay)
   }, [quitDay])
-  
 
   return (
     <>
       <Formik
         initialValues={{
           name: user.display_name,
-          lastname: '',
-          pronouns: '',
-          email: '',
-          countryCode: '',
-          phoneNumber: '',
-          yearsSmocking: '',
-          product: '',
-          dailySmocking: '',
-          unitPerPackage: '',
-          costPerPackage: '',
+          // lastname: '',
+          // pronouns: '',
+          // email: '',
+          // countryCode: '',
+          // phoneNumber: '',
+          // yearsSmocking: '',
+          // product: '',
+          // dailySmocking: '',
+          // unitPerPackage: '',
+          // costPerPackage: '',
           qday: quitDay,
-          wlike: '',
+          // wlike: '',
         }}
         onSubmit={async (values, actions) => {
           if (values.name.length > 2) {

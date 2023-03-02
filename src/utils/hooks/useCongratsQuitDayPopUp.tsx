@@ -47,7 +47,7 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
   //   && !congratulatedOnQuitDate
   //   && treatment_module === 3
   const congrats =
-    moment().format('YYYY-MM-DD') === moment(actualQuitDay).format('YYYY-MM-DD') &&
+    moment().format('YYYY-MM-DD') >= moment(actualQuitDay).format('YYYY-MM-DD') &&
     moment().diff(moment(actualQuitDay).format('YYYY-MM-DD')) &&
     !congratulatedOnQuitDate
 

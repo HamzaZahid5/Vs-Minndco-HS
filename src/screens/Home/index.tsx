@@ -25,7 +25,14 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
-import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, PROGRESS, IS_PREMIUM } from '../../store/selectors'
+import {
+  QUIT_DAY,
+  SMOKE_RECORD,
+  SHOW_BASIC_TUTORIAL,
+  PROGRESS,
+  IS_PREMIUM,
+  CHANGE_QUIT_DAY_IF_SMOKED,
+} from '../../store/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
 import TutorialCarousel from './TutorialCarousel'
@@ -35,6 +42,8 @@ import { isActivityDone } from '../../utils/helpers'
 import useSmokeAlertPopup from '../../utils/hooks/useSmokeAlertPopup'
 import useCongratsQuitDayPopup from '../../utils/hooks/useCongratsQuitDayPopUp'
 import useFinishProgramPopup from '../../utils/hooks/useFinishProgramPopup'
+import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
+import useDate from '../../utils/hooks/useDate'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -84,18 +93,22 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
     }
   }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
 
+  const [showChangeQuitDayIfSmoked, setShowChangeQuitDayIfSmoked] = useState(true)
+  const { nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek } = useDate()
+  useEffect(() => {
+    if (nextDayIsMyQuitDay && daysSmokedMoreThan1ThisWeek && showChangeQuitDayIfSmoked) {
+      dispatch({ type: 'user/setShowChangeQuitDayIfSmoked', payload: true })
+      setShowChangeQuitDayIfSmoked(false)
+    }
+  }, [nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek])
+
   // HELPERS
   useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
   useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
   useSmokeAlertPopup(navigation as StackNavigationProp<RootStackParamList>)
   useCongratsQuitDayPopup(navigation as StackNavigationProp<RootStackParamList>)
   useFinishProgramPopup(navigation as StackNavigationProp<RootStackParamList>)
-
-  // LOCAL
-  // const [currentSlide, setCurrentSlide] = useState(1)
-
-  // REDUX
-  // const quit_day = useSelector(QUIT_DAY)
+  useChangeQuitDayIfSmoke(navigation as StackNavigationProp<RootStackParamList>)
 
   // HELPERS
   let activityTypeText = ''

@@ -136,6 +136,7 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
                     if (!isAbstinence) {
                       await saveQuitDay(selected, closePanel)
                       dispatch({ type: 'user/setQuitDay', payload: selected.format('YYYY-MM-DD') })
+                      dispatch({ type: 'user/setShowChangeQuitDayIfSmoked', payload: false })
                       await closePanel()
                     } else {
                       await closePanel()
@@ -154,8 +155,9 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
                 role="secondary"
                 round
                 // subVariant="#14142b"
-                onPress={() => {
-                  closePanel()
+                onPress={async () => {
+                  dispatch({ type: 'user/setShowChangeQuitDayIfSmoked', payload: false })
+                  await closePanel()
                 }}
               >
                 {translate('screens.QuitDay.later', { defaultValue: 'I’ll set the date later' })}
