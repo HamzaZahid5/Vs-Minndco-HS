@@ -1,16 +1,13 @@
 import React, { useState, useRef, RefObject, useEffect } from 'react'
-import { Provider as PaperProvider, TouchableRipple } from 'react-native-paper'
-import { Theme as PaperTheme } from 'react-native-paper/src/types'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { Provider as PaperProvider } from 'react-native-paper'
 import { Provider } from 'react-redux'
 import { Platform, View, ActivityIndicator } from 'react-native'
-import { Theme as NavTheme, NavigationContainer, NavigationContainerRef, useNavigation } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Theme as NavTheme, NavigationContainer, NavigationContainerRef } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { createStackNavigator, StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
-import { BasicScreen, Button, Paragraph, RobThemeProvider, Row, Subheading, Text } from '@mindcoxr/rob'
+import { Button, Paragraph, RobThemeProvider, Row } from '@mindcoxr/rob'
 import config from './env'
 import crashlytics from './src/services/Crashlytics'
 import analytics from './src/services/Analytics'
@@ -23,114 +20,24 @@ import Logo from './assets/SVG/Logo'
 import { auth, useAuth } from './src/services/Auth'
 import configureStore from './src/store'
 
-// SCREENS
-import LandingScreen from './src/screens/LandingScreen'
-import RegistrationScreen from './src/screens/Registration'
-import LoginScreen from './src/screens/Login'
-import AuthByTokenScreen from './src/screens/AuthByToken'
-import ForgotPasswordScreen from './src/screens/ForgotPassword'
-import DrawerHomeNavigator from './src/screens/DrawerNavigator'
-import Playground from './src/screens/Playground'
-import SmokeRecordScreen from './src/screens/SmokeRecordScreen'
-import QuitDayModal from './src/screens/QuitDayScreen'
-import OnBoardingScreens from './src/screens/OnBoardingScreens'
-import ActivityScreen from './src/screens/ActivityScreen'
-import VRMet from './src/screens/VRMet'
-import ProfileScreen from './src/screens/Profile'
-import BasicModalScreen from './src/screens/BasicModalScreen'
-import LifesaverActivityScreen from './src/screens/Lifesaver/LifesaverActivity'
-import KitWelcome from './src/screens/KitWelcomeScreen'
-import KitActivation from './src/screens/KitActivation'
-
 // UTILS & HELPERS
-import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
-import { useFirestoreListener, updateDevideInfo, getAppVersion } from './src/services/Firestore'
-import { Icon } from '@mindcoxr/rob'
+import { useFirestoreListener, updateDevideInfo } from './src/services/Firestore'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
 import Orientation from 'react-native-orientation-locker'
-// // @ts-ignore: non-ts file
-// import AboutVRScreen from './src/screens/AboutVR';
-// // @ts-ignore: non-ts file
-// import ActivityScreen from './src/screens/ActivityScreen';
-// import Color from 'color';
-// import ContentsShelfScreen from './src/screens/ContentsShelf';
-// // @ts-ignore: non-ts file
-// import HowItWorksScreen from './src/screens/HowItWorks';
-// // @ts-ignore: non-ts file
-// import KitActivationScreen from './src/screens/KitActivation';
-// // @ts-ignore: non-ts file
-// import KitAssembleScreen from './src/screens/KitAssemble';
-// import RoadmapScreen from './src/screens/Roadmap';
-// import LibraryScreen from './src/screens/Library';
-// import LoadingScreen from './src/screens/Loading';
-// import LoginScreen from './src/screens/Login';
-// import ResetPassword from './src/screens/ResetPassword';
-// // @ts-ignore: non-ts file
-// import MainComponent from './src/screens/Home/DrawerNavigator';
-// // @ts-ignore: non-ts file
-// import ModalScreen from './src/screens/ModalScreen';
-// // @ts-ignore: non-ts file
-// import PathEndingScreen from './src/screens/PathEnding';
-// // @ts-ignore: non-ts file
-// import ProfileScreen from './src/screens/Profile';
-// import RegistrationScreen from './src/screens/Register';
-// import { RootStackParamList } from './types';
-// // @ts-ignore: non-ts file
-// import StatisticsScreen from './src/screens/Statistics';
-// // @ts-ignore: non-ts file
-// import StressActivityToDoScreen from './src/screens/StressActivityScreen';
-// // @ts-ignore: non-ts file
-// import StressActivityTypeScreen from './src/screens/StressActivityType';
-// // @ts-ignore: non-ts file
-// import StressRateScreen from './src/screens/StressRate';
-// // @ts-ignore: non-ts file
-// import StressTriggerScreen from './src/screens/StressTrigger';
-// // @ts-ignore: non-ts file
-// import SupportScreen from './src/screens/Support';
-// import ThemeInspector from './src/utils/ThemeInspector';
-// // @ts-ignore: non-ts file
-// import VRMetScreen from './src/screens/VRMet';
-// // @ts-ignore: non-ts file
-// import WelcomeWizardScreen from './src/screens/WelcomeWizard';
-// import configureStore from './src/store';
-// import useBootUpI18n from './src/utils/hooks/useBootUpI18n';
-// // @ts-ignore: non-ts file
-// import config from './env';
-// // @ts-ignore: non-ts file
-// import { useFirestoreListener, updateProfile } from './src/services/Firestore';
-// // @ts-ignore: non-ts file
-// import useFontLoader from './src/utils/hooks/useFontLoader';
 import handleMessaging from './src/utils/RemoteMessagingHandler'
-import KitPresentation from './src/screens/KitPresentation'
-import LoginCode from './src/screens/LoginCode'
-import functions from './src/services/Functions'
-import LoadingBackground from './src/components/LoadingBackground'
 import { parseCommand } from './src/utils/helpers'
-// import useDeepLinking from './src/utils/hooks/useDeepLinking';
-// import navigateToDeepLink from './src/utils/navigateToDeepLink';
-// import { translate, getLocale } from './src/utils/localization';
-// // @ts-ignore: non-ts file
-// import Smartlook from 'smartlook-react-native-wrapper';
-// import analytics from './src/services/Analytics';
-// import crashlytics from './src/services/Crashlytics';
-// import useOnScreenChange from './src/utils/hooks/useOnScreenChange';
-// import NoProductionIndicator from './src/components/NoProductionIndicator';
-// import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress';
-// import Playground from './src/screens/Playground';
-// import VRPlaygroundActivity from './src/screens/VRPlaygroundActivity';
-// import Zoho from './src/screens/Zoho';
-// import StressActivitySelect from './src/screens/StressActivitySelect';
-// import ReadActivitySelect from './src/screens/ReadActivitySelect';
 import { getCommonRoutes, getPostLoginRoutes, getPreLoginRoutes } from './src/utils/routes'
 import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
 import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
 import * as Sentry from '@sentry/react-native'
+import pkg from './package.json'
+import PopupContentVersion from './src/utils/hooks/useAppVersion'
 
 Sentry.init({
   dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
@@ -150,6 +57,7 @@ const CommonRoutes = getCommonRoutes(Stack)
 function App() {
   const userToken = useAuth()
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
+  const appVersionInStore = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
@@ -171,8 +79,26 @@ function App() {
       })
     }
   })
-
+  
   const [navigatorReady, setNavigatorReady] = useState(false)
+  useEffect(() => {
+    if (
+      navigatorReady &&
+      Platform.OS === 'android' &&
+      appVersionInStore?.android !== pkg.version &&
+      navigatorRef.current
+    ) {
+      navigatorRef.current.navigate('BasicModal', {
+        content: PopupContentVersion,
+      })
+    }
+    if (navigatorReady && Platform.OS === 'ios' && appVersionInStore?.ios !== pkg.version && navigatorRef.current) {
+      navigatorRef.current.navigate('BasicModal', {
+        content: PopupContentVersion,
+      })
+    }
+  }, [appVersionInStore, navigatorRef, navigatorReady])
+
   useEffect(() => {
     if (navigatorReady && navigatorRef.current && deepLink) {
       const { value, isAuth, isSignInCode } = parseCommand(deepLink)
