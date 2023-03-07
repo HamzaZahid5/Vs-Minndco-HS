@@ -26,12 +26,10 @@ import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
 import {
-  QUIT_DAY,
   SMOKE_RECORD,
   SHOW_BASIC_TUTORIAL,
   PROGRESS,
   IS_PREMIUM,
-  CHANGE_QUIT_DAY_IF_SMOKED,
 } from '../../store/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
@@ -44,6 +42,7 @@ import useCongratsQuitDayPopup from '../../utils/hooks/useCongratsQuitDayPopUp'
 import useFinishProgramPopup from '../../utils/hooks/useFinishProgramPopup'
 import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
 import useDate from '../../utils/hooks/useDate'
+import useAppVersion from '../../utils/hooks/useAppVersion'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -82,6 +81,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const progress = useSelector(PROGRESS)
   const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
   const isPremium = useSelector(IS_PREMIUM)
+
+  useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
 
   useEffect(() => {
     if (showBasicTutorial && !hasSmokeRecords) {

@@ -70,9 +70,11 @@ const useChangeQuitDayIfSmoke = (navigation: StackNavigationProp<RootStackParamL
   useEffect(() => {
     if (nextDayIsMyQuitDay && daysSmokedMoreThan1ThisWeek > 1 && showChangeQuitDayIfSmoked) {
       dispatch({ type: 'user/setShowChangeQuitDayIfSmoked', payload: false })
-      navigation.navigate('BasicModal', {
-        content: MakePopupContent(navigation),
-      })
+      setTimeout(() => {
+        navigation.navigate('BasicModal', {
+          content: MakePopupContent(navigation),
+        })
+      }, 100)
     }
   }, [navigation, dispatch, daysSmokedMoreThan1ThisWeek, showChangeQuitDayIfSmoked])
 }

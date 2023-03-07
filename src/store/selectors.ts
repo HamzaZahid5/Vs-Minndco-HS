@@ -67,3 +67,4 @@ export const MONEY_SPENT = (store: RootState) => {
 export const PRICE_BY_UNIT = (store: RootState) => store?.user?.data?.statistics?.money_by_unit || 0
 export const SMOKE_BASLINE = (store: RootState) => store?.user?.data?.statistics?.cigarettes_baseline || 0
 export const STATE = (store: RootState) => store?.user.data.state || 'RELAPSE'
+export const APP_VERSION = (store: RootState) => store?.user.data.app_version

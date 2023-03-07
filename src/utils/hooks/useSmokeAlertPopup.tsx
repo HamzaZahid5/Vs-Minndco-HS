@@ -46,9 +46,9 @@ const useSmokeAlertPopup = (navigation: StackNavigationProp<RootStackParamList>)
   const yesterday = moment().subtract(1, 'd').format('YYYY-MM-DD')
   const today = moment() as unknown as PropertyKey
 
-  const hasTodayEntry = smoke_record.hasOwnProperty(today)
-  const hasYesterdayEntry = smoke_record.hasOwnProperty(yesterday)
-  const hasEntryAtAll = Object.keys(smoke_record).length
+  const hasTodayEntry = smoke_record && smoke_record.hasOwnProperty(today)
+  const hasYesterdayEntry = smoke_record && smoke_record.hasOwnProperty(yesterday)
+  const hasEntryAtAll = smoke_record && Object.keys(smoke_record).length
   const moreThan24HsFromRegistration = created_at && moment().diff(moment(created_at.toDate()), 'h') > 24
 
   useEffect(() => {

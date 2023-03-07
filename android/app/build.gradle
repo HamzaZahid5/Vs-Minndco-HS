@@ -15,7 +15,7 @@ def getNpmVersion() {
 /* calculated from git commits to give sequential integers */
 def getGitVersion() {
     def process = "git rev-list --count HEAD".execute()
-    return process.text.toInteger() + 318
+    return process.text.toInteger() + 319
 }
 // ----------
 /**
@@ -141,6 +141,7 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 android {
     compileSdkVersion 31
     compileOptions {

@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Platform, Text, View } from 'react-native'
 import HomeScreen from '../Home'
 import { useRobTheme, Icon } from '@mindcoxr/rob'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
 import { ONBOARDING_COMPLETE, USER_SUPPORT_PROFILE, FLAGS } from '../../store/selectors'
@@ -53,23 +53,6 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingComplete])
 
-  // useEffect(() => {
-  //   if (user_flags) {
-  //     console.log('############################')
-  //     console.log({ user_flags })
-  //     console.log('############################')
-  //     dispatch({ type: 'flags/setFlags', payload: user_flags })
-  //   }
-  // }, [])
-  
-  // const ref = useRef(false)
-  // useEffect(() => {
-  //   if (flags && !ref.current) {
-  //     dispatch({ type: 'flags/setFlagsCTA', payload: user_flags })
-  //     ref.current = true;
-  //   }
-  // }, [flags])
-  
   const theme = useRobTheme()
 
   return (

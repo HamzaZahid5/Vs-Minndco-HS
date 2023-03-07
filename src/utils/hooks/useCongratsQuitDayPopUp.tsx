@@ -56,9 +56,11 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
       const [highestModule, highestLevelOnModule] = calculateProgressForQuitDayCongratulated(progress)
       dispatch({ type: 'user/setCongratulatedOnQuitDay', payload: true })
       userWasCongratulatedOnQuitDay(highestModule, highestLevelOnModule)
-      navigation.navigate('BasicModal', {
-        content: PopupContent,
-      })
+      setTimeout(() => {
+        navigation.navigate('BasicModal', {
+          content: PopupContent,
+        })
+      }, 100)
     }
   }, [navigation, dispatch, actualQuitDay, congratulatedOnQuitDate, treatment_module])
 }

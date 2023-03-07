@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react'
-import moment from 'moment'
 import { useSelector, useDispatch } from 'react-redux'
 import { Subheading, Row, Paragraph, Button } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
-import {
-  CONGRATULATED_ON_QUIT_DATE,
-  QUIT_DAY,
-  SHOW_FINISH_PROGRAM,
-  TREATMENT_MODULE_AND_LEVEL,
-} from '../../store/selectors'
+import { SHOW_FINISH_PROGRAM } from '../../store/selectors'
 import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
 import { userWasCongratulatedOnQuitDay } from '../../services/Firestore'
@@ -54,10 +48,11 @@ const useFinishProgramPopup = (navigation: StackNavigationProp<RootStackParamLis
   useEffect(() => {
     if (isLastActivity && showFinishProgramPopup) {
       dispatch({ type: 'user/finishProgramPopup', payload: false })
-      userWasCongratulatedOnQuitDay()
-      navigation.navigate('BasicModal', {
-        content: MakePopupContent(navigation),
-      })
+      setTimeout(() => {
+        navigation.navigate('BasicModal', {
+          content: MakePopupContent(navigation),
+        })
+      }, 100)
     }
   }, [navigation, dispatch, isLastActivity, showFinishProgramPopup])
 }

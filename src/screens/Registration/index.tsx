@@ -79,7 +79,7 @@ const Registration = () => {
           source={{
             uri,
           }}
-          originWhitelist={["intent://"]}
+          // originWhitelist={["intent://"]}
           onMessage={getMessageEventsHandler}
           injectedJavaScriptBeforeContentLoaded={INJECTED_EMBEDD}
           onNavigationStateChange={async event => {

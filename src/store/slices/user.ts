@@ -17,6 +17,7 @@ export type UserStatistics = {
 }
 export type UserState = {
   data: {
+    app_version?: string
     created_at?: FirebaseFirestoreTypes.Timestamp
     crisp_session_id?: string
     congratulated_on_quit_date?: boolean
@@ -58,6 +59,7 @@ export type UserState = {
 const initialState: UserState = {
   auth: {},
   data: {
+    app_version: '',
     display_name: '',
     on_boarding_completed: false,
     congratulated_on_quit_date: false,
@@ -123,6 +125,7 @@ const user = createSlice({
         ...state,
         data: {
           ...state.data,
+          app_version: action.payload.app_version,
           created_at: action.payload.created_at,
           crisp_session_id: action.payload.crisp_session_id,
           congratulated_on_quit_date: action.payload.congratulated_on_quit_date ?? false,

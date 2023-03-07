@@ -1,6 +1,6 @@
 {
   "name": "mindcotine_mobile_v4",
-  "version": "5.2.7",
+  "version": "5.2.8",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
@@ -116,6 +116,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@sentry/react-native": "^5.1.0",
     "@types/color": "^3.0.1",
     "@types/countdown": "^0.0.8",
     "@types/i18n-js": "^3.8.2",

@@ -10,7 +10,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { createStackNavigator, StackHeaderProps, StackNavigationProp } from '@react-navigation/stack'
 import * as Localization from 'expo-localization'
 import { getProductTheme } from './src/utils/config'
-import { BasicScreen, Button, Paragraph, RobThemeProvider, Row, Text } from '@mindcoxr/rob'
+import { BasicScreen, Button, Paragraph, RobThemeProvider, Row, Subheading, Text } from '@mindcoxr/rob'
 import config from './env'
 import crashlytics from './src/services/Crashlytics'
 import analytics from './src/services/Analytics'
@@ -47,7 +47,7 @@ import { BackButton } from './src/utils/hooks/useSetDefaultBackOnPress'
 import { RootStackParamList } from './types'
 import useFontLoader from './src/utils/hooks/useFontLoader'
 import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
-import { useFirestoreListener, updateDevideInfo } from './src/services/Firestore'
+import { useFirestoreListener, updateDevideInfo, getAppVersion } from './src/services/Firestore'
 import { Icon } from '@mindcoxr/rob'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
@@ -130,6 +130,15 @@ import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
 import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
+import * as Sentry from '@sentry/react-native'
+
+Sentry.init({
+  dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+  enableNative: false,
+})
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
@@ -138,7 +147,7 @@ const PostLoginRoutes = getPostLoginRoutes(Stack)
 const PreLoginRoutes = getPreLoginRoutes(Stack)
 const CommonRoutes = getCommonRoutes(Stack)
 
-export default function App() {
+function App() {
   const userToken = useAuth()
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   const i18nReady = useBootUpI18n()
@@ -162,14 +171,6 @@ export default function App() {
       })
     }
   })
-
-  // useEffect(() => {
-  //   if (!userData) {
-  //     auth().signOut()
-  //     store.dispatch({ type: 'user/logout' })
-  //     navigatorRef.current?.navigate('Login')
-  //   }
-  // }, [userData])
 
   const [navigatorReady, setNavigatorReady] = useState(false)
   useEffect(() => {
@@ -294,6 +295,7 @@ export default function App() {
 
   // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
   //   return <LoadingScreen />;
+
   // }
   // auth().signOut()
   // console.log(userData)
@@ -362,3 +364,5 @@ export default function App() {
     </Provider>
   )
 }
+
+export default Sentry.wrap(App)

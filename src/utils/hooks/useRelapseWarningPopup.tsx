@@ -94,9 +94,11 @@ const useRelapseWarningPopup = (navigation: StackNavigationProp<RootStackParamLi
       dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
       // firestore
       updateRelapseWarningPopup(false)
-      navigation.navigate('BasicModal', {
-        content: MakePopupContent(progress, actualQuitDay),
-      })
+      setTimeout(() => {
+        navigation.navigate('BasicModal', {
+          content: MakePopupContent(progress, actualQuitDay),
+        })
+      }, 100)
     }
   }, [navigation, dispatch, showRelapseWarningPopup, isAbstinence, daysSmokedMoreThan1ThisWeek])
 }
