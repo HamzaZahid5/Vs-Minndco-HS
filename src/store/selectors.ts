@@ -45,7 +45,11 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     email,
   }
 }
-
+export const MISSING_JOURNAL_WARNING_SHOWN = (store: RootState) => store?.user?.data?.missingJournalWarningShown
+export const CONGRATULATED_ON_QUIT_DATE = (store: RootState) => store?.user?.data?.congratulated_on_quit_date
+export const SHOW_FINISH_PROGRAM = (store: RootState) => store?.user?.data?.showFinishProgramPopup
+export const SHOW_RELAPSE_WARNING = (store: RootState) => store?.user?.data?.showRelapseWarning
+export const CHANGE_QUIT_DAY_IF_SMOKED = (store: RootState) => store?.user?.data?.changeQuitDayIfSmoked
 export const FLAGS = (store: RootState) => store?.flags
 // export const USER_FLAGS = (store: RootState) => store?.user?.data?.flags
 export const AUTH_INFO = (store: RootState) => store?.user?.auth
@@ -62,3 +66,5 @@ export const MONEY_SPENT = (store: RootState) => {
 }
 export const PRICE_BY_UNIT = (store: RootState) => store?.user?.data?.statistics?.money_by_unit || 0
 export const SMOKE_BASLINE = (store: RootState) => store?.user?.data?.statistics?.cigarettes_baseline || 0
+export const STATE = (store: RootState) => store?.user.data.state || 'RELAPSE'
+export const APP_VERSION = (store: RootState) => store?.user.data.app_version

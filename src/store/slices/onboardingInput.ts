@@ -39,7 +39,7 @@ const flagger = createSlice({
             value: state.what_sentence,
           },
         },
-      })/* .then(response => console.log({response})).catch(error => console.log({error})) */
+      })
     },
   },
 })

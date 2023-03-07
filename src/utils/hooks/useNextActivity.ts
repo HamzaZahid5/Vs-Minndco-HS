@@ -1,28 +1,32 @@
 import { useState, useEffect } from 'react'
 import useProgram from './useProgram'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getActivityFromKey, getAllActivitiesKey } from '../helpers'
-import { PROGRESS, TREATMENT_MODULE_AND_LEVEL, HAS_VIEWER } from '../../store/selectors'
+import { PROGRESS, TREATMENT_MODULE_AND_LEVEL, HAS_VIEWER, STATE } from '../../store/selectors'
 import { ProgramActivity } from '../../../types'
 
 export default (fixedActivityId?: string) => {
+  const dispatch = useDispatch()
   // STATE
   const [nextActivityInState, setNextActivity] = useState<ProgramActivity>()
   const [nextActivityKey, setNextActivityKey] = useState<string>()
   const [isLastActivityInState, setIsLastActivity] = useState<boolean>()
+  const [noFirstNonCompletedIndex, setNoFirstNonCompletedIndex] = useState<boolean>(false)
 
   // REDUX SELECTORS
   const progress = useSelector(PROGRESS)
+  const program = useProgram()
   const includeVR = useSelector(HAS_VIEWER)
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
-
-  // PROGRAM
-  const program = useProgram()
+  const state = useSelector(STATE)
 
   useEffect(() => {
     if (program && progress) {
       const allActivityKeys = getAllActivitiesKey(program, includeVR)
-      const firstNonCompletedIndex = allActivityKeys.findIndex(aKey => !progress.includes(aKey))
+      const firstNonCompletedIndex = allActivityKeys.findIndex(aKey =>
+        state === 'ABSTINENCE' ? !progress.includes(aKey) : !progress.includes(aKey) && aKey.includes(`M${mId}`),
+      )
+      firstNonCompletedIndex === -1 ? setNoFirstNonCompletedIndex(true) : setNoFirstNonCompletedIndex(false)
       // when we got a fixed activity id it doesn't matter if the activity is repeated into another
       // module or level. The first match we find into the array of activity key is enough to let the
       // user to perform that activity again.
@@ -39,13 +43,22 @@ export default (fixedActivityId?: string) => {
       // if fixed activity id, it will be the last activity when index + 1 is equal to array length.
       // if next activity is the last one, index plus 1 it will be equal to array length.
       // if next activity is unexistent (current activity was the last one), act index plus one will be greather than array length.
-      const isLastActivity = nextActKey === allActivityKeys[allActivityKeys.length - 1]
+      const isLastActivity = !noFirstNonCompletedIndex && nextActKey === allActivityKeys[allActivityKeys.length - 1]
       const nextActivity = getActivityFromKey(program, nextActKey)
 
       setIsLastActivity(isLastActivity)
       setNextActivity(nextActivity)
       setNextActivityKey(nextActKey)
+
+      if (isLastActivity) {
+        dispatch({ type: 'user/finishProgramPopup', payload: true })
+      }
     }
-  }, [program, progress, includeVR, mId, lId, fixedActivityId])
-  return { nextActivity: nextActivityInState, nextActivityKey, isLastActivity: isLastActivityInState }
+  }, [program, progress, includeVR, mId, lId, fixedActivityId, state])
+  return {
+    nextActivity: nextActivityInState,
+    nextActivityKey,
+    isLastActivity: isLastActivityInState,
+    withoutActKey: noFirstNonCompletedIndex,
+  }
 }

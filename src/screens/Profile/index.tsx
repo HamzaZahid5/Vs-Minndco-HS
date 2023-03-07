@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text as NativeText } from 'react-native'
 import {
   BasicScreen as Screen,
@@ -12,14 +12,16 @@ import {
 } from '@mindcoxr/rob'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { translate } from '../../utils/localization'
+import { getDayRefFormat, getLocale, translate } from '../../utils/localization'
 import { updateUserProfile } from '../../services/Firestore'
 import { USER_SUPPORT_PROFILE, QUIT_DAY } from '../../store/selectors'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
-import config from "../../../env"
+import config from '../../../env'
+import moment from 'moment'
+import { template } from 'lodash'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -62,33 +64,40 @@ const ProfileScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const user = useSelector(USER_SUPPORT_PROFILE)
   const quitDay = useSelector(QUIT_DAY)
+  const isInAbstinence = quitDay && moment(quitDay).startOf('d') < moment().startOf('d')
+  const dayInProfile = moment(quitDay).format(getDayRefFormat(getLocale()))
 
-  // console.log({ quitDay: moment(quitDay) })
-  // console.log({ user })
-  // console.log(actionsUser.actions.setQuitDay(new Date()))
+  let textButton = isInAbstinence
+    ? template(translate('screens.quitDay.commitmentCTA'))({
+        dayInProfile,
+      })
+    : translate('screens.quitDay.stopSmokingAt') + dayInProfile + '...'
+
+  useEffect(() => {
+    console.log(quitDay)
+  }, [quitDay])
 
   return (
     <>
       <Formik
         initialValues={{
           name: user.display_name,
-          lastname: '',
-          pronouns: '',
-          email: '',
-          countryCode: '',
-          phoneNumber: '',
-          yearsSmocking: '',
-          product: '',
-          dailySmocking: '',
-          unitPerPackage: '',
-          costPerPackage: '',
+          // lastname: '',
+          // pronouns: '',
+          // email: '',
+          // countryCode: '',
+          // phoneNumber: '',
+          // yearsSmocking: '',
+          // product: '',
+          // dailySmocking: '',
+          // unitPerPackage: '',
+          // costPerPackage: '',
           qday: quitDay,
-          wlike: '',
+          // wlike: '',
         }}
         onSubmit={async (values, actions) => {
           if (values.name.length > 2) {
             await updateUserProfile({ display_name: values.name })
-            // await saveQuitDay(moment(values.qday))
             navigation.navigate('BasicModal', {
               content: PopupContent,
             })
@@ -98,7 +107,6 @@ const ProfileScreen = () => {
             })
           }
         }}
-        
         validationSchema={getRegisterSchema()}
       >
         {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched, setValues }) => {
@@ -219,7 +227,8 @@ const ProfileScreen = () => {
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}>
-                      {translate('screens.Profile.goals')}: {quitDay}
+                      {translate('screens.Profile.goals')}
+                      {/* : {quitDay} */}
                     </NativeText>
                   </Paragraph>
                   {/* <TextInput
@@ -245,11 +254,15 @@ const ProfileScreen = () => {
                   /> */}
                   <Button
                     role="secondary"
+                    compact
+                    outline
                     onPress={() => {
                       navigation.navigate('QuitDayModalProfile')
                     }}
                   >
-                    {translate('screens.Profile.quitDay')}
+                    {quitDay.length === 0 || quitDay === undefined
+                      ? translate('screens.quitDay.inviteUser')
+                      : textButton}
                   </Button>
                   <View style={{ height: 10 }} />
                 </Row>

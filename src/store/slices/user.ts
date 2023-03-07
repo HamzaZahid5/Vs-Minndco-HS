@@ -17,8 +17,10 @@ export type UserStatistics = {
 }
 export type UserState = {
   data: {
+    app_version?: string
     created_at?: FirebaseFirestoreTypes.Timestamp
     crisp_session_id?: string
+    congratulated_on_quit_date?: boolean
     display_name: string
     on_boarding_completed: boolean
     flag_show_basics_tutorial: boolean
@@ -35,6 +37,10 @@ export type UserState = {
       show_program_helper?: boolean
       show_journal_helper?: boolean
     }
+    showRelapseWarning?: boolean
+    missingJournalWarningShown?: boolean
+    changeQuitDayIfSmoked?: boolean
+    showFinishProgramPopup?: boolean
     gender: string
     group?: string
     kit_id: string
@@ -45,6 +51,7 @@ export type UserState = {
     treatment_module: number
     treatment_level: number
     quit_day: string
+    state: string
   }
   auth: any
 }
@@ -52,8 +59,10 @@ export type UserState = {
 const initialState: UserState = {
   auth: {},
   data: {
+    app_version: '',
     display_name: '',
     on_boarding_completed: false,
+    congratulated_on_quit_date: false,
     flag_show_basics_tutorial: true,
     flag_use_vr_fallback: true,
     flags: {
@@ -62,6 +71,10 @@ const initialState: UserState = {
       show_program_helper: true,
       show_journal_helper: true,
     },
+    showRelapseWarning: true,
+    missingJournalWarningShown: false,
+    changeQuitDayIfSmoked: false,
+    showFinishProgramPopup: false,
     gender: '',
     isPremium: false,
     language: '',
@@ -78,6 +91,7 @@ const initialState: UserState = {
     kit_id: '',
     treatment_module: 1,
     treatment_level: 1,
+    state: 'RELAPSE',
   },
 }
 // const setFlag = createAction('flags/set')
@@ -96,13 +110,11 @@ const user = createSlice({
       }
     },
     setQuitDay: (state, action) => {
-      let quitDayFormat = action.payload as string
-      let quitDayFinal = quitDayFormat.split('T')[0]
       return {
         ...state,
         data: {
           ...state.data,
-          quit_day: quitDayFinal,
+          quit_day: action.payload,
         },
       }
     },
@@ -113,8 +125,10 @@ const user = createSlice({
         ...state,
         data: {
           ...state.data,
+          app_version: action.payload.app_version,
           created_at: action.payload.created_at,
           crisp_session_id: action.payload.crisp_session_id,
+          congratulated_on_quit_date: action.payload.congratulated_on_quit_date ?? false,
           display_name: action.payload.display_name,
           flag_show_basics_tutorial: action.payload.flag_show_basics_tutorial,
           on_boarding_completed: action.payload.on_boarding_completed ?? false,
@@ -142,6 +156,7 @@ const user = createSlice({
                 ? action.payload.flags.show_program_helper
                 : true,
           },
+          showRelapseWarning: action.payload.showRelapseWarning ?? true,
           gender: action.payload.gender,
           group: action.payload.group,
           isPremium: action.payload.isPremium,
@@ -200,6 +215,60 @@ const user = createSlice({
             ...state.data.flags,
             show_basics_tutorial: false,
           },
+        },
+      }
+    },
+    setShowRelapseWarinigPopup: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          showRelapseWarning: action.payload,
+        },
+      }
+    },
+    setMissingJournalWarningShown: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          missingJournalWarningShown: action.payload,
+        },
+      }
+    },
+    setCongratulatedOnQuitDay: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          congratulated_on_quit_date: action.payload,
+        },
+      }
+    },
+    setShowFinishProgramPopup: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          showFinishProgramPopup: action.payload,
+        },
+      }
+    },
+    setShowChangeQuitDayIfSmoked: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          changeQuitDayIfSmoked: action.payload,
+        },
+      }
+    },
+    setState: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          state: action.payload,
         },
       }
     },

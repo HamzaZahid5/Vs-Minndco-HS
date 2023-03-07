@@ -25,15 +25,23 @@ import useTodaysActivityDone from '../../utils/hooks/useTodaysActivityDone'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
-import useProgressTrend, { TRENDS } from '../../utils/hooks/useProgressTrend'
-import { QUIT_DAY, SMOKE_RECORD, SHOW_BASIC_TUTORIAL, FLAGS, PROGRESS, IS_PREMIUM } from '../../store/selectors'
+import {
+  SMOKE_RECORD,
+  SHOW_BASIC_TUTORIAL,
+  PROGRESS,
+  IS_PREMIUM,
+} from '../../store/selectors'
 import { useSelector, useDispatch } from 'react-redux'
 import useQueryKitReceived from '../../utils/hooks/useQueryKitReceived'
-import TargetIndicator from '../../components/TargetIndicator'
 import TutorialCarousel from './TutorialCarousel'
 import ActivitySlide from '../../components/Skeletons/ActivitySlide'
 import useTutorialFinished from '../../utils/hooks/useTutorialFinished'
 import { isActivityDone } from '../../utils/helpers'
+import useSmokeAlertPopup from '../../utils/hooks/useSmokeAlertPopup'
+import useCongratsQuitDayPopup from '../../utils/hooks/useCongratsQuitDayPopUp'
+import useFinishProgramPopup from '../../utils/hooks/useFinishProgramPopup'
+import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
+import useDate from '../../utils/hooks/useDate'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -64,7 +72,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const theme = useRobTheme()
   const windowsDimension = useWindowDimensions()
   const dispatch = useDispatch()
-  const { nextActivity, nextActivityKey, isLastActivity } = useNextActivity()
+  const { nextActivity, nextActivityKey, isLastActivity, withoutActKey } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
   const smokeRecord = useSelector(SMOKE_RECORD)
   const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
@@ -83,15 +91,22 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
     }
   }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
 
+  const [showChangeQuitDayIfSmoked, setShowChangeQuitDayIfSmoked] = useState(true)
+  const { nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek } = useDate()
+  useEffect(() => {
+    if (nextDayIsMyQuitDay && daysSmokedMoreThan1ThisWeek && showChangeQuitDayIfSmoked) {
+      dispatch({ type: 'user/setShowChangeQuitDayIfSmoked', payload: true })
+      setShowChangeQuitDayIfSmoked(false)
+    }
+  }, [nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek])
+
   // HELPERS
   useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
   useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
-
-  // LOCAL
-  // const [currentSlide, setCurrentSlide] = useState(1)
-
-  // REDUX
-  const quit_day = useSelector(QUIT_DAY)
+  useSmokeAlertPopup(navigation as StackNavigationProp<RootStackParamList>)
+  useCongratsQuitDayPopup(navigation as StackNavigationProp<RootStackParamList>)
+  useFinishProgramPopup(navigation as StackNavigationProp<RootStackParamList>)
+  useChangeQuitDayIfSmoke(navigation as StackNavigationProp<RootStackParamList>)
 
   // HELPERS
   let activityTypeText = ''
@@ -146,7 +161,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
           >
             <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
               {!nextActivity && <ActivitySlide />}
-              {nextActivity && !isLastActivityDone && (
+              {nextActivity && !isLastActivityDone && !withoutActKey && (
                 <>
                   <Row margin={0}>
                     <Text light>
@@ -188,6 +203,49 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                   </Row>
                 </>
               )}
+
+              {nextActivity && !isLastActivityDone && withoutActKey && (
+                <>
+                  {/* <Row margin={0}>
+                    <Text light>
+                      {translate('screens.home.allCompletedLabel')}
+                    </Text>
+                  </Row> */}
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                      <Icon
+                        name={'Achieve'}
+                        color={theme.colors.onSurface}
+                        wrapperStyle={{
+                          marginRight: 10,
+                        }}
+                      />
+                      <Paragraph size="medium" light weight="normal">
+                        {translate('screens.home.allCompletedLabel')}
+                      </Paragraph>
+                    </View>
+                  </Row>
+                  <Row margin={0}>
+                    <Billboard textAlign="left" light>
+                      {translate('screens.home.programFinishCircleMessage')}
+                    </Billboard>
+                  </Row>
+
+                  <Row margin={0}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Button
+                        compact
+                        onPress={() => {
+                          navigation.navigate('Program')
+                        }}
+                      >
+                        {translate('screens.home.programFinishCTALabel')}
+                      </Button>
+                    </View>
+                  </Row>
+                </>
+              )}
+
               {nextActivity && isLastActivityDone && (
                 <>
                   <Row margin={0}>
@@ -216,7 +274,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
               )}
             </View>
 
-            {!quit_day && (
+            {/* {(quit_day === undefined || !quit_day) && (
               <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
                 <Row margin={0}>
                   <Icon name="Calendar" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
@@ -240,7 +298,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                   </>
                 </TouchableRipple>
               </View>
-            )}
+            )} */}
 
             <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
               <Row margin={0}>

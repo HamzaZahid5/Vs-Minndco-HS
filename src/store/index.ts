@@ -7,11 +7,11 @@ import reducer from './reducer'
 const env = { name: 'development' }
 
 const logger: Middleware<Record<string, unknown>> = store => next => action => {
-  console.group(action.type)
-  console.info('dispatching', action)
+  // console.group(action.type)
+  // console.info('dispatching', action)
   const result = next(action)
-  console.log('next state', store.getState())
-  console.groupEnd()
+  // console.log('next state', store.getState())
+  // console.groupEnd()
   return result
 }
 

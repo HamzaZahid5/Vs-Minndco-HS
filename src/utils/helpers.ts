@@ -81,6 +81,16 @@ export const calculateProgressForQuitDayRevert = (progress: string[]) => {
   }, 1)
   return [highestModule, highestLevelOnModule]
 }
+
+export const calculateProgressForQuitDayCongratulated = (progress: string[]) => {
+  const highestModule = 3
+  const highestLevelOnModule = progress.reduce((r, p) => {
+    const levelNum = p.includes(`M${highestModule}_`) && p.split('_')[1].replace('L', '')
+    return Number(levelNum) > r ? Number(levelNum) : r
+  }, 1)
+  return [highestModule, highestLevelOnModule]
+}
+
 export const listOfLastXDays = (x: number) => {
   const referenceDate = moment()
   referenceDate.subtract(x, 'd')

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
+import { Platform } from 'react-native'
+import moment from 'moment'
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import crashlytics from '../Crashlytics'
 import firestore from './firestore'
 import { auth } from '../Auth'
-import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { languagesType, ProgramActivityType } from '../../../types'
-import { PlatformOSType } from 'react-native'
-import moment from 'moment'
 import functions from '../Functions'
 
 export default firestore
@@ -37,6 +37,12 @@ export const useFirestoreListener = (collection: string, id: string) => {
   }, [id])
 
   return snapshotData
+}
+
+export const getAppVersion = async () => {
+  const versionInStore = (await firestore().collection('app_version').doc('ileSVeW0Qba7ke0xDsDQ').get()).data()
+  if (Platform.OS === "android") return versionInStore?.android
+  return versionInStore?.ios
 }
 
 export const updateProfile = (updateObject: Record<string, unknown>) => {
@@ -117,6 +123,16 @@ export const revertQuitDay = (newDate: moment.Moment, newModule: number, newLeve
     })
 }
 
+export const userWasCongratulatedOnQuitDay = (newModule: number, newLevelOnModule: number) => {
+  const { uid } = auth().currentUser
+  return firestore().collection('users').doc(uid).update({
+    congratulated_on_quit_date: true,
+    state: 'ABSTINENCE',
+    treatment_module: newModule,
+    treatment_level: newLevelOnModule,
+  })
+}
+
 export const saveActivityDone = ({
   treatment_module,
   treatment_level,
@@ -131,9 +147,7 @@ export const saveActivityDone = ({
   updateProfile({
     treatment_module,
     treatment_level,
-
     progress: firestore.FieldValue.arrayUnion(activityKey),
-
     'statistics.last_completed_activity_at': firestore.FieldValue.serverTimestamp(),
     'statistics.last_completed_activity': activityKey,
     'statistics.activity_days_in_a_row': streak,
@@ -208,6 +222,10 @@ export const updateCrispSessionId = (sessionId: string) =>
 export const updateWelcomeMessageSeen = () =>
   updateProfile({
     'flags.show_welcome_message_on_chat': false,
+  })
+export const updateRelapseWarningPopup = (show: boolean) =>
+  updateProfile({
+    showRelapseWarning: show,
   })
 
 export const updateActivityCounter = async (activityType: ProgramActivityType) => {
