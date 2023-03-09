@@ -39,10 +39,10 @@ export const useFirestoreListener = (collection: string, id: string) => {
   return snapshotData
 }
 
-export const getAppVersion = async () => {
-  const versionInStore = (await firestore().collection('app_version').doc('ileSVeW0Qba7ke0xDsDQ').get()).data()
-  if (Platform.OS === "android") return versionInStore?.android
-  return versionInStore?.ios
+export const getAppVersion = () => {
+  const version = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
+  if (Platform.OS === 'android') return version?.android
+  return version?.ios
 }
 
 export const updateProfile = (updateObject: Record<string, unknown>) => {

@@ -41,6 +41,7 @@ export type UserState = {
     missingJournalWarningShown?: boolean
     changeQuitDayIfSmoked?: boolean
     showFinishProgramPopup?: boolean
+    showNeedUpdateApp?: boolean
     gender: string
     group?: string
     kit_id: string
@@ -75,6 +76,7 @@ const initialState: UserState = {
     missingJournalWarningShown: false,
     changeQuitDayIfSmoked: false,
     showFinishProgramPopup: false,
+    showNeedUpdateApp: false,
     gender: '',
     isPremium: false,
     language: '',
@@ -106,6 +108,15 @@ const user = createSlice({
         auth: {
           uid: action.payload.uid,
           email: action.payload.email ? obfuscate(action.payload.email) : '',
+        },
+      }
+    },
+    setShowNeedUpdate: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          showNeedUpdateApp: action.payload,
         },
       }
     },
