@@ -35,6 +35,7 @@ import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
 import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
+import pkg from './package.json'
 import * as Sentry from '@sentry/react-native'
 
 Sentry.init({
@@ -55,6 +56,7 @@ const CommonRoutes = getCommonRoutes(Stack)
 function App() {
   const userToken = useAuth()
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
+  const versionInStore = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
@@ -94,6 +96,34 @@ function App() {
   useEffect(() => {
     Orientation.lockToPortrait()
   }, [])
+
+  useEffect(() => {
+    let unsubscribe = () => {
+      if (
+        versionInStore &&
+        typeof versionInStore === 'object' &&
+        Platform.OS === 'android' &&
+        versionInStore?.android !== pkg.version
+      ) {
+        console.log({ android_server: versionInStore?.android })
+        console.log({ version: pkg.version })
+        store.dispatch({ type: 'user/setShowNeedUpdate', payload: true })
+      }
+      if (
+        versionInStore &&
+        typeof versionInStore === 'object' &&
+        Platform.OS === 'ios' &&
+        versionInStore?.ios !== pkg.version
+      ) {
+        console.log({ ios_server: versionInStore?.ios })
+        console.log({ version: pkg.version })
+        store.dispatch({ type: 'user/setShowNeedUpdate', payload: true })
+      }
+    }
+    return () => {
+      unsubscribe()
+    }
+  }, [versionInStore])
 
   useEffect(() => {
     if (userToken) {
