@@ -42,6 +42,7 @@ import useCongratsQuitDayPopup from '../../utils/hooks/useCongratsQuitDayPopUp'
 import useFinishProgramPopup from '../../utils/hooks/useFinishProgramPopup'
 import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
 import useDate from '../../utils/hooks/useDate'
+import useAppVersion from '../../utils/hooks/useAppVersion'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -80,6 +81,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const progress = useSelector(PROGRESS)
   const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
   const isPremium = useSelector(IS_PREMIUM)
+
+  useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
 
   useEffect(() => {
     if (showBasicTutorial && !hasSmokeRecords) {

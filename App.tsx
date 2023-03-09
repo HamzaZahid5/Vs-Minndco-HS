@@ -36,8 +36,6 @@ import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
 import * as Sentry from '@sentry/react-native'
-import pkg from './package.json'
-import PopupContentVersion from './src/utils/hooks/useAppVersion'
 
 Sentry.init({
   dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
@@ -57,7 +55,6 @@ const CommonRoutes = getCommonRoutes(Stack)
 function App() {
   const userToken = useAuth()
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
-  const appVersionInStore = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
@@ -79,26 +76,8 @@ function App() {
       })
     }
   })
-  
-  const [navigatorReady, setNavigatorReady] = useState(false)
-  useEffect(() => {
-    if (
-      navigatorReady &&
-      Platform.OS === 'android' &&
-      appVersionInStore?.android !== pkg.version &&
-      navigatorRef.current
-    ) {
-      navigatorRef.current.navigate('BasicModal', {
-        content: PopupContentVersion,
-      })
-    }
-    if (navigatorReady && Platform.OS === 'ios' && appVersionInStore?.ios !== pkg.version && navigatorRef.current) {
-      navigatorRef.current.navigate('BasicModal', {
-        content: PopupContentVersion,
-      })
-    }
-  }, [appVersionInStore, navigatorRef, navigatorReady])
 
+  const [navigatorReady, setNavigatorReady] = useState(false)
   useEffect(() => {
     if (navigatorReady && navigatorRef.current && deepLink) {
       const { value, isAuth, isSignInCode } = parseCommand(deepLink)
@@ -110,7 +89,7 @@ function App() {
         navigatorRef.current.navigate(value as keyof RootStackParamList)
       }
     }
-  }, [deepLink, navigatorReady])
+  }, [deepLink, navigatorReady, navigatorRef])
 
   useEffect(() => {
     Orientation.lockToPortrait()
@@ -118,7 +97,6 @@ function App() {
 
   useEffect(() => {
     if (userToken) {
-      // console.log({ userToken })
       store.dispatch({ type: 'user/setAuth', payload: userToken })
     }
     if (userToken === null) {

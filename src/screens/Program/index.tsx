@@ -16,7 +16,6 @@ const ProgramScreen = ({ navigation }: DefaultScreenPropType<'Main'>) => {
   const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
   const isAbstinence = treatment_module === 3
 
-
   const icon1 = useIconSmokeLog()
   const icon2 = useIconProgress()
   const icon3 = useIconSmokeSavings()
