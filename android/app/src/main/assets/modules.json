@@ -107,7 +107,7 @@
   "expo-linear-gradient": "10.0.3",
   "lodash-es": "4.17.21",
   "react-native-orientation-locker": "1.4.0",
-  "react-native-inappbrowser-reborn": "3.6.3",
+  "react-native-inappbrowser-reborn": "3.7.0",
   "react-native-keyboard-aware-scroll-view": "0.9.5",
   "react-native-webview": "11.13.0",
   "formik": "2.2.9",
