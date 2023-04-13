@@ -3,6 +3,15 @@ import { ProgramActivity, ProgramType } from '../../types'
 // @ts-ignore: need to install types
 import template from 'lodash-es/template'
 import { SmokeRecordsState } from '../store/slices/smokeRecord'
+import { Platform } from 'react-native'
+import {
+  PERMISSIONS,
+  RESULTS,
+  check,
+  checkNotifications,
+  request,
+  requestNotifications,
+} from 'react-native-permissions'
 
 export const getModuleFromKey = (key = '') => key.split('_')[0]
 export const getModuleNumberFromKey = (key = '') => Number(getModuleFromKey(key).replace('M', ''))
@@ -198,4 +207,40 @@ export const calculateProgramCompletion = (program: ProgramType, progressArray: 
   const currentIdIndex = allActKeys.indexOf(maxProgressKey)
   const progress = (currentIdIndex + 1) / allActKeys.length
   return Math.round(progress * 100)
+}
+
+export const checkNotificationPermission = async () => {
+  let resultAndroid
+  let resultIOS
+
+  if (Platform.OS === 'android') {
+    resultAndroid = await check(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
+  } else if (Platform.OS === 'ios') {
+    resultIOS = await checkNotifications()
+  }
+
+  if (Platform.OS === 'android' && resultAndroid === RESULTS.GRANTED) {
+    console.log('Permission granted ANDROID')
+  } else if (Platform.OS === 'ios' && resultIOS?.status === 'granted') {
+    console.log('Permission granted IOS')
+  } else {
+    requestNotificationPermission()
+  }
+}
+
+const requestNotificationPermission = async () => {
+  let resultAndroid
+  let resultIOS
+
+  if (Platform.OS === 'android') {
+    resultAndroid = await request(PERMISSIONS.ANDROID.POST_NOTIFICATIONS)
+  } else if (Platform.OS === 'ios') {
+    resultIOS = await requestNotifications(['alert', 'badge', 'sound'])
+  }
+
+  if (Platform.OS === 'android' && resultAndroid === RESULTS.GRANTED) {
+    console.log('Permission granted ANDROID')
+  } else if (Platform.OS === 'ios' && resultIOS?.status === 'granted') {
+    console.log('Permission granted IOS')
+  }
 }

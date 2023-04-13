@@ -45,6 +45,21 @@ static void InitializeFlipper(UIApplication *application) {
 {
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
+    [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+
+    UNAuthorizationOptions authOptions =
+        UNAuthorizationOptionAlert
+        | UNAuthorizationOptionSound
+        | UNAuthorizationOptionBadge;
+    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:authOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
+      if (granted) {
+        NSLog(@"Notifications granted");
+      } else {
+        NSLog(@"Notifications not granted");
+      }
+    }];
+
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
   }
 #if defined(FB_SONARKIT_ENABLED) && __has_include(<FlipperKit/FlipperClient.h>)
   InitializeFlipper(application);

@@ -29,7 +29,7 @@ import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
 import Orientation from 'react-native-orientation-locker'
 import handleMessaging from './src/utils/RemoteMessagingHandler'
-import { parseCommand } from './src/utils/helpers'
+import { checkNotificationPermission, parseCommand } from './src/utils/helpers'
 import { getCommonRoutes, getPostLoginRoutes, getPreLoginRoutes } from './src/utils/routes'
 import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
 import { getLocale, translate } from './src/utils/localization'
@@ -56,7 +56,6 @@ const CommonRoutes = getCommonRoutes(Stack)
 function App() {
   const userToken = useAuth()
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
-  const versionInStore = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
@@ -94,36 +93,12 @@ function App() {
   }, [deepLink, navigatorReady, navigatorRef])
 
   useEffect(() => {
-    Orientation.lockToPortrait()
+    checkNotificationPermission()
   }, [])
 
   useEffect(() => {
-    let unsubscribe = () => {
-      if (
-        versionInStore &&
-        typeof versionInStore === 'object' &&
-        Platform.OS === 'android' &&
-        versionInStore?.android !== pkg.version
-      ) {
-        console.log({ android_server: versionInStore?.android })
-        console.log({ version: pkg.version })
-        store.dispatch({ type: 'user/setShowNeedUpdate', payload: true })
-      }
-      if (
-        versionInStore &&
-        typeof versionInStore === 'object' &&
-        Platform.OS === 'ios' &&
-        versionInStore?.ios !== pkg.version
-      ) {
-        console.log({ ios_server: versionInStore?.ios })
-        console.log({ version: pkg.version })
-        store.dispatch({ type: 'user/setShowNeedUpdate', payload: true })
-      }
-    }
-    return () => {
-      unsubscribe()
-    }
-  }, [versionInStore])
+    Orientation.lockToPortrait()
+  }, [])
 
   useEffect(() => {
     if (userToken) {
@@ -190,12 +165,16 @@ function App() {
   const ActivityComponent = () => {
     const [loading, setLoading] = useState(true)
 
-    const execute = () => {
-      setTimeout(() => {
+    useEffect(() => {
+      const timeout = setTimeout(() => {
         setLoading(false)
+        if (!userData) {
+          auth().signOut()
+          navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+        }
       }, 3000)
-    }
-    execute()
+      return () => clearTimeout(timeout)
+    }, [])
 
     if (loading) {
       return (
@@ -220,7 +199,13 @@ function App() {
             </Paragraph>
           </View>
         </Row>
-        <Button role="primary" onPress={() => auth().signOut()}>
+        <Button
+          role="primary"
+          onPress={() => {
+            auth().signOut()
+            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+          }}
+        >
           {translate('commons.messages.button_back', { defaultValue: 'Back' })}
         </Button>
       </View>

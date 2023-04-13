@@ -1,6 +1,6 @@
 {
   "name": "mindcotine_mobile_v4",
-  "version": "5.2.10",
+  "version": "5.2.17",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
@@ -21,6 +21,7 @@
     "test": "jest",
     "headed-test": "export HEADLESS=false && npm run test",
     "clean-android": "rm -rf android/build && rm -rf android/.gradle && rm -rf ./android/app/build",
+    "clean-ios": "pod cache clean --all && rm -rf ios/build && rm -rf ios/Pods && rm -rf Podfile.lock",
     "clean-service": "npx react-native-clean-project",
     "format": "prettier --write 'src/**/*.{js,ts,tsx}",
     "google-services-prod": "cp ./android/app/prod_google-services.json ./android/app/google-services.json && cp ./ios/prod_GoogleService-Info.plist ./ios/GoogleService-Info.plist && cp ./web/prod_google-services.json ./web/google-services.json",
@@ -64,11 +65,13 @@
     "expo": "^43.0.0",
     "expo-av": "~10.1.3",
     "expo-blur": "~10.0.3",
+    "expo-device": "~4.0.3",
     "expo-font": "~10.0.3",
     "expo-gl": "~11.0.3",
     "expo-keep-awake": "~10.0.0",
     "expo-linear-gradient": "~10.0.3",
     "expo-localization": "~11.0.0",
+    "expo-notifications": "~0.13.3",
     "expo-screen-orientation": "~4.0.3",
     "expo-splash-screen": "~0.13.5",
     "expo-status-bar": "~1.1.0",
@@ -95,6 +98,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-orientation-locker": "^1.4.0",
     "react-native-paper": "^4.7.2",
+    "react-native-permissions": "3.8.0",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
@@ -145,5 +149,8 @@
     "redux-devtools-extension": "^2.13.9",
     "typescript": "~4.3.5"
   },
+  "reactNativePermissionsIOS": [
+    "Notifications"
+  ],
   "private": true
 }

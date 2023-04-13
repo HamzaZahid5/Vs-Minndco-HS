@@ -163,7 +163,9 @@ export const updateDeviceInfo = async ({ token }: { token: string }) => {
     updateProfile({
       pn_tokens: firestore.FieldValue.arrayUnion(token),
     })
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export const getFirestoreTimestamp = (date = new Date()) => firestore.Timestamp.fromDate(date)

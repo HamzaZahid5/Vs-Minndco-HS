@@ -9,6 +9,14 @@ require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
 target 'MindCotine' do
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+  permissions_path = '../node_modules/react-native-permissions/ios/Notifications'
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Permission-Notifications.podspec"
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  
   use_expo_modules!
   config = use_native_modules!
 
@@ -17,7 +25,6 @@ target 'MindCotine' do
     :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
   )
   
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   # Uncomment the code below to enable Flipper.
   #
   # You should not install Flipper in CI environments when creating release
