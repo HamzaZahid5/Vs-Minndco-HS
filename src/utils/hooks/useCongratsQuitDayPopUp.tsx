@@ -52,7 +52,7 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
     !congratulatedOnQuitDate
 
   useEffect(() => {
-    if (congrats) {
+    if (congrats && progress) {
       const [highestModule, highestLevelOnModule] = calculateProgressForQuitDayCongratulated(progress)
       dispatch({ type: 'user/setCongratulatedOnQuitDay', payload: true })
       userWasCongratulatedOnQuitDay(highestModule, highestLevelOnModule)

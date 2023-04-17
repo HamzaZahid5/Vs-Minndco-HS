@@ -75,24 +75,24 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const dispatch = useDispatch()
   const { nextActivity, nextActivityKey, isLastActivity, withoutActKey } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
-  const smokeRecord = useSelector(SMOKE_RECORD)
-  const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
-  const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
+  // const smokeRecord = useSelector(SMOKE_RECORD)
+  // const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
+  // const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
   const progress = useSelector(PROGRESS)
   const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
-  const isPremium = useSelector(IS_PREMIUM)
+  // const isPremium = useSelector(IS_PREMIUM)
 
   useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
 
-  useEffect(() => {
-    if (showBasicTutorial && !hasSmokeRecords) {
-      if (isPremium) {
-        dispatch({ type: 'flags/showChatCTAHelper', payload: true })
-      } else {
-        dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: true })
-      }
-    }
-  }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
+  // useEffect(() => {
+  //   if (showBasicTutorial && !hasSmokeRecords) {
+  //     if (isPremium) {
+  //       dispatch({ type: 'flags/showChatCTAHelper', payload: true })
+  //     } else {
+  //       dispatch({ type: 'flags/showLifeSaverCTAHelper', payload: true })
+  //     }
+  //   }
+  // }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
 
   const [showChangeQuitDayIfSmoked, setShowChangeQuitDayIfSmoked] = useState(true)
   const { nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek } = useDate()
@@ -154,8 +154,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       </Row>
 
       <Row grow margin={0}>
-        {showBasicTutorial && <TutorialCarousel />}
-        {!showBasicTutorial && (
+        {/* {showBasicTutorial && <TutorialCarousel />} */}
+        {/* {!showBasicTutorial && ( */}
           <Carousel
             // currentSlide={currentSlide}
             dotConfig={{
@@ -373,7 +373,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
               </TouchableRipple>
             </View>
           </Carousel>
-        )}
+        {/* )} */}
       </Row>
     </TabbedScreen>
   )
