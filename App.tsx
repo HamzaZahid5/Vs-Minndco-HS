@@ -36,7 +36,6 @@ import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
 import * as Sentry from '@sentry/react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 Sentry.init({
   dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
