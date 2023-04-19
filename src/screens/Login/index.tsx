@@ -25,6 +25,8 @@ import Blob from '../../../assets/SVG/Blob'
 import functions from '../../services/Functions'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Logo from '../../../assets/SVG/Logo'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ActivityIndicator } from 'react-native-paper'
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>
 
@@ -39,7 +41,7 @@ const LoginScreen = () => {
     setLoading(true)
     try {
       // Try to login to local server
-      await auth().signInWithEmailAndPassword(form.email, form.password)
+      await auth().signInWithEmailAndPassword(form.email.trim(), form.password)
     } catch (localError) {
       try {
         const error = localError as { code: string }
@@ -58,6 +60,7 @@ const LoginScreen = () => {
         // on success we authenticate user we given JWT
         if (result.success) {
           await auth().signInWithCustomToken(result.jwt)
+          await AsyncStorage.setItem('userToken', JSON.stringify(result.jwt))
         } else {
           throw { code: result.error }
         }
@@ -74,89 +77,105 @@ const LoginScreen = () => {
 
   // only for typescript error on Snackbar and Input requiring theme prop
   const theme = useRobTheme()
+
   return (
     <View style={{ flexGrow: 1, overflow: 'hidden' }}>
       <SafeAreaView style={{ flex: 1 }}>
-        <Screen bounces={isOpenForiOS}>
-          <KeyboardAwareScrollView
-            keyboardShouldPersistTaps="always"
-            enableOnAndroid
-            extraHeight={140}
-            contentContainerStyle={{ flexGrow: 1 }}
+        {loading ? (
+          <View
+            style={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+            }}
           >
-            <Row>
-              <Logo />
-            </Row>
-            <Blob style={{ position: 'absolute', top: '16%', right: 0, opacity: 0.7 }} />
-            <Row gutter={15}>
-              <Headline size="huge" weight="bold">
-                {translate('screens.Login.heading')}
-              </Headline>
-              <Paragraph size="small" weight="normal">
-                {translate('screens.Login.subheading')}
-              </Paragraph>
-            </Row>
-            <View style={{ height: 30 }} />
-            <Formik
-              initialValues={{
-                email: '',
-                password: '',
-              }}
-              onSubmit={values => {
-                onFormSubmit(values)
-                // actions.setSubmitting(false)
-              }}
-              validationSchema={getRegisterSchema()}
+            <ActivityIndicator />
+          </View>
+        ) : (
+          <Screen bounces={isOpenForiOS}>
+            <KeyboardAwareScrollView
+              keyboardShouldPersistTaps="always"
+              enableOnAndroid
+              extraHeight={140}
+              contentContainerStyle={{ flexGrow: 1 }}
             >
-              {({ handleChange, submitForm, values, errors, touched }) => {
-                return (
-                  <>
-                    <Row gutter={22} grow justifyContentOnGrow="flex-end">
-                      <Input
-                        theme={theme}
-                        value={values.email}
-                        label={translate('screens.Login.email-address')}
-                        onChangeText={handleChange('email')}
-                        error={touched.email && errors.email !== undefined}
-                      />
-                      <Input
-                        theme={theme}
-                        value={values.password}
-                        password
-                        label={translate('screens.Login.password')}
-                        onChangeText={handleChange('password')}
-                        error={touched.password && errors.password !== undefined}
-                      />
-                      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={{ marginTop: 15 }}>
-                          <Paragraph size="small">
-                            <Link href="" onPress={() => navigation.navigate('ForgotPassword')}>
-                              {translate('screens.Login.forgot-password')}
-                            </Link>
-                          </Paragraph>
+              <Row>
+                <Logo />
+              </Row>
+              <Blob style={{ position: 'absolute', top: '16%', right: 0, opacity: 0.7 }} />
+              <Row gutter={15}>
+                <Headline size="huge" weight="bold">
+                  {translate('screens.Login.heading')}
+                </Headline>
+                <Paragraph size="small" weight="normal">
+                  {translate('screens.Login.subheading')}
+                </Paragraph>
+              </Row>
+              <View style={{ height: 30 }} />
+              <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                }}
+                onSubmit={values => {
+                  onFormSubmit(values)
+                  // actions.setSubmitting(false)
+                }}
+                validationSchema={getRegisterSchema()}
+              >
+                {({ handleChange, submitForm, values, errors, touched }) => {
+                  return (
+                    <>
+                      <Row gutter={22} grow justifyContentOnGrow="flex-end">
+                        <Input
+                          theme={theme}
+                          value={values.email}
+                          label={translate('screens.Login.email-address')}
+                          onChangeText={handleChange('email')}
+                          error={touched.email && errors.email !== undefined}
+                        />
+                        <Input
+                          theme={theme}
+                          value={values.password}
+                          password
+                          label={translate('screens.Login.password')}
+                          onChangeText={handleChange('password')}
+                          error={touched.password && errors.password !== undefined}
+                        />
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                          <View style={{ marginTop: 15 }}>
+                            <Paragraph size="small">
+                              <Link href="" onPress={() => navigation.navigate('ForgotPassword')}>
+                                {translate('screens.Login.forgot-password')}
+                              </Link>
+                            </Paragraph>
+                          </View>
                         </View>
-                      </View>
-                    </Row>
-                    <Row gutter={10} justifyContentOnGrow="flex-end">
-                      <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 1 }}>
-                          <Button role="secondary" onPress={() => navigation.goBack()}>
-                            {translate('commons.messages.back')}
-                          </Button>
+                      </Row>
+                      <Row gutter={10} justifyContentOnGrow="flex-end">
+                        <View style={{ flexDirection: 'row' }}>
+                          <View style={{ flex: 1 }}>
+                            <Button role="secondary" onPress={() => navigation.goBack()}>
+                              {translate('commons.messages.back')}
+                            </Button>
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <Button role="primary" onPress={submitForm} disabled={loading}>
+                              {translate('screens.Login.sign-in')}
+                            </Button>
+                          </View>
                         </View>
-                        <View style={{ flex: 1 }}>
-                          <Button role="primary" onPress={submitForm} disabled={loading}>
-                            {translate('screens.Login.sign-in')}
-                          </Button>
-                        </View>
-                      </View>
-                    </Row>
-                  </>
-                )
-              }}
-            </Formik>
-          </KeyboardAwareScrollView>
-        </Screen>
+                      </Row>
+                    </>
+                  )
+                }}
+              </Formik>
+            </KeyboardAwareScrollView>
+          </Screen>
+        )}
       </SafeAreaView>
       <PopupWrapper show={errorPopup} onClose={() => setErrorPopup(false)}>
         <Row gutter={10}>

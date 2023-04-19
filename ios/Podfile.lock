@@ -354,8 +354,6 @@ PODS:
     - ExpoModulesCore
   - EXConstants (12.1.3):
     - ExpoModulesCore
-  - EXDevice (4.0.3):
-    - ExpoModulesCore
   - EXErrorRecovery (3.0.3):
     - ExpoModulesCore
   - EXFileSystem (13.0.3):
@@ -376,8 +374,6 @@ PODS:
     - ExpoModulesCore
   - EXManifests (0.2.2):
     - EXJSONUtils
-  - EXNotifications (0.13.3):
-    - ExpoModulesCore
   - Expo (43.0.4):
     - ExpoModulesCore
   - ExpoModulesCore (0.4.9):
@@ -939,8 +935,6 @@ PODS:
   - smartlook-react-native-bridge (1.2.2):
     - React
     - Smartlook (~> 1.7.10)
-  - UMTaskManagerInterface (7.0.3):
-    - ExpoModulesCore
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -949,7 +943,6 @@ DEPENDENCIES:
   - EXAV (from `../node_modules/expo-av/ios`)
   - EXBlur (from `../node_modules/expo-blur/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
-  - EXDevice (from `../node_modules/expo-device/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
@@ -960,7 +953,6 @@ DEPENDENCIES:
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXLocalization (from `../node_modules/expo-localization/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
-  - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXScreenOrientation (from `../node_modules/expo-screen-orientation/ios`)
@@ -1025,7 +1017,6 @@ DEPENDENCIES:
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - smartlook-react-native-bridge (from `../node_modules/smartlook-react-native-wrapper`)
-  - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1067,8 +1058,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-blur/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
-  EXDevice:
-    :path: "../node_modules/expo-device/ios"
   EXErrorRecovery:
     :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
@@ -1089,8 +1078,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-localization/ios"
   EXManifests:
     :path: "../node_modules/expo-manifests/ios"
-  EXNotifications:
-    :path: "../node_modules/expo-notifications/ios"
   Expo:
     :path: "../node_modules/expo/ios"
   ExpoModulesCore:
@@ -1209,8 +1196,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-vector-icons"
   smartlook-react-native-bridge:
     :path: "../node_modules/smartlook-react-native-wrapper"
-  UMTaskManagerInterface:
-    :path: "../node_modules/unimodules-task-manager-interface/ios"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1223,7 +1208,6 @@ SPEC CHECKSUMS:
   EXAV: 8adf9a1c0161144d77e96149a1e5a5f9358be290
   EXBlur: 71eea96f591726398c1d41f0a8eb527b6c65660e
   EXConstants: 6d585d93723b18d7a8c283591a335609e3bc153e
-  EXDevice: d19bbef7ab8ee4669ef1d6424c538f8d8fe7d6e9
   EXErrorRecovery: ac2622400a32be84604591f70d0efff416e4b9a2
   EXFileSystem: 99aac7962c11c680681819dd9cbca24e20e5b1e7
   EXFont: 2e1c6fe726d008a039db80df95f48b4921b7fe59
@@ -1234,7 +1218,6 @@ SPEC CHECKSUMS:
   EXLinearGradient: 4d727eacb53d19ef25b02dd810e0199b453489ce
   EXLocalization: bb38414618b30a177482c9a6f5594ec6eb0898c1
   EXManifests: 50e42e01335df4e54109dee7be5a91bfd37347db
-  EXNotifications: 4a2beb5a2a7292ba64165413811b7c495bcb1297
   Expo: 363a3f3c60d5a1d4f8badb29a869005487f2d9e4
   ExpoModulesCore: e41ed0b72daeac74731816ad7997d639f0115a9d
   EXScreenOrientation: 80c8c07ab3f2beb8e83ba94ab6ee4fb7a6bf01a6
@@ -1316,7 +1299,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   Smartlook: 426f27016cd80753d244183b863a41e0ccc3a7bb
   smartlook-react-native-bridge: 828e2e88967a0052148fee9e20b38ed14b85784f
-  UMTaskManagerInterface: 5654c50e68af11b19b9d05452bacf23d19b3f30f
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
 
 PODFILE CHECKSUM: c33c5bc5adeb7488cd2801385ab3d44865de4557

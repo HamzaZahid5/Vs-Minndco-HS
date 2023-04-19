@@ -35,8 +35,8 @@ import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
 import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
-import pkg from './package.json'
 import * as Sentry from '@sentry/react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 Sentry.init({
   dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
@@ -54,7 +54,7 @@ const PreLoginRoutes = getPreLoginRoutes(Stack)
 const CommonRoutes = getCommonRoutes(Stack)
 
 function App() {
-  const userToken = useAuth()
+  const { userToken, isLoading } = useAuth()
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
@@ -162,18 +162,32 @@ function App() {
     }
   }, [i18nReady, isAuthed, userData])
 
-  const ActivityComponent = () => {
+  const ActivityComponent: () => JSX.Element = () => {
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setLoading(false)
-        if (!userData) {
-          auth().signOut()
-          navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+    const fetchUserData = async () => {
+      setLoading(true)
+      try {
+        if (userToken) {
+          const userData = useFirestoreListener('users', userToken?.uid ?? '')
+          if (!userData) {
+            auth().signOut()
+            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+          } else {
+            const timeout = setTimeout(() => {
+              setLoading(false)
+            }, 3000)
+
+            clearTimeout(timeout)
+          }
         }
-      }, 3000)
-      return () => clearTimeout(timeout)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    useEffect(() => {
+      fetchUserData()
     }, [])
 
     if (loading) {
@@ -221,7 +235,7 @@ function App() {
   // if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
   //   return null
   // }
-  if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
+  if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData) || isLoading) {
     return <ActivityComponent />
   }
 

@@ -10,8 +10,9 @@ import { RootStackParamList } from '../../../types'
 import Logo from '../../../assets/SVG/Logo'
 import { HAS_VIEWER, IS_PREMIUM } from '../../store/selectors'
 import { translate } from '../../utils/localization'
-import auth from '../../services/Auth/auth'
+import { auth } from '../../services/Auth'
 import { activateKit } from '../../services/Firestore'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type CustomDrawerItemPropType = {
   name: string
@@ -124,8 +125,10 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 </Row>
                 <Row>
                   <Button
-                    onPress={() => {
-                      close().then(() => auth().signOut())
+                    onPress={async () => {
+                      await close()
+                      await auth().signOut()
+                      await AsyncStorage.removeItem('userToken')
                     }}
                     subVariant={ButtonSubVariant.danger}
                   >
