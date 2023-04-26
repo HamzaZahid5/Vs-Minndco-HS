@@ -86,6 +86,7 @@ export type RootStackParamList = {
     place: placeType
     company: companyType
   }
+  UpdateApp: undefined
 }
 
 export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {

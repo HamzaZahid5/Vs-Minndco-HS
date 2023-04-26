@@ -148,7 +148,212 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_compassion'),
   },
+  // NEW LIFESERVER AUDIOS
+  // STREET
+  {
+    id: 'LS_STREET_sound_awareness_meditation.mp3',
+    source: `lifesaver/LS_STREET_sound_awareness_meditation_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.STREET],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_sound_awareness_meditation'),
+  },
+  {
+    id: 'LS_STREET_crave_surf.mp3',
+    source: `lifesaver/LS_STREET_crave_surf_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.STREET],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_crave_surf'),
+  },
+  {
+    id: 'LS_STREET_ll1.mp3',
+    source: `lifesaver/LS_STREET_ll1_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.STREET],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_ll1'),
+  },
+  {
+    id: 'LS_STREET_street_mindful_observations.mp3',
+    source: `lifesaver/LS_STREET_street_mindful_observations_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.STREET],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_STREET_street_mindful_observations'),
+  },
+
+  // HOME
+  {
+    id: 'LS_HOME_crave_away_letter_game.mp3',
+    source: `lifesaver/LS_HOME_crave_away_letter_game_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.HOME],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_HOME_crave_away_letter_game'),
+  },
+  {
+    id: 'LS_HOME_crave_calm.mp3',
+    source: `lifesaver/LS_HOME_crave_calm_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.HOME],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_HOME_crave_calm'),
+  },
+  {
+    id: 'LS_HOME_crave_surfing_aid.mp3',
+    source: `lifesaver/LS_HOME_crave_surfing_aid_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.HOME],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_HOME_crave_surfing_aid'),
+  },
+  {
+    id: 'LS_HOME_emotion_explorer.mp3',
+    source: `lifesaver/LS_HOME_emotion_explorer_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.HOME],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_HOME_emotion_explorer'),
+  },
+
+  // OTHER
+  {
+    id: 'LS_OTHER_crace_busters.mp3',
+    source: `lifesaver/LS_OTHER_crace_busters_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.OTHER],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_OTHER_crace_busters'),
+  },
+  {
+    id: 'LS_OTHER_mindful_alphabet_game.mp3',
+    source: `lifesaver/LS_OTHER_mindful_alphabet_game_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.OTHER],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_OTHER_mindful_alphabet_game'),
+  },
+  {
+    id: 'LS_OTHER_smoke_free_mindfulness.mp3',
+    source: `lifesaver/LS_OTHER_smoke_free_mindfulness_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.OTHER],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_OTHER_smoke_free_mindfulness'),
+  },
+  {
+    id: 'LS_OTHER_walking_meditation_aid.mp3',
+    source: `lifesaver/LS_OTHER_walking_meditation_aid_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.OTHER],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_OTHER_walking_meditation_aid'),
+  },
+
+  // COFFE
+  {
+    id: 'LS_COFFEE_crave_control.mp3',
+    source: `lifesaver/LS_COFFEE_crave_control_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.COFFEE],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_COFFEE_crave_control'),
+  },
+  {
+    id: 'LS_COFFEE_facial_muscle_release.mp3',
+    source: `lifesaver/LS_COFFEE_facial_muscle_release_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.COFFEE],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_COFFEE_facial_muscle_release'),
+  },
+  {
+    id: 'LS_COFFEE_mindful_daily_reflection.mp3',
+    source: `lifesaver/LS_COFFEE_mindful_daily_reflection_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.COFFEE],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_COFFEE_mindful_daily_reflection'),
+  },
+  {
+    id: 'LS_COFFEE_sensory_mindfulness_for_cravings.mp3',
+    source: `lifesaver/LS_COFFEE_sensory_mindfulness_for_cravings_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.COFFEE],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_COFFEE_sensory_mindfulness_for_cravings'),
+  },
+
+  // PARTY
+  {
+    id: 'LS_PARTY_crave_free_party_meditation.mp3',
+    source: `lifesaver/LS_PARTY_crave_free_party_meditation_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.PARTY],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_PARTY_crave_free_party_meditation'),
+  },
+  {
+    id: 'LS_PARTY_grateful_vibes.mp3',
+    source: `lifesaver/LS_PARTY_grateful_vibes_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.PARTY],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_PARTY_grateful_vibes'),
+  },
+  {
+    id: 'LS_PARTY_mini_mindful_moments.mp3',
+    source: `lifesaver/LS_PARTY_mini_mindful_moments_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.PARTY],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_PARTY_mini_mindful_moments'),
+  },
+  {
+    id: 'LS_PARTY_smoke_free_statements.mp3',
+    source: `lifesaver/LS_PARTY_smoke_free_statements_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.PARTY],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_PARTY_smoke_free_statements'),
+  },
+
+  // WORK
+  {
+    id: 'LS_WORK_calm_and_breathe_beat_cravings.mp3',
+    source: `lifesaver/LS_WORK_calm_and_breathe_beat_cravings_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.WORK],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_calm_and_breathe_beat_cravings'),
+  },
+  {
+    id: 'LS_WORK_smoke_free_body_scan.mp3',
+    source: `lifesaver/LS_WORK_smoke_free_body_scan_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.WORK],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_smoke_free_body_scan'),
+  },
+  {
+    id: 'LS_WORK_smoke_free_mindset.mp3',
+    source: `lifesaver/LS_WORK_smoke_free_mindset_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.WORK],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_smoke_free_mindset'),
+  },
+  {
+    id: 'LS_WORK_superhero_power_poses.mp3',
+    source: `lifesaver/LS_WORK_superhero_power_poses_${lang}.mp3`,
+    only: [LIFESAVER_PLACES.WORK],
+    type: 'audio',
+    category: 'practical',
+    title: translate('contents.LifeSaverAudios.LS_WORK_superhero_power_poses'),
+  },
 ]
+
 export type LifesaverReadType = {
   contentCategory?: string
   author?: string

@@ -26,6 +26,7 @@ import LoginCode from '../screens/LoginCode'
 import { translate } from './localization'
 import KitActivationLanding from '../screens/KitActivationLanding'
 import ProfileNavigator from '../screens/ProfileNavigator'
+import UpdateAppScreen from '../screens/UpdateApp'
 
 // ReturnType<> doesn't support generics, so it needs to be wrapped
 const createStackNavigatorWrapper = () => createStackNavigator<RootStackParamList>()
@@ -229,6 +230,16 @@ export const getCommonRoutes = (Stack: StackType) => [
     options={{
       headerShown: false,
       cardStyle: { backgroundColor: 'transparent' },
+      presentation: 'transparentModal',
+    }}
+  />,
+  <Stack.Screen
+    key="UpdateApp"
+    name="UpdateApp"
+    component={UpdateAppScreen}
+    options={{
+      headerShown: false,
+      cardStyle: { backgroundColor: 'white' },
       presentation: 'transparentModal',
     }}
   />,

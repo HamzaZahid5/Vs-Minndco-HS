@@ -13,4 +13,5 @@ export const LIFESAVER_PLACES = {
   PARTY: 'party',
   STREET: 'street',
   OTHER: 'other_place',
+  COFFEE: 'coffee',
 }
