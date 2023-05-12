@@ -81,6 +81,13 @@ export const updateDevideInfo = ({
     platform,
   })
 
+export const updatePhoneNumber = ({ phone, isValidPhone }: { phone: string; isValidPhone: boolean }) => {
+  updateProfile({
+    phone,
+    isValidPhone,
+  })
+}
+
 export const setGender = (gender: 'f' | 'm') =>
   updateProfile({
     gender,

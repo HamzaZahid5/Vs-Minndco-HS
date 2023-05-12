@@ -1,6 +1,6 @@
 {
   "name": "mindcotine_mobile_v4",
-  "version": "5.2.18",
+  "version": "5.2.21",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
@@ -97,6 +97,7 @@
     "react-native-orientation-locker": "^1.4.0",
     "react-native-paper": "^4.7.2",
     "react-native-permissions": "3.8.0",
+    "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",

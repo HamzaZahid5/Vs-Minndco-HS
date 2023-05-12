@@ -36,6 +36,7 @@ export type UserState = {
       show_chat_helper?: boolean
       show_program_helper?: boolean
       show_journal_helper?: boolean
+      show_is_valid_phone?: boolean
     }
     showRelapseWarning?: boolean
     missingJournalWarningShown?: boolean
@@ -48,6 +49,8 @@ export type UserState = {
     isPremium: boolean
     language: string
     progress: Array<string>
+    phone: string
+    isValidPhone: boolean
     statistics: UserStatistics
     treatment_module: number
     treatment_level: number
@@ -71,6 +74,7 @@ const initialState: UserState = {
       show_chat_helper: true,
       show_program_helper: true,
       show_journal_helper: true,
+      show_is_valid_phone: false,
     },
     showRelapseWarning: true,
     missingJournalWarningShown: false,
@@ -81,6 +85,8 @@ const initialState: UserState = {
     isPremium: false,
     language: '',
     progress: [],
+    phone: '',
+    isValidPhone: false,
     quit_day: '',
     statistics: {
       activity_days_in_a_row: 0,
@@ -129,6 +135,27 @@ const user = createSlice({
         },
       }
     },
+    setIsValidPhone: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          flags: {
+            ...state.data.flags,
+            show_is_valid_phone: action.payload,
+          },
+        },
+      }
+    },
+    setShowIsValidPhone: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          isValidPhone: action.payload,
+        },
+      }
+    },
     setUser: (state, action) => {
       const oldOnBoardingFlag = state.data.flags.onboarding_complete
       // Firebase to Redux
@@ -166,6 +193,7 @@ const user = createSlice({
               action.payload.flags && typeof action.payload.flags.show_program_helper === 'boolean'
                 ? action.payload.flags.show_program_helper
                 : true,
+            show_is_valid_phone: false,
           },
           showRelapseWarning: action.payload.showRelapseWarning ?? true,
           gender: action.payload.gender,
@@ -173,6 +201,8 @@ const user = createSlice({
           isPremium: action.payload.isPremium,
           language: action.payload.language,
           progress: action.payload.progress,
+          phone: action.payload.phone,
+          isValidPhone: action.payload.isValidPhone,
           quit_day: action.payload.quit_day,
           statistics: {
             last_completed_activity_at: action.payload.statistics.last_completed_activity_at,

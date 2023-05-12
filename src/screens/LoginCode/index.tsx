@@ -177,15 +177,6 @@ const VerificationCode = ({
           </Headline>
         </ShakeView>
         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          {/* <Button
-            role="secondary"
-            compact
-            onPress={() => {
-              resendCode()
-            }}
-          >
-            {translate('screens.kitActivation.use-this-code', { defaultValue: 'resend' })}
-          </Button> */}
           <Button
             role="secondary"
             compact

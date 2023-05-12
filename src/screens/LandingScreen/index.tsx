@@ -19,13 +19,7 @@ const LandingScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <BasicScreen>
-        <StatusBar
-          animated={true}
-          // backgroundColor="#61dafb"
-          // barStyle={statusBarStyle}
-          // showHideTransition={statusBarTransition}
-          hidden
-        />
+        <StatusBar animated={true} hidden />
         <Blob style={{ position: 'absolute', top: '16%', right: 0 }} />
         <Row>
           <Logo />

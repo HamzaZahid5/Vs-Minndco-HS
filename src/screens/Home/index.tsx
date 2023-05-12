@@ -78,7 +78,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
   // const isPremium = useSelector(IS_PREMIUM)
 
-  useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
+  // useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
 
   // useEffect(() => {
   //   if (showBasicTutorial && !hasSmokeRecords) {
@@ -163,7 +163,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             {nextActivity && !isLastActivityDone && !withoutActKey && (
               <>
                 <Row margin={0}>
-                  <Paragraph light weight='normal' size='large'>
+                  <Paragraph light weight="normal" size="large">
                     {todayActivityDone
                       ? translate('screens.Home.program_slide_tomorrowActivity')
                       : translate('screens.Home.program_slide_todayActivity')}

@@ -31,6 +31,8 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     display_name,
     flags: { has_coach_messages, show_welcome_message_on_chat },
     group,
+    phone,
+    isValidPhone,
     kit_id,
   } = store?.user?.data
   const { uid, email } = store?.user?.auth
@@ -40,6 +42,8 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     show_welcome_message_on_chat,
     display_name,
     group,
+    phone,
+    isValidPhone,
     kit_id,
     uid,
     email,
@@ -69,3 +73,5 @@ export const SMOKE_BASLINE = (store: RootState) => store?.user?.data?.statistics
 export const STATE = (store: RootState) => store?.user.data.state || 'RELAPSE'
 export const APP_VERSION = (store: RootState) => store?.user.data.app_version
 export const SHOW_NEED_UPDATE_APP = (store: RootState) => store?.user.data.showNeedUpdateApp
+export const IS_VALID_PHONE = (store: RootState) => store?.user?.data?.isValidPhone
+export const SHOW_IS_VALID_PHONE = (store: RootState) => store?.user?.data?.flags?.show_is_valid_phone

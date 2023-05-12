@@ -22,6 +22,7 @@ import { RootStackParamList } from '../../../types'
 import config from '../../../env'
 import moment from 'moment'
 import { template } from 'lodash'
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -82,18 +83,8 @@ const ProfileScreen = () => {
       <Formik
         initialValues={{
           name: user.display_name,
-          // lastname: '',
-          // pronouns: '',
-          // email: '',
-          // countryCode: '',
-          // phoneNumber: '',
-          // yearsSmocking: '',
-          // product: '',
-          // dailySmocking: '',
-          // unitPerPackage: '',
-          // costPerPackage: '',
+          phoneNumber: user.phone,
           qday: quitDay,
-          // wlike: '',
         }}
         onSubmit={async (values, actions) => {
           if (values.name.length > 2) {
@@ -109,16 +100,15 @@ const ProfileScreen = () => {
         }}
         validationSchema={getRegisterSchema()}
       >
-        {({ handleChange, isSubmitting, setFieldValue, submitForm, values, errors, touched, setValues }) => {
+        {({ handleChange, submitForm, values, errors, touched }) => {
           return (
             <>
               <Screen>
-                <Row gutter={40}>
+                <Row gutter={23}>
                   <Headline size="medium" weight="bold" textAlign="left">
                     {translate('screens.Profile.info')}
                   </Headline>
                 </Row>
-
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}> {translate('screens.Profile.personalInfo')}</NativeText>
@@ -130,128 +120,11 @@ const ProfileScreen = () => {
                     error={touched.name && errors.name !== undefined}
                     label={translate('screens.Profile.name')}
                   />
-                  {/* <TextInput
-                    value={values.lastname}
-                    onChangeText={handleChange('lastname')}
-                    theme={theme}
-                    error={touched.lastname && errors.lastname !== undefined}
-                    label={translate('screens.Profile.lastname')}
-                  />
-                  <TextInput
-                    value={values.pronouns}
-                    onChangeText={handleChange('pronouns')}
-                    theme={theme}
-                    error={touched.pronouns && errors.pronouns !== undefined}
-                    label={translate('screens.Profile.pronouns')}
-                  />
-                  <View style={{ height: 10 }} /> */}
                 </Row>
-                {/* <Row gutter={23}>
-                  <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}> {translate('screens.Profile.contact')}</NativeText>
-                  </Paragraph>
-                  <TextInput
-                    value={values.email}
-                    onChangeText={handleChange('email')}
-                    theme={theme}
-                    error={touched.email && errors.email !== undefined}
-                    label={translate('screens.Profile.email')}
-                  />
-                  <View>
-                    <Paragraph size="xsmall" textAlign="left" weight="normal">
-                      {translate('screens.Profile.phone')}
-                    </Paragraph>
-                    <TextInput
-                      value={values.countryCode}
-                      onChangeText={handleChange('countryCode')}
-                      theme={theme}
-                      error={touched.countryCode && errors.countryCode !== undefined}
-                      label={translate('screens.Profile.countryCode')}
-                    />
-                  </View>
-                  <TextInput
-                    value={values.phoneNumber}
-                    onChangeText={handleChange('phoneNumber')}
-                    theme={theme}
-                    error={touched.phoneNumber && errors.phoneNumber !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  />
-                  <View style={{ height: 10 }} />
-                </Row> */}
-                {/* <Row gutter={23}>
-                  <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.smokeHabits')}</NativeText>
-                  </Paragraph>
-                  <TextInput
-                    value={values.yearsSmocking}
-                    onChangeText={handleChange('yearsSmocking')}
-                    theme={theme}
-                    error={touched.yearsSmocking && errors.yearsSmocking !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  />
-                  <TextInput
-                    value={values.product}
-                    onChangeText={handleChange('product')}
-                    theme={theme}
-                    error={touched.product && errors.product !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  />
-                  <TextInput
-                    value={values.dailySmocking}
-                    onChangeText={handleChange('dailySmocking')}
-                    theme={theme}
-                    error={touched.dailySmocking && errors.dailySmocking !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  />
-                  <TextInput
-                    value={values.unitPerPackage}
-                    onChangeText={handleChange('unitPerPackage')}
-                    theme={theme}
-                    error={touched.unitPerPackage && errors.unitPerPackage !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  />
-                  <View>
-                    <TextInput
-                      value={values.costPerPackage}
-                      onChangeText={handleChange('costPerPackage')}
-                      theme={theme}
-                      error={touched.costPerPackage && errors.costPerPackage !== undefined}
-                      label={translate('screens.Profile.phoneNumber')}
-                    />
-                    <Paragraph size="xsmall" textAlign="left" weight="normal">
-                      {translate('screens.Profile.estimate')}
-                    </Paragraph>
-                  </View>
-                  <View style={{ height: 10 }} />
-                </Row> */}
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>
-                      {translate('screens.Profile.goals')}
-                      {/* : {quitDay} */}
-                    </NativeText>
+                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
                   </Paragraph>
-                  {/* <TextInput
-                    value={values.wlike}
-                    onChangeText={handleChange('wlike')}
-                    theme={theme}
-                    error={touched.wlike && errors.wlike !== undefined}
-                    label={translate('screens.Profile.phoneNumber')}
-                  /> */}
-                  {/* <TextInput
-                    value={values.qday}
-                    onChangeText={() => {
-                      handleChange('qday')
-                      setValues({
-                        ...values,
-                        qday: quitDay,
-                      })
-                    }}
-                    theme={theme}
-                    disabled
-                    error={touched.qday && errors.qday !== undefined}
-                    label={translate('screens.Profile.quitDay')}
-                  /> */}
                   <Button
                     role="secondary"
                     compact
@@ -264,7 +137,49 @@ const ProfileScreen = () => {
                       ? translate('screens.quitDay.inviteUser')
                       : textButton}
                   </Button>
-                  <View style={{ height: 10 }} />
+                </Row>
+                <Row gutter={23}>
+                  <Paragraph textAlign="left" size="medium" weight="bold">
+                    <NativeText style={{ color: '#000000' }}>
+                      {' '}
+                      {translate('screens.Profile.phone', { defaultValue: 'Phone' })}:{' '}
+                      {user.isValidPhone ? (
+                        <Paragraph textAlign="left" size="medium" weight="bold">
+                          <NativeText style={{ color: 'green' }}>
+                            {translate('screens.Profile.isValidPhone')}
+                          </NativeText>
+                          <Icons name="check-circle" size={15} color="green" />
+                        </Paragraph>
+                      ) : (
+                        <Paragraph textAlign="left" size="medium" weight="bold">
+                          <NativeText style={{ color: 'red' }}>
+                            {translate('screens.Profile.isNotValidPhone')}
+                          </NativeText>
+                          <Icons name="close-circle" size={15} color="red" />
+                        </Paragraph>
+                      )}{' '}
+                    </NativeText>
+                  </Paragraph>
+                  <TextInput
+                    value={values.phoneNumber}
+                    onChangeText={handleChange('phoneNumber')}
+                    theme={theme}
+                    error={touched.phoneNumber && errors.phoneNumber !== undefined}
+                    label={translate('screens.Profile.phoneNumber')}
+                    editable={false}
+                  />
+                  <Button
+                    role="secondary"
+                    compact
+                    outline
+                    onPress={() => {
+                      navigation.navigate('ValidationPhone')
+                    }}
+                  >
+                    {user.isValidPhone
+                      ? translate('screens.Profile.changePhoneNumber')
+                      : translate('screens.Profile.validPhoneNumber')}
+                  </Button>
                 </Row>
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
@@ -277,9 +192,6 @@ const ProfileScreen = () => {
                     <Paragraph textAlign="left" size="small" weight="normal">
                       v{config.APP_VERSION}
                     </Paragraph>
-                    {/* <Paragraph textAlign="left" size="small" weight="normal">
-                      {uid}
-                    </Paragraph> */}
                   </Row>
                 </Row>
                 <Row gutter={70} />
@@ -303,18 +215,7 @@ const phoneValidationRegex =
 const getRegisterSchema = () => {
   return Yup.object().shape({
     name: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
-    // lastname: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
-    // pronouns: Yup.string().email(translate('screens.Register.error-email-invalid')),
-    // email: Yup.string().email(translate('screens.Register.error-email-invalid')),
-    // countryCode: Yup.string().email(translate('screens.Register.error-email-invalid')),
-    // phoneNumber: Yup.string().matches(phoneValidationRegex, translate('screens.Register.error-email-invalid')),
-    // yearsSmocking: Yup.number().integer(),
-    // product: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
-    // dailySmocking: Yup.number().integer(),
-    // unitPerPackage: Yup.number().integer(),
-    // costPerPackage: Yup.number(),
     qday: Yup.date(),
-    // wlike: Yup.string().max(50, translate('commons.messages.fieldTooLong')),
   })
 }
 

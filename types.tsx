@@ -87,6 +87,10 @@ export type RootStackParamList = {
     company: companyType
   }
   UpdateApp: undefined
+  ValidationPhone: undefined
+  ValidationPhoneCodeScreen: {
+    phoneNumber: string
+  }
 }
 
 export interface DefaultScreenPropType<Type extends keyof RootStackParamList> {

@@ -16,13 +16,14 @@ const versionsInStore = async (
     if (Platform.OS === 'ios') {
       const response = await axios.get(`https://itunes.apple.com/lookup?id=${appId}`)
       const latestVersion = response.data.results[0].version
+      console.log({ latestVersion })
       const currentVersion = pkg.version
+      console.log({ currentVersion })
       if (latestVersion !== currentVersion) {
         // mostrar mensaje de actualización
         dispatch({ type: 'user/setShowNeedUpdate', payload: true })
         setTimeout(() => {
-          navigation &&
-            navigation.navigate('UpdateApp')
+          navigation && navigation.navigate('UpdateApp')
         }, 100)
       }
     } else if (Platform.OS === 'android') {
@@ -36,8 +37,7 @@ const versionsInStore = async (
           // mostrar mensaje de actualización
           dispatch({ type: 'user/setShowNeedUpdate', payload: true })
           setTimeout(() => {
-            navigation &&
-              navigation.navigate('UpdateApp')
+            navigation && navigation.navigate('UpdateApp')
           }, 100)
         }
       }
