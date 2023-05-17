@@ -32,7 +32,7 @@ const PopupContent = ({ close }: { close: () => void }) => {
           height: '40%',
         }}
       >
-        <Image source={mailGif} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
+        <Image source={mailGif} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
       </View>
       <Row gutter={15}>
         <Subheading>{translate('screens.kitActivation.where-is-the-code-title')}</Subheading>
@@ -172,7 +172,7 @@ const OnboardingWelcomeScreen = ({ navigation }: DefaultScreenPropType<'KitActiv
       )}
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ minHeight: '100%' }} ref={scrollViewRef} bounces={false}>
         <Screen ignoreTopSafeArea bounces={false}>
-          {/* <Row gutter={5} /> */}
+          <Row gutter={50} />
           <Row gutter={18}>
             <Headline size="huge" weight="bold">
               {translate('screens.kitActivation.activate-your-kit')}
