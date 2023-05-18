@@ -169,6 +169,13 @@ const LoginScreen = () => {
                           </View>
                         </View>
                       </Row>
+                      <Row gutter={10} justifyContentOnGrow="flex-end">
+                        <View style={{ flex: 1 }}>
+                          <Button role="secondary" outline onPress={() => navigation.navigate('Registration')}>
+                            {translate('screens.Login.register')}
+                          </Button>
+                        </View>
+                      </Row>
                     </>
                   )
                 }}

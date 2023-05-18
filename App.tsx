@@ -161,7 +161,7 @@ function App() {
     }
   }, [i18nReady, isAuthed, userData])
 
-  const ActivityComponent: () => JSX.Element = () => {
+  const ActivityComponent = () => {
     const [loading, setLoading] = useState(true)
 
     const fetchUserData = async () => {

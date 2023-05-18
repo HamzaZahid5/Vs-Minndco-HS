@@ -12,7 +12,6 @@ import QuitDayModal from '../screens/QuitDayScreen'
 import OnBoardingScreens from '../screens/OnBoardingScreens'
 import ActivityScreen from '../screens/ActivityScreen'
 import VRMet from '../screens/VRMet'
-import ProfileScreen from '../screens/Profile'
 import BasicModalScreen from '../screens/BasicModalScreen'
 import LifesaverActivityScreen from '../screens/Lifesaver/LifesaverActivity'
 import KitWelcome from '../screens/KitWelcomeScreen'
@@ -27,6 +26,9 @@ import { translate } from './localization'
 import KitActivationLanding from '../screens/KitActivationLanding'
 import ProfileNavigator from '../screens/ProfileNavigator'
 import UpdateAppScreen from '../screens/UpdateApp'
+import { KitIdVerification } from '../screens/RegistrationPhone/KitIdVerification'
+import { LoginPhone } from '../screens/RegistrationPhone/LoginPhone'
+import { ValidationLoginPhone } from '../screens/RegistrationPhone/ValidationLoginPhone'
 
 // ReturnType<> doesn't support generics, so it needs to be wrapped
 const createStackNavigatorWrapper = () => createStackNavigator<RootStackParamList>()
@@ -78,25 +80,6 @@ export const getPostLoginRoutes = (Stack: StackType) => [
     options={{ headerShown: true }}
   />,
   <Stack.Screen key="VRMet" name="VRMet" component={VRMet} options={{ headerShown: false }} />,
-  // <Stack.Screen
-  //   key="Profile"
-  //   name="Profile"
-  //   component={ProfileScreen}
-  //   options={{
-  //     headerShown: true,
-  //     header: (props: StackHeaderProps) => (
-  //       <NavigationHeader
-  //         {...props}
-  //         contentAtBottom
-  //         color="#14142b"
-  //         backgroundColor="#F7F7FC"
-  //         routeName={translate('screens.Drawer.profile')}
-  //       />
-  //     ),
-  //     headerTransparent: false,
-  //     headerStyle: { backgroundColor: '#F7F7FC' },
-  //   }}
-  // />,
   <Stack.Screen key="Profile" name="Profile" component={ProfileNavigator} options={{ headerShown: false }} />,
   <Stack.Screen
     key="Playground"
@@ -167,9 +150,36 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     component={LandingScreen}
     options={{
       headerShown: false,
-      // @ts-ignore seems to be bad typed by Navigation
-      // headerMode: 'screen',
-      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+      headerTransparent: true,
+      headerBackground,
+    }}
+  />,
+  <Stack.Screen
+    key="KitIdVerification"
+    name="KitIdVerification"
+    component={KitIdVerification}
+    options={{
+      headerShown: false,
+      headerTransparent: true,
+      headerBackground,
+    }}
+  />,
+  <Stack.Screen
+    key="LoginPhone"
+    name="LoginPhone"
+    component={LoginPhone}
+    options={{
+      headerShown: false,
+      headerTransparent: true,
+      headerBackground,
+    }}
+  />,
+  <Stack.Screen
+    key="ValidationLoginPhone"
+    name="ValidationLoginPhone"
+    component={ValidationLoginPhone}
+    options={{
+      headerShown: false,
       headerTransparent: true,
       headerBackground,
     }}
@@ -180,12 +190,8 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     component={RegistrationScreen}
     options={{
       headerShown: false,
-      // @ts-ignore seems to be bad typed by Navigation
-      // headerMode: 'screen',
-      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
       headerTransparent: true,
       headerBackground,
-      // eslint-disable-next-line react/display-name
       headerLeft: ({ onPress: defaultOnPress, ...props }) => <BackButton onPress={defaultOnPress} {...props} />,
     }}
   />,
@@ -195,12 +201,8 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     component={LoginScreen}
     options={{
       headerShown: false,
-      // @ts-ignore seems to be bad typed by Navigation
-      // headerMode: 'screen',
-      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
       headerTransparent: true,
       headerBackground,
-      // eslint-disable-next-line react/display-name
       headerLeft: ({ onPress: defaultOnPress, ...props }) => <BackButton onPress={defaultOnPress} {...props} />,
     }}
   />,
@@ -211,12 +213,8 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     component={ForgotPasswordScreen}
     options={{
       headerShown: false,
-      // @ts-ignore seems to be bad typed by Navigation
-      // headerMode: 'screen',
-      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
       headerTransparent: true,
       headerBackground,
-      // eslint-disable-next-line react/display-name
       headerLeft: ({ onPress: defaultOnPress, ...props }) => <BackButton onPress={defaultOnPress} {...props} />,
     }}
   />,
@@ -249,9 +247,6 @@ export const getCommonRoutes = (Stack: StackType) => [
     component={AuthByTokenScreen}
     options={{
       headerShown: false,
-      // @ts-ignore seems to be bad typed by Navigation
-      // headerMode: 'screen',
-      // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
       headerTransparent: true,
       headerBackground,
     }}
