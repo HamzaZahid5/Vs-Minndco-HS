@@ -10,8 +10,6 @@ import Logo from '../../../assets/SVG/Logo'
 import { translate } from '../../utils/localization'
 import PhoneInput from 'react-native-phone-number-input'
 import LoadingBackground from '../../components/LoadingBackground'
-import { RecaptchaVerifier, signInWithPhoneNumber } from '@firebase/auth'
-import { authMindcoHealth } from '../../utils/config'
 
 type LoginPhoneScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginPhone'>
 
