@@ -18,6 +18,7 @@ export type RootStackParamList = {
   ValidationLoginPhone: {
     phoneNumber: string
   }
+  SupportRegister: undefined
   Onboarding: undefined
   Main: undefined
   Home: undefined

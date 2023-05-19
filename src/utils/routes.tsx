@@ -28,6 +28,7 @@ import ProfileNavigator from '../screens/ProfileNavigator'
 import UpdateAppScreen from '../screens/UpdateApp'
 import { LoginPhone } from '../screens/RegistrationPhone/LoginPhone'
 import { ValidationLoginPhone } from '../screens/RegistrationPhone/ValidationLoginPhone'
+import { SupportRegister } from '../screens/RegistrationPhone/SupportRegister'
 
 // ReturnType<> doesn't support generics, so it needs to be wrapped
 const createStackNavigatorWrapper = () => createStackNavigator<RootStackParamList>()
@@ -157,6 +158,16 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     key="LoginPhone"
     name="LoginPhone"
     component={LoginPhone}
+    options={{
+      headerShown: false,
+      headerTransparent: true,
+      headerBackground,
+    }}
+  />,
+  <Stack.Screen
+    key="SupportRegister"
+    name="SupportRegister"
+    component={SupportRegister}
     options={{
       headerShown: false,
       headerTransparent: true,

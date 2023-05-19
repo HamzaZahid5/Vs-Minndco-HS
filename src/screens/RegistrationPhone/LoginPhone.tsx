@@ -17,6 +17,50 @@ type Props = {
   navigation: LoginPhoneScreenNavigationProp
 }
 
+const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
+  const PopupContent = ({ close }: { close: () => Promise<void> }) => {
+    return (
+      <>
+        <Row gutter={10}>
+          <Subheading>{translate('screens.LoginPhone.titlePopup')}</Subheading>
+        </Row>
+        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+          <Paragraph size="medium" weight="normal" textAlign="left">
+            {translate('screens.LoginPhone.messagePopup')}
+          </Paragraph>
+        </Row>
+        <Row gutter={10} grow justifyContentOnGrow="flex-end">
+          <Button
+            role="primary"
+            compact
+            onPress={async () => {
+              await close()
+              navigation.navigate('SupportRegister')
+            }}
+          >
+            {translate('screens.LoginPhone.support', {
+              defaultValue: 'Contact with Support',
+            })}
+          </Button>
+          <Button
+            role="secondary"
+            compact
+            outline
+            onPress={async () => {
+              await close()
+            }}
+          >
+            {translate('screens.LoginPhone.retry', {
+              defaultValue: 'Retry',
+            })}
+          </Button>
+        </Row>
+      </>
+    )
+  }
+  return PopupContent
+}
+
 const ErrorPopopContent =
   (errorText: string) =>
   ({ close }: { close: () => void }) => {
@@ -74,7 +118,14 @@ export const LoginPhone = ({ navigation }: Props) => {
       //       phoneNumber,
       //     })
       //   }
-      navigation.navigate('ValidationLoginPhone', { phoneNumber })
+
+      // Existe el usuario, navega a la validación
+      // navigation.navigate('ValidationLoginPhone', { phoneNumber })
+
+      // No existe, navega al modal que te lleva al registro
+      navigation.navigate('BasicModal', {
+        content: MakePopupContent(navigation),
+      })
     } catch (error) {
       setIsLoading(false)
       console.log(error)

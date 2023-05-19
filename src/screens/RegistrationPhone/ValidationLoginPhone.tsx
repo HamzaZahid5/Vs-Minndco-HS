@@ -14,43 +14,6 @@ import LoadingBackground from '../../components/LoadingBackground'
 
 const CODE_LENGTH = 6
 
-const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
-  const PopupContent = ({ close }: { close: () => Promise<void> }) => {
-    return (
-      <>
-        <Row gutter={10}>
-          <Subheading>{translate('screens.Profile.titlePopup')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="medium" weight="normal" textAlign="left">
-            {translate('screens.Profile.messagePopup')}
-          </Paragraph>
-        </Row>
-        <Row gutter={10} grow justifyContentOnGrow="flex-end">
-          <Button
-            role="primary"
-            compact
-            onPress={async () => {
-              await close()
-              navigation.reset({
-                index: 0,
-                routes: [
-                  {
-                    name: 'Main',
-                  },
-                ],
-              })
-            }}
-          >
-            {translate('screens.Profile.confirmButtonLabelPopup')}
-          </Button>
-        </Row>
-      </>
-    )
-  }
-  return PopupContent
-}
-
 const ErrorPopopContent =
   (errorText: string) =>
   ({ close }: { close: () => void }) => {
@@ -117,7 +80,7 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
       //     email: form.email,
       //     password: form.password,
       //   })
-      
+
       //   on success we authenticate user we given JWT
       //   if (result.success) {
       //     await auth().signInWithCustomToken(result.jwt)
