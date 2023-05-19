@@ -14,7 +14,6 @@ export type LifesaverContentType = {
 
 export type RootStackParamList = {
   Landing: undefined
-  KitIdVerification: undefined
   LoginPhone: undefined
   ValidationLoginPhone: {
     phoneNumber: string

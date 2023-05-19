@@ -64,7 +64,7 @@ const LandingScreen = ({ navigation }: Props) => {
           </Carousel>
         </Row>
         <Row>
-          <Button role="primary" onPress={() => navigation.navigate('KitIdVerification')}>
+          <Button role="primary" onPress={() => navigation.navigate('LoginPhone')}>
             {translate('screens.Landing.sign-up-button-label')}
           </Button>
         </Row>

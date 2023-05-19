@@ -111,13 +111,14 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
-      // Deberíamos hacer algo similar al Login en ésta pantalla
+      //   Deberíamos hacer algo similar al Login en ésta pantalla
       //   // handling error, attempt remote login (against Mindco Health server)
       //   const { data: result } = await functions().httpsCallable('remoteLogin')({
       //     email: form.email,
       //     password: form.password,
       //   })
-      //   // on success we authenticate user we given JWT
+      
+      //   on success we authenticate user we given JWT
       //   if (result.success) {
       //     await auth().signInWithCustomToken(result.jwt)
       //     await AsyncStorage.setItem('userToken', JSON.stringify(result.jwt))
@@ -170,12 +171,21 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
           <Keyboard value={text} setValue={protectedSetText} />
         </View>
       </BasicScreen>
-      <View style={{ position: 'absolute', bottom: 30, left: 25, right: 25 }}>
-        <Button role="primary" onPress={handleSubmit}>
-          {translate('screens.ValidationLoginPhone.buttonValidationConfirm', {
-            defaultValue: 'Confirm',
-          })}
-        </Button>
+      <View style={{ position: 'absolute', bottom: 30, left: 25, right: 25, flexDirection: 'row' }}>
+        <View style={{ flex: 1 }}>
+          <Button role="secondary" onPress={() => navigation.goBack()}>
+            {translate('screens.ValidationLoginPhone.goBack', {
+              defaultValue: 'Go back',
+            })}
+          </Button>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Button role="primary" onPress={handleSubmit}>
+            {translate('screens.ValidationLoginPhone.confirm', {
+              defaultValue: 'Confirm',
+            })}
+          </Button>
+        </View>
       </View>
     </SafeAreaView>
   )

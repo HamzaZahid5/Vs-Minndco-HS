@@ -157,7 +157,7 @@ function App() {
         platform: `${Platform.OS}(${Platform.Version})`,
       })
     } else {
-      navigatorRef.current?.navigate('Login')
+      navigatorRef.current?.navigate('Landing')
     }
   }, [i18nReady, isAuthed, userData])
 

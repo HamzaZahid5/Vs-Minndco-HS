@@ -1,3 +1,5 @@
+import React from 'react'
+import { View } from 'react-native'
 import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../types'
 import LandingScreen from '../screens/LandingScreen'
@@ -18,15 +20,12 @@ import KitWelcome from '../screens/KitWelcomeScreen'
 import KitActivation from '../screens/KitActivation'
 import KitPresentation from '../screens/KitPresentation'
 import NavigationHeader from '../components/NavigationHeader'
-import React from 'react'
-import { View } from 'react-native'
 import { BackButton } from './hooks/useSetDefaultBackOnPress'
 import LoginCode from '../screens/LoginCode'
 import { translate } from './localization'
 import KitActivationLanding from '../screens/KitActivationLanding'
 import ProfileNavigator from '../screens/ProfileNavigator'
 import UpdateAppScreen from '../screens/UpdateApp'
-import { KitIdVerification } from '../screens/RegistrationPhone/KitIdVerification'
 import { LoginPhone } from '../screens/RegistrationPhone/LoginPhone'
 import { ValidationLoginPhone } from '../screens/RegistrationPhone/ValidationLoginPhone'
 
@@ -148,16 +147,6 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     key="Landing"
     name="Landing"
     component={LandingScreen}
-    options={{
-      headerShown: false,
-      headerTransparent: true,
-      headerBackground,
-    }}
-  />,
-  <Stack.Screen
-    key="KitIdVerification"
-    name="KitIdVerification"
-    component={KitIdVerification}
     options={{
       headerShown: false,
       headerTransparent: true,

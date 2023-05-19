@@ -59,16 +59,14 @@ export const LoginPhone = ({ navigation }: Props) => {
   const handleSubmit = async () => {
     setIsLoading(true)
     let phoneNumber: string = formattedValue
-    console.log({ phoneNumber })
     try {
       //   setFormattedValue('')
       //   setValue('')
 
-      const { data: result } = await functions().httpsCallable('remoteLoginPhone')({
-        phoneNumber: phoneNumber,
-      })
-
-      console.log({ result })
+      // const { data: result } = await functions().httpsCallable('remoteLoginPhone')({
+      //   phoneNumber: phoneNumber,
+      // })
+      // console.log({ result })
 
       setIsLoading(false)
       //   if (result.success) {
@@ -76,6 +74,7 @@ export const LoginPhone = ({ navigation }: Props) => {
       //       phoneNumber,
       //     })
       //   }
+      navigation.navigate('ValidationLoginPhone', { phoneNumber })
     } catch (error) {
       setIsLoading(false)
       console.log(error)
@@ -122,6 +121,13 @@ export const LoginPhone = ({ navigation }: Props) => {
 
         <Row grow gutter={10} justifyContentOnGrow="flex-end">
           <View style={{ flexDirection: 'row' }}>
+            <View style={{ flex: 1 }}>
+              <Button role="secondary" onPress={() => navigation.goBack()}>
+                {translate('screens.LoginPhone.goBack', {
+                  defaultValue: 'Go back',
+                })}
+              </Button>
+            </View>
             <View style={{ flex: 1 }}>
               <Button role="primary" onPress={handleSubmit} disabled={!phoneInput.current?.isValidNumber(value)}>
                 {translate('screens.LoginPhone.next')}
