@@ -28,7 +28,7 @@ import ProfileNavigator from '../screens/ProfileNavigator'
 import UpdateAppScreen from '../screens/UpdateApp'
 import { LoginPhone } from '../screens/RegistrationPhone/LoginPhone'
 import { ValidationLoginPhone } from '../screens/RegistrationPhone/ValidationLoginPhone'
-import { SupportRegister } from '../screens/RegistrationPhone/SupportRegister'
+import SupportRegister from '../screens/RegistrationPhone/SupportRegister'
 
 // ReturnType<> doesn't support generics, so it needs to be wrapped
 const createStackNavigatorWrapper = () => createStackNavigator<RootStackParamList>()

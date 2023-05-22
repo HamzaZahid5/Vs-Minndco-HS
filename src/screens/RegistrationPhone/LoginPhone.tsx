@@ -120,12 +120,12 @@ export const LoginPhone = ({ navigation }: Props) => {
       //   }
 
       // Existe el usuario, navega a la validación
-      // navigation.navigate('ValidationLoginPhone', { phoneNumber })
+      navigation.navigate('ValidationLoginPhone', { phoneNumber })
 
       // No existe, navega al modal que te lleva al registro
-      navigation.navigate('BasicModal', {
-        content: MakePopupContent(navigation),
-      })
+      // navigation.navigate('BasicModal', {
+      //   content: MakePopupContent(navigation),
+      // })
     } catch (error) {
       setIsLoading(false)
       console.log(error)

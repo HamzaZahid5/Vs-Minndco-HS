@@ -14,6 +14,50 @@ import LoadingBackground from '../../components/LoadingBackground'
 
 const CODE_LENGTH = 6
 
+const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
+  const PopupContent = ({ close }: { close: () => Promise<void> }) => {
+    return (
+      <>
+        <Row gutter={10}>
+          <Subheading>{translate('screens.ValidationLoginPhone.titlePopup')}</Subheading>
+        </Row>
+        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+          <Paragraph size="medium" weight="normal" textAlign="left">
+            {translate('screens.ValidationLoginPhone.messagePopup')}
+          </Paragraph>
+        </Row>
+        <Row gutter={10} grow justifyContentOnGrow="flex-end">
+          <Button
+            role="primary"
+            compact
+            onPress={async () => {
+              await close()
+              navigation.navigate('SupportRegister')
+            }}
+          >
+            {translate('screens.ValidationLoginPhone.support', {
+              defaultValue: 'Contact with Support',
+            })}
+          </Button>
+          <Button
+            role="secondary"
+            compact
+            outline
+            onPress={async () => {
+              await close()
+            }}
+          >
+            {translate('screens.ValidationLoginPhone.retry', {
+              defaultValue: 'Retry',
+            })}
+          </Button>
+        </Row>
+      </>
+    )
+  }
+  return PopupContent
+}
+
 const ErrorPopopContent =
   (errorText: string) =>
   ({ close }: { close: () => void }) => {
@@ -80,7 +124,6 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
       //     email: form.email,
       //     password: form.password,
       //   })
-
       //   on success we authenticate user we given JWT
       //   if (result.success) {
       //     await auth().signInWithCustomToken(result.jwt)
@@ -88,13 +131,17 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
       //   } else {
       //     throw { code: result.error }
       //   }
+      throw new Error()
     } catch (error) {
       setIsLoading(false)
-      const e = error as { message: string }
-      setErrorMessage(translate('firebase.errormessages.' + e.message))
-      setInvalid(true)
-      setTimeout(() => setInvalid(false), 1.5 * 1000)
-      shake()
+      // const e = error as { message: string }
+      // setErrorMessage(translate('firebase.errormessages.' + e.message))
+      // setInvalid(true)
+      // setTimeout(() => setInvalid(false), 1.5 * 1000)
+      // shake()
+      navigation.navigate('BasicModal', {
+        content: MakePopupContent(navigation),
+      })
     }
 
     setIsLoading(false)
@@ -143,7 +190,7 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
           </Button>
         </View>
         <View style={{ flex: 1 }}>
-          <Button role="primary" onPress={handleSubmit}>
+          <Button role="primary" onPress={handleSubmit} disabled={text.length !== 6}>
             {translate('screens.ValidationLoginPhone.confirm', {
               defaultValue: 'Confirm',
             })}
