@@ -11,6 +11,8 @@ import useShakingView from '../../utils/hooks/useShakingView'
 import functions from '../../services/Functions/functions'
 import Logo from '../../../assets/SVG/Logo'
 import LoadingBackground from '../../components/LoadingBackground'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { auth } from '../../services/Auth'
 
 const CODE_LENGTH = 6
 
@@ -118,27 +120,20 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
-      //   Deberíamos hacer algo similar al Login en ésta pantalla
-      //   // handling error, attempt remote login (against Mindco Health server)
-      //   const { data: result } = await functions().httpsCallable('remoteLogin')({
-      //     email: form.email,
-      //     password: form.password,
-      //   })
-      //   on success we authenticate user we given JWT
-      //   if (result.success) {
-      //     await auth().signInWithCustomToken(result.jwt)
-      //     await AsyncStorage.setItem('userToken', JSON.stringify(result.jwt))
-      //   } else {
-      //     throw { code: result.error }
-      //   }
+      const { data: result } = await functions().httpsCallable('loginWithPhoneNumber')({
+        phoneNumber,
+        verificationCode: text,
+      })
+
+      if (result.verified) {
+        await auth().signInWithCustomToken(result.customToken)
+        await AsyncStorage.setItem('userToken', JSON.stringify(result.customToken))
+      } else {
+        throw { code: result.error }
+      }
       throw new Error()
     } catch (error) {
       setIsLoading(false)
-      // const e = error as { message: string }
-      // setErrorMessage(translate('firebase.errormessages.' + e.message))
-      // setInvalid(true)
-      // setTimeout(() => setInvalid(false), 1.5 * 1000)
-      // shake()
       navigation.navigate('BasicModal', {
         content: MakePopupContent(navigation),
       })

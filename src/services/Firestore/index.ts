@@ -39,12 +39,6 @@ export const useFirestoreListener = (collection: string, id: string) => {
   return snapshotData
 }
 
-export const getAppVersion = () => {
-  const version = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
-  if (Platform.OS === 'android') return version?.android
-  return version?.ios
-}
-
 export const updateProfile = (updateObject: Record<string, unknown>) => {
   return firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
 }

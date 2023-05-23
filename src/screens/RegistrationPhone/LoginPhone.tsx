@@ -107,25 +107,22 @@ export const LoginPhone = ({ navigation }: Props) => {
       //   setFormattedValue('')
       //   setValue('')
 
-      // const { data: result } = await functions().httpsCallable('remoteLoginPhone')({
-      //   phoneNumber: phoneNumber,
-      // })
-      // console.log({ result })
+      const { data: result } = await functions().httpsCallable('sendSmsCode')({
+        phoneNumber: phoneNumber,
+      })
+      console.log({ result })
 
       setIsLoading(false)
-      //   if (result.success) {
-      //     navigation.navigate('ValidationLoginPhone', {
-      //       phoneNumber,
-      //     })
-      //   }
-
-      // Existe el usuario, navega a la validación
-      navigation.navigate('ValidationLoginPhone', { phoneNumber })
-
-      // No existe, navega al modal que te lleva al registro
-      // navigation.navigate('BasicModal', {
-      //   content: MakePopupContent(navigation),
-      // })
+      if (result.valid) {
+        navigation.navigate('ValidationLoginPhone', {
+          phoneNumber,
+        })
+      } else {
+        // No existe, navega al modal que te lleva al registro
+        navigation.navigate('BasicModal', {
+          content: MakePopupContent(navigation),
+        })
+      }
     } catch (error) {
       setIsLoading(false)
       console.log(error)

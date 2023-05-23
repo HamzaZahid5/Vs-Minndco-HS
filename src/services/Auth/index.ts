@@ -14,7 +14,6 @@ export const useAuth = () => {
     const fetchUserToken = async () => {
       try {
         const userTokenString = await AsyncStorage.getItem('userToken')
-
         if (userTokenString) {
           const userToken = JSON.parse(userTokenString)
           setUserToken(userToken)
