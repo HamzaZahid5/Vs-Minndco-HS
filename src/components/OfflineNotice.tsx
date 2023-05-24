@@ -22,18 +22,11 @@ const OfflineNotice: React.FC = () => {
     }
   }, [])
 
-  if (!netWorkToNetwork) {
+  if (netWorkToNetwork) {
     return null
   }
   return (
-    <Toast
-      visible={netWorkToNetwork}
-      position={50}
-      shadow={false}
-      animation={true}
-      hideOnPress={false}
-      backgroundColor="#EE4038"
-    >
+    <Toast visible={!netWorkToNetwork} position={50} shadow={false} animation={true} hideOnPress={false}>
       {translate('screens.OfflineNotice.text', {
         defaultValue: 'Your internet connection is unstable, which may impact the performance of the app',
       })}
