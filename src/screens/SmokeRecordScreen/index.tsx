@@ -23,7 +23,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
-
+  const [loading, setLoading] = useState<boolean>(false)
   // REDUX
   const smokeRecords = useSelector(SMOKE_RECORD)
   const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
@@ -78,8 +78,10 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
 
   // BOOT UP CALENDAR
   useEffect(() => {
+    setLoading(true)
     const agenda = fillWeek(smokeRecords)
     setAgendaItems(agenda)
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [smokeRecords])
 
@@ -88,17 +90,21 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     const unsubsFocus = navigation.addListener('focus', () => {
       // delay for make the auto-open to work
       setTimeout(() => {
+        setLoading(true)
         setShow(true)
         // @todo trigger this conditionally only if it's needed
         dispatch({ type: 'flags/showJournalHelper', payload: false })
+        setLoading(false)
       }, 100)
     })
     const unsubsBlur = navigation.addListener('blur', () => {
       saveJournal()
     })
     return () => {
+      setLoading(true)
       unsubsFocus()
       unsubsBlur()
+      setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [agendaItems, dispatch])
@@ -150,7 +156,9 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     }
     return PopupContent
   }
-
+  if (loading) {
+    return <></>
+  }
   return (
     <>
       {/* container to hide panel on web */}
@@ -193,7 +201,11 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                     marginRight: 27,
                     alignItems: 'center',
                   }}
-                  onPress={() => setIntakeSecureWrapper(currentCount - 1)}
+                  onPress={() => {
+                    if (currentCount > 0) {
+                      setIntakeSecureWrapper(currentCount - 1)
+                    }
+                  }}
                 >
                   <Icon name="Minus" size={19} strokeWidth={4} color="black" />
                 </TouchableRipple>
