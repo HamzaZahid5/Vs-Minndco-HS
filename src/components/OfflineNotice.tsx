@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Toast from 'react-native-root-toast'
 import * as Network from 'expo-network'
+import { translate } from '../utils/localization'
 
 const OfflineNotice: React.FC = () => {
   const [netWorkToNetwork, setIsConnectedToNetwork] = useState(true)
@@ -8,7 +9,6 @@ const OfflineNotice: React.FC = () => {
   useEffect(() => {
     const checkInternetConnection = async () => {
       Network.getNetworkStateAsync()
-      //   const networkState = await NetInfo.fetch()
       const { isConnected } = await Network.getNetworkStateAsync()
       setIsConnectedToNetwork(isConnected)
     }
@@ -22,12 +22,21 @@ const OfflineNotice: React.FC = () => {
     }
   }, [])
 
-  if (netWorkToNetwork) {
+  if (!netWorkToNetwork) {
     return null
   }
   return (
-    <Toast visible={!netWorkToNetwork} position={50} shadow={false} animation={true} hideOnPress={false}>
-      This is a message
+    <Toast
+      visible={netWorkToNetwork}
+      position={50}
+      shadow={false}
+      animation={true}
+      hideOnPress={false}
+      backgroundColor="#EE4038"
+    >
+      {translate('screens.OfflineNotice.text', {
+        defaultValue: 'Your internet connection is unstable, which may impact the performance of the app',
+      })}
     </Toast>
   )
 }
