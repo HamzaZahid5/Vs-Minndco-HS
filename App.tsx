@@ -167,12 +167,9 @@ function App() {
 
     const fetchUserData = async () => {
       setLoading(true)
-      console.log('ingresa Activity')
       try {
         if (userToken && userToken.uid && userToken.uid.length > 10) {
-          console.log({ userToken })
           const userData = useFirestoreListener('users', userToken?.uid ?? '')
-          console.log({ userData })
           if (!userData) {
             auth().signOut()
             navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
