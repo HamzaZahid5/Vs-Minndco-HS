@@ -28,17 +28,19 @@ export default function OnboardingContainer({ navigation: rootNavigation }: Root
   const dispatch = useDispatch()
   const currentInput = useSelector(ONBOARDING_CURRENT_INPUT)
   const onboardingComplete = useSelector(ONBOARDING_COMPLETE)
-  const isPremium = useSelector(IS_PREMIUM)
-  
+  // const isPremium = useSelector(IS_PREMIUM)
+
   useEffect(() => {
     if (onboardingComplete === true) {
       rootNavigation.reset({
         index: 0,
-        routes: isPremium ? [{ name: 'Main' }] : [{ name: 'Main' }, { name: 'KitActivationLanding' }],
+        // routes: isPremium ? [{ name: 'Main' }] : [{ name: 'Main' }, { name: 'KitActivationLanding' }],
+        routes: [{ name: 'Main' }],
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingComplete])
+  
   return (
     <Stack.Navigator initialRouteName="Screen1">
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

@@ -69,7 +69,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           color={theme.colors.monochrome.offBlack}
           testID="drawer-profile"
         />
-        {!isPremium && (
+        {/* {!isPremium && (
           <CustomDrawerItem
             onPress={() => {
               // auth().signOut();
@@ -81,8 +81,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             color={theme.colors.monochrome.offBlack}
             testID="drawer-profile"
           />
-        )}
-        {hasViewer && (
+        )} */}
+        {/* {hasViewer && ( */}
           <CustomDrawerItem
             onPress={() => {
               StackNavigation.navigate('KitWelcome')
@@ -93,8 +93,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             color={theme.colors.monochrome.offBlack}
             testID="drawer-profile"
           />
-        )}
-        {!hasViewer && isPremium && (
+        {/* )} */}
+        {/* {!hasViewer && isPremium && (
           <CustomDrawerItem
             onPress={() => {
               activateKit()
@@ -106,7 +106,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             color={theme.colors.monochrome.offBlack}
             testID="drawer-profile"
           />
-        )}
+        )} */}
         <CustomDrawerItem
           onPress={() => {
             const PopupContent = ({ close }: { close: () => Promise<void> }) => (
