@@ -11,6 +11,7 @@ import functions from '../../services/Functions/functions'
 import Logo from '../../../assets/SVG/Logo'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LoadingBackground from '../../components/LoadingBackground'
+import i18n from 'i18n-js'
 
 const ErrorPopopContent =
   (errorText: string) =>
@@ -51,6 +52,7 @@ export const ValidationPhone = ({}: ValidationPhonePros) => {
   const [isLoading, setIsLoading] = useState(false)
   const phoneInput = useRef<PhoneInput>(null)
   const theme = useRobTheme()
+  const locale = i18n.locale.toUpperCase()
 
   const handleChangePhone = (text: string) => {
     setValue(text)
@@ -67,6 +69,7 @@ export const ValidationPhone = ({}: ValidationPhonePros) => {
 
       const { data: result } = await functions().httpsCallable('sendSmsCode')({
         phoneNumber: phoneNumber,
+        language: locale,
       })
 
       console.log({ result })

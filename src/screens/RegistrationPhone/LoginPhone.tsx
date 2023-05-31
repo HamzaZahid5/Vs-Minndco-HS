@@ -4,9 +4,10 @@ import { RootStackParamList } from '../../../types'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BasicScreen, Button, Headline, Icon, Paragraph, Row, Subheading, useRobTheme } from '@mindcoxr/rob'
 import functions from '../../services/Functions/functions'
-import { StatusBar, View } from 'react-native'
+import { StatusBar, View, Platform } from 'react-native'
 import Blob from '../../../assets/SVG/Blob'
 import Logo from '../../../assets/SVG/Logo'
+import i18n from 'i18n-js'
 import { translate } from '../../utils/localization'
 import PhoneInput from 'react-native-phone-number-input'
 import LoadingBackground from '../../components/LoadingBackground'
@@ -94,6 +95,7 @@ export const LoginPhone = ({ navigation }: Props) => {
   const [formattedValue, setFormattedValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const phoneInput = useRef<PhoneInput>(null)
+  const locale = i18n.locale.toLowerCase()
   const theme = useRobTheme()
 
   const handleChangePhone = (text: string) => {
@@ -107,8 +109,10 @@ export const LoginPhone = ({ navigation }: Props) => {
       //   setFormattedValue('')
       //   setValue('')
 
+      console.log({locale})
       const { data: result } = await functions().httpsCallable('sendSmsCode')({
         phoneNumber: phoneNumber,
+        language: locale,
       })
       console.log({ result })
 

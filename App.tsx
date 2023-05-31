@@ -168,11 +168,16 @@ function App() {
     const fetchUserData = async () => {
       setLoading(true)
       try {
-        if (userToken && userToken.uid && userToken.uid.length > 10) {
+        if (userToken) {
           const userData = useFirestoreListener('users', userToken?.uid ?? '')
           if (!userData) {
-            auth().signOut()
-            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+            const timeout = setTimeout(() => {
+              auth().signOut()
+              navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+              setLoading(false)
+            }, 3000)
+
+            clearTimeout(timeout)
           } else {
             const timeout = setTimeout(() => {
               setLoading(false)
@@ -217,7 +222,7 @@ function App() {
           role="primary"
           onPress={() => {
             auth().signOut()
-            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+            navigatorRef?.current?.navigate('Landing')
           }}
         >
           {translate('commons.messages.button_back', { defaultValue: 'Back' })}

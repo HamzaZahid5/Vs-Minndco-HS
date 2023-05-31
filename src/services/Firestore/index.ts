@@ -40,7 +40,7 @@ export const useFirestoreListener = (collection: string, id: string) => {
 }
 
 export const updateProfile = (updateObject: Record<string, unknown>) => {
-  return firestore().collection('users').doc(auth().currentUser.uid).update(updateObject)
+  return firestore().collection('users').doc(auth()?.currentUser?.uid).update(updateObject)
 }
 
 export const updateUserProfile = ({ display_name }: { display_name: string }) =>
