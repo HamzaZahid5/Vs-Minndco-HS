@@ -100,8 +100,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   }, [nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek])
 
   // HELPERS
-  useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
-  useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
+  // useQueryKitReceived(navigation as StackNavigationProp<RootStackParamList>)
+  // useTutorialFinished(navigation as StackNavigationProp<RootStackParamList>)
   useSmokeAlertPopup(navigation as StackNavigationProp<RootStackParamList>)
   useCongratsQuitDayPopup(navigation as StackNavigationProp<RootStackParamList>)
   useFinishProgramPopup(navigation as StackNavigationProp<RootStackParamList>)

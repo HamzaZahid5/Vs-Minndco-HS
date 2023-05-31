@@ -55,9 +55,10 @@ export const getAllActivitiesKey = (program: ProgramType, includeVR: boolean) =>
     [],
   )
 
-  const relevantActivities = includeVR
-    ? enhancedActivities
-    : enhancedActivities.filter(ea => ea.activity.type !== 'vr-met')
+  // const relevantActivities = includeVR
+  //   ? enhancedActivities
+  //   : enhancedActivities.filter(ea => ea.activity.type !== 'vr-met')
+  const relevantActivities = enhancedActivities
   return relevantActivities.map(({ activity, module, level }) => buildActivityKey(module, level, activity.id))
 }
 
@@ -77,7 +78,8 @@ export const unnestedProgram = (program: ProgramType) => {
 
 export const getAllActivities = (program: ProgramType, includeVR: boolean) => {
   const activities = unnestedProgram(program)
-  const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met')
+  // const relevantActivities = includeVR ? activities : activities.filter(a => a.type !== 'vr-met')
+  const relevantActivities = activities
   return relevantActivities
 }
 
