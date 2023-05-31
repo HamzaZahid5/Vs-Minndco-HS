@@ -208,7 +208,7 @@ function App() {
         </Row>
         <Row>
           <View style={{ marginBottom: 20 }}>
-            <Paragraph>
+            <Paragraph size='medium'>
               {translate('commons.messages.error_message', {
                 defaultValue: 'An unexpected error occurred, please contact support so that we can best assist you.',
               })}
