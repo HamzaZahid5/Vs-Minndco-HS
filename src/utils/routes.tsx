@@ -169,9 +169,16 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     name="SupportRegister"
     component={SupportRegister}
     options={{
-      headerShown: false,
-      headerTransparent: true,
-      headerBackground,
+      headerShown: true,
+      header: (props: StackHeaderProps) => (
+        <NavigationHeader
+          {...props}
+          contentAtBottom
+          color="#14142b"
+          backgroundColor="#F7F7FC"
+          routeName={translate('screens.profile.supportActionLabel')}
+        />
+      ),
     }}
   />,
   <Stack.Screen

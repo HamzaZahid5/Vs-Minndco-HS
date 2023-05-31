@@ -10,7 +10,7 @@ const OfflineNotice: React.FC = () => {
     const checkInternetConnection = async () => {
       Network.getNetworkStateAsync()
       const { isConnected } = await Network.getNetworkStateAsync()
-      setIsConnectedToNetwork(isConnected)
+      isConnected && setIsConnectedToNetwork(isConnected)
     }
 
     checkInternetConnection()
@@ -25,8 +25,16 @@ const OfflineNotice: React.FC = () => {
   if (netWorkToNetwork) {
     return null
   }
+  
   return (
-    <Toast visible={!netWorkToNetwork} position={50} shadow={false} animation={true} hideOnPress={false}>
+    <Toast
+      visible={!netWorkToNetwork}
+      position={50}
+      shadow={false}
+      animation={true}
+      hideOnPress={false}
+      backgroundColor="red"
+    >
       {translate('screens.OfflineNotice.text', {
         defaultValue: 'Your internet connection is unstable, which may impact the performance of the app',
       })}

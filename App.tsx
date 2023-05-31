@@ -162,7 +162,7 @@ function App() {
     }
   }, [i18nReady, isAuthed, userData])
 
-  const ActivityComponent = () => {
+  const ActivityComponent: () => JSX.Element = () => {
     const [loading, setLoading] = useState(true)
 
     const fetchUserData = async () => {
@@ -171,13 +171,9 @@ function App() {
         if (userToken) {
           const userData = useFirestoreListener('users', userToken?.uid ?? '')
           if (!userData) {
-            const timeout = setTimeout(() => {
-              auth().signOut()
-              navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
-              setLoading(false)
-            }, 3000)
-
-            clearTimeout(timeout)
+            auth().signOut()
+            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
+            setLoading(false)
           } else {
             const timeout = setTimeout(() => {
               setLoading(false)
@@ -187,6 +183,7 @@ function App() {
           }
         }
       } catch (error) {
+        setLoading(false)
         console.log(error)
       }
     }
@@ -222,7 +219,7 @@ function App() {
           role="primary"
           onPress={() => {
             auth().signOut()
-            navigatorRef?.current?.navigate('Landing')
+            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
           }}
         >
           {translate('commons.messages.button_back', { defaultValue: 'Back' })}
