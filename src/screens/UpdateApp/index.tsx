@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { translate } from '../../utils/localization'
 import { homeBGColors } from '../../utils/config'
 import Logo from '../../../assets/SVG/Logo'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../types'
 const imageBackground = require('../../../assets/images/bg_act_05.jpeg')
 
 const openStore = () => {
@@ -29,9 +31,13 @@ const openStore = () => {
   }
 }
 
-interface UpdateAppProps {}
+type LoginPhoneScreenNavigationProp = StackNavigationProp<RootStackParamList, 'UpdateApp'>
 
-const UpdateApp = ({}: UpdateAppProps) => {
+type Props = {
+  navigation: LoginPhoneScreenNavigationProp
+}
+
+const UpdateApp = ({ navigation }: Props) => {
   return (
     <>
       <BackgroundArt paddingTop={0} paddingBottom={0} colors={homeBGColors} source={imageBackground} />
@@ -41,24 +47,40 @@ const UpdateApp = ({}: UpdateAppProps) => {
             <Logo />
           </Row>
           <Row grow justifyContentOnGrow="flex-end">
-            <Subheading textAlign="center" light>{translate('screens.UpdateScreen.title')}</Subheading>
+            <Subheading textAlign="center" light>
+              {translate('screens.UpdateScreen.title')}
+            </Subheading>
           </Row>
           <Row grow justifyContentOnGrow="center">
             <Paragraph size="large" weight="bold" textAlign="center" light>
               {translate('screens.UpdateScreen.description')}{' '}
             </Paragraph>
           </Row>
-          <Row justifyContentOnGrow="flex-end" grow>
-            <Button
-              role="secondary"
-              outline
-              compact
-              onPress={async () => {
-                openStore()
-              }}
-            >
-              {translate('screens.UpdateScreen.confirm')}
-            </Button>
+          <Row justifyContentOnGrow="flex-end">
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                <Button
+                  role="secondary"
+                  outline
+                  onPress={async () => {
+                    navigation.navigate('Home')
+                  }}
+                >
+                  {translate('screens.UpdateScreen.later', { defaultValue: 'Later' })}
+                </Button>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button
+                  role="secondary"
+                  outline
+                  onPress={async () => {
+                    openStore()
+                  }}
+                >
+                  {translate('screens.UpdateScreen.confirm')}
+                </Button>
+              </View>
+            </View>
           </Row>
         </BasicScreen>
       </SafeAreaView>

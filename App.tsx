@@ -173,7 +173,7 @@ function App() {
           if (!userData) {
             auth().signOut()
             navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
-            setLoading(false)
+            // setLoading(false)
           } else {
             const timeout = setTimeout(() => {
               setLoading(false)
@@ -183,7 +183,7 @@ function App() {
           }
         }
       } catch (error) {
-        setLoading(false)
+        // setLoading(false)
         console.log(error)
       }
     }
