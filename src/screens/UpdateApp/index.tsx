@@ -57,30 +57,15 @@ const UpdateApp = ({ navigation }: Props) => {
             </Paragraph>
           </Row>
           <Row justifyContentOnGrow="flex-end">
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ flex: 1 }}>
-                <Button
-                  role="secondary"
-                  outline
-                  onPress={async () => {
-                    navigation.navigate('Home')
-                  }}
-                >
-                  {translate('screens.UpdateScreen.later', { defaultValue: 'Later' })}
-                </Button>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Button
-                  role="secondary"
-                  outline
-                  onPress={async () => {
-                    openStore()
-                  }}
-                >
-                  {translate('screens.UpdateScreen.confirm')}
-                </Button>
-              </View>
-            </View>
+            <Button
+              role="secondary"
+              outline
+              onPress={async () => {
+                openStore()
+              }}
+            >
+              {translate('screens.UpdateScreen.confirm')}
+            </Button>
           </Row>
         </BasicScreen>
       </SafeAreaView>
