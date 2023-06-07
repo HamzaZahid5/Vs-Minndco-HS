@@ -162,8 +162,9 @@ function App() {
     }
   }, [i18nReady, isAuthed, userData])
 
-  const ActivityComponent: () => JSX.Element = () => {
+  const ActivityComponent = () => {
     const [loading, setLoading] = useState(true)
+    const [showButtonBack, setShowButtonBack] = useState(false)
 
     const fetchUserData = async () => {
       setLoading(true)
@@ -174,13 +175,13 @@ function App() {
             auth().signOut()
             navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
             // setLoading(false)
-          } else {
-            const timeout = setTimeout(() => {
-              setLoading(false)
-            }, 3000)
-
-            clearTimeout(timeout)
           }
+
+          const timeout = setTimeout(() => {
+            setLoading(false)
+          }, 3000)
+
+          clearTimeout(timeout)
         }
       } catch (error) {
         // setLoading(false)
@@ -190,12 +191,38 @@ function App() {
 
     useEffect(() => {
       fetchUserData()
-    }, [])
+
+      const timeout = setTimeout(() => {
+        setShowButtonBack(true)
+      }, 7000)
+
+      return () => {
+        clearTimeout(timeout)
+      }
+    }, [userToken])
 
     if (loading) {
       return (
         <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator />
+          {showButtonBack && (
+            <View style={{ margin: 20 }}>
+              <Paragraph size="medium">
+                {translate('commons.messages.error_message', {
+                  defaultValue: 'An unexpected error occurred, please contact support so that we can best assist you.',
+                })}
+              </Paragraph>
+              <View style={{ marginTop: 30 }}>
+                <Button
+                  onPress={() => {
+                    auth().signOut()
+                  }}
+                >
+                  {translate('commons.messages.button_back', { defaultValue: 'Back' })}
+                </Button>
+              </View>
+            </View>
+          )}
         </View>
       )
     }
@@ -208,7 +235,7 @@ function App() {
         </Row>
         <Row>
           <View style={{ marginBottom: 20 }}>
-            <Paragraph size='medium'>
+            <Paragraph size="medium">
               {translate('commons.messages.error_message', {
                 defaultValue: 'An unexpected error occurred, please contact support so that we can best assist you.',
               })}
