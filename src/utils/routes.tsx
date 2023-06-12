@@ -2,6 +2,10 @@ import React from 'react'
 import { View } from 'react-native'
 import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack'
 import { RootStackParamList } from '../../types'
+import { BackButton } from './hooks/useSetDefaultBackOnPress'
+import { translate } from './localization'
+
+// screens
 import LandingScreen from '../screens/LandingScreen'
 import RegistrationScreen from '../screens/Registration'
 import LoginScreen from '../screens/Login'
@@ -20,15 +24,15 @@ import KitWelcome from '../screens/KitWelcomeScreen'
 import KitActivation from '../screens/KitActivation'
 import KitPresentation from '../screens/KitPresentation'
 import NavigationHeader from '../components/NavigationHeader'
-import { BackButton } from './hooks/useSetDefaultBackOnPress'
 import LoginCode from '../screens/LoginCode'
-import { translate } from './localization'
 import KitActivationLanding from '../screens/KitActivationLanding'
 import ProfileNavigator from '../screens/ProfileNavigator'
 import UpdateAppScreen from '../screens/UpdateApp'
 import { LoginPhone } from '../screens/RegistrationPhone/LoginPhone'
 import { ValidationLoginPhone } from '../screens/RegistrationPhone/ValidationLoginPhone'
+import { ValidationLoginEmail } from '../screens/RegistrationPhone/ValidationLoginEmail'
 import SupportRegister from '../screens/RegistrationPhone/SupportRegister'
+import { LoginEmail as LoginEmailScreen } from '../screens/RegistrationPhone/LoginEmail'
 
 // ReturnType<> doesn't support generics, so it needs to be wrapped
 const createStackNavigatorWrapper = () => createStackNavigator<RootStackParamList>()
@@ -185,6 +189,26 @@ export const getPreLoginRoutes = (Stack: StackType) => [
     key="ValidationLoginPhone"
     name="ValidationLoginPhone"
     component={ValidationLoginPhone}
+    options={{
+      headerShown: false,
+      headerTransparent: true,
+      headerBackground,
+    }}
+  />,
+  <Stack.Screen
+    key="ValidationLoginEmail"
+    name="ValidationLoginEmail"
+    component={ValidationLoginEmail}
+    options={{
+      headerShown: false,
+      headerTransparent: true,
+      headerBackground,
+    }}
+  />,
+  <Stack.Screen
+    key="LoginEmail"
+    name="LoginEmail"
+    component={LoginEmailScreen}
     options={{
       headerShown: false,
       headerTransparent: true,

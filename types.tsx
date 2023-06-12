@@ -15,8 +15,12 @@ export type LifesaverContentType = {
 export type RootStackParamList = {
   Landing: undefined
   LoginPhone: undefined
+  LoginEmail: undefined
   ValidationLoginPhone: {
     phoneNumber: string
+  }
+  ValidationLoginEmail: {
+    email: string
   }
   SupportRegister: undefined
   Onboarding: undefined

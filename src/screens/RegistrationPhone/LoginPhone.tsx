@@ -45,8 +45,20 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
           </Button>
           <Button
             role="secondary"
-            compact
             outline
+            compact
+            onPress={async () => {
+              await close()
+              navigation.navigate('LoginEmail')
+            }}
+          >
+            {translate('screens.LoginPhone.email', {
+              defaultValue: 'Enter with email',
+            })}
+          </Button>
+          <Button
+            role="secondary"
+            compact
             onPress={async () => {
               await close()
             }}
@@ -106,15 +118,10 @@ export const LoginPhone = ({ navigation }: Props) => {
     setIsLoading(true)
     let phoneNumber: string = formattedValue
     try {
-      //   setFormattedValue('')
-      //   setValue('')
-
-      console.log({locale})
       const { data: result } = await functions().httpsCallable('sendSmsCode')({
         phoneNumber: phoneNumber,
         language: locale,
       })
-      console.log({ result })
 
       setIsLoading(false)
       if (result.valid) {
