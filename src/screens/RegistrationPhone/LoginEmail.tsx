@@ -109,9 +109,21 @@ export const LoginEmail = ({ navigation }: DefaultScreenPropType<'LoginEmail'>) 
     setisLoading(true)
     try {
       const { data: result } = await functions().httpsCallable('sendEmailCode')({
-        email: email,
+        email: email.toLowerCase(),
         language: locale,
       })
+
+      setisLoading(false)
+      if (result.valid) {
+        navigation.navigate('ValidationLoginEmail', {
+          email: email.toLowerCase(),
+        })
+      } else {
+        // No existe, navega al modal que te lleva al registro
+        navigation.navigate('BasicModal', {
+          content: MakePopupContent(navigation),
+        })
+      }
     } catch (error: any) {
       console.log(error)
       setisLoading(false)
