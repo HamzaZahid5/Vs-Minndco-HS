@@ -55,11 +55,6 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   )
 
   // LISTENER
-
-  const closePanel = async () => {
-    setShow(false)
-  }
-
   const saveJournal = async () => {
     await saveSmokeJurnal(
       // builds a SmokeRecordsState object
@@ -74,6 +69,11 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
       navigation.navigate('BasicModal', { content: MakePopupContent(progress, moment(actualQuitDay)) })
     }
+  }
+
+  const closePanel = async () => {
+    setShow(false)
+    saveJournal()
   }
 
   // BOOT UP CALENDAR
@@ -98,7 +98,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       }, 100)
     })
     const unsubsBlur = navigation.addListener('blur', () => {
-      saveJournal()
+      // saveJournal()
     })
     return () => {
       setLoading(true)
