@@ -26,27 +26,7 @@ const ActivityScreen = ({
       saveActivityDone(nextActivityKey, answer)
       navigation.navigate('Main')
     }
-  } /*
-  Not implemented yet
-  useStartPath('daily_activity', false)
-  */
-
-  /*
-  Zoho not implemented yet
-  useEffect(() => {
-    const nextActivityTyped = nextActivity as activityType
-    if (IS.survey) {
-      resetPathTo('Zoho', {
-        onCancel: () => {
-          navigation.goBack()
-        },
-        onComplete: handleActivityComplete,
-        zohoUrl: ZOHO_SURVEYS[nextActivityTyped.asset].url,
-        customData: ZOHO_SURVEYS[nextActivityTyped.asset].customData,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nextActivity, IS])*/
+  }
 
   // HELPERS
   useEffect(() => {
@@ -86,6 +66,7 @@ const ActivityScreen = ({
             onPlayPressed={() => {
               return
             }}
+            backImage="https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg"
             videoSrc={asset}
             title={nextActivity.name}
             description={nextActivity.description}

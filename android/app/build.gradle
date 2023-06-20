@@ -15,7 +15,7 @@ def getNpmVersion() {
 /* calculated from git commits to give sequential integers */
 def getGitVersion() {
     def process = "git rev-list --count HEAD".execute()
-    return process.text.toInteger() + 361
+    return process.text.toInteger() + 364
 }
 // ----------
 /**
