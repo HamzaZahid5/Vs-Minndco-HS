@@ -198,6 +198,7 @@ const VideoActivity = ({
                 <Text style={styles.paragraphColor}>{description}</Text>
               </Paragraph>
             </View>
+            <View style={styles.separatorLine} />
             <View style={styles.iconsContainer}>
               <View style={[styles.iconsWrapper]}>
                 <Icon name="Video" color={theme.colors.monochrome.placeholder} />
@@ -284,13 +285,14 @@ const getStyles = (theme: typeof RobTheme) =>
       top: 0,
       left: 0,
       right: 0,
+      zIndex: -1,
     },
     textContainer: { backgroundColor: theme.colors.monochrome.input, flexGrow: 1 },
     titleContainer: {
       position: 'absolute',
       bottom: 27,
       left: 24,
-      zIndex: 999,
+      zIndex: 1,
     },
     image: { height: 314, borderRadius: 0, display: 'flex' },
     imageSmall: { height: 120, borderRadius: 24 },
@@ -321,6 +323,7 @@ const getStyles = (theme: typeof RobTheme) =>
     containerAlingCenter: { justifyContent: 'center', alignItems: 'center', flexDirection: 'row' },
     containerAlingLeft: { justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'row' },
     containerAlingRigth: { justifyContent: 'flex-end', alignItems: 'center', flexDirection: 'row' },
+    separatorLine: { height: 3, backgroundColor: '#EFF0F6', width: '100%', marginBottom: 15 },
     loadingContainer: {
       position: 'absolute',
       top: 0,
