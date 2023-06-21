@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react'
-import { LayoutRectangle, ScrollView, View, Text as NativeText } from 'react-native'
+import { LayoutRectangle, ScrollView, View, Text as NativeText, Image } from 'react-native'
 import {
   fromActivityIdToDictionaryEntry,
   LifesaverActivityBase,
@@ -21,6 +21,8 @@ import {
 import NoContent from './NoContent'
 import { translate } from '../../utils/localization'
 import HeaderPadding from '../../utils/HeaderPadding'
+const newImage = require('../../../assets/images/new.png')
+
 export type PropType = {
   audios: LifesaverAudioType[]
   readings: LifesaverReadType[]
@@ -76,8 +78,12 @@ const Playground = ({ audios, readings, activities, onPress }: PropType) => {
                         label={translate('commons.activities.audio-label')}
                       />,
                       <ActionButton key={aud.id + aud.source + '_duration'} icon="Clock" label="2 min" />,
+                      // aud.new ?  : <></>,
                     ]}
                   />
+                  {aud.new && (
+                    <Image source={newImage} style={{ position: 'absolute', width: 50, height: 50, left: 5, top: 5 }} />
+                  )}
                 </View>
               ))}
             </ScrollView>

@@ -11,6 +11,7 @@ export type LifesaverActivityBase = {
   free?: boolean
   type: 'audio' | 'activity' | 'text'
   category: 'practical' | 'learning'
+  new: boolean
 }
 
 export type LifesaverDoType = {
@@ -25,6 +26,7 @@ export const LIFESAVER_ACTIVITIES: LifesaverDoType[] = [
     type: 'activity',
     category: 'practical',
     screen: <BreathSync />,
+    new: false,
   },
   {
     id: 'deep-breath-sync',
@@ -33,6 +35,7 @@ export const LIFESAVER_ACTIVITIES: LifesaverDoType[] = [
     type: 'activity',
     category: 'practical',
     screen: <DeepBreathSync />,
+    new: false,
   },
   {
     id: 'bubbles-wrapper',
@@ -40,6 +43,7 @@ export const LIFESAVER_ACTIVITIES: LifesaverDoType[] = [
     type: 'activity',
     category: 'practical',
     screen: <BubbleWrap />,
+    new: false,
   },
 ]
 
@@ -67,6 +71,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_calm_en'),
+    new: false,
   },
   {
     id: 'LS_WORK_visualization_en.mp3',
@@ -75,6 +80,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_visualization_en'),
+    new: false,
   },
   {
     id: 'LS_PARTY_move_your_attention_en.mp3',
@@ -83,6 +89,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_PARTY_move_your_attention_en'),
+    new: false,
   },
   {
     id: 'LS_PARTY_resist_en.mp3',
@@ -91,6 +98,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_PARTY_resist_en'),
+    new: false,
   },
   {
     id: 'LS_OTHER_love_en.mp3',
@@ -99,6 +107,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_OTHER_love_en'),
+    new: false,
   },
   {
     id: 'LS_WORK_calm_en.mp3',
@@ -107,6 +116,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_calm_en'),
+    new: false,
   },
   {
     id: 'LS_STREET_breath_en.mp3',
@@ -115,6 +125,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_breath_en'),
+    new: false,
   },
   {
     id: 'LS_WORK_positive_perspective_en.mp3',
@@ -123,6 +134,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_positive_perspective_en'),
+    new: false,
   },
   {
     id: 'LS_STREET_pause_en.mp3',
@@ -131,6 +143,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_pause_en'),
+    new: false,
   },
   {
     id: 'LS_STREET_step_by_step_en.mp3',
@@ -139,6 +152,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_step_by_step_en'),
+    new: false,
   },
   {
     id: 'LS_HOME_compassion.mp3',
@@ -147,6 +161,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_compassion'),
+    new: false,
   },
   // NEW LIFESERVER AUDIOS
   // STREET
@@ -157,6 +172,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_sound_awareness_meditation'),
+    new: true,
   },
   {
     id: 'LS_STREET_crave_surf.mp3',
@@ -165,6 +181,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_crave_surf'),
+    new: true,
   },
   {
     id: 'LS_STREET_ll1.mp3',
@@ -173,6 +190,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_ll1'),
+    new: true,
   },
   {
     id: 'LS_STREET_street_mindful_observations.mp3',
@@ -181,6 +199,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_STREET_street_mindful_observations'),
+    new: true,
   },
 
   // HOME
@@ -191,6 +210,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_crave_away_letter_game'),
+    new: true,
   },
   {
     id: 'LS_HOME_crave_calm.mp3',
@@ -199,6 +219,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_crave_calm'),
+    new: true,
   },
   {
     id: 'LS_HOME_crave_surfing_aid.mp3',
@@ -207,6 +228,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_crave_surfing_aid'),
+    new: true,
   },
   {
     id: 'LS_HOME_emotion_explorer.mp3',
@@ -215,6 +237,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_HOME_emotion_explorer'),
+    new: true,
   },
 
   // OTHER
@@ -225,6 +248,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_OTHER_crace_busters'),
+    new: true,
   },
   {
     id: 'LS_OTHER_mindful_alphabet_game.mp3',
@@ -233,6 +257,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_OTHER_mindful_alphabet_game'),
+    new: true,
   },
   {
     id: 'LS_OTHER_smoke_free_mindfulness.mp3',
@@ -241,6 +266,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_OTHER_smoke_free_mindfulness'),
+    new: true,
   },
   {
     id: 'LS_OTHER_walking_meditation_aid.mp3',
@@ -249,6 +275,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_OTHER_walking_meditation_aid'),
+    new: true,
   },
 
   // COFFE
@@ -259,6 +286,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_COFFEE_crave_control'),
+    new: true,
   },
   {
     id: 'LS_COFFEE_facial_muscle_release.mp3',
@@ -267,6 +295,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_COFFEE_facial_muscle_release'),
+    new: true,
   },
   {
     id: 'LS_COFFEE_mindful_daily_reflection.mp3',
@@ -275,6 +304,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_COFFEE_mindful_daily_reflection'),
+    new: true,
   },
   {
     id: 'LS_COFFEE_sensory_mindfulness_for_cravings.mp3',
@@ -283,6 +313,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_COFFEE_sensory_mindfulness_for_cravings'),
+    new: true,
   },
 
   // PARTY
@@ -293,6 +324,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_PARTY_crave_free_party_meditation'),
+    new: true,
   },
   {
     id: 'LS_PARTY_grateful_vibes.mp3',
@@ -301,6 +333,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_PARTY_grateful_vibes'),
+    new: true,
   },
   {
     id: 'LS_PARTY_mini_mindful_moments.mp3',
@@ -309,6 +342,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_PARTY_mini_mindful_moments'),
+    new: true,
   },
   {
     id: 'LS_PARTY_smoke_free_statements.mp3',
@@ -317,6 +351,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_PARTY_smoke_free_statements'),
+    new: true,
   },
 
   // WORK
@@ -327,6 +362,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_calm_and_breathe_beat_cravings'),
+    new: true,
   },
   {
     id: 'LS_WORK_smoke_free_body_scan.mp3',
@@ -335,6 +371,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_smoke_free_body_scan'),
+    new: true,
   },
   {
     id: 'LS_WORK_smoke_free_mindset.mp3',
@@ -343,6 +380,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_smoke_free_mindset'),
+    new: true,
   },
   {
     id: 'LS_WORK_superhero_power_poses.mp3',
@@ -351,6 +389,7 @@ export const LIFESAVER_AUDIOS = (lang: string): LifesaverAudioType[] => [
     type: 'audio',
     category: 'practical',
     title: translate('contents.LifeSaverAudios.LS_WORK_superhero_power_poses'),
+    new: true,
   },
 ]
 
@@ -374,6 +413,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
       translate('contents.readTestimony1.page2'),
       translate('contents.readTestimony1.page3'),
     ],
+    new: false,
   },
   {
     id: 'testimony-2',
@@ -389,6 +429,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
       translate('contents.readTestimony2.page3'),
       translate('contents.readTestimony2.page4'),
     ],
+    new: false,
   },
   {
     id: 'testimony-3',
@@ -403,6 +444,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
       translate('contents.readTestimony3.page1'),
       translate('contents.readTestimony3.page3'),
     ],
+    new: false,
   },
   {
     id: 'fact-1-tobacco-use',
@@ -417,6 +459,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
       translate('contents.readFactTobacco.page3'),
       translate('contents.readFactTobacco.page4'),
     ],
+    new: false,
   },
   {
     id: 'fact-2-nicotine-I',
@@ -425,6 +468,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
     category: 'learning',
     contentCategory: 'fact',
     title: translate('contents.readFactNicotine1.title'),
+    new: false,
     pages: [translate('contents.readFactNicotine1.page1'), translate('contents.readFactNicotine1.page2')],
   },
   {
@@ -439,6 +483,7 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
       translate('contents.readFactNicotine2.page2'),
       translate('contents.readFactNicotine2.page3'),
     ],
+    new: false,
   },
   {
     id: 'fact-4-why-feel-pleasure',
@@ -453,5 +498,6 @@ export const LIFESAVER_READS = (): LifesaverReadType[] => [
       translate('contents.readFactPleasure.page3'),
       translate('contents.readFactPleasure.page4'),
     ],
+    new: false,
   },
 ]
