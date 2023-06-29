@@ -1,6 +1,6 @@
 {
   "name": "mindcotine_mobile_v4",
-  "version": "5.3.7",
+  "version": "5.4.7",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
