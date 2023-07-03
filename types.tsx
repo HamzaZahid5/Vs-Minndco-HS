@@ -81,6 +81,7 @@ export type RootStackParamList = {
   }
   Profile: undefined
   ProfileUser: undefined
+  Program: undefined
   Statistics: undefined
   HowItWorks: undefined
   VRDemo: undefined

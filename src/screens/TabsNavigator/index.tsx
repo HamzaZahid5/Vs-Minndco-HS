@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Platform, Text, View } from 'react-native'
+import { Platform, Text, View, Image } from 'react-native'
 import HomeScreen from '../Home'
 import { useRobTheme, Icon } from '@mindcoxr/rob'
 import { useSelector } from 'react-redux'
@@ -20,7 +20,7 @@ export type TabsParamList = {
   Lifesaver: undefined
 }
 
-export const tabMarginTop = Platform.OS === 'ios' ? 20 : 5
+export const tabMarginTop = Platform.OS === 'ios' ? 5 : 5
 export const tabHeight = Platform.OS === 'ios' ? 90 : 75
 
 const Tab = createBottomTabNavigator<TabsParamList>()
@@ -87,13 +87,15 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color, size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
-              <Icon
-                name="Home"
-                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                size={22}
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
+              <Image
+                source={require('../../../assets/images/trainingIcon.png')}
+                style={{width: 28, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,marginBottom:3}}
+               
               />
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize:12}}> Training </Text>
             </View>
+            
           ),
         }}
       />
@@ -105,12 +107,13 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           unmountOnBlur: true,
           lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
-              <Icon
-                name="Paste"
-                color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                size={22}
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',alignItems: 'center' }}>
+              <Image
+                source={require('../../../assets/images/dashboardIcon.png')}
+                style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
+               
               />
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>Dashboard</Text>
             </View>
           ),
         }}
@@ -121,13 +124,14 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',alignItems: 'center' }}>
               <TargetIndicator round show={showJournalCTAHelper && screenFocused === 'Home'}>
-                <Icon
-                  name="Plus"
-                  color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                  size={30}
-                />
+              <Image
+                source={require('../../../assets/images/intakeIcon.png')}
+                style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
+               
+              />
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>Intake</Text>
               </TargetIndicator>
             </View>
           ),
@@ -149,13 +153,14 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           unmountOnBlur: true,
           lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <TargetIndicator round show={showChatCTAHelper && screenFocused === 'Home'}>
-                <Icon
-                  name="Comment"
-                  color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                  size={22}
-                />
+              <Image
+                source={require('../../../assets/images/coachIcon.png')}
+                style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
+               
+              />
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>Coach</Text>
               </TargetIndicator>
             </View>
           ),
@@ -169,13 +174,14 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center' }}>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <TargetIndicator round show={showLifeSaverCTAHelper && screenFocused === 'Home'}>
-                <Icon
-                  name="Help"
-                  color={focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line}
-                  size={22}
-                />
+              <Image
+                source={require('../../../assets/images/sosIcon.png')}
+                style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
+               
+              />
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>SOS</Text>
               </TargetIndicator>
             </View>
           ),

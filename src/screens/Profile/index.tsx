@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text as NativeText } from 'react-native'
+import { View, Text as NativeText, Image } from 'react-native'
 import {
   BasicScreen as Screen,
   Row,
@@ -23,6 +23,7 @@ import config from '../../../env'
 import moment from 'moment'
 import { template } from 'lodash'
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { assert } from '@hapi/joi'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -109,6 +110,38 @@ const ProfileScreen = () => {
                     {translate('screens.Profile.info')}
                   </Headline>
                 </Row>
+                <View style={{backgroundColor: theme.colors.primaryPalette['500']}}>
+                <Image
+                  source={require('../../../assets/images/bg_act_04.png')}
+                  style={{
+                    flex: 1,
+                    resizeMode: 'cover',
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%'}}
+                  />
+                <Row gutter={23} >
+                  <Paragraph textAlign="left" size="medium" weight="bold">
+                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
+                  </Paragraph>
+                  <View style={{backgroundColor:'#FCFCFC', borderRadius:50}} >
+                  
+                  <Button
+                    role="secondary"
+                    round
+                    compact
+                    outline
+                    onPress={() => {
+                      navigation.navigate('QuitDayModalProfile')
+                    }}
+                  >
+                    {quitDay.length === 0 || quitDay === undefined
+                      ? translate('screens.quitDay.inviteUser')
+                      : textButton}
+                  </Button>
+                  </View>
+                </Row>
+                </View>
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">
                     <NativeText style={{ color: '#000000' }}> {translate('screens.Profile.personalInfo')}</NativeText>
@@ -120,23 +153,6 @@ const ProfileScreen = () => {
                     error={touched.name && errors.name !== undefined}
                     label={translate('screens.Profile.name')}
                   />
-                </Row>
-                <Row gutter={23}>
-                  <Paragraph textAlign="left" size="medium" weight="bold">
-                    <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
-                  </Paragraph>
-                  <Button
-                    role="secondary"
-                    compact
-                    outline
-                    onPress={() => {
-                      navigation.navigate('QuitDayModalProfile')
-                    }}
-                  >
-                    {quitDay.length === 0 || quitDay === undefined
-                      ? translate('screens.quitDay.inviteUser')
-                      : textButton}
-                  </Button>
                 </Row>
                 <Row gutter={23}>
                   <Paragraph textAlign="left" size="medium" weight="bold">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Dimensions } from 'react-native'
+import { View, Dimensions, TouchableOpacity, Text } from 'react-native'
 import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading, Paragraph } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { TouchableRipple, Paragraph as PaperParagraph } from 'react-native-paper'
@@ -16,6 +16,8 @@ import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 import { filter, reduce } from 'lodash'
 import { revertQuitDay } from '../../services/Firestore'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
+
+
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
@@ -64,12 +66,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
           [k]: agendaItems[k].count,
         }),
         {},
-      ),
-    )
-    if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
-      navigation.navigate('BasicModal', { content: MakePopupContent(progress, moment(actualQuitDay)) })
-    }
-  }
+        ),
+        )
+        if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
+          navigation.navigate('BasicModal', { content: MakePopupContent(progress, moment(actualQuitDay)) })
+        }
+      }
+      console.log(agendaItems)
 
   const closePanel = async () => {
     setShow(false)
@@ -165,7 +168,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       <View style={{ flex: 1, flexGrow: 1, overflow: 'hidden' }}>
         <PopupWrapper customTop={popUpCustomTop} noPaddingHorizontal show={show} onClose={() => navigation.pop()}>
           <SafeAreaView>
-            <Row gutter={45}>
+            <Row gutter={25}>
               <WeekDaysBar
                 selected={selected}
                 daysWithInputs={agendaItems}
@@ -237,16 +240,38 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 </TouchableRipple>
               </View>
             </Row>
-            <Row gutter={20} grow justifyContentOnGrow="flex-end">
-              <View style={{ marginHorizontal: 10 }}>
-                <Button
+            <Row gutter={20} grow justifyContentOnGrow="flex-end" >
+              <View style={{ marginHorizontal: 10, }}>
+                <View style={{marginBottom: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                  <TouchableOpacity
+                  onPress={async () => {setIntakeSecureWrapper(0)}}
+                  style={{backgroundColor: '#00BFFF',
+                          padding: 10,
+                          borderRadius: 32,
+                          alignItems: 'center',
+                          width: 200,
+
+                          
+                }}>
+                  
+                    <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 20,
+                    }}
+                    >No Smoke Today!</Text>
+                    
+                  </TouchableOpacity>
+                </View>
+                  <Button
                   round
                   onPress={async () => {
                     await closePanel()
                   }}
+                  
                 >
                   {translate('screens.smokeRecording.confirmCTA')}
-                </Button>
+                  </Button>
               </View>
             </Row>
           </SafeAreaView>

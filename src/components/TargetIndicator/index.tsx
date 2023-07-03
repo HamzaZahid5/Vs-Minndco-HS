@@ -55,30 +55,7 @@ const TargetIndicator = (props: ViewProps & { show?: boolean; round?: boolean })
               },
             ]}
           />
-          <Animated.View
-            style={[
-              props.round && {
-                width: 60,
-                height: 60,
-              },
-              !props.round && {
-                width: '111%',
-                height: '126%',
-              },
-              {
-                borderWidth: 5,
-                zIndex: -1,
-                // borderColor: theme.colors.warning.light,
-                borderColor: theme.colors.primaryPalette[400],
-                borderRadius: props.round ? 50 : 20,
-                position: 'absolute',
-                opacity: fadeAnim.interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0.5, 0, 0.5],
-                }),
-              },
-            ]}
-          />
+          
         </>
       )}
     </View>

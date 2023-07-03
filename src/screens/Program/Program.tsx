@@ -6,7 +6,8 @@ import {
   Text as NativeText,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  useWindowDimensions,
+  useWindowDimensions, 
+  Button
 } from 'react-native'
 import {
   Row,
@@ -19,13 +20,17 @@ import {
   Icon,
   Tabs,
   ActionButton,
+  Subheading
 } from '@mindcoxr/rob'
-import { ProgramActivity, ProgramActivityType } from '../../../types'
+import { ProgramActivity, ProgramActivityType, RootStackParamList } from '../../../types'
 import { homeBGColors } from '../../utils/config'
 import { translate } from '../../utils/localization'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { tabHeight } from '../TabsNavigator'
 import { TouchableRipple } from 'react-native-paper'
+import { StackNavigationProp } from '@react-navigation/stack'
+
+
 
 const programActivityToIcon = (actType: ProgramActivityType): IconNamesTypes => {
   switch (actType) {
@@ -100,9 +105,10 @@ type ScreenProps = {
   onPressActivity: (id: string) => void
   heroCenterComponent: ReactComponentElement<any>
   heroBottomActions: HeroIconType[]
+  navigation: StackNavigationProp<RootStackParamList, 'Program'>
 }
 
-const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent, heroBottomActions }: ScreenProps) => {
+const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent, heroBottomActions, navigation }: ScreenProps) => {
   const windowsDimension = useWindowDimensions()
   const theme = useRobTheme()
   const scrollViewRef = useRef<ScrollView>(null)
@@ -126,7 +132,22 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
       setInternalScrollEnabled(false)
     }
   }
-
+  
+  const PopupContent = ({ close }: { close: () => Promise<void> }) => (
+    <>
+      <Row gutter={10}>
+        <Subheading>
+          {'sarasa'}
+        </Subheading>
+      </Row>
+      <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+        <Paragraph size="xsmall" weight="normal" textAlign="center">
+          {'BLA BLA BLA BLA BLA BLA BLA BLA BLA'}
+        </Paragraph>
+      </Row>
+    </>
+  );
+  
   return (
     <ScrollView
       onScroll={internalScrollHandler}
@@ -236,7 +257,11 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab1.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
+                  onPress={act.done ? () => onPressActivity(act.activity.id) : () => {
+                    navigation.navigate('BasicModal', {
+                      content: PopupContent,
+                    })
+                  }}
                   actions={[
                     <ActionButton
                       key={'tab1_type' + act.activity.id}

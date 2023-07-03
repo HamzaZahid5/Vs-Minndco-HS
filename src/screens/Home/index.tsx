@@ -152,12 +152,12 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
       <Row grow margin={0}>
         {/* {showBasicTutorial && <TutorialCarousel />} */}
         {/* {!showBasicTutorial && ( */}
-        <Carousel
+        {/* <Carousel
           // currentSlide={currentSlide}
           dotConfig={{
             justify: 'flex-end',
           }}
-        >
+        > */}
           <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             {!nextActivity && <ActivitySlide />}
             {nextActivity && !isLastActivityDone && !withoutActKey && (
@@ -299,7 +299,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
               </View>
             )} */}
 
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+          {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
               <Icon name="Paste" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>
@@ -321,9 +321,9 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                 </Row>
               </>
             </TouchableRipple>
-          </View>
+          </View> */}
 
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+          {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
               <Icon name="Plus" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>
@@ -345,9 +345,9 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                 </Row>
               </>
             </TouchableRipple>
-          </View>
+          </View> */}
 
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+          {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
               <Icon name="Help" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>
@@ -367,8 +367,8 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
                 </Row>
               </>
             </TouchableRipple>
-          </View>
-        </Carousel>
+          </View> */}
+        {/* </Carousel> */}
         {/* )} */}
       </Row>
     </TabbedScreen>

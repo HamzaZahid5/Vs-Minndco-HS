@@ -36,7 +36,7 @@ export type VRActivityScreenProps = {
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
-      <Subheading>{translate('screens.Activity.tipsTitle')}</Subheading>
+      <Subheading>{}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="small" weight="normal" textAlign="left">
