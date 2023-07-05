@@ -76,3 +76,6 @@ export const APP_VERSION = (store: RootState) => store?.user.data.app_version
 export const SHOW_NEED_UPDATE_APP = (store: RootState) => store?.user.data.showNeedUpdateApp
 export const IS_VALID_PHONE = (store: RootState) => store?.user?.data?.isValidPhone
 export const SHOW_IS_VALID_PHONE = (store: RootState) => store?.user?.data?.flags?.show_is_valid_phone
+
+// SMOKES LOCAL
+export const SMOKES_LOCAL = (store: RootState) => store?.smokeRecord

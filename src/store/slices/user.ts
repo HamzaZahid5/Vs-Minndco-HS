@@ -313,6 +313,16 @@ const user = createSlice({
         },
       }
     },
+    setModuleAndLavel: (state, action) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          treatment_module: action.payload.module,
+          treatment_level: action.payload.level
+        }
+      }
+    },
     logout: (state, action) => {
       return {
         ...state,

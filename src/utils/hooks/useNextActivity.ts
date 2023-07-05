@@ -18,7 +18,9 @@ export default (fixedActivityId?: string) => {
   const program = useProgram()
   const includeVR = useSelector(HAS_VIEWER)
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
+  // console.log({ mId, lId })
   const state = useSelector(STATE)
+  // console.log({state})
 
   useEffect(() => {
     if (program && progress) {
@@ -27,7 +29,7 @@ export default (fixedActivityId?: string) => {
       //   state === 'ABSTINENCE' ? !progress.includes(aKey) : !progress.includes(aKey) && aKey.includes(`M${mId}`),
       // )
       const firstNonCompletedIndex = allActivityKeys.findIndex(aKey => {
-        if (state === 'ABSTINENCE' || mId === 3) {
+        if (state === 'ABSTINENCE' /*  || mId === 3 */) {
           return !progress.includes(aKey) && aKey.includes('M3')
         } else {
           return !progress.includes(aKey) && !aKey.includes('M3')
@@ -62,6 +64,7 @@ export default (fixedActivityId?: string) => {
       }
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId, state])
+
   return {
     nextActivity: nextActivityInState,
     nextActivityKey,

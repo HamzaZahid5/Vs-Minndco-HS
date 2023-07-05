@@ -9,7 +9,7 @@ import WeekDaysBar from './WeekDaysBar'
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { fillWeek, EmptyRecordsType } from './helpers'
-import { PROGRESS, QUIT_DAY, SMOKE_RECORD, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
+import { PROGRESS, QUIT_DAY, SMOKES_LOCAL, SMOKE_RECORD, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
 import { translate, getDayRefFormat, getLocale } from '../../utils/localization'
 import { saveSmokeJurnal } from '../../services/Functions'
 import { SmokeRecordsState } from '../../store/slices/smokeRecord'
@@ -23,12 +23,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
-  const [loading, setLoading] = useState<boolean>(false)
+
   // REDUX
-  const smokeRecords = useSelector(SMOKE_RECORD)
+  // const smokeRecords = useSelector(SMOKE_RECORD)
   const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
   const actualQuitDay = useSelector(QUIT_DAY)
   const progress = useSelector(PROGRESS)
+  const smokesLocal = useSelector(SMOKES_LOCAL)
   const dispatch = useDispatch()
 
   // HELPERS
@@ -49,62 +50,64 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const isAbstinence = treatment_module === 3
   const sevenDaysAgo = moment().subtract(7, 'd')
   const daysSmokedMoreThan1ThisWeek = reduce(
-    filter(smokeRecords, (_, date) => moment(date) > sevenDaysAgo),
+    filter(smokesLocal, (_, date) => moment(date) > sevenDaysAgo),
     (r, i) => r + (i > 1 ? 1 : 0),
     0,
   )
 
   // LISTENER
   const saveJournal = async () => {
-    await saveSmokeJurnal(
-      // builds a SmokeRecordsState object
-      Object.keys(agendaItems).reduce(
-        (res: SmokeRecordsState, k: string) => ({
-          ...res,
-          [k]: agendaItems[k].count,
-        }),
-        {},
-      ),
+    const smokesUpdate: SmokeRecordsState = Object.keys(agendaItems).reduce(
+      (res: SmokeRecordsState, k: string) => ({
+        ...res,
+        [k]: agendaItems[k].count,
+      }),
+      {},
     )
+    const yesterday = moment().add(1, 'day').format('YYYY-MM-DD')
+    delete smokesUpdate[yesterday]
+
+    // builds a SmokeRecordsState object
+    dispatch({
+      type: 'smoke_record/setSmokesByDay',
+      payload: {
+        smokes_by_day: smokesUpdate,
+      },
+    })
+    await saveSmokeJurnal(smokesUpdate)
     if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1) {
       navigation.navigate('BasicModal', { content: MakePopupContent(progress, moment(actualQuitDay)) })
     }
   }
 
   const closePanel = async () => {
-    setShow(false)
     saveJournal()
+    setShow(false)
   }
 
   // BOOT UP CALENDAR
   useEffect(() => {
-    setLoading(true)
-    const agenda = fillWeek(smokeRecords)
+    const agenda = fillWeek(smokesLocal)
     setAgendaItems(agenda)
-    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [smokeRecords])
+  }, [smokesLocal])
 
   // BOOT UP PANEL STATE
   useEffect(() => {
     const unsubsFocus = navigation.addListener('focus', () => {
       // delay for make the auto-open to work
       setTimeout(() => {
-        setLoading(true)
         setShow(true)
         // @todo trigger this conditionally only if it's needed
         dispatch({ type: 'flags/showJournalHelper', payload: false })
-        setLoading(false)
       }, 100)
     })
     const unsubsBlur = navigation.addListener('blur', () => {
       // saveJournal()
     })
     return () => {
-      setLoading(true)
       unsubsFocus()
       unsubsBlur()
-      setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [agendaItems, dispatch])
@@ -156,9 +159,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     }
     return PopupContent
   }
-  if (loading) {
-    return <></>
-  }
+
   return (
     <>
       {/* container to hide panel on web */}

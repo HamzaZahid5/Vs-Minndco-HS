@@ -43,9 +43,6 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
   const [treatment_module, treatment_level] = useSelector(TREATMENT_MODULE_AND_LEVEL)
   const congratulatedOnQuitDate = useSelector(CONGRATULATED_ON_QUIT_DATE)
   const progress = useSelector(PROGRESS)
-  // let congrats = moment().diff(moment(actualQuitDay)) > 0
-  //   && !congratulatedOnQuitDate
-  //   && treatment_module === 3
   const congrats =
     moment().format('YYYY-MM-DD') >= moment(actualQuitDay).format('YYYY-MM-DD') &&
     moment().diff(moment(actualQuitDay).format('YYYY-MM-DD')) &&
@@ -62,7 +59,7 @@ const useCongratsQuitDayPopup = (navigation: StackNavigationProp<RootStackParamL
         })
       }, 100)
     }
-  }, [navigation, dispatch, actualQuitDay, congratulatedOnQuitDate, treatment_module])
+  }, [navigation, dispatch, actualQuitDay, congratulatedOnQuitDate, treatment_module, congrats])
 }
 
 export default useCongratsQuitDayPopup

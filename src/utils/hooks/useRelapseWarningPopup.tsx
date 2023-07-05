@@ -35,7 +35,16 @@ const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
             compact
             onPress={async () => {
               const [highestModule, highestLevelOnModule] = calculateProgressForQuitDayRevert(progress)
-              revertQuitDay(actualQuitDay, highestModule, highestLevelOnModule)
+              console.log([highestModule, highestLevelOnModule])
+              await revertQuitDay(actualQuitDay, highestModule, highestLevelOnModule)
+              dispatch({ type: 'user/setState', payload: 'RELAPSE' })
+              dispatch({
+                type: 'user/setModuleAndLavel',
+                payload: {
+                  module: highestModule,
+                  level: highestLevelOnModule,
+                },
+              })
               dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
               await close()
             }}
@@ -68,17 +77,9 @@ const useRelapseWarningPopup = (navigation: StackNavigationProp<RootStackParamLi
   const actualQuitDay = moment(useSelector(QUIT_DAY))
   const progress = useSelector(PROGRESS)
 
-  // LETS CALCULATE IF USER CAN BE IN RELAPSE BASED ON JOURNAL INPUT.
-  // MORE THAN 1 DAY SMOKING MORE THAN 1 CIGARETTE IN THE LAST WEEK WHILE IS IN ABSTINENCE
   const isAbstinence = treatment_module === 3
-  // console.log({ isAbstinence })
-  // console.log({ treatment_module })
-  // console.log({ treatment_level })
-
-  // @TODO: falta actualizar el momento en el que el usuario carga un nuevo record
 
   const sevenDaysAgo = moment().subtract(7, 'd')
-  // days count with more than 1 cig this week
   const daysSmokedMoreThan1ThisWeek = reduce(
     filter(smoke_record, (_, date) => moment(date) > sevenDaysAgo),
     (r, i) => r + (i > 1 ? 1 : 0),

@@ -40,8 +40,6 @@ import OfflineNotice from './src/components/OfflineNotice'
 
 Sentry.init({
   dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
-  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  // We recommend adjusting this value in production.
   tracesSampleRate: 1.0,
   enableNative: false,
 })
@@ -118,6 +116,9 @@ function App() {
     }
     if (userData?.on_boarding_completed) {
       store.dispatch({ type: 'user/setOnBoardingComplete', payload: userData?.on_boarding_completed })
+    }
+    if (userData?.statistics) {
+      store.dispatch({ type: 'smoke_record/setSmokesByDay', payload: userData?.statistics })
     }
   }, [userData])
 

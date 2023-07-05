@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { TREATMENT_MODULE_AND_LEVEL, SMOKE_RECORD, QUIT_DAY } from '../../store/selectors'
+import { TREATMENT_MODULE_AND_LEVEL, SMOKE_RECORD, QUIT_DAY, SMOKES_LOCAL } from '../../store/selectors'
 import { translate } from '../../utils/localization'
 import BigCounter from './BigCounter'
 import { listOfLastXDays } from '../../utils/helpers'
@@ -9,7 +9,8 @@ import SmokeFreeCounter from './SmokeFreeCounter'
 const HeroMainContent = () => {
   // REDUX
   const [module] = useSelector(TREATMENT_MODULE_AND_LEVEL)
-  const smokeRecord = useSelector(SMOKE_RECORD)
+  // const smokeRecord = useSelector(SMOKE_RECORD)
+  const smokeRecord = useSelector(SMOKES_LOCAL)
 
   // HELPERS
   const isSmokeFree = module > 2
