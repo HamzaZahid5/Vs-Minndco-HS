@@ -18,9 +18,7 @@ export default (fixedActivityId?: string) => {
   const program = useProgram()
   const includeVR = useSelector(HAS_VIEWER)
   const [mId, lId] = useSelector(TREATMENT_MODULE_AND_LEVEL)
-  // console.log({ mId, lId })
   const state = useSelector(STATE)
-  // console.log({state})
 
   useEffect(() => {
     if (program && progress) {
