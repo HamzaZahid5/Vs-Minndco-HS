@@ -23,7 +23,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
-  console.log({agendaItems})
+  console.log({ agendaItems })
 
   // REDUX
   // const smokeRecords = useSelector(SMOKE_RECORD)
@@ -58,13 +58,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
 
   // LISTENER
   const saveJournal = async () => {
-    const smokesUpdate: SmokeRecordsState = Object.keys(agendaItems).reduce(
-      (res: SmokeRecordsState, k: string) => ({
-        ...res,
-        [k]: agendaItems[k].count,
-      }),
-      {},
-    )
+    const smokesUpdate: SmokeRecordsState = Object.keys(agendaItems).reduce((res: SmokeRecordsState, k: string) => {
+      if (agendaItems[k].count >= 0) {
+        return { ...res, [k]: agendaItems[k].count }
+      } else {
+        return { ...res }
+      }
+    }, {})
     const tomorrow = moment().add(1, 'day').format('YYYY-MM-DD')
     delete smokesUpdate[tomorrow]
 
