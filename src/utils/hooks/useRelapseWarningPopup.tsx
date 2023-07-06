@@ -88,9 +88,9 @@ const useRelapseWarningPopup = (navigation: StackNavigationProp<RootStackParamLi
   )
 
   useEffect(() => {
-    // console.log({ isAbstinence })
-    // console.log({ daysSmokedMoreThan1ThisWeek })
-    // console.log({ showRelapseWarningPopup })
+    console.log({ isAbstinence })
+    console.log({ daysSmokedMoreThan1ThisWeek })
+    console.log({ showRelapseWarningPopup })
     if (isAbstinence && daysSmokedMoreThan1ThisWeek > 1 && showRelapseWarningPopup) {
       // condition to display relapse warning
       dispatch({ type: 'user/setShowRelapseWarinigPopup', payload: false })
