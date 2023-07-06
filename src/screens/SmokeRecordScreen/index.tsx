@@ -23,6 +23,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
+  console.log({agendaItems})
 
   // REDUX
   // const smokeRecords = useSelector(SMOKE_RECORD)
@@ -64,8 +65,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       }),
       {},
     )
-    const yesterday = moment().add(1, 'day').format('YYYY-MM-DD')
-    delete smokesUpdate[yesterday]
+    const tomorrow = moment().add(1, 'day').format('YYYY-MM-DD')
+    delete smokesUpdate[tomorrow]
 
     // builds a SmokeRecordsState object
     dispatch({
