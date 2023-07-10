@@ -259,7 +259,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                       color: 'white',
                       fontSize: 20,
                     }}
-                    >No Smoke Today!</Text>
+                    >{translate('screens.smokeRecording.smokeFree', {defaultValue:'Smoke Free Today!'})}</Text>
                     
                   </TouchableOpacity>
                 </View>

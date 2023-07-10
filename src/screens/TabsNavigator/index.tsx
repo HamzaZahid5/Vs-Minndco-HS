@@ -11,6 +11,7 @@ import ProgramScreen from '../Program'
 import SupportScreen from '../Support'
 import LifesaverScreen from '../Lifesaver'
 import TargetIndicator from '../../components/TargetIndicator'
+import { translate } from '../../utils/localization'
 
 export type TabsParamList = {
   Home: undefined
@@ -93,7 +94,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
                 style={{width: 28, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,marginBottom:3}}
                
               />
-              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize:12}}> Training </Text>
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize:12}}>{translate('commons.buttons.training', {defaultValue:'Training'})}</Text>
             </View>
             
           ),
@@ -113,7 +114,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
                 style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
                
               />
-              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>Dashboard</Text>
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>{translate('commons.buttons.dashboard', {defaultValue:'Dashboard'})}</Text>
             </View>
           ),
         }}
@@ -131,7 +132,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
                 style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
                
               />
-                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>Intake</Text>
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>{translate('commons.buttons.intake', {defaultValue:'Intake'})}</Text>
               </TargetIndicator>
             </View>
           ),
@@ -160,7 +161,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
                 style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
                
               />
-                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>Coach</Text>
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>{translate('commons.buttons.coach', {defaultValue:'Coach'})}</Text>
               </TargetIndicator>
             </View>
           ),
@@ -181,7 +182,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
                 style={{width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom:3}}
                
               />
-                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>SOS</Text>
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray',fontSize:12}}>{translate('commons.buttons.sos', {defaultValue:'SOS'})}</Text>
               </TargetIndicator>
             </View>
           ),
