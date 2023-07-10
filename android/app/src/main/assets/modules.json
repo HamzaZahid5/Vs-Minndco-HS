@@ -121,6 +121,7 @@
   "toposort": "2.0.2",
   "react-native-reanimated": "2.2.4",
   "react-content-loader": "6.2.0",
+  "axios": "0.24.0",
   "lodash.template": "4.5.0",
   "lodash._reinterpolate": "3.0.0",
   "lodash.templatesettings": "4.2.0",

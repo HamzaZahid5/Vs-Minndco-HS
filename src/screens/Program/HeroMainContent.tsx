@@ -24,8 +24,6 @@ const HeroMainContent = () => {
     return count
   }, 0)
 
-  console.log({smokeRecord})
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
