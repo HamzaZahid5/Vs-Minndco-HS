@@ -6,8 +6,8 @@ import {
   Text as NativeText,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  useWindowDimensions, 
-  Button
+  useWindowDimensions,
+  Button,
 } from 'react-native'
 import {
   Row,
@@ -20,7 +20,7 @@ import {
   Icon,
   Tabs,
   ActionButton,
-  Subheading
+  Subheading,
 } from '@mindcoxr/rob'
 import { ProgramActivity, ProgramActivityType, RootStackParamList } from '../../../types'
 import { homeBGColors } from '../../utils/config'
@@ -30,7 +30,6 @@ import { tabHeight } from '../TabsNavigator'
 import { TouchableRipple } from 'react-native-paper'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { useNavigation } from '@react-navigation/native'
-
 
 const programActivityToIcon = (actType: ProgramActivityType): IconNamesTypes => {
   switch (actType) {
@@ -105,7 +104,6 @@ type ScreenProps = {
   onPressActivity: (id: string) => void
   heroCenterComponent: ReactComponentElement<any>
   heroBottomActions: HeroIconType[]
-  navigation: StackNavigationProp<RootStackParamList, 'Program'>
 }
 
 const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent, heroBottomActions }: ScreenProps) => {
@@ -132,27 +130,29 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
       setInternalScrollEnabled(false)
     }
   }
-  
+
   const PopupContent = () => (
     <>
-      <Row gutter={10} >
-        <Subheading>
-          {'Woops!'}
-        </Subheading>
+      <Row gutter={10}>
+        <Subheading>{translate('screens.Program.woops', { defaultValue: 'Woops!' })}</Subheading>
       </Row>
       <Row grow justifyContentOnGrow="flex-start" gutter={10}>
         <Paragraph size="medium" weight="normal" textAlign="center">
-          {'To unlock content in your library, complete todays training activity.'}
+          {translate('screens.Program.unlockContent', {
+            defaultValue: 'To unlock content in your library, complete todays training activity.',
+          })}
         </Paragraph>
       </Row>
       <Row grow justifyContentOnGrow="flex-start" gutter={10}>
         <Paragraph size="xsmall" weight="normal" textAlign="center">
-          {'To access todays activity, tap the activity icon.'}
+          {translate('screens.Program.todaysActivity', {
+            defaultValue: 'To access todays activity, tap the activity icon.',
+          })}
         </Paragraph>
       </Row>
     </>
-  );
-  
+  )
+
   return (
     <ScrollView
       onScroll={internalScrollHandler}
@@ -262,11 +262,15 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab1.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done ? () => onPressActivity(act.activity.id) : () => {
-                    navigation.navigate('BasicModal', {
-                      content: PopupContent,
-                    })
-                  }}
+                  onPress={
+                    act.done
+                      ? () => onPressActivity(act.activity.id)
+                      : () => {
+                          navigation.navigate('BasicModal', {
+                            content: PopupContent,
+                          })
+                        }
+                  }
                   actions={[
                     <ActionButton
                       key={'tab1_type' + act.activity.id}
@@ -303,11 +307,15 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab2.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done ? () => onPressActivity(act.activity.id) :  () => {
-                    navigation.navigate('BasicModal', {
-                      content: PopupContent,
-                    })
-                  }}
+                  onPress={
+                    act.done
+                      ? () => onPressActivity(act.activity.id)
+                      : () => {
+                          navigation.navigate('BasicModal', {
+                            content: PopupContent,
+                          })
+                        }
+                  }
                   actions={[
                     <ActionButton
                       key={'tab2_type' + act.activity.id}
@@ -344,11 +352,15 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab3.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done ? () => onPressActivity(act.activity.id) :  () => {
-                    navigation.navigate('BasicModal', {
-                      content: PopupContent,
-                    })
-                  }}
+                  onPress={
+                    act.done
+                      ? () => onPressActivity(act.activity.id)
+                      : () => {
+                          navigation.navigate('BasicModal', {
+                            content: PopupContent,
+                          })
+                        }
+                  }
                   actions={[
                     <ActionButton
                       key={'tab3_type' + act.activity.id}

@@ -17,8 +17,6 @@ import { filter, reduce } from 'lodash'
 import { revertQuitDay } from '../../services/Firestore'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
 
-
-
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
   const [show, setShow] = useState(false)
@@ -240,38 +238,41 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 </TouchableRipple>
               </View>
             </Row>
-            <Row gutter={20} grow justifyContentOnGrow="flex-end" >
-              <View style={{ marginHorizontal: 10, }}>
-                <View style={{marginBottom: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Row gutter={20} grow justifyContentOnGrow="flex-end">
+              <View style={{ marginHorizontal: 10 }}>
+                <View
+                  style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                >
                   <TouchableOpacity
-                  onPress={async () => {setIntakeSecureWrapper(0)}}
-                  style={{backgroundColor: '#00BFFF',
-                          padding: 10,
-                          borderRadius: 32,
-                          alignItems: 'center',
-                          width: 200,
-
-                          
-                }}>
-                  
-                    <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 20,
+                    onPress={async () => {
+                      setIntakeSecureWrapper(0)
                     }}
-                    >{translate('screens.smokeRecording.smokeFree', {defaultValue:'Smoke Free Today!'})}</Text>
-                    
+                    style={{
+                      backgroundColor: '#00BFFF',
+                      padding: 10,
+                      borderRadius: 32,
+                      alignItems: 'center',
+                      width: 200,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontSize: 20,
+                      }}
+                    >
+                      {translate('screens.smokeRecording.smokeFree', { defaultValue: 'Smoke Free Today!' })}
+                    </Text>
                   </TouchableOpacity>
                 </View>
-                  <Button
+                <Button
                   round
                   onPress={async () => {
                     await closePanel()
                   }}
-                  
                 >
                   {translate('screens.smokeRecording.confirmCTA')}
-                  </Button>
+                </Button>
               </View>
             </Row>
           </SafeAreaView>
