@@ -89,7 +89,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   //     }
   //   }
   // }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
-
+  
   const [showChangeQuitDayIfSmoked, setShowChangeQuitDayIfSmoked] = useState(true)
   const { nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek } = useDate()
   useEffect(() => {

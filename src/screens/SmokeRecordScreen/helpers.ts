@@ -26,7 +26,7 @@ export const fillWeek = (records: SmokeRecordsState) => {
   const m = moment()
   const emptyWeekRecords = generateEmptyWeekRecords(moment(m)) // create new date since moment().add method is not pure
   const normalizedRecords = Object.keys(records).reduce((res: EmptyRecordsType, key: string) => {
-    if (moment().diff(moment(key), 'd') < 6) {
+    if (moment().diff(moment(key), 'd') < 7) {
       res[key] = { count: records[key], id: key }
     }
     return res

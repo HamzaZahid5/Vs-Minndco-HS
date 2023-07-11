@@ -29,7 +29,7 @@ import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
 import { tabHeight } from '../TabsNavigator'
 import { TouchableRipple } from 'react-native-paper'
 import { StackNavigationProp } from '@react-navigation/stack'
-
+import { useNavigation } from '@react-navigation/native'
 
 
 const programActivityToIcon = (actType: ProgramActivityType): IconNamesTypes => {
@@ -108,7 +108,7 @@ type ScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Program'>
 }
 
-const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent, heroBottomActions, navigation }: ScreenProps) => {
+const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent, heroBottomActions }: ScreenProps) => {
   const windowsDimension = useWindowDimensions()
   const theme = useRobTheme()
   const scrollViewRef = useRef<ScrollView>(null)
@@ -116,7 +116,7 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
   const heroHeight = 450
   const internalHandlerMargin = 50
   const [tabsHeaderSize, setTabsHeaderSize] = useState(0)
-
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const internalScrollHandler = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (e.nativeEvent.contentOffset.y >= internalHandlerMargin) {
       setInternalScrollEnabled(true)
@@ -133,16 +133,21 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
     }
   }
   
-  const PopupContent = ({ close }: { close: () => Promise<void> }) => (
+  const PopupContent = () => (
     <>
-      <Row gutter={10}>
+      <Row gutter={10} >
         <Subheading>
-          {'sarasa'}
+          {'Woops!'}
         </Subheading>
       </Row>
       <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+        <Paragraph size="medium" weight="normal" textAlign="center">
+          {'To unlock content in your library, complete todays training activity.'}
+        </Paragraph>
+      </Row>
+      <Row grow justifyContentOnGrow="flex-start" gutter={10}>
         <Paragraph size="xsmall" weight="normal" textAlign="center">
-          {'BLA BLA BLA BLA BLA BLA BLA BLA BLA'}
+          {'To access todays activity, tap the activity icon.'}
         </Paragraph>
       </Row>
     </>
@@ -298,7 +303,11 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab2.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
+                  onPress={act.done ? () => onPressActivity(act.activity.id) :  () => {
+                    navigation.navigate('BasicModal', {
+                      content: PopupContent,
+                    })
+                  }}
                   actions={[
                     <ActionButton
                       key={'tab2_type' + act.activity.id}
@@ -335,7 +344,11 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab3.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done ? () => onPressActivity(act.activity.id) : undefined}
+                  onPress={act.done ? () => onPressActivity(act.activity.id) :  () => {
+                    navigation.navigate('BasicModal', {
+                      content: PopupContent,
+                    })
+                  }}
                   actions={[
                     <ActionButton
                       key={'tab3_type' + act.activity.id}

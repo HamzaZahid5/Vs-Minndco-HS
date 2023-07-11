@@ -23,9 +23,16 @@ export default (fixedActivityId?: string) => {
   useEffect(() => {
     if (program && progress) {
       const allActivityKeys = getAllActivitiesKey(program, includeVR)
-      const firstNonCompletedIndex = allActivityKeys.findIndex(aKey =>
-        state === 'ABSTINENCE' ? !progress.includes(aKey) : !progress.includes(aKey) && aKey.includes(`M${mId}`),
-      )
+      // const firstNonCompletedIndex = allActivityKeys.findIndex(aKey =>
+      //   state === 'ABSTINENCE' ? !progress.includes(aKey) : !progress.includes(aKey) && aKey.includes(`M${mId}`),
+      // )
+      const firstNonCompletedIndex = allActivityKeys.findIndex(aKey => {
+        if (state === 'ABSTINENCE' /*  || mId === 3 */) {
+          return !progress.includes(aKey) && aKey.includes('M3')
+        } else {
+          return !progress.includes(aKey) && !aKey.includes('M3')
+        }
+      })
       firstNonCompletedIndex === -1 ? setNoFirstNonCompletedIndex(true) : setNoFirstNonCompletedIndex(false)
       // when we got a fixed activity id it doesn't matter if the activity is repeated into another
       // module or level. The first match we find into the array of activity key is enough to let the
@@ -55,6 +62,7 @@ export default (fixedActivityId?: string) => {
       }
     }
   }, [program, progress, includeVR, mId, lId, fixedActivityId, state])
+
   return {
     nextActivity: nextActivityInState,
     nextActivityKey,
