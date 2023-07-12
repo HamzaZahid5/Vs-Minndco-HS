@@ -91,10 +91,10 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
             <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <Image
                 source={require('../../../assets/images/trainingIcon.png')}
-                style={{ width: 28, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom: 3 }}
+                style={{ width: 30, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line , marginBottom: 3}}
 
               />
-              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center', marginBottom: 3 }}>{translate('commons.buttons.training', { defaultValue: 'Training' })}</Text>
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center' }}>{translate('commons.buttons.training', { defaultValue: 'Training' })}</Text>
             </View>
 
           ),
