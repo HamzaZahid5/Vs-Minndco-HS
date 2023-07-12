@@ -271,16 +271,11 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                       width: 200,
                     }}
                   >
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: 18,
-                        fontFamily:'arial',
-                        fontWeight: 'bold',
-                      }}
-                    >
+                    <Paragraph textAlign="left" size="medium" weight="bold">
+                      <Text style={{ color: '#ffffff' }}>
                       {translate('screens.smokeRecording.smokeFree', { defaultValue: `Didn't smoke today` })}
-                    </Text>
+                      </Text>
+                    </Paragraph>
                   </TouchableOpacity>
                 </View>
                 <Button
