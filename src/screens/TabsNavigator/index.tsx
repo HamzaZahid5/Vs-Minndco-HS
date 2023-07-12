@@ -88,22 +88,15 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color, size, focused }) => (
-            <View
-              style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}
-            >
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <Image
                 source={require('../../../assets/images/trainingIcon.png')}
-                style={{
-                  width: 28,
-                  height: 22,
-                  tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,
-                  marginBottom: 3,
-                }}
+                style={{ width: 28, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom: 3 }}
+
               />
-              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize: 12 }}>
-                {translate('commons.buttons.training', { defaultValue: 'Training' })}
-              </Text>
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center', marginBottom: 3 }}>{translate('commons.buttons.training', { defaultValue: 'Training' })}</Text>
             </View>
+
           ),
         }}
       />
@@ -115,21 +108,13 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           unmountOnBlur: true,
           lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <View
-              style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}
-            >
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <Image
                 source={require('../../../assets/images/dashboardIcon.png')}
-                style={{
-                  width: 22,
-                  height: 22,
-                  tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,
-                  marginBottom: 3,
-                }}
+                style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom: 3 }}
+
               />
-              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize: 12 }}>
-                {translate('commons.buttons.dashboard', { defaultValue: 'Dashboard' })}
-              </Text>
+              <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center' }}>{translate('commons.buttons.dashboard', { defaultValue: 'Dashboard' })}</Text>
             </View>
           ),
         }}
@@ -140,22 +125,14 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <View
-              style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}
-            >
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <TargetIndicator round show={showJournalCTAHelper && screenFocused === 'Home'}>
                 <Image
                   source={require('../../../assets/images/intakeIcon.png')}
-                  style={{
-                    width: 22,
-                    height: 22,
-                    tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,
-                    marginBottom: 3,
-                  }}
+                  style={{ width: 25, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom: 3 }}
+
                 />
-                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize: 12 }}>
-                  {translate('commons.buttons.intake', { defaultValue: 'Intake' })}
-                </Text>
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center' }}>{translate('commons.buttons.intake', { defaultValue: 'Intake' })}</Text>
               </TargetIndicator>
             </View>
           ),
@@ -177,22 +154,14 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           unmountOnBlur: true,
           lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <View
-              style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}
-            >
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <TargetIndicator round show={showChatCTAHelper && screenFocused === 'Home'}>
                 <Image
                   source={require('../../../assets/images/coachIcon.png')}
-                  style={{
-                    width: 22,
-                    height: 22,
-                    tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,
-                    marginBottom: 3,
-                  }}
+                  style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom: 3 }}
+
                 />
-                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize: 12 }}>
-                  {translate('commons.buttons.coach', { defaultValue: 'Coach' })}
-                </Text>
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center' }}>{translate('commons.buttons.coach', { defaultValue: 'Coach' })}</Text>
               </TargetIndicator>
             </View>
           ),
@@ -206,22 +175,14 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ size, focused }) => (
-            <View
-              style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}
-            >
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center' }}>
               <TargetIndicator round show={showLifeSaverCTAHelper && screenFocused === 'Home'}>
                 <Image
                   source={require('../../../assets/images/sosIcon.png')}
-                  style={{
-                    width: 22,
-                    height: 22,
-                    tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line,
-                    marginBottom: 3,
-                  }}
+                  style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, marginBottom: 3 }}
+
                 />
-                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : 'gray', fontSize: 12 }}>
-                  {translate('commons.buttons.sos', { defaultValue: 'SOS' })}
-                </Text>
+                <Text style={{ color: focused ? theme.colors.primaryPalette['500'] : theme.colors.monochrome.line, fontSize: 12, textAlign: 'center' }}>{translate('commons.buttons.sos', { defaultValue: 'SOS' })}</Text>
               </TargetIndicator>
             </View>
           ),

@@ -3,7 +3,7 @@ import { View, Text as NativeText, TouchableOpacity } from 'react-native'
 import { DrawerContentComponentProps, DrawerContentScrollView } from '@react-navigation/drawer'
 import { Button, Icon, Paragraph, Row, Subheading, useRobTheme, ButtonSubVariant } from '@mindcoxr/rob'
 import { IconNamesTypes } from '@mindcoxr/rob/dist/typescript/components/Icon'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
@@ -48,6 +48,7 @@ const CustomDrawerItem = ({ name, icon, onPress, testID, color }: CustomDrawerIt
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { navigation } = props
   const StackNavigation = useNavigation<StackNavigationProp<RootStackParamList>>()
+  const dispatch = useDispatch()
 
   const theme = useRobTheme()
   const isPremium = useSelector(IS_PREMIUM)
@@ -129,6 +130,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                       await close()
                       await auth().signOut()
                       await AsyncStorage.removeItem('userToken')
+                      dispatch({type: "smokeRecord/clearSmokesByDay"})
                     }}
                     subVariant={ButtonSubVariant.danger}
                   >

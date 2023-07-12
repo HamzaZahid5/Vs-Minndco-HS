@@ -12,8 +12,8 @@ type APIType = {
   handleUserAnswer: (eventType: string, optionLabel: string, optionId: string) => void
   userMessage: (message: string) => void
   askForPlace: () => void
-  askForCompany: () => void
-  tellToPerformActivity: () => void
+  // askForCompany: () => void
+  // tellToPerformActivity: () => void
 }
 
 const getWelcomeMessage = () => ({
@@ -226,15 +226,15 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
           `${translate('screens.Lifesaver.userAnswerPlaceIAM')} ${connector} ${optionLabel.toLowerCase()}`,
         )
         tId.current = setTimeout(() => {
-          API.askForCompany()
+          dispatch(getActivityOptions())
         }, 1000)
       }
-      if (eventType === 'SET_USER_COMPANY') {
-        API.userMessage(`${translate('screens.Lifesaver.userAnswerCompanyIAM')} ${optionLabel.toLowerCase()}`)
-        tId.current = setTimeout(() => {
-          API.tellToPerformActivity()
-        }, 1000)
-      }
+      // if (eventType === 'SET_USER_COMPANY') {
+      //   API.userMessage(`${translate('screens.Lifesaver.userAnswerCompanyIAM')} ${optionLabel.toLowerCase()}`)
+      //   tId.current = setTimeout(() => {
+      //     API.tellToPerformActivity()
+      //   }, 1000)
+      // }
       if (eventType === 'CANCEL') {
         API.userMessage(translate('commons.general.no', { defaultValue: 'No' }))
         tId.current = setTimeout(() => {
@@ -243,11 +243,11 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
       }
     },
     askForPlace: () => dispatch(getPlaceQuestionMessage()),
-    askForCompany: () => dispatch(getCompanyQuestionMessage()),
-    tellToPerformActivity: () => {
-      dispatch({ type: 'SET_THINKING', payload: false })
-      dispatch(getActivityOptions())
-    },
+    // askForCompany: () => dispatch(getCompanyQuestionMessage()),
+    // tellToPerformActivity: () => {
+    //   dispatch({ type: 'SET_THINKING', payload: false })
+    //   dispatch(getActivityOptions())
+    // },
   }
   return API
 }

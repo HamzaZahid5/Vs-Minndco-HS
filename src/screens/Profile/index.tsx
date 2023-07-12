@@ -24,6 +24,7 @@ import moment from 'moment'
 import { template } from 'lodash'
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { assert } from '@hapi/joi'
+import { defineAnimation } from 'react-native-reanimated'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -111,19 +112,14 @@ const ProfileScreen = () => {
                   </Headline>
                 </Row>
                 <View style={{backgroundColor: theme.colors.primaryPalette['500']}}>
-                <Image
-                  source={require('../../../assets/images/bg_act_04.png')}
-                  style={{
-                    flex: 1,
-                    resizeMode: 'cover',
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%'}}
-                  />
-                <Row gutter={23} >
-                  <Paragraph textAlign="left" size="medium" weight="bold">
+                
+                <Row gutter={20} >
+                  <Paragraph textAlign="left" size="medium" weight="bold" >
                     <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
                   </Paragraph>
+                  <View style={{marginTop:5}} >
+                    <NativeText style={{ color: '#000000', marginTop:5, textAlign:"left", fontWeight:'bold', fontFamily:"arial" }}>{translate('screens.Profile.quitDate', {defaultValue:'Choose the date you want to become smoke-free'})}</NativeText>
+                  </View>
                   <View style={{backgroundColor:'#FCFCFC', borderRadius:50}} >
                   
                   <Button

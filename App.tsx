@@ -53,6 +53,7 @@ const CommonRoutes = getCommonRoutes(Stack)
 
 function App() {
   const { userToken, isLoading } = useAuth()
+  console.log({ uid: userToken?.uid })
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
@@ -299,7 +300,7 @@ function App() {
             >
               <Stack.Navigator
                 initialRouteName={userToken ? 'Home' : 'Landing'}
-                // initialRouteName="Main"
+              // initialRouteName="Main"
               >
                 {userToken ? (
                   <>
