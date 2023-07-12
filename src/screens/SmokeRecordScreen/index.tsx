@@ -56,14 +56,30 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   )
 
   // LISTENER
-  const saveJournal = async () => {
-    const smokesUpdate: SmokeRecordsState = Object.keys(agendaItems).reduce((res: SmokeRecordsState, k: string) => {
-      if (agendaItems[k].count >= 0) {
-        return { ...res, [k]: agendaItems[k].count }
-      } else {
-        return { ...res }
-      }
-    }, {})
+  const saveJournal = async (noSmokeToday?: boolean) => {
+    let smokesUpdate: SmokeRecordsState = {}
+    if (noSmokeToday) {
+      console.log('ingressa noSmokeToday')
+      smokesUpdate = Object.keys(agendaItems).reduce((res: SmokeRecordsState, k: string) => {
+        if (k === selectedDay) {
+          return { ...res, [k]: 0 }
+        } else if (agendaItems[k].count >= 0) {
+          return { ...res, [k]: agendaItems[k].count }
+        } else {
+          return { ...res }
+        }
+      }, {})
+      console.log({ smokesUpdate })
+    } else {
+      console.log('ingresa a caso contrario')
+      smokesUpdate = Object.keys(agendaItems).reduce((res: SmokeRecordsState, k: string) => {
+        if (agendaItems[k].count >= 0) {
+          return { ...res, [k]: agendaItems[k].count }
+        } else {
+          return { ...res }
+        }
+      }, {})
+    }
     const tomorrow = moment().add(1, 'day').format('YYYY-MM-DD')
     delete smokesUpdate[tomorrow]
 
@@ -80,8 +96,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     }
   }
 
-  const closePanel = async () => {
-    saveJournal()
+  const closePanel = async (noSmokeToday?: boolean) => {
+    saveJournal(noSmokeToday)
     setShow(false)
   }
 
@@ -245,7 +261,10 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 >
                   <TouchableOpacity
                     onPress={async () => {
-                      setIntakeSecureWrapper(0)
+                      setTimeout(async () => {
+                        // await setIntakeSecureWrapper(0)
+                        await closePanel(true)
+                      }, 100)
                     }}
                     style={{
                       backgroundColor: '#00BFFF',
@@ -268,7 +287,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 <Button
                   round
                   onPress={async () => {
-                    await closePanel()
+                    await closePanel(false)
                   }}
                 >
                   {translate('screens.smokeRecording.confirmCTA')}
