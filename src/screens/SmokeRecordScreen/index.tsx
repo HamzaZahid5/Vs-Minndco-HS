@@ -59,7 +59,6 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const saveJournal = async (noSmokeToday?: boolean) => {
     let smokesUpdate: SmokeRecordsState = {}
     if (noSmokeToday) {
-      console.log('ingressa noSmokeToday')
       smokesUpdate = Object.keys(agendaItems).reduce((res: SmokeRecordsState, k: string) => {
         if (k === selectedDay) {
           return { ...res, [k]: 0 }
@@ -69,9 +68,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
           return { ...res }
         }
       }, {})
-      console.log({ smokesUpdate })
     } else {
-      console.log('ingresa a caso contrario')
       smokesUpdate = Object.keys(agendaItems).reduce((res: SmokeRecordsState, k: string) => {
         if (agendaItems[k].count >= 0) {
           return { ...res, [k]: agendaItems[k].count }
