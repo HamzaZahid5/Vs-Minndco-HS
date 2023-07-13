@@ -129,6 +129,21 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const isYesterday = selectedDay === moment().subtract(1, 'd').format('YYYY-MM-DD')
   const currentCount = agendaItems[selectedDay]?.count
 
+  // const PopupContentWellDone = () => (
+  //   <>
+  //     <Row gutter={10}>
+  //       <Subheading>{translate('screens.', { defaultValue: 'Well done!' })}</Subheading>
+  //     </Row>
+  //     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+  //       <Paragraph size="medium" weight="normal" textAlign="center">
+  //         {translate('screens.', {
+  //           defaultValue: 'Keep training to get better results.',
+  //         })}
+  //       </Paragraph>
+  //     </Row>
+  //   </>
+  // )
+
   const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
     const PopupContent = ({ close }: { close: () => Promise<void> }) => {
       const dispatch = useDispatch()
@@ -258,10 +273,9 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 >
                   <TouchableOpacity
                     onPress={async () => {
-                      setTimeout(async () => {
                         // await setIntakeSecureWrapper(0)
                         await closePanel(true)
-                      }, 100)
+                      
                     }}
                     style={{
                       backgroundColor: '#00BFFF',

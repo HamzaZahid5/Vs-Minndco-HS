@@ -68,22 +68,22 @@ const getPlaceQuestionMessage = () => ({
     text: translate('screens.Lifesaver.coachMsgPlaceQuestion'),
     options: [
       {
-        action: 'SET_USER_PLACE',
+        action: 'GO_TO_ACTIVITY',
         id: LIFESAVER_PLACES.HOME,
         label: translate('screens.Lifesaver.optionsPlaceHome'),
       },
       {
-        action: 'SET_USER_PLACE',
+        action: 'GO_TO_ACTIVITY',
         id: LIFESAVER_PLACES.WORK,
         label: translate('screens.Lifesaver.optionsPlaceWork'),
       },
       {
-        action: 'SET_USER_PLACE',
+        action: 'GO_TO_ACTIVITY',
         id: LIFESAVER_PLACES.STREET,
         label: translate('screens.Lifesaver.optionsPlaceWalking'),
       },
       {
-        action: 'SET_USER_PLACE',
+        action: 'GO_TO_ACTIVITY',
         id: LIFESAVER_PLACES.OTHER,
         label: translate('screens.Lifesaver.optionsPlaceOther'),
       },
@@ -98,26 +98,26 @@ const getUserMessage = (message: string) => ({
     text: message,
   },
 })
-const getCompanyQuestionMessage = () => ({
-  type: 'PUSH_MESSAGE',
-  payload: {
-    id: '3ac69afc-c605-49d9-a4f9-fbd91aa97f63',
-    user: 'coach',
-    text: translate('screens.Lifesaver.coachMsgCompanyQuestion'),
-    options: [
-      {
-        action: 'SET_USER_COMPANY',
-        id: LIFESAVER_COMPANY.ALONE,
-        label: translate('screens.Lifesaver.optionsCompanyAlone'),
-      },
-      {
-        action: 'SET_USER_COMPANY',
-        id: LIFESAVER_COMPANY.SOMEONE,
-        label: translate('screens.Lifesaver.optionsCompanySomeone'),
-      },
-    ],
-  },
-})
+// const getCompanyQuestionMessage = () => ({
+//   type: 'PUSH_MESSAGE',
+//   payload: {
+//     id: '3ac69afc-c605-49d9-a4f9-fbd91aa97f63',
+//     user: 'coach',
+//     text: translate('screens.Lifesaver.coachMsgCompanyQuestion'),
+//     options: [
+//       {
+//         action: 'SET_USER_COMPANY',
+//         id: LIFESAVER_COMPANY.ALONE,
+//         label: translate('screens.Lifesaver.optionsCompanyAlone'),
+//       },
+//       {
+//         action: 'SET_USER_COMPANY',
+//         id: LIFESAVER_COMPANY.SOMEONE,
+//         label: translate('screens.Lifesaver.optionsCompanySomeone'),
+//       },
+//     ],
+//   },
+// })
 const getFindingActivityMessage = () => ({
   type: 'PUSH_MESSAGE',
   payload: {
