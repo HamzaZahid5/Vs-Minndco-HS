@@ -225,9 +225,9 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
         API.userMessage(
           `${translate('screens.Lifesaver.userAnswerPlaceIAM')} ${connector} ${optionLabel.toLowerCase()}`,
         )
-        tId.current = setTimeout(() => {
-          dispatch(getActivityOptions())
-        }, 1000)
+        // tId.current = setTimeout(() => {
+        //   dispatch(getActivityOptions())
+        // }, 1000)
       }
       // if (eventType === 'SET_USER_COMPANY') {
       //   API.userMessage(`${translate('screens.Lifesaver.userAnswerCompanyIAM')} ${optionLabel.toLowerCase()}`)
@@ -235,12 +235,12 @@ const useLifesaverActions = (dispatch: React.Dispatch<reducerActionType>) => {
       //     API.tellToPerformActivity()
       //   }, 1000)
       // }
-      if (eventType === 'CANCEL') {
-        API.userMessage(translate('commons.general.no', { defaultValue: 'No' }))
-        tId.current = setTimeout(() => {
-          dispatch(getRejectionMessage())
-        }, 1000)
-      }
+      // if (eventType === 'CANCEL') {
+      //   API.userMessage(translate('commons.general.no', { defaultValue: 'No' }))
+      //   tId.current = setTimeout(() => {
+      //     dispatch(getRejectionMessage())
+      //   }, 1000)
+      // }
     },
     askForPlace: () => dispatch(getPlaceQuestionMessage()),
     // askForCompany: () => dispatch(getCompanyQuestionMessage()),

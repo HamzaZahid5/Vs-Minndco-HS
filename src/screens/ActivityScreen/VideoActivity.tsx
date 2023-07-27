@@ -48,6 +48,19 @@ const PopupContent = ({ close }: { close: () => void }) => (
   </>
 )
 
+const PopupContentWellDone = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>Well donde!!</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="large" weight="bold" textAlign="center">
+        Keep Training!!
+      </Paragraph>
+    </Row>
+  </>
+)
+
 const VideoActivity = ({
   onPlayPressed,
   onDonePressed,
@@ -65,6 +78,15 @@ const VideoActivity = ({
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [colorlessButton, setColorlessButton] = useState(true)
   const [shouldRestart, setShouldRestar] = useState(false)
+
+  const popUpHandler = () => {
+    navigation.navigate('BasicModal', {
+      content: PopupContentWellDone,
+    });
+    setTimeout(() => {
+      onDonePressed();
+    }, 2000);
+  }
 
   useSetHeaderProps(
     {
@@ -108,8 +130,8 @@ const VideoActivity = ({
             source={
               typeof backImage === 'string'
                 ? {
-                    uri: backImage,
-                  }
+                  uri: backImage,
+                }
                 : backImage
             }
             resizeMode="cover"
@@ -214,7 +236,7 @@ const VideoActivity = ({
               </View>
             </View>
             <View style={styles.fullWidth}>
-              <Button subVariant={colorlessButton ? ButtonSubVariant.colorless : undefined} onPress={onDonePressed}>
+              <Button subVariant={colorlessButton ? ButtonSubVariant.colorless : undefined} onPress={popUpHandler}>
                 Done
               </Button>
             </View>

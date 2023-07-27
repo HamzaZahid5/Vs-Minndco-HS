@@ -36,7 +36,7 @@ export type VRActivityScreenProps = {
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
-      <Subheading>{}</Subheading>
+      <Subheading>{ }</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="small" weight="normal" textAlign="left">
@@ -50,6 +50,22 @@ const PopupContent = ({ close }: { close: () => void }) => (
     </Row>
   </>
 )
+
+const PopupContentWellDone = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>Well donde!!</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="large" weight="bold" textAlign="center">
+         Keep Training!!
+      </Paragraph>
+    </Row>
+  </>
+)
+
+
+
 
 const AudioActivityScreen = ({
   onPlayPressed,
@@ -76,6 +92,17 @@ const AudioActivityScreen = ({
 
   const asset = useStorageDownloadURL(audioSrc)
   const startLoad = useRef(false)
+
+  const popUpHandler = ()=> {
+    navigation.navigate('BasicModal', {
+        content: PopupContentWellDone,
+      });
+      setTimeout(() => {
+        onDonePressed();
+      }, 2000);
+    }
+
+  
   useSetHeaderProps(
     {
       rightActions: [
@@ -106,7 +133,7 @@ const AudioActivityScreen = ({
         setLoading(false)
       }
     }
-  }
+   }
   useEffect(() => {
     if (asset && startLoad.current === false) {
       const makeSound = async () => {
@@ -143,8 +170,8 @@ const AudioActivityScreen = ({
             source={
               typeof backImage === 'string'
                 ? {
-                    uri: backImage,
-                  }
+                  uri: backImage,
+                }
                 : backImage
             }
             resizeMode="cover"
@@ -178,12 +205,14 @@ const AudioActivityScreen = ({
                           .then(() => audioRef.current?.playAsync())
                           .then(() => setIsPlaying(true))
                           .then(() => setProgress(0))
-                      } else {
+                        
+                        } else {
                         audioRef.current.playAsync().then(() => setIsPlaying(true))
                       }
                     }
                   }
                   onPlayPressed && onPlayPressed()
+
                 }}
                 isPlaying={isPlaying}
               />
@@ -245,7 +274,7 @@ const AudioActivityScreen = ({
               </View>
             </View>
             <View style={[styles.fullWidth, { flexGrow: 1, justifyContent: 'flex-end' }]}>
-              <Button subVariant={progress < 95 ? ButtonSubVariant.colorless : undefined} onPress={onDonePressed}>
+              <Button subVariant={progress < 95 ? ButtonSubVariant.colorless : undefined} onPress={popUpHandler}>
                 {translate('screens.Activity.done')}
               </Button>
             </View>

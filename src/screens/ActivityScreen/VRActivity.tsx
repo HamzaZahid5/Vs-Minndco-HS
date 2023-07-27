@@ -50,6 +50,19 @@ const PopupContent = ({ close }: { close: () => void }) => (
   </>
 )
 
+const PopupContentWellDone = () => (
+  <>
+    <Row gutter={10}>
+      <Subheading>Well donde!!</Subheading>
+    </Row>
+    <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+      <Paragraph size="large" weight="bold" textAlign="center">
+        Keep Training!!
+      </Paragraph>
+    </Row>
+  </>
+)
+
 const GenderPopupContent = ({ close }: { close: () => void }) => {
   const genderSelected = useRef(false)
   const navigation = useNavigation()
@@ -142,6 +155,15 @@ const VRActivityScreen = ({
     [],
   )
   const [colorlessButton, setColorlessButton] = useState(true)
+  const popUpHandler = () => {
+    navigation.navigate('BasicModal', {
+      content: PopupContentWellDone,
+    });
+    setTimeout(() => {
+      onDonePressed();
+    }, 2000);
+  }
+
 
   return (
     <View style={styles.externalContainer}>
@@ -226,7 +248,7 @@ const VRActivityScreen = ({
               </View>
             </View>
             <View style={styles.fullWidth}>
-              <Button subVariant={colorlessButton ? ButtonSubVariant.colorless : undefined} onPress={onDonePressed}>
+              <Button subVariant={colorlessButton ? ButtonSubVariant.colorless : undefined} onPress={popUpHandler}>
                 Done
               </Button>
             </View>

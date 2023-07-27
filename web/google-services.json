@@ -1,10 +1,56 @@
 {
-  "apiKey": "AIzaSyBANcxC5KquItpycugBdLbvMAYGZSYMP1w",
-  "authDomain": "mindcotine-v4-production.firebaseapp.com",
-  "databaseURL": "https://mindcotine-v4-production.firebaseio.com",
-  "projectId": "mindcotine-v4-production",
-  "storageBucket": "mindcotine-v4-production.appspot.com",
-  "messagingSenderId": "1034939302281",
-  "appId": "1:1034939302281:web:bb1a4a55dfbb49337d6158",
-  "measurementId": "G-82QMW56X6X"
+  "project_info": {
+    "project_number": "1034939302281",
+    "firebase_url": "https://mindcotine-v4-production.firebaseio.com",
+    "project_id": "mindcotine-v4-production",
+    "storage_bucket": "mindcotine-v4-production.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034939302281:android:38439cb4ce6426ef7d6158",
+        "android_client_info": {
+          "package_name": "com.habitfly.mindcotine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034939302281-46v77jcnajn0lpfh7sd9bfr4l7cco758.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.habitfly.mindcotine",
+            "certificate_hash": "366f1e709c28e4ef5645a315f744a12671b18c0f"
+          }
+        },
+        {
+          "client_id": "1034939302281-ge60f70g4uvfl100ulc3un8lcl5eo44r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvtut9J0x69dqiqZeN1fRctrnCYp0DT9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034939302281-ge60f70g4uvfl100ulc3un8lcl5eo44r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1034939302281-g3eqgtavhq9rh8v9ruf222bg952qv6re.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.health.habitfly.mindcotine",
+                "app_store_id": "1506021271"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }

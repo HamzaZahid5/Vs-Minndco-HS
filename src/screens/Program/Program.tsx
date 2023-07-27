@@ -131,6 +131,28 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
     }
   }
 
+
+
+  const tabs = [tab1, tab2, tab3];
+  let totalDone = 0;
+  const [wasOpen, setWasOpen] = useState(false)
+
+  useEffect(
+    () => {
+      for (const tab of tabs) {
+        let countDone = tab.reduce((acc, item) => acc + (item.done === true ? 1 : 0), 0);
+        totalDone += countDone;
+      }
+      console.log(totalDone)
+      if (totalDone === 5 && wasOpen==false) {
+        setWasOpen(true);
+        navigation.navigate('BasicModal', {
+          content: PopupContentRateApp,
+        });
+      }
+    }, [tab1, tab2, tab3]);
+
+
   const PopupContent = () => (
     <>
       <Row gutter={10}>
@@ -147,6 +169,28 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
         <Paragraph size="xsmall" weight="normal" textAlign="center">
           {translate('screens.Program.todaysActivity', {
             defaultValue: 'To access todays activity, tap the activity icon.',
+          })}
+        </Paragraph>
+      </Row>
+    </>
+  )
+
+  const PopupContentRateApp = () => (
+    <>
+      <Row gutter={10}>
+        <Subheading>{translate('screens.Program.', { defaultValue: 'Great Job!' })}</Subheading>
+      </Row>
+      <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+        <Paragraph size="medium" weight="normal" textAlign="center">
+          {translate('screens.Program.', {
+            defaultValue: 'You completed 5 activities already.',
+          })}
+        </Paragraph>
+      </Row>
+      <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+        <Paragraph size="xsmall" weight="normal" textAlign="center">
+          {translate('screens.Program.', {
+            defaultValue: 'Please rate usa at the App Store.',
           })}
         </Paragraph>
       </Row>
@@ -262,14 +306,11 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             {tab1.map(act => (
               <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={
-                    act.done
-                      ? () => onPressActivity(act.activity.id)
-                      : () => {
-                          navigation.navigate('BasicModal', {
-                            content: PopupContent,
-                          })
-                        }
+                  onPress={act.done
+                    ? () => onPressActivity(act.activity.id)
+                    : () => navigation.navigate('BasicModal', {
+                      content: PopupContent,
+                    })
                   }
                   actions={[
                     <ActionButton
@@ -311,10 +352,10 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
                     act.done
                       ? () => onPressActivity(act.activity.id)
                       : () => {
-                          navigation.navigate('BasicModal', {
-                            content: PopupContent,
-                          })
-                        }
+                        navigation.navigate('BasicModal', {
+                          content: PopupContent,
+                        })
+                      }
                   }
                   actions={[
                     <ActionButton
@@ -356,10 +397,10 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
                     act.done
                       ? () => onPressActivity(act.activity.id)
                       : () => {
-                          navigation.navigate('BasicModal', {
-                            content: PopupContent,
-                          })
-                        }
+                        navigation.navigate('BasicModal', {
+                          content: PopupContent,
+                        })
+                      }
                   }
                   actions={[
                     <ActionButton
