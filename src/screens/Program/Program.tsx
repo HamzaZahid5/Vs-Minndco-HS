@@ -144,7 +144,7 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
         totalDone += countDone;
       }
       console.log(totalDone)
-      if (totalDone === 5 && wasOpen==false) {
+      if (totalDone === 5 && wasOpen == false) {
         setWasOpen(true);
         navigation.navigate('BasicModal', {
           content: PopupContentRateApp,
@@ -182,15 +182,15 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
       </Row>
       <Row grow justifyContentOnGrow="flex-start" gutter={10}>
         <Paragraph size="medium" weight="normal" textAlign="center">
-          {translate('screens.Program.', {
+          {translate('screens.Program.completed5', {
             defaultValue: 'You completed 5 activities already.',
           })}
         </Paragraph>
       </Row>
       <Row grow justifyContentOnGrow="flex-start" gutter={10}>
         <Paragraph size="xsmall" weight="normal" textAlign="center">
-          {translate('screens.Program.', {
-            defaultValue: 'Please rate usa at the App Store.',
+          {translate('screens.Program.rateApp', {
+            defaultValue: 'Please rate us at the App Store.',
           })}
         </Paragraph>
       </Row>

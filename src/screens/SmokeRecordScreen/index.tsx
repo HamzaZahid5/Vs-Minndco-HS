@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, Dimensions, TouchableOpacity, Text } from 'react-native'
-import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading, Paragraph } from '@mindcoxr/rob'
+import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading, Paragraph, ButtonSubVariant } from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { TouchableRipple, Paragraph as PaperParagraph } from 'react-native-paper'
 import moment from 'moment'
@@ -23,6 +23,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
+  const [showButton, setShowButton] = useState(true)
 
   // REDUX
   // const smokeRecords = useSelector(SMOKE_RECORD)
@@ -44,6 +45,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
       const changedItem = { [selectedDay]: { count: n, id: selectedDay } }
       const newItems = { ...agendaItems, ...changedItem }
       setAgendaItems(newItems)
+      setShowButton(false)
     }
   }
 
@@ -129,21 +131,6 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const isYesterday = selectedDay === moment().subtract(1, 'd').format('YYYY-MM-DD')
   const currentCount = agendaItems[selectedDay]?.count
 
-  // const PopupContentWellDone = () => (
-  //   <>
-  //     <Row gutter={10}>
-  //       <Subheading>{translate('screens.', { defaultValue: 'Well done!' })}</Subheading>
-  //     </Row>
-  //     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-  //       <Paragraph size="medium" weight="normal" textAlign="center">
-  //         {translate('screens.', {
-  //           defaultValue: 'Keep training to get better results.',
-  //         })}
-  //       </Paragraph>
-  //     </Row>
-  //   </>
-  // )
-
   const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
     const PopupContent = ({ close }: { close: () => Promise<void> }) => {
       const dispatch = useDispatch()
@@ -199,6 +186,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 selected={selected}
                 daysWithInputs={agendaItems}
                 onPress={i => {
+                  setShowButton(true);
                   setSelected(i)
                   setSelectedDay(
                     moment()
@@ -212,8 +200,8 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                 {isToday
                   ? translate('screens.smokeRecording.lableToday')
                   : isYesterday
-                  ? translate('screens.smokeRecording.lableYesterday')
-                  : `${translate('screens.smokeRecording.lableDayAdv')} ${moment(selectedDay).format(
+                    ? translate('screens.smokeRecording.lableYesterday')
+                    : `${translate('screens.smokeRecording.lableDayAdv')} ${moment(selectedDay).format(
                       getDayRefFormat(getLocale()),
                     )}`}{' '}
                 {translate('screens.smokeRecording.lableIHaveSmoked')}
@@ -233,6 +221,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                   onPress={() => {
                     if (currentCount > 0) {
                       setIntakeSecureWrapper(currentCount - 1)
+
                     }
                   }}
                 >
@@ -260,7 +249,11 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  onPress={() => setIntakeSecureWrapper(currentCount + 1)}
+                  onPress={() => {
+                    setIntakeSecureWrapper(currentCount + 1)
+
+                  }
+                  }
                 >
                   <Icon name="Plus" size={19} strokeWidth={4} color="black" />
                 </TouchableRipple>
@@ -268,12 +261,13 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
             </Row>
             <Row gutter={20} grow justifyContentOnGrow="flex-end">
               <View style={{ marginHorizontal: 10 }}>
+
+                {/* BOTON 'HOY NO FUME' DESHABILITADO POR AHORA
                 <View
                   style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
                 >
                   <TouchableOpacity
                     onPress={async () => {
-                        // await setIntakeSecureWrapper(0)
                         await closePanel(true)
                       
                     }}
@@ -291,8 +285,9 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
                       </Text>
                     </Paragraph>
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 <Button
+                  subVariant={showButton ? ButtonSubVariant.colorless : undefined}
                   round
                   onPress={async () => {
                     await closePanel(false)

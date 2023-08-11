@@ -54,11 +54,12 @@ const PopupContent = ({ close }: { close: () => void }) => (
 const PopupContentWellDone = () => (
   <>
     <Row gutter={10}>
-      <Subheading>Well donde!!</Subheading>
+      <Subheading>{translate('screens.activityPoll.congratsMessage')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="large" weight="bold" textAlign="center">
-         Keep Training!!
+        {translate('screens.activityPoll.topBarTitle')}
+        {translate('screens.activityPoll.keepTraining')}
       </Paragraph>
     </Row>
   </>
@@ -93,16 +94,16 @@ const AudioActivityScreen = ({
   const asset = useStorageDownloadURL(audioSrc)
   const startLoad = useRef(false)
 
-  const popUpHandler = ()=> {
+  const popUpHandler = () => {
     navigation.navigate('BasicModal', {
-        content: PopupContentWellDone,
-      });
-      setTimeout(() => {
-        onDonePressed();
-      }, 2000);
-    }
+      content: PopupContentWellDone,
+    });
+    setTimeout(() => {
+      onDonePressed();
+    }, 2000);
+  }
 
-  
+
   useSetHeaderProps(
     {
       rightActions: [
@@ -133,7 +134,7 @@ const AudioActivityScreen = ({
         setLoading(false)
       }
     }
-   }
+  }
   useEffect(() => {
     if (asset && startLoad.current === false) {
       const makeSound = async () => {
@@ -205,8 +206,8 @@ const AudioActivityScreen = ({
                           .then(() => audioRef.current?.playAsync())
                           .then(() => setIsPlaying(true))
                           .then(() => setProgress(0))
-                        
-                        } else {
+
+                      } else {
                         audioRef.current.playAsync().then(() => setIsPlaying(true))
                       }
                     }

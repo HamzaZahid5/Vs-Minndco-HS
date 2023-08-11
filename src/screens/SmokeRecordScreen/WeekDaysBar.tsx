@@ -68,8 +68,8 @@ const WeekDaysBar = ({
                       selected === i
                         ? theme.colors.monochrome.input
                         : e.haveInputs
-                        ? theme.colors.primaryPalette['100']
-                        : 'transparent',
+                          ? theme.colors.primaryPalette['100']
+                          : 'transparent',
                     width: 48,
                     height: 48,
                     justifyContent: 'center',

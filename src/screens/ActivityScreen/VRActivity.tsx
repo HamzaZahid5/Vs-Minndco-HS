@@ -53,11 +53,12 @@ const PopupContent = ({ close }: { close: () => void }) => (
 const PopupContentWellDone = () => (
   <>
     <Row gutter={10}>
-      <Subheading>Well donde!!</Subheading>
+      <Subheading>{translate('screens.activityPoll.congratsMessage')}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="large" weight="bold" textAlign="center">
-        Keep Training!!
+        {translate('screens.activityPoll.topBarTitle')}
+        {translate('screens.activityPoll.keepTraining')}
       </Paragraph>
     </Row>
   </>
@@ -177,8 +178,8 @@ const VRActivityScreen = ({
           source={
             typeof backImage === 'string'
               ? {
-                  uri: backImage,
-                }
+                uri: backImage,
+              }
               : backImage
           }
           resizeMode="cover"
