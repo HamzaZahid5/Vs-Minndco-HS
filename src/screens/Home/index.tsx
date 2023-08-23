@@ -176,7 +176,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   useChangeQuitDayIfSmoke(navigation as StackNavigationProp<RootStackParamList>)
 
   const popUpHandler = () => {
-    if (progress.length === 32) {
+    if (progress.length === 5) {
       navigation.navigate('Activity')
 
       navigation.navigate('BasicModal', {
