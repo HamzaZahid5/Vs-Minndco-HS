@@ -96,7 +96,7 @@ const ProfileScreen = () => {
   console.log(`dias desde que deje: ${daysLabel}`)
   console.log(`modulo:${treatmentModule[0]}`)
   console.log(isInAbstinence)
-  console.log(userState)
+  
   return (
     <>
       <Formik
@@ -147,7 +147,7 @@ const ProfileScreen = () => {
                           navigation.navigate('QuitDayModalProfile')
                         }}
                       >
-                        {quitDay.length === 0 || quitDay === undefined || quitDay && moment(quitDay).startOf('d') <= moment().startOf('d')
+                        {quitDay.length === 0 || quitDay === undefined || quitDay && moment(quitDay).startOf('d') < moment().startOf('d')
                           ? translate('screens.quitDay.inviteUser')
                           : textButton2}
                       </Button>

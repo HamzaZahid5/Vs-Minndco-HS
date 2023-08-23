@@ -174,7 +174,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     }
     return PopupContent
   }
-
+console.log(currentCount)
   return (
     <>
       {/* container to hide panel on web */}

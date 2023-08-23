@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StatusBar, useWindowDimensions } from 'react-native'
+import { View, StatusBar, useWindowDimensions, Linking, Platform } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
 import {
   TabbedScreen,
@@ -39,6 +39,7 @@ import useFinishProgramPopup from '../../utils/hooks/useFinishProgramPopup'
 import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
 import useDate from '../../utils/hooks/useDate'
 import useAppVersion from '../../utils/hooks/useAppVersion'
+import { FontAwesome } from '@expo/vector-icons';
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -64,6 +65,73 @@ const programActivityToCardActivity = (actType?: ProgramActivityType): IconNames
   }
 }
 
+const PopupContentRateApp = ({ close }: { close: () => Promise<void> }) => {
+  const rateApp = () => {
+    if (Platform.OS === 'ios') {
+      const appStoreUrl = 'itms-apps://apps.apple.com/us/app/mindcotine/id1506021271'
+      Linking.canOpenURL(appStoreUrl)
+        .then(supported => {
+          supported && Linking.openURL(appStoreUrl)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+    else {
+      const linkPlayStore = 'https://play.google.com/store/apps/details?id=com.habitfly.mindcotine&hl=es_419'
+      Linking.canOpenURL(linkPlayStore)
+        .then(supported => {
+          supported && Linking.openURL(linkPlayStore)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  };
+
+  return (
+    <>
+      <Row grow justifyContentOnGrow="flex-start" gutter={20}>
+        <Paragraph size="large" weight="bold" textAlign="center">
+          {translate('screens.Program.enjoying_program', {
+            defaultValue: 'Enjoying the MindCotine program?'
+          })}
+        </Paragraph>
+        <Paragraph size="medium" weight="normal" textAlign="center">
+          {translate('screens.Program.completed', {
+            defaultValue: 'Your review helps our team to keep getting better.',
+          })}
+        </Paragraph>
+      </Row>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <View
+            key={index}
+          >
+            <FontAwesome
+              name={'star'}
+              size={30}
+              color={'gold'}
+              style={{ marginHorizontal: 5, alignContent: 'center' }}
+            />
+          </View>
+        ))}
+      </View>
+      <Row>
+        <Button onPress={() => {
+          rateApp()
+          close();
+        }
+        } round>
+          {translate('commons.buttons.review_now', {
+            defaultValue: 'Review now',
+          })}
+        </Button>
+      </Row>
+    </>
+  )
+}
+
 const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) => {
   // TOOLS
   const theme = useRobTheme()
@@ -79,7 +147,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   // const isPremium = useSelector(IS_PREMIUM)
 
   // useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
-
+  console.log(progress.length)
   // useEffect(() => {
   //   if (showBasicTutorial && !hasSmokeRecords) {
   //     if (isPremium) {
@@ -89,7 +157,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   //     }
   //   }
   // }, [showBasicTutorial, hasSmokeRecords, dispatch, isPremium])
-  
+
   const [showChangeQuitDayIfSmoked, setShowChangeQuitDayIfSmoked] = useState(true)
   const { nextDayIsMyQuitDay, daysSmokedMoreThan1ThisWeek } = useDate()
   useEffect(() => {
@@ -107,6 +175,17 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   useFinishProgramPopup(navigation as StackNavigationProp<RootStackParamList>)
   useChangeQuitDayIfSmoke(navigation as StackNavigationProp<RootStackParamList>)
 
+  const popUpHandler = () => {
+    if (progress.length === 32) {
+      navigation.navigate('Activity')
+
+      navigation.navigate('BasicModal', {
+        content: PopupContentRateApp,
+      });
+    } else {
+      navigation.navigate('Activity')
+    }
+  }
   // HELPERS
   let activityTypeText = ''
   switch (nextActivity?.type) {
@@ -158,122 +237,122 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             justify: 'flex-end',
           }}
         > */}
-          <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
-            {!nextActivity && <ActivitySlide />}
-            {nextActivity && !isLastActivityDone && !withoutActKey && (
-              <>
-                <Row margin={0}>
-                  <Paragraph light weight="normal" size="large">
-                    {todayActivityDone
-                      ? translate('screens.Home.program_slide_tomorrowActivity')
-                      : translate('screens.Home.program_slide_todayActivity')}
+        <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+          {!nextActivity && <ActivitySlide />}
+          {nextActivity && !isLastActivityDone && !withoutActKey && (
+            <>
+              <Row margin={0}>
+                <Paragraph light weight="normal" size="large">
+                  {todayActivityDone
+                    ? translate('screens.Home.program_slide_tomorrowActivity')
+                    : translate('screens.Home.program_slide_todayActivity')}
+                </Paragraph>
+              </Row>
+              <Row margin={0}>
+                <Billboard textAlign="left" light>
+                  {nextActivity?.name}
+                </Billboard>
+              </Row>
+              <Row margin={0}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                  <Icon
+                    name={programActivityToCardActivity(nextActivity?.type)}
+                    color={theme.colors.onSurface}
+                    wrapperStyle={{
+                      marginRight: 10,
+                    }}
+                  />
+                  <Paragraph size="medium" light weight="normal">
+                    {activityTypeText} {nextActivity?.duration} min
                   </Paragraph>
-                </Row>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {nextActivity?.name}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <Icon
-                      name={programActivityToCardActivity(nextActivity?.type)}
-                      color={theme.colors.onSurface}
-                      wrapperStyle={{
-                        marginRight: 10,
-                      }}
-                    />
-                    <Paragraph size="medium" light weight="normal">
-                      {activityTypeText} {nextActivity?.duration} min
-                    </Paragraph>
-                  </View>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button
-                      compact
-                      onPress={() => {
-                        navigation.navigate('Activity')
-                      }}
-                    >
-                      {translate('screens.Home.program_slide_startActivity')}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            )}
+                </View>
+              </Row>
+              <Row margin={0}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Button
+                    compact
+                    onPress={
+                      popUpHandler
+                    }
+                  >
+                    {translate('screens.Home.program_slide_startActivity')}
+                  </Button>
+                </View>
+              </Row>
+            </>
+          )}
 
-            {nextActivity && !isLastActivityDone && withoutActKey && (
-              <>
-                {/* <Row margin={0}>
+          {nextActivity && !isLastActivityDone && withoutActKey && (
+            <>
+              {/* <Row margin={0}>
                     <Text light>
                       {translate('screens.home.allCompletedLabel')}
                     </Text>
                   </Row> */}
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <Icon
-                      name={'Achieve'}
-                      color={theme.colors.onSurface}
-                      wrapperStyle={{
-                        marginRight: 10,
-                      }}
-                    />
-                    <Paragraph size="medium" light weight="normal">
-                      {translate('screens.home.allCompletedLabel')}
-                    </Paragraph>
-                  </View>
-                </Row>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {translate('screens.home.programFinishCircleMessage')}
-                  </Billboard>
-                </Row>
-
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button
-                      compact
-                      onPress={() => {
-                        navigation.navigate('Program')
-                      }}
-                    >
-                      {translate('screens.home.programFinishCTALabel')}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            )}
-
-            {nextActivity && isLastActivityDone && (
-              <>
-                <Row margin={0}>
-                  <Billboard textAlign="left" light>
-                    {translate('screens.Home.program_slide_programFinishedTitle')}
-                  </Billboard>
-                </Row>
-                <Row margin={0}>
-                  <Paragraph size="medium" light weight="normal" textAlign="left">
-                    {translate('screens.Home.program_slide_programFinishedSubtitle')}
+              <Row margin={0}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                  <Icon
+                    name={'Achieve'}
+                    color={theme.colors.onSurface}
+                    wrapperStyle={{
+                      marginRight: 10,
+                    }}
+                  />
+                  <Paragraph size="medium" light weight="normal">
+                    {translate('screens.home.allCompletedLabel')}
                   </Paragraph>
-                </Row>
-                <Row margin={0}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Button
-                      compact
-                      onPress={() => {
-                        navigation.navigate('Program')
-                      }}
-                    >
-                      {translate('screens.Home.program_slide_programFinishedButton')}
-                    </Button>
-                  </View>
-                </Row>
-              </>
-            )}
-          </View>
+                </View>
+              </Row>
+              <Row margin={0}>
+                <Billboard textAlign="left" light>
+                  {translate('screens.home.programFinishCircleMessage')}
+                </Billboard>
+              </Row>
 
-          {/* {(quit_day === undefined || !quit_day) && (
+              <Row margin={0}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Button
+                    compact
+                    onPress={() => {
+                      navigation.navigate('Program')
+                    }}
+                  >
+                    {translate('screens.home.programFinishCTALabel')}
+                  </Button>
+                </View>
+              </Row>
+            </>
+          )}
+
+          {nextActivity && isLastActivityDone && (
+            <>
+              <Row margin={0}>
+                <Billboard textAlign="left" light>
+                  {translate('screens.Home.program_slide_programFinishedTitle')}
+                </Billboard>
+              </Row>
+              <Row margin={0}>
+                <Paragraph size="medium" light weight="normal" textAlign="left">
+                  {translate('screens.Home.program_slide_programFinishedSubtitle')}
+                </Paragraph>
+              </Row>
+              <Row margin={0}>
+                <View style={{ flexDirection: 'row' }}>
+                  <Button
+                    compact
+                    onPress={() => {
+                      navigation.navigate('Program')
+                    }}
+                  >
+                    {translate('screens.Home.program_slide_programFinishedButton')}
+                  </Button>
+                </View>
+              </Row>
+            </>
+          )}
+        </View>
+
+        {/* {(quit_day === undefined || !quit_day) && (
               <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
                 <Row margin={0}>
                   <Icon name="Calendar" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
@@ -299,7 +378,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
               </View>
             )} */}
 
-          {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+        {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
               <Icon name="Paste" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>
@@ -323,7 +402,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             </TouchableRipple>
           </View> */}
 
-          {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+        {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
               <Icon name="Plus" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>
@@ -347,7 +426,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
             </TouchableRipple>
           </View> */}
 
-          {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
+        {/* <View style={{ width: '100%', alignItems: 'flex-start', padding: 24 }}>
             <Row margin={0}>
               <Icon name="Help" size={60} color={theme.colors.monochrome.offWhite} strokeWidth={1} />
             </Row>

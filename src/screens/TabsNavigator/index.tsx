@@ -89,7 +89,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
         options={{
           tabBarLabel: '',
           tabBarIcon: ({ color, size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center', margin: 9, marginHorizontal: 5 }}>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center', margin: 8, marginHorizontal: 5 }}>
               <Image
                 source={require('../../../assets/images/train.png')}
                 style={{ width: 30, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
@@ -109,7 +109,7 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
           unmountOnBlur: true,
           lazy: true,
           tabBarIcon: ({ size, focused }) => (
-            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center', margin: 9, marginHorizontal: 4 }}>
+            <View style={{ flex: 1, justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center', alignItems: 'center', margin: 8, marginHorizontal: 2 }}>
               <Image
                 source={require('../../../assets/images/dashboard.png')}
                 style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}

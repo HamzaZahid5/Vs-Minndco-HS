@@ -56,6 +56,8 @@ const PopupContentWellDone = () => (
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="large" weight="bold" textAlign="center">
         {translate('screens.activityPoll.topBarTitle')}
+      </Paragraph>
+      <Paragraph size="large" weight="bold" textAlign="center">
         {translate('screens.activityPoll.keepTraining')}
       </Paragraph>
     </Row>
