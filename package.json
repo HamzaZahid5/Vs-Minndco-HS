@@ -1,11 +1,12 @@
 {
   "name": "mindcotine_mobile_v4",
-  "version": "5.4.13",
+  "version": "5.4.14",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
+    "android-clean": "cd android && ./gradlew clean && cd ..",
     "android-test": "npm run set-test && npx react-native run-android",
-    "android-prod": "npm run set-prod && npx react-native run-android",
+    "android-prod": "npm run set-prod && npx react-native run-android -- --reset-cache",
     "preandroid-build": "npm run set-prod",
     "android-build": "cd ./android && ./gradlew bundleRelease",
     "ios": "npm run set-dev && npx react-native run-ios",
@@ -109,7 +110,7 @@
     "react-native-utils-scale": "^2.4.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "0.17.1",
-    "react-native-webview": "11.13.0",
+    "react-native-webview": "11.22.7",
     "react-native-youtube-iframe": "^2.1.0",
     "react-redux": "^7.2.2",
     "react-three-fiber": "^5.3.19",

@@ -146,7 +146,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const isLastActivityDone = isLastActivity && nextActivityKey && isActivityDone(nextActivityKey, progress)
   // const isPremium = useSelector(IS_PREMIUM)
 
-  // useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
+  useAppVersion(navigation as StackNavigationProp<RootStackParamList>)
   console.log(progress.length)
   // useEffect(() => {
   //   if (showBasicTutorial && !hasSmokeRecords) {
