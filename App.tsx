@@ -37,6 +37,7 @@ import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
 import * as Sentry from '@sentry/react-native'
 import OfflineNotice from './src/components/OfflineNotice'
+import ActivityComponent from './src/components/ActivityComponent/ActivityComponent'
 
 Sentry.init({
   dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
@@ -53,7 +54,8 @@ const CommonRoutes = getCommonRoutes(Stack)
 
 function App() {
   const { userToken, isLoading } = useAuth()
-  
+  const userId = userToken?.uid as string
+
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
@@ -134,11 +136,11 @@ function App() {
       if (Platform.OS !== 'web') {
         Smartlook.setUserIdentifier(userToken.uid)
       }
-      analytics().setUserId(userToken.uid)
+      userToken.uid && analytics().setUserId(userToken.uid)
       //@ts-ignore bad typed
-      crashlytics().log('User authenticated.')
+      userToken.uid && crashlytics().log('User authenticated.')
       //@ts-ignore bad typed
-      crashlytics().setUserId(userToken.uid)
+      userToken.uid && crashlytics().setUserId(userToken.uid)
     }
   }, [userToken])
 
@@ -164,110 +166,17 @@ function App() {
     }
   }, [i18nReady, isAuthed, userData])
 
-  const ActivityComponent = () => {
-    const [loading, setLoading] = useState(true)
-    const [showButtonBack, setShowButtonBack] = useState(false)
-
-    const fetchUserData = async () => {
-      setLoading(true)
-      try {
-        if (userToken) {
-          const userData = useFirestoreListener('users', userToken?.uid ?? '')
-          if (!userData) {
-            auth().signOut()
-            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
-            // setLoading(false)
-          }
-
-          const timeout = setTimeout(() => {
-            setLoading(false)
-          }, 3000)
-
-          clearTimeout(timeout)
-        }
-      } catch (error) {
-        // setLoading(false)
-        console.log(error)
-      }
-    }
-
-    useEffect(() => {
-      fetchUserData()
-
-      const timeout = setTimeout(() => {
-        setShowButtonBack(true)
-      }, 7000)
-
-      return () => {
-        clearTimeout(timeout)
-      }
-    }, [userToken])
-
-    if (loading) {
-      return (
-        <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator />
-          {showButtonBack && (
-            <View style={{ margin: 20 }}>
-              <Paragraph size="medium">
-                {translate('commons.messages.error_message', {
-                  defaultValue: 'An unexpected error occurred, please contact support so that we can best assist you.',
-                })}
-              </Paragraph>
-              <View style={{ marginTop: 30 }}>
-                <Button
-                  onPress={() => {
-                    auth().signOut()
-                  }}
-                >
-                  {translate('commons.messages.button_back', { defaultValue: 'Back' })}
-                </Button>
-              </View>
-            </View>
-          )}
-        </View>
-      )
-    }
-
+  if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
     return (
-      <View style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Blob style={{ position: 'absolute', top: '16%', right: 0 }} />
-        <Row>
-          <Logo />
-        </Row>
-        <Row>
-          <View style={{ marginBottom: 20 }}>
-            <Paragraph size="medium">
-              {translate('commons.messages.error_message', {
-                defaultValue: 'An unexpected error occurred, please contact support so that we can best assist you.',
-              })}
-            </Paragraph>
-          </View>
-        </Row>
-        <Button
-          role="primary"
-          onPress={() => {
-            auth().signOut()
-            navigatorRef && navigatorRef.current && navigatorRef.current.navigate('Landing')
-          }}
-        >
-          {translate('commons.messages.button_back', { defaultValue: 'Back' })}
-        </Button>
-      </View>
+      <ActivityComponent
+        userData={userData}
+        userToken={userToken}
+        navigatorRef={navigatorRef}
+        auth={auth}
+        translate={translate}
+        store={store}
+      />
     )
-  }
-
-  // if (isWaitingForAuth || (isAuthed && !userData) || !fontsLoaded || !i18nReady || deepLink === undefined) {
-  //   return <LoadingScreen />;
-
-  // }
-  // auth().signOut()
-  // console.log(userData)
-  // if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData)) {
-  //   return null
-  // }
-  if (!fontsLoaded || !i18nReady || isWaitingForAuth || (isAuthed && !userData) || isLoading) {
-    return <ActivityComponent />
   }
 
   handleMessaging()
@@ -300,7 +209,7 @@ function App() {
             >
               <Stack.Navigator
                 initialRouteName={userToken ? 'Home' : 'Landing'}
-              // initialRouteName="Main"
+                // initialRouteName="Main"
               >
                 {userToken ? (
                   <>

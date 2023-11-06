@@ -15,7 +15,7 @@ const getDrawerContent = (props: DrawerContentComponentProps) => <CustomDrawerCo
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator
+    <Drawer.Navigator useLegacyImplementation={true}
       // openByDefault
       initialRouteName="DrawerHome"
       drawerContent={getDrawerContent}

@@ -2,13 +2,15 @@ require File.join(File.dirname(`node --print "require.resolve('expo/package.json
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
 
-
-platform :ios, '12.0'
+platform :ios, '13.0'
 
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
 target 'MindCotine' do
+  use_expo_modules!
+  config = use_native_modules!
+
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
@@ -17,9 +19,6 @@ target 'MindCotine' do
   pod 'Permission-Notifications', :path => "#{permissions_path}/Permission-Notifications.podspec"
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   
-  use_expo_modules!
-  config = use_native_modules!
-
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
@@ -46,6 +45,7 @@ target 'MindCotine' do
         # config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
         config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
       end
+      
       if (target.name&.eql?('FBReactNativeSpec'))
         target.build_phases.each do |build_phase|
           if (build_phase.respond_to?(:name) && build_phase.name.eql?('[CP-User] Generate Specs'))
@@ -53,14 +53,17 @@ target 'MindCotine' do
           end
         end
       end
-      installer.aggregate_targets.each do |aggregate_target|
-        aggregate_target.user_project.native_targets.each do |target|
-          target.build_configurations.each do |config|
-            config.build_settings['LIBRARY_SEARCH_PATHS'] = ['$(SDKROOT)/usr/lib/swift', '$(inherited)']
-          end
-        end
-        aggregate_target.user_project.save
-      end
     end
+
+    installer.aggregate_targets.each do |aggregate_target|
+      aggregate_target.user_project.native_targets.each do |target|
+        target.build_configurations.each do |config|
+          config.build_settings['LIBRARY_SEARCH_PATHS'] = ['$(SDKROOT)/usr/lib/swift', '$(inherited)']
+        end
+      end
+      aggregate_target.user_project.save
+    end
+
+    system('sh fix-build-for-xcode15.sh')
   end
 end
