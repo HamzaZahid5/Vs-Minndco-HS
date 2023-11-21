@@ -27,6 +27,7 @@ import { assert } from '@hapi/joi'
 import { defineAnimation } from 'react-native-reanimated'
 import Countdown from 'countdown'
 import { isActivityDone } from '../../utils/helpers'
+import RNUxcam from 'react-native-ux-cam'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -78,7 +79,7 @@ const ProfileScreen = () => {
     null,
     Countdown.YEARS | Countdown.MONTHS | Countdown.WEEKS | Countdown.DAYS,
   ).toString()
-
+  RNUxcam.tagScreenName('Profile')
   // let textButton = isInAbstinence
   //   ? template(translate('screens.quitDay.commitmentCTA'))({
   //       dayInProfile,
@@ -87,8 +88,8 @@ const ProfileScreen = () => {
 
   let textButton2 = isInAbstinence
     ? template(translate('screens.quitDay.smokeFreeSince', { defaultValue: `I have been smoke free: ${daysLabel}` }))({
-      daysLabel,
-    })
+        daysLabel,
+      })
     : translate('screens.quitDay.stopSmokingAt') + dayInProfile + '...'
   useEffect(() => {
     console.log(quitDay)
@@ -96,7 +97,7 @@ const ProfileScreen = () => {
   console.log(`dias desde que deje: ${daysLabel}`)
   console.log(`modulo:${treatmentModule[0]}`)
   console.log(isInAbstinence)
-  
+
   return (
     <>
       <Formik
@@ -129,15 +130,26 @@ const ProfileScreen = () => {
                   </Headline>
                 </Row>
                 <View style={{ backgroundColor: theme.colors.primaryPalette['500'] }}>
-                  <Row gutter={20} >
-                    <Paragraph textAlign="left" size="medium" weight="bold" >
+                  <Row gutter={20}>
+                    <Paragraph textAlign="left" size="medium" weight="bold">
                       <NativeText style={{ color: '#000000' }}>{translate('screens.Profile.goals')}</NativeText>
                     </Paragraph>
                     <View>
-                      <NativeText style={{ color: '#000000', marginTop: -5, textAlign: "left", fontWeight: 'bold', fontFamily: "arial" }}>{translate('screens.Profile.quitDate', { defaultValue: 'Choose the date you want to become smoke-free' })}</NativeText>
+                      <NativeText
+                        style={{
+                          color: '#000000',
+                          marginTop: -5,
+                          textAlign: 'left',
+                          fontWeight: 'bold',
+                          fontFamily: 'arial',
+                        }}
+                      >
+                        {translate('screens.Profile.quitDate', {
+                          defaultValue: 'Choose the date you want to become smoke-free',
+                        })}
+                      </NativeText>
                     </View>
-                    <View style={{ backgroundColor: '#FCFCFC', borderRadius: 50 }} >
-
+                    <View style={{ backgroundColor: '#FCFCFC', borderRadius: 50 }}>
                       <Button
                         role="secondary"
                         round
@@ -147,7 +159,9 @@ const ProfileScreen = () => {
                           navigation.navigate('QuitDayModalProfile')
                         }}
                       >
-                        {quitDay.length === 0 || quitDay === undefined || quitDay && moment(quitDay).startOf('d') < moment().startOf('d')
+                        {quitDay.length === 0 ||
+                        quitDay === undefined ||
+                        (quitDay && moment(quitDay).startOf('d') < moment().startOf('d'))
                           ? translate('screens.quitDay.inviteUser')
                           : textButton2}
                       </Button>

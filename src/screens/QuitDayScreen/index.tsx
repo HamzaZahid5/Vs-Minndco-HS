@@ -14,12 +14,14 @@ import { PROGRESS, QUIT_DAY, TREATMENT_MODULE_AND_LEVEL } from '../../store/sele
 import { translate } from '../../utils/localization'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
 import { revertQuitDay } from '../../services/Firestore'
-import { usePostHog } from 'posthog-react-native';
+import { usePostHog } from 'posthog-react-native'
+import RNUxcam from 'react-native-ux-cam'
 
 const momentToCalendarDate = (m?: moment.Moment) => (m ? m.format('YYYY-MM-DD') : '')
 
 const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
+  RNUxcam.tagScreenName('QuitDay')
   const [show, setShow] = useState(false)
   const insets = useSafeAreaInsets()
   const actualQuitDay = useSelector(QUIT_DAY)

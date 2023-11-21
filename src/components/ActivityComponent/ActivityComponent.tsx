@@ -6,6 +6,7 @@ import firestore, { useFirestoreListener } from '../../services/Firestore'
 import { ActivityIndicator, View } from 'react-native'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 import { usePostHog } from 'posthog-react-native'
+import RNUxcam from 'react-native-ux-cam'
 
 interface ActivityComponentProps {
   userToken: FirebaseAuthTypes.User | null | undefined
@@ -65,6 +66,10 @@ const ActivityComponent: React.FC<ActivityComponentProps> = ({
               posthog?.identify(userDataSnap?.email, {
                 ...userDataSnap,
               })
+              RNUxcam.setUserIdentity(userDataSnap?.email || 'nologueado')
+              RNUxcam.setUserProperty('group', userDataSnap?.group)
+              RNUxcam.setUserProperty('phone', userDataSnap?.phone)
+              RNUxcam.setUserProperty('app_version', userDataSnap?.app_version)
             } else {
               setHasError(true)
             }
