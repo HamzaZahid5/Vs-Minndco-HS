@@ -19,6 +19,7 @@ import { translate } from '../../utils/localization'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../../../types'
+import RNUxcam from 'react-native-ux-cam'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -73,6 +74,7 @@ const VideoActivity = ({
   duration,
   backImage = 'https://marylineg1.sg-host.com/blog/wp-content/uploads/2018/12/matterhorn-1313x875.jpg',
 }: VRActivityScreenProps) => {
+  RNUxcam.tagScreenName('VideoActivity')
   const [loading, setLoading] = useState(true)
   const video = useRef<Video | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -85,10 +87,10 @@ const VideoActivity = ({
   const popUpHandler = () => {
     navigation.navigate('BasicModal', {
       content: PopupContentWellDone,
-    });
+    })
     setTimeout(() => {
-      onDonePressed();
-    }, 2000);
+      onDonePressed()
+    }, 2000)
   }
 
   useSetHeaderProps(
@@ -133,8 +135,8 @@ const VideoActivity = ({
             source={
               typeof backImage === 'string'
                 ? {
-                  uri: backImage,
-                }
+                    uri: backImage,
+                  }
                 : backImage
             }
             resizeMode="cover"

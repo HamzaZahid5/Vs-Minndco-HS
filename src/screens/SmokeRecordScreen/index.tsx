@@ -27,10 +27,12 @@ import { filter, reduce } from 'lodash'
 import { revertQuitDay } from '../../services/Firestore'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
 import Posthog from 'posthog-react-native'
-import { usePostHog } from 'posthog-react-native';
+import { usePostHog } from 'posthog-react-native'
+import RNUxcam from 'react-native-ux-cam'
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
+  RNUxcam.tagScreenName('SmokeRecord')
   const [show, setShow] = useState(false)
   const [selected, setSelected] = useState(0)
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})

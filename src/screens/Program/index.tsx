@@ -9,6 +9,7 @@ import HeroMainContent from './HeroMainContent'
 import { useSelector } from 'react-redux'
 import { PROGRESS, TREATMENT_MODULE_AND_LEVEL } from '../../store/selectors'
 import useIconSmokeSpend from './IconSmokeSpend'
+import RNUxcam from 'react-native-ux-cam'
 
 const ProgramScreen = ({ navigation }: DefaultScreenPropType<'Main'>) => {
   const activities = useProgramActivities()
@@ -20,7 +21,7 @@ const ProgramScreen = ({ navigation }: DefaultScreenPropType<'Main'>) => {
   const icon2 = useIconProgress()
   const icon3 = useIconSmokeSavings()
   const icon4 = useIconSmokeSpend()
-
+  RNUxcam.tagScreenName('Program')
   return (
     <Program
       tab1={activities.filter(act => act.activity.type === 'vr-met')}

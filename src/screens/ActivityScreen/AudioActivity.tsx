@@ -22,6 +22,7 @@ import { RootStackParamList } from '../../../types'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 import RoundPlayButton from '../../components/RoundPlayButton'
 import InlineAudioPlayer from '../../components/Skeletons/InlineAudioPlayer'
+import RNUxcam from 'react-native-ux-cam'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -36,7 +37,7 @@ export type VRActivityScreenProps = {
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
     <Row gutter={10}>
-      <Subheading>{ }</Subheading>
+      <Subheading>{}</Subheading>
     </Row>
     <Row grow justifyContentOnGrow="flex-start" gutter={10}>
       <Paragraph size="small" weight="normal" textAlign="left">
@@ -67,9 +68,6 @@ const PopupContentWellDone = () => (
   </>
 )
 
-
-
-
 const AudioActivityScreen = ({
   onPlayPressed,
   onDonePressed,
@@ -79,6 +77,7 @@ const AudioActivityScreen = ({
   description,
   duration,
 }: VRActivityScreenProps) => {
+  RNUxcam.tagScreenName('AudioActivity')
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)
@@ -99,12 +98,11 @@ const AudioActivityScreen = ({
   const popUpHandler = () => {
     navigation.navigate('BasicModal', {
       content: PopupContentWellDone,
-    });
+    })
     setTimeout(() => {
-      onDonePressed();
-    }, 2000);
+      onDonePressed()
+    }, 2000)
   }
-
 
   useSetHeaderProps(
     {
@@ -173,8 +171,8 @@ const AudioActivityScreen = ({
             source={
               typeof backImage === 'string'
                 ? {
-                  uri: backImage,
-                }
+                    uri: backImage,
+                  }
                 : backImage
             }
             resizeMode="cover"
@@ -208,14 +206,12 @@ const AudioActivityScreen = ({
                           .then(() => audioRef.current?.playAsync())
                           .then(() => setIsPlaying(true))
                           .then(() => setProgress(0))
-
                       } else {
                         audioRef.current.playAsync().then(() => setIsPlaying(true))
                       }
                     }
                   }
                   onPlayPressed && onPlayPressed()
-
                 }}
                 isPlaying={isPlaying}
               />

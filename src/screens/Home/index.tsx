@@ -39,7 +39,8 @@ import useFinishProgramPopup from '../../utils/hooks/useFinishProgramPopup'
 import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
 import useDate from '../../utils/hooks/useDate'
 import useAppVersion from '../../utils/hooks/useAppVersion'
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons'
+import RNUxcam from 'react-native-ux-cam'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -76,8 +77,7 @@ const PopupContentRateApp = ({ close }: { close: () => Promise<void> }) => {
         .catch(err => {
           console.log(err)
         })
-    }
-    else {
+    } else {
       const linkPlayStore = 'https://play.google.com/store/apps/details?id=com.habitfly.mindcotine&hl=es_419'
       Linking.canOpenURL(linkPlayStore)
         .then(supported => {
@@ -87,14 +87,14 @@ const PopupContentRateApp = ({ close }: { close: () => Promise<void> }) => {
           console.log(err)
         })
     }
-  };
+  }
 
   return (
     <>
       <Row grow justifyContentOnGrow="flex-start" gutter={20}>
         <Paragraph size="large" weight="bold" textAlign="center">
           {translate('screens.Program.enjoying_program', {
-            defaultValue: 'Enjoying the MindCotine program?'
+            defaultValue: 'Enjoying the MindCotine program?',
           })}
         </Paragraph>
         <Paragraph size="medium" weight="normal" textAlign="center">
@@ -105,9 +105,7 @@ const PopupContentRateApp = ({ close }: { close: () => Promise<void> }) => {
       </Row>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         {Array.from({ length: 5 }).map((_, index) => (
-          <View
-            key={index}
-          >
+          <View key={index}>
             <FontAwesome
               name={'star'}
               size={30}
@@ -118,11 +116,13 @@ const PopupContentRateApp = ({ close }: { close: () => Promise<void> }) => {
         ))}
       </View>
       <Row>
-        <Button onPress={() => {
-          rateApp()
-          close();
-        }
-        } round>
+        <Button
+          onPress={() => {
+            rateApp()
+            close()
+          }}
+          round
+        >
           {translate('commons.buttons.review_now', {
             defaultValue: 'Review now',
           })}
@@ -139,6 +139,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const dispatch = useDispatch()
   const { nextActivity, nextActivityKey, isLastActivity, withoutActKey } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
+  RNUxcam.tagScreenName('Home')
   // const smokeRecord = useSelector(SMOKE_RECORD)
   // const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
   // const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)
@@ -180,7 +181,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
 
       navigation.navigate('BasicModal', {
         content: PopupContentRateApp,
-      });
+      })
     } else {
       navigation.navigate('Activity')
     }
@@ -268,12 +269,7 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
               </Row>
               <Row margin={0}>
                 <View style={{ flexDirection: 'row' }}>
-                  <Button
-                    compact
-                    onPress={
-                      popUpHandler
-                    }
-                  >
+                  <Button compact onPress={popUpHandler}>
                     {translate('screens.Home.program_slide_startActivity')}
                   </Button>
                 </View>

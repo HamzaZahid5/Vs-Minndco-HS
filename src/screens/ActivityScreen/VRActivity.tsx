@@ -22,6 +22,7 @@ import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 import { useSelector } from 'react-redux'
 import { USER_PROFILE } from '../../store/selectors'
 import { setGender } from '../../services/Firestore'
+import RNUxcam from 'react-native-ux-cam'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -128,6 +129,7 @@ const VRActivityScreen = ({
   description,
   duration,
 }: VRActivityScreenProps) => {
+  RNUxcam.tagScreenName('VRActivity')
   const [loading, setLoading] = useState(typeof backImage === 'string')
   const theme = useRobTheme()
   const styles = getStyles(theme)
@@ -161,12 +163,11 @@ const VRActivityScreen = ({
   const popUpHandler = () => {
     navigation.navigate('BasicModal', {
       content: PopupContentWellDone,
-    });
+    })
     setTimeout(() => {
-      onDonePressed();
-    }, 2000);
+      onDonePressed()
+    }, 2000)
   }
-
 
   return (
     <View style={styles.externalContainer}>
@@ -180,8 +181,8 @@ const VRActivityScreen = ({
           source={
             typeof backImage === 'string'
               ? {
-                uri: backImage,
-              }
+                  uri: backImage,
+                }
               : backImage
           }
           resizeMode="cover"

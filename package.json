@@ -110,6 +110,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-toast-message": "^2.1.6",
     "react-native-utils-scale": "^2.4.1",
+    "react-native-ux-cam": "^5.4.12",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "0.17.1",
     "react-native-webview": "11.22.7",
