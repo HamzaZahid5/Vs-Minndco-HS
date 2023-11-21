@@ -35,14 +35,8 @@ import useIsSmallDevice from './src/utils/hooks/useIsSmallDevice'
 import { getLocale, translate } from './src/utils/localization'
 import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
-import * as Sentry from '@sentry/react-native'
 import OfflineNotice from './src/components/OfflineNotice'
-
-Sentry.init({
-  dsn: 'https://593319997bcf45dbba7cc9def44c514f@o4504793554944000.ingest.sentry.io/4504793558155264',
-  tracesSampleRate: 1.0,
-  enableNative: false,
-})
+import PostHog from 'posthog-react-native'
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
@@ -53,7 +47,7 @@ const CommonRoutes = getCommonRoutes(Stack)
 
 function App() {
   const { userToken, isLoading } = useAuth()
-  
+
   const userData = useFirestoreListener('users', userToken?.uid ?? '')
   const i18nReady = useBootUpI18n()
   const deepLink = useDeepLinking()
@@ -114,6 +108,11 @@ function App() {
     }
     if (userData) {
       store.dispatch({ type: 'user/setUser', payload: userData })
+      const posthog = PostHog.initAsync('phc_Ewp0opPn25tZg7Bu1GibYQs0fM5sMdGWrxUjN2ryKXr').then(a =>
+        a.identify(userData?.email, {
+          ...userData,
+        }),
+      )
     }
     if (userData?.on_boarding_completed) {
       store.dispatch({ type: 'user/setOnBoardingComplete', payload: userData?.on_boarding_completed })
@@ -298,9 +297,15 @@ function App() {
               }}
               ref={navigatorRef}
             >
+              {/* <PostHogProvider
+                apiKey="phc_Ewp0opPn25tZg7Bu1GibYQs0fM5sMdGWrxUjN2ryKXr"
+                options={{
+                  host: 'https://app.posthog.com',
+                }}
+              > */}
               <Stack.Navigator
                 initialRouteName={userToken ? 'Home' : 'Landing'}
-              // initialRouteName="Main"
+                // initialRouteName="Main"
               >
                 {userToken ? (
                   <>
@@ -322,6 +327,7 @@ function App() {
                 )}
                 {CommonRoutes}
               </Stack.Navigator>
+              {/* </PostHogProvider> */}
             </NavigationContainer>
           </SafeAreaProvider>
         </PaperProvider>
@@ -330,4 +336,4 @@ function App() {
   )
 }
 
-export default Sentry.wrap(App)
+export default App
