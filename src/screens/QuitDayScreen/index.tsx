@@ -14,6 +14,7 @@ import { PROGRESS, QUIT_DAY, TREATMENT_MODULE_AND_LEVEL } from '../../store/sele
 import { translate } from '../../utils/localization'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
 import { revertQuitDay } from '../../services/Firestore'
+import { usePostHog } from 'posthog-react-native';
 
 const momentToCalendarDate = (m?: moment.Moment) => (m ? m.format('YYYY-MM-DD') : '')
 
@@ -37,6 +38,9 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
   }, [])
 
   useEffect(() => console.log(selected), [selected])
+
+  const posthog = usePostHog()
+  posthog?.screen('QuitDayScreen')
 
   const marked = useMemo(() => {
     return {
@@ -68,6 +72,7 @@ const QuitDayScreen = ({ navigation }: { navigation: StackNavigationProp<RootSta
 
   const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
     const PopupContent = ({ close }: { close: () => Promise<void> }) => {
+      posthog?.screen('PopupRelapse')
       const dispatch = useDispatch()
       return (
         <>

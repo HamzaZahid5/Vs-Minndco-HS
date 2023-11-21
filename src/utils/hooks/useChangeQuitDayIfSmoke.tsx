@@ -5,12 +5,14 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { CHANGE_QUIT_DAY_IF_SMOKED, QUIT_DAY, SMOKE_RECORD } from '../../store/selectors'
 import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
-import useDate from './useDate'
 import moment from 'moment'
 import { filter, reduce } from 'lodash'
+import { usePostHog } from 'posthog-react-native'
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList>) => {
   const PopupContent = ({ close }: { close: () => Promise<void> }) => {
+    const posthog = usePostHog()
+    posthog?.screen('changeQuitDayIfSmoked')
     const dispatch = useDispatch()
     return (
       <>

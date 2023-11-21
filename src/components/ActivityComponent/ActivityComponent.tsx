@@ -5,6 +5,7 @@ import { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import firestore, { useFirestoreListener } from '../../services/Firestore'
 import { ActivityIndicator, View } from 'react-native'
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+import { usePostHog } from 'posthog-react-native'
 
 interface ActivityComponentProps {
   userToken: FirebaseAuthTypes.User | null | undefined
@@ -27,6 +28,7 @@ const ActivityComponent: React.FC<ActivityComponentProps> = ({
   const [loading, setLoading] = useState(true)
   const [showButtonBack, setShowButtonBack] = useState(false)
   const [hasError, setHasError] = useState(false)
+  const posthog = usePostHog()
 
   const handleBackPress = () => {
     auth().signOut()
@@ -60,6 +62,9 @@ const ActivityComponent: React.FC<ActivityComponentProps> = ({
             if (docSnapshot?.data()) {
               const userDataSnap = docSnapshot?.data()
               store.dispatch({ type: 'user/setUser', payload: userDataSnap })
+              posthog?.identify(userDataSnap?.email, {
+                ...userDataSnap,
+              })
             } else {
               setHasError(true)
             }

@@ -37,7 +37,7 @@ import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
 import OfflineNotice from './src/components/OfflineNotice'
 import ActivityComponent from './src/components/ActivityComponent/ActivityComponent'
-import PostHog from 'posthog-react-native'
+import { usePostHog, PostHogProvider } from 'posthog-react-native'
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
@@ -110,11 +110,6 @@ function App() {
     }
     if (userData) {
       store.dispatch({ type: 'user/setUser', payload: userData })
-      const posthog = PostHog.initAsync('phc_Ewp0opPn25tZg7Bu1GibYQs0fM5sMdGWrxUjN2ryKXr').then((a: any) =>
-        a.identify(userData?.email, {
-          ...userData,
-        }),
-      )
     }
     if (userData?.on_boarding_completed) {
       store.dispatch({ type: 'user/setOnBoardingComplete', payload: userData?.on_boarding_completed })
@@ -212,30 +207,37 @@ function App() {
                   host: 'https://app.posthog.com',
                 }}
               > */}
-              <Stack.Navigator
-                initialRouteName={userToken ? 'Home' : 'Landing'}
-                // initialRouteName="Main"
+              <PostHogProvider
+                apiKey="phc_Ewp0opPn25tZg7Bu1GibYQs0fM5sMdGWrxUjN2ryKXr"
+                options={{
+                  host: 'https://app.posthog.com',
+                }}
               >
-                {userToken ? (
-                  <>
-                    <Stack.Group
-                      screenOptions={{
-                        headerMode: 'float',
-                        // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                        headerTransparent: true,
-                        headerBackground,
-                        // eslint-disable-next-line react/display-name
-                        header: NavigationHeader,
-                      }}
-                    >
-                      {PostLoginRoutes}
-                    </Stack.Group>
-                  </>
-                ) : (
-                  <>{PreLoginRoutes}</>
-                )}
-                {CommonRoutes}
-              </Stack.Navigator>
+                <Stack.Navigator
+                  initialRouteName={userToken ? 'Home' : 'Landing'}
+                  // initialRouteName="Main"
+                >
+                  {userToken ? (
+                    <>
+                      <Stack.Group
+                        screenOptions={{
+                          headerMode: 'float',
+                          // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                          headerTransparent: true,
+                          headerBackground,
+                          // eslint-disable-next-line react/display-name
+                          header: NavigationHeader,
+                        }}
+                      >
+                        {PostLoginRoutes}
+                      </Stack.Group>
+                    </>
+                  ) : (
+                    <>{PreLoginRoutes}</>
+                  )}
+                  {CommonRoutes}
+                </Stack.Navigator>
+              </PostHogProvider>
               {/* </PostHogProvider> */}
             </NavigationContainer>
           </SafeAreaProvider>

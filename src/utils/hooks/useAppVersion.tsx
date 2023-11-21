@@ -89,7 +89,6 @@ const versionInStorageServer = (
 const useAppVersion = (navigation: StackNavigationProp<RootStackParamList>) => {
   const dispatch = useDispatch()
   const appVersion = useFirestoreListener('app_version', 'ileSVeW0Qba7ke0xDsDQ')
-  console.log(appVersion)
   useEffect(() => {
     // versionsInStoreAppleGoogle('1506021271', 'com.habitfly.mindcotine', dispatch, navigation)
     versionInStorageServer(appVersion, dispatch, navigation)

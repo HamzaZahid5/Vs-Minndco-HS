@@ -92,26 +92,29 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
             <View
               style={{
                 flex: 1,
-                justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',
+                justifyContent: Platform.OS === 'ios' ? 'center' : 'center',
                 alignItems: 'center',
                 margin: 8,
+                marginTop: Platform.OS === 'ios' ? 20 : undefined,
                 marginHorizontal: 5,
               }}
             >
-              <Image
-                source={require('../../../assets/images/train.png')}
-                style={{ width: 30, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
-              />
-              <Text
-                style={{
-                  color: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC',
-                  fontSize: 14,
-                  textAlign: 'center',
-                  marginTop: 5,
-                }}
-              >
-                {translate('commons.buttons.training', { defaultValue: 'Training' })}
-              </Text>
+              <TargetIndicator>
+                <Image
+                  source={require('../../../assets/images/train.png')}
+                  style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
+                />
+                <Text
+                  style={{
+                    color: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC',
+                    fontSize: 14,
+                    textAlign: 'center',
+                    marginTop: 5,
+                  }}
+                >
+                  {translate('commons.buttons.training', { defaultValue: 'Training' })}
+                </Text>
+              </TargetIndicator>
             </View>
           ),
         }}
@@ -127,21 +130,29 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
             <View
               style={{
                 flex: 1,
-                justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',
+                justifyContent: Platform.OS === 'ios' ? 'center' : 'center',
                 alignItems: 'center',
-                margin: 8,
-                marginHorizontal: 2,
+                margin: 10,
+                marginTop: Platform.OS === 'ios' ? 20 : undefined,
+                marginHorizontal: 5,
               }}
             >
-              <Image
-                source={require('../../../assets/images/dashboard.png')}
-                style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
-              />
-              <Text
-                style={{ color: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC', fontSize: 14, marginTop: 5 }}
-              >
-                {translate('commons.buttons.dashboard', { defaultValue: 'Dashboard' })}
-              </Text>
+              <TargetIndicator>
+                <Image
+                  source={require('../../../assets/images/dashboard.png')}
+                  style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
+                />
+                <Text
+                  style={{
+                    color: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC',
+                    fontSize: 14,
+                    textAlign: 'center',
+                    marginTop: 5,
+                  }}
+                >
+                  {translate('commons.buttons.dashboard', { defaultValue: 'Dashboard' })}
+                </Text>
+              </TargetIndicator>
             </View>
           ),
         }}
@@ -155,16 +166,17 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
             <View
               style={{
                 flex: 1,
-                justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',
+                justifyContent: Platform.OS === 'ios' ? 'center' : 'center',
                 alignItems: 'center',
                 margin: 10,
+                marginTop: Platform.OS === 'ios' ? 20 : undefined,
                 marginHorizontal: 5,
               }}
             >
               <TargetIndicator round show={showJournalCTAHelper && screenFocused === 'Home'}>
                 <Image
                   source={require('../../../assets/images/intake.png')}
-                  style={{ width: 25, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
+                  style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
                 />
                 <Text
                   style={{
@@ -200,16 +212,17 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
             <View
               style={{
                 flex: 1,
-                justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',
+                justifyContent: Platform.OS === 'ios' ? 'center' : 'center',
                 alignItems: 'center',
                 margin: 10,
+                marginTop: Platform.OS === 'ios' ? 20 : undefined,
                 marginHorizontal: 5,
               }}
             >
               <TargetIndicator round show={showChatCTAHelper && screenFocused === 'Home'}>
                 <Image
                   source={require('../../../assets/images/coach.png')}
-                  style={{ width: 25, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
+                  style={{ width: 22, height: 22, tintColor: focused ? theme.colors.primaryPalette['500'] : '#CCCCCC' }}
                 />
                 <Text
                   style={{
@@ -237,9 +250,10 @@ function MainTabs({ navigation }: { navigation: StackNavigationProp<RootStackPar
             <View
               style={{
                 flex: 1,
-                justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',
+                justifyContent: Platform.OS === 'ios' ? 'center' : 'center',
                 alignItems: 'center',
                 margin: 10,
+                marginTop: Platform.OS === 'ios' ? 20 : undefined,
                 marginHorizontal: 5,
               }}
             >

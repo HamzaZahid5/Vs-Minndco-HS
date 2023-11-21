@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { View, Dimensions, TouchableOpacity, Text } from 'react-native'
-import { Row, Icon, BasicScreen, useRobTheme, Button, PopupWrapper, Subheading, Paragraph, ButtonSubVariant } from '@mindcoxr/rob'
+import {
+  Row,
+  Icon,
+  BasicScreen,
+  useRobTheme,
+  Button,
+  PopupWrapper,
+  Subheading,
+  Paragraph,
+  ButtonSubVariant,
+} from '@mindcoxr/rob'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { TouchableRipple, Paragraph as PaperParagraph } from 'react-native-paper'
 import moment from 'moment'
@@ -16,6 +26,8 @@ import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 import { filter, reduce } from 'lodash'
 import { revertQuitDay } from '../../services/Firestore'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
+import Posthog from 'posthog-react-native'
+import { usePostHog } from 'posthog-react-native';
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
@@ -24,6 +36,9 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
   const [showButton, setShowButton] = useState(true)
+
+  const posthog = usePostHog()
+  posthog?.screen('SmokeRecordScreen')
 
   // REDUX
   // const smokeRecords = useSelector(SMOKE_RECORD)
@@ -132,6 +147,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const currentCount = agendaItems[selectedDay]?.count
 
   const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
+    posthog?.screen('RelapseWarningPopUp')
     const PopupContent = ({ close }: { close: () => Promise<void> }) => {
       const dispatch = useDispatch()
       return (
@@ -174,7 +190,7 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
     }
     return PopupContent
   }
-console.log(currentCount)
+
   return (
     <>
       {/* container to hide panel on web */}
@@ -186,7 +202,7 @@ console.log(currentCount)
                 selected={selected}
                 daysWithInputs={agendaItems}
                 onPress={i => {
-                  setShowButton(true);
+                  setShowButton(true)
                   setSelected(i)
                   setSelectedDay(
                     moment()
@@ -200,8 +216,8 @@ console.log(currentCount)
                 {isToday
                   ? translate('screens.smokeRecording.lableToday')
                   : isYesterday
-                    ? translate('screens.smokeRecording.lableYesterday')
-                    : `${translate('screens.smokeRecording.lableDayAdv')} ${moment(selectedDay).format(
+                  ? translate('screens.smokeRecording.lableYesterday')
+                  : `${translate('screens.smokeRecording.lableDayAdv')} ${moment(selectedDay).format(
                       getDayRefFormat(getLocale()),
                     )}`}{' '}
                 {translate('screens.smokeRecording.lableIHaveSmoked')}
@@ -221,7 +237,6 @@ console.log(currentCount)
                   onPress={() => {
                     if (currentCount > 0) {
                       setIntakeSecureWrapper(currentCount - 1)
-
                     }
                   }}
                 >
@@ -251,9 +266,7 @@ console.log(currentCount)
                   }}
                   onPress={() => {
                     setIntakeSecureWrapper(currentCount + 1)
-
-                  }
-                  }
+                  }}
                 >
                   <Icon name="Plus" size={19} strokeWidth={4} color="black" />
                 </TouchableRipple>
@@ -261,7 +274,6 @@ console.log(currentCount)
             </Row>
             <Row gutter={20} grow justifyContentOnGrow="flex-end">
               <View style={{ marginHorizontal: 10 }}>
-
                 {/* BOTON 'HOY NO FUME' DESHABILITADO POR AHORA
                 <View
                   style={{ marginBottom: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
