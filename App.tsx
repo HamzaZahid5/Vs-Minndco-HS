@@ -38,7 +38,7 @@ import Blob from './assets/SVG/Blob'
 import OfflineNotice from './src/components/OfflineNotice'
 import ActivityComponent from './src/components/ActivityComponent/ActivityComponent'
 import { usePostHog, PostHogProvider } from 'posthog-react-native'
-import RNUxcam from 'react-native-ux-cam'
+ 
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
@@ -56,7 +56,6 @@ function App() {
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
 
-  RNUxcam.optIntoSchematicRecordings() // Add this line to enable iOS screen recordings
   const configuration = {
     userAppKey: 'alue1pdnpwisvgh',
     enableAutomaticScreenNameTagging: false,
@@ -64,8 +63,6 @@ function App() {
     enableImprovedScreenCapture: true, // for improved screen capture on Android
     // occlusions?: UXCamOcclusion[],
   }
-  RNUxcam.startWithConfiguration(configuration)
-  RNUxcam.tagScreenName('Inicio')
   useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
     if (Platform.OS !== 'web') {
       if (oldScreen) {

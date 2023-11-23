@@ -22,7 +22,6 @@ import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 import { useSelector } from 'react-redux'
 import { USER_PROFILE } from '../../store/selectors'
 import { setGender } from '../../services/Firestore'
-import RNUxcam from 'react-native-ux-cam'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -129,7 +128,6 @@ const VRActivityScreen = ({
   description,
   duration,
 }: VRActivityScreenProps) => {
-  RNUxcam.tagScreenName('VRActivity')
   const [loading, setLoading] = useState(typeof backImage === 'string')
   const theme = useRobTheme()
   const styles = getStyles(theme)

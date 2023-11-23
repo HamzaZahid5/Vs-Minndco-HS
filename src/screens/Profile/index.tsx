@@ -27,7 +27,6 @@ import { assert } from '@hapi/joi'
 import { defineAnimation } from 'react-native-reanimated'
 import Countdown from 'countdown'
 import { isActivityDone } from '../../utils/helpers'
-import RNUxcam from 'react-native-ux-cam'
 
 const PopupContent = ({ close }: { close: () => void }) => (
   <>
@@ -79,7 +78,6 @@ const ProfileScreen = () => {
     null,
     Countdown.YEARS | Countdown.MONTHS | Countdown.WEEKS | Countdown.DAYS,
   ).toString()
-  RNUxcam.tagScreenName('Profile')
   // let textButton = isInAbstinence
   //   ? template(translate('screens.quitDay.commitmentCTA'))({
   //       dayInProfile,

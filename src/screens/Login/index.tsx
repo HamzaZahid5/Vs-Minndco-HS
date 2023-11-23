@@ -27,12 +27,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Logo from '../../../assets/SVG/Logo'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ActivityIndicator } from 'react-native-paper'
-import RNUxcam from 'react-native-ux-cam'
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>
 
 const LoginScreen = () => {
-  RNUxcam.tagScreenName('Login')
   const navigation = useNavigation<LoginScreenNavigationProp>()
   const [errorPopup, setErrorPopup] = useState(false)
   const [errorLoginText, setErrorLoginText] = useState('')

@@ -40,7 +40,6 @@ import useChangeQuitDayIfSmoke from '../../utils/hooks/useChangeQuitDayIfSmoke'
 import useDate from '../../utils/hooks/useDate'
 import useAppVersion from '../../utils/hooks/useAppVersion'
 import { FontAwesome } from '@expo/vector-icons'
-import RNUxcam from 'react-native-ux-cam'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -139,7 +138,6 @@ const HomeScreen = ({ navigation }: { navigation: HomeScreenNavigationProp }) =>
   const dispatch = useDispatch()
   const { nextActivity, nextActivityKey, isLastActivity, withoutActKey } = useNextActivity()
   const todayActivityDone = useTodaysActivityDone()
-  RNUxcam.tagScreenName('Home')
   // const smokeRecord = useSelector(SMOKE_RECORD)
   // const hasSmokeRecords = smokeRecord !== undefined && Object.keys(smokeRecord).length > 0
   // const showBasicTutorial = useSelector(SHOW_BASIC_TUTORIAL)

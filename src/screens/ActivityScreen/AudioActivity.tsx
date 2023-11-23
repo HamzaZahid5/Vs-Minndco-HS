@@ -22,7 +22,6 @@ import { RootStackParamList } from '../../../types'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 import RoundPlayButton from '../../components/RoundPlayButton'
 import InlineAudioPlayer from '../../components/Skeletons/InlineAudioPlayer'
-import RNUxcam from 'react-native-ux-cam'
 
 export type VRActivityScreenProps = {
   onPlayPressed: () => void
@@ -77,7 +76,6 @@ const AudioActivityScreen = ({
   description,
   duration,
 }: VRActivityScreenProps) => {
-  RNUxcam.tagScreenName('AudioActivity')
   const [loading, setLoading] = useState(true)
   const theme = useRobTheme()
   const styles = getStyles(theme)

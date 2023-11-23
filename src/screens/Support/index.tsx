@@ -13,7 +13,6 @@ import { translate } from '../../utils/localization'
 import { useRobTheme, Theme as RobTheme, TabbedScreen } from '@mindcoxr/rob'
 import { URL_UI_SUPPORT, URL_UI_COACHING } from '../../utils/config'
 const FAKE_SESSION_ID = 'session_fake_to_destroy_previous_one'
-import RNUxcam from 'react-native-ux-cam'
 
 const Support = ({ navigation }: DefaultScreenPropType<'Support'>) => {
   // REDUX
@@ -29,7 +28,6 @@ const Support = ({ navigation }: DefaultScreenPropType<'Support'>) => {
   } = useSelector(USER_SUPPORT_PROFILE)
   const dispatch = useDispatch()
   const isCoachingSupport = useSelector(IS_PREMIUM)
-  RNUxcam.tagScreenName('Coach')
   // TOOLS
   const theme = useRobTheme()
   const styles = getStyles(theme)

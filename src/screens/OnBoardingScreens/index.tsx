@@ -8,7 +8,6 @@ import Screen4 from './Screen4'
 import { useDispatch, useSelector } from 'react-redux'
 import { IS_PREMIUM, ONBOARDING_COMPLETE, ONBOARDING_CURRENT_INPUT } from '../../store/selectors'
 import { DefaultScreenPropType as RootScreenPropTyle } from '../../../types'
-import RNUxcam from 'react-native-ux-cam'
 
 export type OnboardingScreensType = {
   Screen1: undefined
@@ -41,7 +40,6 @@ export default function OnboardingContainer({ navigation: rootNavigation }: Root
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingComplete])
-  RNUxcam.tagScreenName('Onboarding')
   return (
     <Stack.Navigator initialRouteName="Screen1">
       <Stack.Group screenOptions={{ presentation: 'modal' }}>

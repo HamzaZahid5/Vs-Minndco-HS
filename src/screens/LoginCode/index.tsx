@@ -9,7 +9,6 @@ import functions from '../../services/Functions'
 import auth from '../../services/Auth/auth'
 import useShakingView from '../../utils/hooks/useShakingView'
 import Logo from '../../../assets/SVG/Logo'
-import RNUxcam from 'react-native-ux-cam'
 
 const CODE_LENGTH = 6
 
@@ -49,7 +48,6 @@ const VerificationCode = ({
 }: DefaultScreenPropType<'LoginCode'> & DefaultScreenRouteType<'LoginCode'>) => {
   // UTILS
   const theme = useRobTheme()
-  RNUxcam.tagScreenName('LoginCode')
   // LOCAL
   const [text, setText] = useState('')
   const [invalid, setInvalid] = useState(false)

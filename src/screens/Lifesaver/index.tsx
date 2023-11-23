@@ -14,7 +14,6 @@ import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { TabsParamList } from '../TabsNavigator'
 import useDoNotBackHere from '../../utils/hooks/useDoNotBackHere'
-import RNUxcam from 'react-native-ux-cam'
 
 type InternalNavigationProp = CompositeNavigationProp<
   DrawerNavigationProp<DrawerParamList, 'DrawerHome'>,
@@ -31,7 +30,6 @@ const Lifesaver = ({ navigation }: { navigation: LifesaverScreenNavigationProp }
   const actions = useLifesaverActions(dispatch)
   const noWayBackNavigate = useDoNotBackHere('Home')
   const reduxDispatch = useDispatch()
-  RNUxcam.tagScreenName('Lifesaver')
   // BOOT UP CHAT
   useEffect(() => {
     const unsubsFocus = navigation.addListener('focus', () => {

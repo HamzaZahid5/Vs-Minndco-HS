@@ -9,7 +9,6 @@ import { translate } from '../../utils/localization'
 import { useNavigation } from '@react-navigation/native'
 import useAnimatedParallax from '../../utils/hooks/useAnimatedParallax'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import RNUxcam from 'react-native-ux-cam'
 
 export type ReflectionActivityScreenProps = {
   onDonePressed: (answer: string) => void
@@ -49,7 +48,6 @@ const ReflectionActivityScreen = ({
   // LOCAL
   const [loading, setLoading] = useState(typeof backImage === 'string')
   const [answer, setAnswer] = useState('')
-  RNUxcam.tagScreenName('ReflectionActivity')
   // TOOLS
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const theme = useRobTheme()
