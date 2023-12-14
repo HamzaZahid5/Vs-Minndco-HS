@@ -27,7 +27,7 @@ import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
 import { useFirestoreListener, updateDevideInfo } from './src/services/Firestore'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
-import Orientation from 'react-native-orientation-locker'
+// import Orientation from 'react-native-orientation-locker'
 import handleMessaging from './src/utils/RemoteMessagingHandler'
 import { checkNotificationPermission, parseCommand } from './src/utils/helpers'
 import { getCommonRoutes, getPostLoginRoutes, getPreLoginRoutes } from './src/utils/routes'
@@ -99,9 +99,9 @@ function App() {
     checkNotificationPermission()
   }, [])
 
-  useEffect(() => {
-    Orientation.lockToPortrait()
-  }, [])
+  // useEffect(() => {
+  //   Orientation.lockToPortrait()
+  // }, [])
 
   useEffect(() => {
     if (userToken) {
