@@ -1,9 +1,10 @@
 {
-  "apiKey": "AIzaSyBm2qxdLhqZvd-xiwm6kHpv9wO6latT-pA",
-  "authDomain": "mindco-relief-production.firebaseapp.com",
-  "projectId": "mindco-relief-production",
-  "storageBucket": "mindco-relief-production.appspot.com",
-  "messagingSenderId": "856853839195",
-  "appId": "1:856853839195:web:a614eddbf688d4a8456e7e",
-  "measurementId": "G-Z62R5WRKFY"
+  "apiKey": "AIzaSyBANcxC5KquItpycugBdLbvMAYGZSYMP1w",
+  "authDomain": "mindcotine-v4-production.firebaseapp.com",
+  "databaseURL": "https://mindcotine-v4-production.firebaseio.com",
+  "projectId": "mindcotine-v4-production",
+  "storageBucket": "mindcotine-v4-production.appspot.com",
+  "messagingSenderId": "1034939302281",
+  "appId": "1:1034939302281:web:bb1a4a55dfbb49337d6158",
+  "measurementId": "G-82QMW56X6X"
 }
