@@ -47,28 +47,28 @@ const VRPlayer = ({ route, navigation }: DefaultScreenRouteType<'VRMet'> & Defau
         assetUrl,
       )}&widthMeters=${landscapeWidth}&heightMeters=${landscapeHeight}`
 
-  useEffect(() => {
-    const unsubsFocus = navigation.addListener('focus', () => {
-      Orientation.unlockAllOrientations()
-    })
-    const unsubsBlur = navigation.addListener('blur', () => {
-      Orientation.lockToPortrait()
-    })
+  // useEffect(() => {
+  //   const unsubsFocus = navigation.addListener('focus', () => {
+  //     Orientation.unlockAllOrientations()
+  //   })
+  //   const unsubsBlur = navigation.addListener('blur', () => {
+  //     Orientation.lockToPortrait()
+  //   })
 
-    return () => {
-      unsubsFocus()
-      unsubsBlur()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  //   return () => {
+  //     unsubsFocus()
+  //     unsubsBlur()
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
 
-  useEffect(() => {
-    if (dimensions.width > dimensions.height && !isRotated) {
-      Orientation.lockToLandscape()
-      setIsRotated(true)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dimensions])
+  // useEffect(() => {
+  //   if (dimensions.width > dimensions.height && !isRotated) {
+  //     Orientation.lockToLandscape()
+  //     setIsRotated(true)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [dimensions])
 
   return (
     <SafeAreaView style={styles.container}>
