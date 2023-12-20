@@ -27,7 +27,7 @@ import useBootUpI18n from './src/utils/hooks/useBootUpI18n'
 import { useFirestoreListener, updateDevideInfo } from './src/services/Firestore'
 import NavigationHeader from './src/components/NavigationHeader'
 import useDeepLinking from './src/utils/hooks/useDeepLinking'
-// import Orientation from 'react-native-orientation-locker'
+import Orientation from 'react-native-orientation-locker'
 import handleMessaging from './src/utils/RemoteMessagingHandler'
 import { checkNotificationPermission, parseCommand } from './src/utils/helpers'
 import { getCommonRoutes, getPostLoginRoutes, getPreLoginRoutes } from './src/utils/routes'
@@ -37,8 +37,6 @@ import useOnScreenChange from './src/utils/hooks/useOnScreenChange'
 import Blob from './assets/SVG/Blob'
 import OfflineNotice from './src/components/OfflineNotice'
 import ActivityComponent from './src/components/ActivityComponent/ActivityComponent'
-import { usePostHog, PostHogProvider } from 'posthog-react-native'
- 
 
 const Stack = createStackNavigator<RootStackParamList>()
 const store = configureStore()
@@ -56,13 +54,6 @@ function App() {
   const deepLink = useDeepLinking()
   const navigatorRef: RefObject<NavigationContainerRef<RootStackParamList>> = useRef(null)
 
-  const configuration = {
-    userAppKey: 'alue1pdnpwisvgh',
-    enableAutomaticScreenNameTagging: false,
-    enableAdvancedGestureRecognition: true, // default is true
-    enableImprovedScreenCapture: true, // for improved screen capture on Android
-    // occlusions?: UXCamOcclusion[],
-  }
   useOnScreenChange(navigatorRef, ({ oldScreen, newScreen }) => {
     if (Platform.OS !== 'web') {
       if (oldScreen) {
@@ -99,9 +90,9 @@ function App() {
     checkNotificationPermission()
   }, [])
 
-  // useEffect(() => {
-  //   Orientation.lockToPortrait()
-  // }, [])
+  useEffect(() => {
+    Orientation.lockToPortrait()
+  }, [])
 
   useEffect(() => {
     if (userToken) {
@@ -138,11 +129,11 @@ function App() {
       if (Platform.OS !== 'web') {
         Smartlook.setUserIdentifier(userToken.uid)
       }
-      userToken.uid && analytics().setUserId(userToken.uid)
+      userToken?.uid && analytics().setUserId(userToken?.uid)
       //@ts-ignore bad typed
-      userToken.uid && crashlytics().log('User authenticated.')
+      userToken?.uid && crashlytics().log('User authenticated.')
       //@ts-ignore bad typed
-      userToken.uid && crashlytics().setUserId(userToken.uid)
+      userToken?.uid && crashlytics().setUserId(userToken?.uid)
     }
   }, [userToken])
 
@@ -156,13 +147,14 @@ function App() {
 
   useEffect(() => {
     if (isAuthed && i18nReady && userData !== null) {
-      updateDevideInfo({
-        app_version: config.APP_VERSION,
-        language: getLocale(),
-        tz: Localization.timezone,
-        tz_offset: new Date().getTimezoneOffset() * -60,
-        platform: `${Platform.OS}(${Platform.Version})`,
-      })
+      userToken?.uid &&
+        updateDevideInfo({
+          app_version: config.APP_VERSION,
+          language: getLocale(),
+          tz: Localization.timezone,
+          tz_offset: new Date().getTimezoneOffset() * -60,
+          platform: `${Platform.OS}(${Platform.Version})`,
+        })
     } else {
       navigatorRef.current?.navigate('Landing')
     }
@@ -209,44 +201,30 @@ function App() {
               }}
               ref={navigatorRef}
             >
-              {/* <PostHogProvider
-                apiKey="phc_Ewp0opPn25tZg7Bu1GibYQs0fM5sMdGWrxUjN2ryKXr"
-                options={{
-                  host: 'https://app.posthog.com',
-                }}
-              > */}
-              <PostHogProvider
-                apiKey="phc_Ewp0opPn25tZg7Bu1GibYQs0fM5sMdGWrxUjN2ryKXr"
-                options={{
-                  host: 'https://app.posthog.com',
-                }}
+              <Stack.Navigator
+                initialRouteName={userToken ? 'Home' : 'Landing'}
+                // initialRouteName="Main"
               >
-                <Stack.Navigator
-                  initialRouteName={userToken ? 'Home' : 'Landing'}
-                  // initialRouteName="Main"
-                >
-                  {userToken ? (
-                    <>
-                      <Stack.Group
-                        screenOptions={{
-                          headerMode: 'float',
-                          // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
-                          headerTransparent: true,
-                          headerBackground,
-                          // eslint-disable-next-line react/display-name
-                          header: NavigationHeader,
-                        }}
-                      >
-                        {PostLoginRoutes}
-                      </Stack.Group>
-                    </>
-                  ) : (
-                    <>{PreLoginRoutes}</>
-                  )}
-                  {CommonRoutes}
-                </Stack.Navigator>
-              </PostHogProvider>
-              {/* </PostHogProvider> */}
+                {userToken ? (
+                  <>
+                    <Stack.Group
+                      screenOptions={{
+                        headerMode: 'float',
+                        // headerTintColor: Color(theme.colors.dark).darken(0.3).toString(),
+                        headerTransparent: true,
+                        headerBackground,
+                        // eslint-disable-next-line react/display-name
+                        header: NavigationHeader,
+                      }}
+                    >
+                      {PostLoginRoutes}
+                    </Stack.Group>
+                  </>
+                ) : (
+                  <>{PreLoginRoutes}</>
+                )}
+                {CommonRoutes}
+              </Stack.Navigator>
             </NavigationContainer>
           </SafeAreaProvider>
         </PaperProvider>

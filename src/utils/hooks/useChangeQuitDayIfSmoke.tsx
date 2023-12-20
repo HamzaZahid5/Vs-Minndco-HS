@@ -7,12 +7,9 @@ import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
 import moment from 'moment'
 import { filter, reduce } from 'lodash'
-import { usePostHog } from 'posthog-react-native'
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList>) => {
   const PopupContent = ({ close }: { close: () => Promise<void> }) => {
-    const posthog = usePostHog()
-    posthog?.screen('changeQuitDayIfSmoked')
     const dispatch = useDispatch()
     return (
       <>

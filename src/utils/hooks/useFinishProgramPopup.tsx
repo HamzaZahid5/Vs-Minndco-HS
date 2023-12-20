@@ -7,12 +7,9 @@ import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
 import { userWasCongratulatedOnQuitDay } from '../../services/Firestore'
 import useNextActivity from './useNextActivity'
-import { usePostHog } from 'posthog-react-native';
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
   const PopupContent = ({ close }: { close: () => Promise<void> }) => {
-    const posthog = usePostHog()
-    posthog?.screen('CongratsEndProgramPopUp')
     const dispatch = useDispatch()
     return (
       <>

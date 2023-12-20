@@ -1,6 +1,6 @@
 {
   "name": "mindcotine_mobile_v4",
-  "version": "5.4.20",
+  "version": "5.4.21",
   "main": "index.js",
   "scripts": {
     "android": "npm run set-dev && npx react-native run-android",
@@ -9,7 +9,7 @@
     "android-prod": "npm run set-prod && npx react-native run-android -- --reset-cache",
     "preandroid-build": "npm run set-prod",
     "android-build": "cd ./android && ./gradlew bundleRelease",
-    "pods": "cd ios/ && pod repo update && pod install --repo-update && cd ..",
+    "pods": "cd ios/ && pod setup && pod repo update && pod install --repo-update && cd ..",
     "ios": "npm run set-dev && npx react-native run-ios",
     "ios-test": "npm run set-test && npx react-native run-ios",
     "ios-prod": "npm run set-prod && npx react-native run-ios",
@@ -86,7 +86,6 @@
     "moment": "^2.29.1",
     "pluralize": "^8.0.0",
     "pluralize-es": "^1.0.0",
-    "posthog-react-native": "^2.8.1",
     "prop-types": "^15.7.2",
     "react": "17.0.1",
     "react-content-loader": "^6.2.0",
@@ -98,6 +97,7 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-inappbrowser-reborn": "^3.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
+    "react-native-orientation-locker": "^1.4.0",
     "react-native-paper": "^4.7.2",
     "react-native-permissions": "3.8.0",
     "react-native-phone-number-input": "^2.1.0",

@@ -8,11 +8,8 @@ import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
 import { userWasCongratulatedOnQuitDay } from '../../services/Firestore'
 import { calculateProgressForQuitDayCongratulated } from '../helpers'
-import { usePostHog } from 'posthog-react-native'
 
 const PopupContent = ({ close }: { close: () => Promise<void> }) => {
-  const posthog = usePostHog()
-  posthog?.screen('congratsOnQuitDayPopUp')
   const dispatch = useDispatch()
   return (
     <>

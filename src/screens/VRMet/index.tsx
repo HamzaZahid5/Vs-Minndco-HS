@@ -7,7 +7,7 @@ import { useKeepAwake } from 'expo-keep-awake'
 import { DefaultScreenPropType, DefaultScreenRouteType } from '../../../types'
 import { getLocale, translate } from '../../utils/localization'
 import env from '../../../env'
-// import Orientation from 'react-native-orientation-locker'
+import Orientation from 'react-native-orientation-locker'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { getRealHeight, getRealWidth } from '../../utils/helpers'
 import { deviceInch } from 'react-native-utils-scale'
@@ -47,28 +47,28 @@ const VRPlayer = ({ route, navigation }: DefaultScreenRouteType<'VRMet'> & Defau
         assetUrl,
       )}&widthMeters=${landscapeWidth}&heightMeters=${landscapeHeight}`
 
-  // useEffect(() => {
-  //   const unsubsFocus = navigation.addListener('focus', () => {
-  //     Orientation.unlockAllOrientations()
-  //   })
-  //   const unsubsBlur = navigation.addListener('blur', () => {
-  //     Orientation.lockToPortrait()
-  //   })
+  useEffect(() => {
+    const unsubsFocus = navigation.addListener('focus', () => {
+      Orientation.unlockAllOrientations()
+    })
+    const unsubsBlur = navigation.addListener('blur', () => {
+      Orientation.lockToPortrait()
+    })
 
-  //   return () => {
-  //     unsubsFocus()
-  //     unsubsBlur()
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+    return () => {
+      unsubsFocus()
+      unsubsBlur()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  // useEffect(() => {
-  //   if (dimensions.width > dimensions.height && !isRotated) {
-  //     Orientation.lockToLandscape()
-  //     setIsRotated(true)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [dimensions])
+  useEffect(() => {
+    if (dimensions.width > dimensions.height && !isRotated) {
+      Orientation.lockToLandscape()
+      setIsRotated(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dimensions])
 
   return (
     <SafeAreaView style={styles.container}>

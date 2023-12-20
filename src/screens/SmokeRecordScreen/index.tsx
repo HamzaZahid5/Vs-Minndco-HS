@@ -26,8 +26,6 @@ import { SmokeRecordsState } from '../../store/slices/smokeRecord'
 import { filter, reduce } from 'lodash'
 import { revertQuitDay } from '../../services/Firestore'
 import { calculateProgressForQuitDayRevert } from '../../utils/helpers'
-import Posthog from 'posthog-react-native'
-import { usePostHog } from 'posthog-react-native'
 
 const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<RootStackParamList> }) => {
   // LOCAL STATE
@@ -36,9 +34,6 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const [agendaItems, setAgendaItems] = useState<EmptyRecordsType>({})
   const [selectedDay, setSelectedDay] = useState(moment().format('YYYY-MM-DD'))
   const [showButton, setShowButton] = useState(true)
-
-  const posthog = usePostHog()
-  posthog?.screen('SmokeRecordScreen')
 
   // REDUX
   // const smokeRecords = useSelector(SMOKE_RECORD)
@@ -147,7 +142,6 @@ const SmokeRecordScreen = ({ navigation }: { navigation: StackNavigationProp<Roo
   const currentCount = agendaItems[selectedDay]?.count
 
   const MakePopupContent = (progress: string[], actualQuitDay: moment.Moment) => {
-    posthog?.screen('RelapseWarningPopUp')
     const PopupContent = ({ close }: { close: () => Promise<void> }) => {
       const dispatch = useDispatch()
       return (

@@ -6,12 +6,9 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { MISSING_JOURNAL_WARNING_SHOWN, SMOKE_RECORD, USER_PROFILE } from '../../store/selectors'
 import { translate } from '../localization'
 import { RootStackParamList } from '../../../types'
-import { usePostHog } from 'posthog-react-native';
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
   const PopupContent = ({ close }: { close: () => Promise<void> }) => {
-    const posthog = usePostHog()
-    posthog?.screen('MissingJournalPopUp')
     return (
       <>
         <Row gutter={10}>
