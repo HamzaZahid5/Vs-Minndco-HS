@@ -68,7 +68,10 @@ const VRPlayer = ({ route, navigation }: DefaultScreenRouteType<'VRMet'> & Defau
       setIsRotated(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dimensions])
+  }, [dimensions, isRotated])
+
+  console.log({ dimensions })
+  console.log({ isRotated })
 
   return (
     <SafeAreaView style={styles.container}>
