@@ -97,7 +97,7 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-inappbrowser-reborn": "^3.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
-    "react-native-orientation-locker": "^1.4.0",
+    "react-native-orientation-locker": "^1.6.0",
     "react-native-paper": "^4.7.2",
     "react-native-permissions": "3.8.0",
     "react-native-phone-number-input": "^2.1.0",
