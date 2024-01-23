@@ -159,7 +159,7 @@ const VideoActivity = ({
                   setIsFullscreen(false)
                 }
               }}
-              useNativeControls={isFullscreen}
+              // useNativeControls={isFullscreen}
               resizeMode={isFullscreen ? 'contain' : 'cover'}
               onPlaybackStatusUpdate={status => {
                 if (status.isLoaded) {
