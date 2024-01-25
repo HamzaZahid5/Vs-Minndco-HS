@@ -9,23 +9,7 @@
       "**/*"
     ],
     "android": {
-      "package": "com.habitfly.mindcotine",
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "data": [
-            {
-              "scheme": "https",
-              "host": "app.relief.the-mind.company",
-              "pathPrefix": "/"
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
-        }
-      ]
+      "package": "com.habitfly.mindcotine"
     },
     "ios": {
       "supportsTablet": true,
