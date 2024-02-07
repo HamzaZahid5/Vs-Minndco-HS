@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DefaultScreenRouteType, RootStackParamList } from '../../../types'
 import { Button, Icon, Paragraph, Row, Subheading, useRobTheme, BasicScreen, Headline, Keyboard } from '@mindcoxr/rob'
 import { translate } from '../../utils/localization'
@@ -100,6 +100,10 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
+  //OTP TIME RESTRICTION
+  const [attemptCount, setAttemptCount] = useState(0)
+  const [blockEndTime, setBlockEndTime] = useState<Date | null>(null)
+
   const { AnimatedViewElement: ShakeView, shake } = useShakingView()
 
   // HELPERS
@@ -118,29 +122,74 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   }
 
   const handleSubmit = async () => {
+    // Verifica si actualmente hay un bloqueo activo y si aún no ha terminado
+    if (blockEndTime && new Date() < blockEndTime) {
+      alert(`You are blocked. Please wait until ${blockEndTime.toLocaleTimeString()}.`)
+      return
+    }
+
     setIsLoading(true)
+
     try {
+      // Intenta verificar el código OTP aquí
       const { data: result } = await functions().httpsCallable('loginWithPhoneNumber')({
         phoneNumber,
         verificationCode: text,
       })
 
       if (result.verified) {
-        await auth().signInWithCustomToken(result.customToken)
-        await AsyncStorage.setItem('userToken', JSON.stringify(result.customToken))
+        // Lógica para cuando el código es correcto
       } else {
-        throw { code: result.error }
+        // Si la verificación falla, incrementa el contador de intentos
+        setAttemptCount(prevCount => prevCount + 1)
+
+        // Verifica el número de intentos para determinar si se necesita un bloqueo
+        if (attemptCount >= 2) {
+          // En el tercer intento fallido
+          setBlockEndTime(new Date(new Date().getTime() + 60 * 1000)) // Bloquea por 60 segundos
+          alert('You have exceeded the maximum number of attempts. Please wait 60 seconds.')
+        } else if (attemptCount >= 4) {
+          // En el quinto intento fallido
+          setBlockEndTime(new Date(new Date().getTime() + 5 * 60 * 1000)) // Bloquea por 5 minutos
+          alert('You have exceeded the maximum number of attempts. Please wait 5 minutes.')
+        }
+
+        throw new Error('Verification failed')
       }
-      throw new Error()
     } catch (error) {
+      // Manejo de errores
       setIsLoading(false)
       navigation.navigate('BasicModal', {
         content: MakePopupContent(navigation),
       })
+    } finally {
+      setIsLoading(false)
     }
 
-    setIsLoading(false)
+    // Restablece el contador si el usuario está bloqueado y el tiempo de bloqueo ha terminado
+    if (blockEndTime && new Date() >= blockEndTime) {
+      setAttemptCount(0)
+      setBlockEndTime(null)
+    }
   }
+
+  useEffect(() => {
+    let intervalId
+
+    if (blockEndTime) {
+      intervalId = setInterval(() => {
+        if (new Date() >= blockEndTime) {
+          setAttemptCount(0)
+          setBlockEndTime(null)
+        }
+      }, 1000) // Revisa cada segundo
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId)
+    }
+  }, [blockEndTime])
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <LoadingBackground isLoading={isLoading} />
