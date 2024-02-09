@@ -14,6 +14,8 @@ import LoadingBackground from '../../components/LoadingBackground'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { auth } from '../../services/Auth'
 
+import BasicModalScreen from '../BasicModalScreen'
+
 const CODE_LENGTH = 6
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
@@ -62,31 +64,31 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
 
 const ErrorPopopContent =
   (errorText: string) =>
-  ({ close }: { close: () => void }) => {
-    const theme = useRobTheme()
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Row gutter={20}>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Icon name="Warning" color={theme.colors.errors.darkmode} size={90} />
-          </View>
-        </Row>
-        <Row gutter={10}>
-          <Subheading>{translate('commons.messages.genericInternalError')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="center">
-            {errorText || '\n\n\n'}
-          </Paragraph>
-        </Row>
-        <Row gutter={10}>
-          <Button outline onPress={close}>
-            {translate('commons.messages.close')}
-          </Button>
-        </Row>
-      </SafeAreaView>
-    )
-  }
+    ({ close }: { close: () => void }) => {
+      const theme = useRobTheme()
+      return (
+        <SafeAreaView style={{ flex: 1 }}>
+          <Row gutter={20}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name="Warning" color={theme.colors.errors.darkmode} size={90} />
+            </View>
+          </Row>
+          <Row gutter={10}>
+            <Subheading>{translate('commons.messages.genericInternalError')}</Subheading>
+          </Row>
+          <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+            <Paragraph size="xsmall" weight="normal" textAlign="center">
+              {errorText || '\n\n\n'}
+            </Paragraph>
+          </Row>
+          <Row gutter={10}>
+            <Button outline onPress={close}>
+              {translate('commons.messages.close')}
+            </Button>
+          </Row>
+        </SafeAreaView>
+      )
+    }
 
 export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'ValidationPhoneCodeScreen'>) => {
   // UTILS
@@ -124,7 +126,9 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   const handleSubmit = async () => {
     // Verifica si actualmente hay un bloqueo activo y si aún no ha terminado
     if (blockEndTime && new Date() < blockEndTime) {
-      alert(`You are blocked. Please wait until ${blockEndTime.toLocaleTimeString()}.`)
+      navigation.navigate('BasicModal', {
+        content: `You are blocked. Please wait until ${blockEndTime.toLocaleTimeString()}.`,
+      })
       return
     }
 
@@ -138,20 +142,22 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
       })
 
       if (result.verified) {
-        // Lógica para cuando el código es correcto
+        await auth().signInWithCustomToken(result.customToken)
+        await AsyncStorage.setItem('userToken', JSON.stringify(result.customToken))
       } else {
-        // Si la verificación falla, incrementa el contador de intentos
         setAttemptCount(prevCount => prevCount + 1)
 
-        // Verifica el número de intentos para determinar si se necesita un bloqueo
         if (attemptCount >= 2) {
-          // En el tercer intento fallido
           setBlockEndTime(new Date(new Date().getTime() + 60 * 1000)) // Bloquea por 60 segundos
-          alert('You have exceeded the maximum number of attempts. Please wait 60 seconds.')
+          navigation.navigate('BasicModal', {
+            content: 'You have exceeded the maximum number of attempts. Please wait 60 seconds.',
+          })
         } else if (attemptCount >= 4) {
           // En el quinto intento fallido
           setBlockEndTime(new Date(new Date().getTime() + 5 * 60 * 1000)) // Bloquea por 5 minutos
-          alert('You have exceeded the maximum number of attempts. Please wait 5 minutes.')
+          navigation.navigate('BasicModal', {
+            content: 'You have exceeded the maximum number of attempts. Please wait 5 minutes.',
+          })
         }
 
         throw new Error('Verification failed')
