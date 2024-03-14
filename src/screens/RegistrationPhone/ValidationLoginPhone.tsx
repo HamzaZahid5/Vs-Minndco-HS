@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { DefaultScreenRouteType, RootStackParamList } from '../../../types'
 import { Button, Icon, Paragraph, Row, Subheading, useRobTheme, BasicScreen, Headline, Keyboard } from '@mindcoxr/rob'
 import { translate } from '../../utils/localization'
@@ -13,6 +13,8 @@ import Logo from '../../../assets/SVG/Logo'
 import LoadingBackground from '../../components/LoadingBackground'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { auth } from '../../services/Auth'
+
+import BasicModalScreen from '../BasicModalScreen'
 
 const CODE_LENGTH = 6
 
@@ -62,31 +64,31 @@ const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, ke
 
 const ErrorPopopContent =
   (errorText: string) =>
-  ({ close }: { close: () => void }) => {
-    const theme = useRobTheme()
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <Row gutter={20}>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Icon name="Warning" color={theme.colors.errors.darkmode} size={90} />
-          </View>
-        </Row>
-        <Row gutter={10}>
-          <Subheading>{translate('commons.messages.genericInternalError')}</Subheading>
-        </Row>
-        <Row grow justifyContentOnGrow="flex-start" gutter={10}>
-          <Paragraph size="xsmall" weight="normal" textAlign="center">
-            {errorText || '\n\n\n'}
-          </Paragraph>
-        </Row>
-        <Row gutter={10}>
-          <Button outline onPress={close}>
-            {translate('commons.messages.close')}
-          </Button>
-        </Row>
-      </SafeAreaView>
-    )
-  }
+    ({ close }: { close: () => void }) => {
+      const theme = useRobTheme()
+      return (
+        <SafeAreaView style={{ flex: 1 }}>
+          <Row gutter={20}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name="Warning" color={theme.colors.errors.darkmode} size={90} />
+            </View>
+          </Row>
+          <Row gutter={10}>
+            <Subheading>{translate('commons.messages.genericInternalError')}</Subheading>
+          </Row>
+          <Row grow justifyContentOnGrow="flex-start" gutter={10}>
+            <Paragraph size="xsmall" weight="normal" textAlign="center">
+              {errorText || '\n\n\n'}
+            </Paragraph>
+          </Row>
+          <Row gutter={10}>
+            <Button outline onPress={close}>
+              {translate('commons.messages.close')}
+            </Button>
+          </Row>
+        </SafeAreaView>
+      )
+    }
 
 export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'ValidationPhoneCodeScreen'>) => {
   // UTILS
@@ -99,6 +101,10 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   const [invalid, setInvalid] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+
+  //OTP TIME RESTRICTION
+  const [attemptCount, setAttemptCount] = useState(0)
+  const [blockEndTime, setBlockEndTime] = useState<Date | null>(null)
 
   const { AnimatedViewElement: ShakeView, shake } = useShakingView()
 
@@ -118,8 +124,18 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
   }
 
   const handleSubmit = async () => {
+    // Verifica si actualmente hay un bloqueo activo y si aún no ha terminado
+    if (blockEndTime && new Date() < blockEndTime) {
+      navigation.navigate('BasicModal', {
+        content: `You are blocked. Please wait until ${blockEndTime.toLocaleTimeString()}.`,
+      })
+      return
+    }
+
     setIsLoading(true)
+
     try {
+      // Intenta verificar el código OTP aquí
       const { data: result } = await functions().httpsCallable('loginWithPhoneNumber')({
         phoneNumber,
         verificationCode: text,
@@ -129,18 +145,57 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
         await auth().signInWithCustomToken(result.customToken)
         await AsyncStorage.setItem('userToken', JSON.stringify(result.customToken))
       } else {
-        throw { code: result.error }
+        setAttemptCount(prevCount => prevCount + 1)
+
+        if (attemptCount >= 2) {
+          setBlockEndTime(new Date(new Date().getTime() + 60 * 1000)) // Bloquea por 60 segundos
+          navigation.navigate('BasicModal', {
+            content: 'You have exceeded the maximum number of attempts. Please wait 60 seconds.',
+          })
+        } else if (attemptCount >= 4) {
+          // En el quinto intento fallido
+          setBlockEndTime(new Date(new Date().getTime() + 5 * 60 * 1000)) // Bloquea por 5 minutos
+          navigation.navigate('BasicModal', {
+            content: 'You have exceeded the maximum number of attempts. Please wait 5 minutes.',
+          })
+        }
+
+        throw new Error('Verification failed')
       }
-      throw new Error()
     } catch (error) {
+      // Manejo de errores
       setIsLoading(false)
       navigation.navigate('BasicModal', {
         content: MakePopupContent(navigation),
       })
+    } finally {
+      setIsLoading(false)
     }
 
-    setIsLoading(false)
+    // Restablece el contador si el usuario está bloqueado y el tiempo de bloqueo ha terminado
+    if (blockEndTime && new Date() >= blockEndTime) {
+      setAttemptCount(0)
+      setBlockEndTime(null)
+    }
   }
+
+  useEffect(() => {
+    let intervalId
+
+    if (blockEndTime) {
+      intervalId = setInterval(() => {
+        if (new Date() >= blockEndTime) {
+          setAttemptCount(0)
+          setBlockEndTime(null)
+        }
+      }, 1000) // Revisa cada segundo
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId)
+    }
+  }, [blockEndTime])
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <LoadingBackground isLoading={isLoading} />
