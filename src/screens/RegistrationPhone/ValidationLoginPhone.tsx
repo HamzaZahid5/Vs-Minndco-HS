@@ -164,7 +164,6 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
     } catch (error) {
       alert(error.message)
       setIsLoading(false)
-      // Aquí deberías manejar el error. Por ejemplo, mostrar un mensaje al usuario.
       return
     }
 
