@@ -14,6 +14,8 @@ import LoadingBackground from '../../components/LoadingBackground'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { auth } from '../../services/Auth'
 
+import { getLocale } from '../../utils/localization'
+
 const CODE_LENGTH = 6
 
 const MakePopupContent = (navigation: StackNavigationProp<RootStackParamList, keyof RootStackParamList>) => {
@@ -124,14 +126,29 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
     setIsLoading(true)
 
     try {
+      const locale = getLocale()
       const now = new Date().getTime()
       const blockInfo = await AsyncStorage.getItem('blockInfo')
       const blockData = blockInfo ? JSON.parse(blockInfo) : null
 
       if (blockData && now - blockData.timestamp < BLOCK_DURATION) {
-        // Si estamos dentro del periodo de bloqueo, lanzamos un error.
-        const timeLeft = ((BLOCK_DURATION - (now - blockData.timestamp)) / 60000).toFixed(1)
-        throw new Error(`Please wait ${timeLeft} more minutes before trying again.`)
+        const timeLeftSec = Math.round((BLOCK_DURATION - (now - blockData.timestamp)) / 1000)
+        const timeLeftMin = (timeLeftSec / 60).toFixed(1)
+        let errorMessage
+
+        if (timeLeftSec < 60) {
+          errorMessage =
+            locale === 'es'
+              ? `Por favor, espera ${timeLeftSec} segundos antes de intentarlo de nuevo.`
+              : `Please wait ${timeLeftSec} more seconds before trying again.`
+        } else {
+          errorMessage =
+            locale === 'es'
+              ? `Por favor, espera ${timeLeftMin} minutos antes de intentarlo de nuevo.`
+              : `Please wait ${timeLeftMin} more minutes before trying again.`
+        }
+
+        throw new Error(errorMessage)
       }
 
       const { data: result } = await functions().httpsCallable('loginWithPhoneNumber')({
@@ -142,32 +159,33 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
       if (result.verified) {
         await auth().signInWithCustomToken(result.customToken)
         await AsyncStorage.setItem('userToken', JSON.stringify(result.customToken))
-        // Limpiar datos de bloqueo e intentos si el login es exitoso.
         await AsyncStorage.removeItem('blockInfo')
       } else {
-        // Manejar el caso de falla verificando y actualizando el conteo de intentos.
         const attempts = blockData ? blockData.attempts + 1 : 1
         if (attempts >= MAX_ATTEMPTS) {
-          // Guardar timestamp de bloqueo e intentos.
+          const errorMessage =
+            locale === 'es'
+              ? 'Has excedido el número máximo de intentos. Por favor, espera 5 minutos antes de intentarlo de nuevo.'
+              : 'You have exceeded the maximum number of attempts. Please wait 5 minutes before trying again.'
           await AsyncStorage.setItem('blockInfo', JSON.stringify({ timestamp: now, attempts }))
-          throw new Error(
-            'You have exceeded the maximum number of attempts. Please wait 5 minutes before trying again.',
-          )
+          throw new Error(errorMessage)
         } else {
           await AsyncStorage.setItem(
             'blockInfo',
             JSON.stringify({ timestamp: blockData ? blockData.timestamp : now, attempts }),
           )
-          throw new Error('Verification failed. Please try again.')
+          const errorMessage =
+            locale === 'es'
+              ? 'La verificación ha fallado. Por favor, intenta de nuevo.'
+              : 'Verification failed. Please try again.'
+          throw new Error(errorMessage)
         }
       }
     } catch (error) {
       alert(error.message)
+    } finally {
       setIsLoading(false)
-      return
     }
-
-    setIsLoading(false)
   }
 
   return (
