@@ -582,7 +582,7 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.7.2)
-  - leveldb-library (1.22.4)
+  - leveldb-library (1.22.5)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -1272,7 +1272,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
-  leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
+  leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Permission-Notifications: aa91ec29236626ff59cb60e08389c0a59a9d32c5
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
