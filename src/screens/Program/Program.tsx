@@ -30,6 +30,8 @@ import { tabHeight } from '../TabsNavigator'
 import { TouchableRipple } from 'react-native-paper'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { useNavigation } from '@react-navigation/native'
+import { USER_SUPPORT_PROFILE } from '../../store/selectors'
+import { useSelector } from 'react-redux'
 
 const programActivityToIcon = (actType: ProgramActivityType): IconNamesTypes => {
   switch (actType) {
@@ -109,7 +111,9 @@ type ScreenProps = {
 const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent, heroBottomActions }: ScreenProps) => {
   const windowsDimension = useWindowDimensions()
   const theme = useRobTheme()
+  const userData = useSelector(USER_SUPPORT_PROFILE)
   const scrollViewRef = useRef<ScrollView>(null)
+  const [viewAllContent, setViewAllContent] = useState<boolean | null>(null)
   const [internalScrollEnabled, setInternalScrollEnabled] = useState(false)
   const heroHeight = 450
   const internalHandlerMargin = 50
@@ -122,6 +126,10 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
       setInternalScrollEnabled(false)
     }
   }
+
+  useEffect(() => {
+    setViewAllContent(userData.view_all_content)
+  }, [userData.view_all_content])
 
   const internalScrollHandlerInternalScrollview = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (e.nativeEvent.contentOffset.y > 0) {
@@ -260,13 +268,15 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             }}
           >
             {tab1.map(act => (
-              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
+              <View key={act.activity.id} style={{ marginVertical: 10, opacity: viewAllContent || act.done ? 1 : 0.3 }}>
                 <Card
-                  onPress={act.done
-                    ? () => onPressActivity(act.activity.id)
-                    : () => navigation.navigate('BasicModal', {
-                      content: PopupContent,
-                    })
+                  onPress={
+                    viewAllContent || act.done
+                      ? () => onPressActivity(act.activity.id)
+                      : () =>
+                          navigation.navigate('BasicModal', {
+                            content: PopupContent,
+                          })
                   }
                   actions={[
                     <ActionButton
@@ -302,16 +312,16 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             }}
           >
             {tab2.map(act => (
-              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
+              <View key={act.activity.id} style={{ marginVertical: 10, opacity: viewAllContent || act.done ? 1 : 0.3 }}>
                 <Card
                   onPress={
-                    act.done
+                    viewAllContent || act.done
                       ? () => onPressActivity(act.activity.id)
                       : () => {
-                        navigation.navigate('BasicModal', {
-                          content: PopupContent,
-                        })
-                      }
+                          navigation.navigate('BasicModal', {
+                            content: PopupContent,
+                          })
+                        }
                   }
                   actions={[
                     <ActionButton
@@ -347,16 +357,16 @@ const ProgramScreen = ({ tab1, tab2, tab3, onPressActivity, heroCenterComponent,
             }}
           >
             {tab3.map(act => (
-              <View key={act.activity.id} style={{ marginVertical: 10, opacity: act.done ? 1 : 0.3 }}>
+              <View key={act.activity.id} style={{ marginVertical: 10, opacity: viewAllContent || act.done ? 1 : 0.3 }}>
                 <Card
                   onPress={
-                    act.done
+                    viewAllContent || act.done
                       ? () => onPressActivity(act.activity.id)
                       : () => {
-                        navigation.navigate('BasicModal', {
-                          content: PopupContent,
-                        })
-                      }
+                          navigation.navigate('BasicModal', {
+                            content: PopupContent,
+                          })
+                        }
                   }
                   actions={[
                     <ActionButton

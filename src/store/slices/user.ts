@@ -56,6 +56,7 @@ export type UserState = {
     treatment_level: number
     quit_day: string
     state: string
+    view_all_content: boolean
   }
   auth: any
 }
@@ -100,9 +101,9 @@ const initialState: UserState = {
     treatment_module: 1,
     treatment_level: 1,
     state: 'RELAPSE',
+    view_all_content: false,
   },
 }
-// const setFlag = createAction('flags/set')
 
 const user = createSlice({
   name: 'user',
@@ -205,9 +206,10 @@ const user = createSlice({
           isValidPhone: action.payload.isValidPhone,
           quit_day: action.payload.quit_day,
           statistics: {
-            last_completed_activity_at: action.payload.statistics && action.payload.statistics.last_completed_activity_at,
+            last_completed_activity_at:
+              action.payload.statistics && action.payload.statistics.last_completed_activity_at,
             activity_days_in_a_row: 0,
-            smokes_by_day: action.payload.statistics &&action.payload.statistics.smokes_by_day,
+            smokes_by_day: action.payload.statistics && action.payload.statistics.smokes_by_day,
             money_saved: action.payload.statistics && action.payload.statistics.money_saved,
             money_spent: action.payload.statistics && action.payload.statistics.money_spent,
             money_by_unit: action.payload.statistics && action.payload.statistics.money_by_unit,
@@ -216,6 +218,7 @@ const user = createSlice({
           treatment_module: action.payload.treatment_module,
           treatment_level: action.payload.treatment_level,
           kit_id: action.payload.kit_id,
+          view_all_content: action.payload.view_all_content,
         },
       }
       // if (oldOnBoardingFlag) {
@@ -319,8 +322,8 @@ const user = createSlice({
         data: {
           ...state.data,
           treatment_module: action.payload.module,
-          treatment_level: action.payload.level
-        }
+          treatment_level: action.payload.level,
+        },
       }
     },
     logout: (state, action) => {

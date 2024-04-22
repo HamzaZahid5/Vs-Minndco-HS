@@ -128,12 +128,20 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
     try {
       const locale = getLocale()
       const now = new Date().getTime()
-      const blockInfo = await AsyncStorage.getItem('blockInfo')
-      const blockData = blockInfo ? JSON.parse(blockInfo) : null
+      let blockInfo = await AsyncStorage.getItem('blockInfo')
+      let blockData = blockInfo ? JSON.parse(blockInfo) : null
+      const attempts = blockData ? blockData.attempts + 1 : 1
+      let BLOCK_DURATION
+
+      if (attempts >= 3) {
+        BLOCK_DURATION = 300000
+      } else {
+        BLOCK_DURATION = 10000
+      }
 
       if (blockData && now - blockData.timestamp < BLOCK_DURATION) {
         const timeLeftSec = Math.round((BLOCK_DURATION - (now - blockData.timestamp)) / 1000)
-        const timeLeftMin = (timeLeftSec / 60).toFixed(1)
+        const timeLeftMin = Math.round(timeLeftSec / 60)
         let errorMessage
 
         if (timeLeftSec < 60) {
@@ -145,7 +153,7 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
           errorMessage =
             locale === 'es'
               ? `Por favor, espera ${timeLeftMin} minutos antes de intentarlo de nuevo.`
-              : `Please wait ${timeLeftMin} more minutes before trying again.`
+              : `Please wait ${timeLeftMin} minutes before trying again.`
         }
 
         throw new Error(errorMessage)
@@ -161,25 +169,12 @@ export const ValidationLoginPhone = ({ route }: DefaultScreenRouteType<'Validati
         await AsyncStorage.setItem('userToken', JSON.stringify(result.customToken))
         await AsyncStorage.removeItem('blockInfo')
       } else {
-        const attempts = blockData ? blockData.attempts + 1 : 1
-        if (attempts >= MAX_ATTEMPTS) {
-          const errorMessage =
-            locale === 'es'
-              ? 'Has excedido el número máximo de intentos. Por favor, espera 5 minutos antes de intentarlo de nuevo.'
-              : 'You have exceeded the maximum number of attempts. Please wait 5 minutes before trying again.'
-          await AsyncStorage.setItem('blockInfo', JSON.stringify({ timestamp: now, attempts }))
-          throw new Error(errorMessage)
-        } else {
-          await AsyncStorage.setItem(
-            'blockInfo',
-            JSON.stringify({ timestamp: blockData ? blockData.timestamp : now, attempts }),
-          )
-          const errorMessage =
-            locale === 'es'
-              ? 'La verificación ha fallado. Por favor, intenta de nuevo.'
-              : 'Verification failed. Please try again.'
-          throw new Error(errorMessage)
-        }
+        await AsyncStorage.setItem('blockInfo', JSON.stringify({ timestamp: now, attempts }))
+        throw new Error(
+          locale === 'es'
+            ? 'La verificación ha fallado. Por favor, intenta de nuevo.'
+            : 'Verification failed. Please try again.',
+        )
       }
     } catch (error) {
       alert(error.message)

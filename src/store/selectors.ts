@@ -34,6 +34,7 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     phone,
     isValidPhone,
     kit_id,
+    view_all_content,
   } = store?.user?.data
   const { uid, email } = store?.user?.auth
   return {
@@ -47,6 +48,7 @@ export const USER_SUPPORT_PROFILE = (store: RootState) => {
     kit_id,
     uid,
     email,
+    view_all_content,
   }
 }
 export const LANGUEGE = (store: RootState) => store?.user?.data?.language
