@@ -7,6 +7,8 @@ platform :ios, '13.0'
 require 'json'
 podfile_properties = JSON.parse(File.read('./Podfile.properties.json')) rescue {}
 
+system('sh fix-build-for-xcode15.sh preinstall')
+
 target 'MindCotine' do
   use_expo_modules!
   config = use_native_modules!
@@ -69,6 +71,6 @@ target 'MindCotine' do
       aggregate_target.user_project.save
     end
 
-    system('sh fix-build-for-xcode15.sh')
+    system('sh fix-build-for-xcode15.sh postinstall')
   end
 end
