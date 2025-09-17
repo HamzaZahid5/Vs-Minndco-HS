@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# This script patches legacy React Native 0.64 dependencies so they continue to
-# compile under modern Xcode toolchains (15 and newer). The patches are
+# This script patches the legacy React Native native dependencies so they
+# continue to compile under modern Xcode toolchains (15 and newer). The patches
 # idempotent and only run when the target files are present in the local Pods
 # directory.
 
@@ -15,25 +15,21 @@ FOLLY_TIME_HEADER="Pods/RCT-Folly/folly/portability/Time.h"
 GLOG_SCRIPT="../node_modules/react-native/scripts/ios-configure-glog.sh"
 SENTRY_PROFILING_DIR="Pods/Sentry"
 PODFILE_LOCK="Podfile.lock"
+MANIFEST_LOCK="Pods/Manifest.lock"
+LOCAL_PODSPEC_DIR="Pods/Local Podspecs"
 
 reset_sentry_lock_state() {
   if [ ! -f "$PODFILE_LOCK" ]; then
     return
   fi
 
-  if grep -q "Sentry/HybridSDK (= 7.31.5" "$PODFILE_LOCK"; then
-    return
-  fi
-
-  python3 <<'PY'
+  local updated
+  updated="$(python3 <<'PY'
 import pathlib
 import re
 
 lock_path = pathlib.Path('Podfile.lock')
 text = lock_path.read_text()
-
-if 'Sentry/HybridSDK (= 7.31.5' in text:
-    raise SystemExit(0)
 
 patterns = [
     r"\n  - RNSentry .*?(?=\n  - [A-Z]|$)",
@@ -74,7 +70,31 @@ cleaned = '\n'.join(result).rstrip() + '\n'
 
 if cleaned != text:
     lock_path.write_text(cleaned)
+    print('UPDATED')
 PY
+)"
+
+  if [ -n "$updated" ]; then
+    if [ -f "$MANIFEST_LOCK" ]; then
+      rm -f "$MANIFEST_LOCK"
+    fi
+  fi
+}
+
+clear_rct_folly_cache() {
+  if [ ! -d "$LOCAL_PODSPEC_DIR" ]; then
+    return
+  fi
+
+  local cleared=0
+  while IFS= read -r -d '' spec; do
+    rm -f "$spec"
+    cleared=1
+  done < <(find "$LOCAL_PODSPEC_DIR" -name 'RCT-Folly*.podspec.json*' -print0)
+
+  if [ "$cleared" -eq 1 ] && [ -f "$MANIFEST_LOCK" ]; then
+    rm -f "$MANIFEST_LOCK"
+  fi
 }
 
 patch_glog_configure_script() {
@@ -153,6 +173,7 @@ NODE
 
 if [ "$PHASE" = "preinstall" ] || [ "$PHASE" = "all" ]; then
   reset_sentry_lock_state
+  clear_rct_folly_cache
   patch_glog_configure_script
 fi
 

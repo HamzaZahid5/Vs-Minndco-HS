@@ -1,12 +1,12 @@
 ## Ease your stress and anxiety
 
 ### Environment
-- Use **Node.js 14.21.x** or **Node.js 16.20.x** with Yarn 1.22. React Native 0.64.3 does not
+- Use **Node.js 16.20.x** (or **Node.js 14.21.x**) with Yarn 1.22. React Native 0.65.0 does not
   support Node 18+. Install Node with [nvm](https://github.com/nvm-sh/nvm) and run `nvm use 16.20.2`
   (or `nvm use 14.21.3`) before installing dependencies.
 - Install **JDK 11** (Adoptium Temurin or OpenJDK). Newer JDKs are not supported by Android
   Gradle Plugin 4.2 used by this project.
-- macOS builds require **CocoaPods 1.12.x** with Ruby 2.7.x. (Ruby 3 will fail because RN 0.64
+- macOS builds require **CocoaPods 1.12.x** with Ruby 2.7.x. (Ruby 3 will fail because RN 0.65
   pods are not yet compatible.) `bundle exec pod install` or `pod install` under a Ruby 2.7.6
   environment has been validated with CocoaPods 1.12.1 and Xcode 16.4.
 - Xcode 16.4 is fully supported once the `fix-build-for-xcode15.sh` patches run during `pod install`.
@@ -29,13 +29,14 @@
    sync with the selected environment.
 2. Install pods with `npm run pods` or manually with `cd ios && pod install --repo-update`. The
    Podfile runs `fix-build-for-xcode15.sh` before and after installation so the legacy React Native
-   0.64.3 dependencies (glog, Firebase, Folly, Boost, Sentry) keep compiling cleanly on modern Xcode
-   toolchains. The script now forces glog to build for **arm64** while keeping the classic
+   0.65 native dependencies (glog, Firebase, Folly, Boost, Sentry) keep compiling cleanly on modern
+   Xcode toolchains. The script forces glog to build for **arm64** while keeping the classic
    `arm-apple-darwin` host triple so configure succeeds on Xcode 16.4, patches Firebase/Folly/Boost
-   headers, rewrites the bundled Sentry profiling sources so they build with the older GNU++14
-   standard, and scrubs any stale `Sentry/HybridSDK (= 8.x)` locks from `Podfile.lock` before
-   installation. That ensures CocoaPods resolves `Sentry/HybridSDK` **7.31.5** to match the
-   downgraded `@sentry/react-native@4.15.x` package without manual `pod update` steps.
+   headers, rewrites the bundled Sentry profiling sources so they build with the GNU++14
+   standard, removes stale Sentry locks from `Podfile.lock`, and clears any cached
+   `Pods/Local Podspecs/RCT-Folly*.podspec.json` files before CocoaPods runs. That combination makes
+   CocoaPods resolve the `@sentry/react-native@5.1.x` transitive pods and the React Native 0.65
+   `RCT-Folly` pod without manual clean-ups.
 3. Open `ios/MindCotine.xcworkspace` in Xcode and build/run the `MindCotine` scheme.
 
 ### Firebase

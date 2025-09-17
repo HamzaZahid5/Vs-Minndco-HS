@@ -16,7 +16,6 @@ target 'MindCotine' do
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
-  pod 'Sentry/HybridSDK', '7.31.5'
   pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
   permissions_path = '../node_modules/react-native-permissions/ios/Notifications'
   pod 'Permission-Notifications', :path => "#{permissions_path}/Permission-Notifications.podspec"
@@ -41,7 +40,7 @@ target 'MindCotine' do
   post_install do |installer|
     react_native_post_install(installer)
 
-    # Workaround `Cycle inside FBReactNativeSpec` error for react-native 0.64
+    # Workaround `Cycle inside FBReactNativeSpec` error for react-native 0.64/0.65
     # Reference: https://github.com/software-mansion/react-native-screens/issues/842#issuecomment-812543933
     installer.pods_project.targets.each do |target|
       installer.pods_project.build_configurations.each do |config|
