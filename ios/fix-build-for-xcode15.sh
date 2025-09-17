@@ -13,6 +13,7 @@ FIRESTORE_SETTINGS="Pods/FirebaseFirestore/Firestore/Source/API/FIRFirestoreSett
 BOOST_HASH_HEADER="Pods/boost/boost/container_hash/hash.hpp"
 FOLLY_TIME_HEADER="Pods/RCT-Folly/folly/portability/Time.h"
 GLOG_SCRIPT="../node_modules/react-native/scripts/ios-configure-glog.sh"
+SENTRY_PROFILING_DIR="Pods/Sentry"
 
 patch_glog_configure_script() {
   if [ ! -f "$GLOG_SCRIPT" ]; then
@@ -96,6 +97,30 @@ if [ "$PHASE" = "postinstall" ] || [ "$PHASE" = "all" ]; then
 
   if [ -f "$FOLLY_TIME_HEADER" ]; then
     sed -i '' $'s/__IPHONE_10_0/__IPHONE_13_0/' "$FOLLY_TIME_HEADER"
+  fi
+
+  if [ -d "$SENTRY_PROFILING_DIR" ]; then
+    python3 <<'PY'
+import pathlib
+import re
+
+root = pathlib.Path('Pods/Sentry')
+targets = []
+for pattern in ('ThreadMetadataCache*.h', 'ThreadMetadataCache*.hpp', 'ThreadMetadataCache*.m', 'ThreadMetadataCache*.mm', 'ThreadMetadataCache*.c', 'ThreadMetadataCache*.cc', 'ThreadMetadataCache*.cpp'):
+    targets.extend(root.rglob(pattern))
+
+allocator = re.compile(r'std::allocator<const (sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair)>')
+vector = re.compile(r'std::vector<const (sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair)>')
+const_pair = re.compile(r'const (sentry::profiling::ThreadMetadataCache::ThreadHandleMetadataPair)(?=[\s&*;,>)])')
+
+for path in targets:
+    text = path.read_text()
+    updated = allocator.sub(r'std::allocator<\1>', text)
+    updated = vector.sub(r'std::vector<\1>', updated)
+    updated = const_pair.sub(r'\1', updated)
+    if updated != text:
+        path.write_text(updated)
+PY
   fi
 fi
 
