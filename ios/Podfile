@@ -16,6 +16,7 @@ target 'MindCotine' do
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
+  pod 'Sentry/HybridSDK', '7.31.5'
   pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
   permissions_path = '../node_modules/react-native-permissions/ios/Notifications'
   pod 'Permission-Notifications', :path => "#{permissions_path}/Permission-Notifications.podspec"

@@ -29,11 +29,12 @@
    sync with the selected environment.
 2. Install pods with `npm run pods` or manually with `cd ios && pod install --repo-update`. The
    Podfile runs `fix-build-for-xcode15.sh` before and after installation so the legacy React Native
-   0.64.3 dependencies (glog, Firebase, Folly, Boost) keep compiling cleanly on modern Xcode
-  toolchains. The script now forces glog to build for **arm64** using a modern `missing` helper so
-  the configure step succeeds on Xcode 16.4, patches Firebase/Folly/Boost headers, and rewrites the
-  bundled Sentry profiling sources so they build with the older GNU++14 standard they were authored
-  against.
+   0.64.3 dependencies (glog, Firebase, Folly, Boost, Sentry) keep compiling cleanly on modern Xcode
+   toolchains. The script now forces glog to build for **arm64** while keeping the classic
+   `arm-apple-darwin` host triple so configure succeeds on Xcode 16.4, patches Firebase/Folly/Boost
+   headers, and rewrites the bundled Sentry profiling sources so they build with the older GNU++14
+   standard they were authored against. The Podfile also pins `Sentry/HybridSDK` to **7.31.5** to
+   match the downgraded `@sentry/react-native@4.15.x` package.
 3. Open `ios/MindCotine.xcworkspace` in Xcode and build/run the `MindCotine` scheme.
 
 ### Firebase

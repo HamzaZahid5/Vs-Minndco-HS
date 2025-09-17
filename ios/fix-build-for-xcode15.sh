@@ -46,14 +46,21 @@ const updates = [
   },
   {
     apply: (source) => {
-      const needle = './configure --host arm-apple-darwin';
-      if (!source.includes(needle)) {
-        return source;
-      }
-      const updated = source.replace(needle, './configure --host=aarch64-apple-darwin');
-      if (updated !== source) {
-        changed = true;
-      }
+      const replacements = [
+        ['--host=aarch64-apple-darwin', '--host=arm-apple-darwin'],
+        ['--host aarch64-apple-darwin', '--host arm-apple-darwin'],
+      ];
+      let updated = source;
+      const escape = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      replacements.forEach(([needle, value]) => {
+        if (updated.includes(needle)) {
+          const next = updated.replace(new RegExp(escape(needle), 'g'), value);
+          if (next !== updated) {
+            changed = true;
+            updated = next;
+          }
+        }
+      });
       return updated;
     },
   },
