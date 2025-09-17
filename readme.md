@@ -32,9 +32,10 @@
    0.64.3 dependencies (glog, Firebase, Folly, Boost, Sentry) keep compiling cleanly on modern Xcode
    toolchains. The script now forces glog to build for **arm64** while keeping the classic
    `arm-apple-darwin` host triple so configure succeeds on Xcode 16.4, patches Firebase/Folly/Boost
-   headers, and rewrites the bundled Sentry profiling sources so they build with the older GNU++14
-   standard they were authored against. The Podfile also pins `Sentry/HybridSDK` to **7.31.5** to
-   match the downgraded `@sentry/react-native@4.15.x` package.
+   headers, rewrites the bundled Sentry profiling sources so they build with the older GNU++14
+   standard, and scrubs any stale `Sentry/HybridSDK (= 8.x)` locks from `Podfile.lock` before
+   installation. That ensures CocoaPods resolves `Sentry/HybridSDK` **7.31.5** to match the
+   downgraded `@sentry/react-native@4.15.x` package without manual `pod update` steps.
 3. Open `ios/MindCotine.xcworkspace` in Xcode and build/run the `MindCotine` scheme.
 
 ### Firebase

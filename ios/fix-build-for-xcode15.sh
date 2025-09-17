@@ -14,6 +14,68 @@ BOOST_HASH_HEADER="Pods/boost/boost/container_hash/hash.hpp"
 FOLLY_TIME_HEADER="Pods/RCT-Folly/folly/portability/Time.h"
 GLOG_SCRIPT="../node_modules/react-native/scripts/ios-configure-glog.sh"
 SENTRY_PROFILING_DIR="Pods/Sentry"
+PODFILE_LOCK="Podfile.lock"
+
+reset_sentry_lock_state() {
+  if [ ! -f "$PODFILE_LOCK" ]; then
+    return
+  fi
+
+  if grep -q "Sentry/HybridSDK (= 7.31.5" "$PODFILE_LOCK"; then
+    return
+  fi
+
+  python3 <<'PY'
+import pathlib
+import re
+
+lock_path = pathlib.Path('Podfile.lock')
+text = lock_path.read_text()
+
+if 'Sentry/HybridSDK (= 7.31.5' in text:
+    raise SystemExit(0)
+
+patterns = [
+    r"\n  - RNSentry .*?(?=\n  - [A-Z]|$)",
+    r"\n  - Sentry/HybridSDK .*?(?=\n  - [A-Z]|$)",
+    r"\n  - SentryPrivate .*?(?=\n  - [A-Z]|$)",
+]
+
+spec_patterns = [
+    r"\n  RNSentry: .*(?=\n)",
+    r"\n  Sentry: .*(?=\n)",
+    r"\n  SentryPrivate: .*(?=\n)",
+]
+
+dependency_rewrite = re.compile(r"\n    - Sentry/HybridSDK \(= [^\n]+\)")
+
+updated = text
+for pattern in patterns:
+    updated = re.sub(pattern, '\n', updated, flags=re.S)
+
+for pattern in spec_patterns:
+    updated = re.sub(pattern, '', updated)
+
+updated = dependency_rewrite.sub('\n', updated)
+
+lines = updated.splitlines()
+result = []
+previous_blank = False
+for line in lines:
+    if line.strip():
+        previous_blank = False
+        result.append(line)
+    else:
+        if not previous_blank:
+            result.append('')
+        previous_blank = True
+
+cleaned = '\n'.join(result).rstrip() + '\n'
+
+if cleaned != text:
+    lock_path.write_text(cleaned)
+PY
+}
 
 patch_glog_configure_script() {
   if [ ! -f "$GLOG_SCRIPT" ]; then
@@ -90,6 +152,7 @@ NODE
 }
 
 if [ "$PHASE" = "preinstall" ] || [ "$PHASE" = "all" ]; then
+  reset_sentry_lock_state
   patch_glog_configure_script
 fi
 
