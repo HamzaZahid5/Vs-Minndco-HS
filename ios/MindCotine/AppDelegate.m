@@ -3,6 +3,7 @@
 #import <React/RCTDevLoadingView.h>
 #endif
 #import <Firebase.h>
+#import <FirebaseMessaging/FirebaseMessaging.h>
 #import <UserNotifications/UserNotifications.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -50,6 +51,7 @@ static void InitializeFlipper(UIApplication *application) {
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
     [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+    [FIRMessaging messaging].delegate = self;
 
     UNAuthorizationOptions authOptions =
         UNAuthorizationOptionAlert
@@ -100,6 +102,20 @@ static void InitializeFlipper(UIApplication *application) {
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
   return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+  [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [FIRMessaging messaging].APNSToken = deviceToken;
+}
+
+- (void)messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken
+{
+  if (fcmToken) {
+    NSLog(@"Firebase registration token: %@", fcmToken);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"FCMToken" object:nil userInfo:@{ @"token": fcmToken }];
+  }
 }
 
 // - (RCTBridge *)initializeReactNativeApp

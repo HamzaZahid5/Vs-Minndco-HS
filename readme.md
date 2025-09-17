@@ -2,12 +2,16 @@
 
 ### Environment
 - Use **Node.js 14.21.x** or **Node.js 16.20.x** with Yarn 1.22. React Native 0.64.3 does not
-  support Node 18+.
+  support Node 18+. Install Node with [nvm](https://github.com/nvm-sh/nvm) and run `nvm use 16.20.2`
+  (or `nvm use 14.21.3`) before installing dependencies.
 - Install **JDK 11** (Adoptium Temurin or OpenJDK). Newer JDKs are not supported by Android
   Gradle Plugin 4.2 used by this project.
 - macOS builds require **CocoaPods 1.12.x** with Ruby 2.7.x. (Ruby 3 will fail because RN 0.64
-  pods are not yet compatible.)
-- Xcode 15+ is supported, but you must run the pod installation step below to patch legacy pods.
+  pods are not yet compatible.) `bundle exec pod install` or `pod install` under a Ruby 2.7.6
+  environment has been validated with CocoaPods 1.12.1 and Xcode 16.4.
+- Xcode 16.4 is fully supported once the `fix-build-for-xcode15.sh` patches run during `pod install`.
+  The iOS deployment target is locked to 13.0 for every pod target so the modern SDKs continue to
+  link against the current toolchain.
 
 ### Devel notes
 - clone repo
@@ -26,9 +30,18 @@
 2. Install pods with `npm run pods` or manually with `cd ios && pod install --repo-update`. The
    Podfile runs `fix-build-for-xcode15.sh` before and after installation so the legacy React Native
    0.64.3 dependencies (glog, Firebase, Folly, Boost) keep compiling cleanly on modern Xcode
-   toolchains, and forces the bundled Sentry SDK to use the older C++14 standard that it was
-   originally authored against.
+   toolchains. The script now forces glog to build for **arm64** using a modern `missing` helper so
+   the configure step succeeds on Xcode 16.4, patches Firebase/Folly/Boost headers, and forces the
+   bundled Sentry SDK to use the older GNU++14 standard that it was authored against.
 3. Open `ios/MindCotine.xcworkspace` in Xcode and build/run the `MindCotine` scheme.
+
+### Firebase
+
+- The iOS app delegate configures Firebase during launch, requests notification permissions, and
+  registers for remote notifications. On startup it now sets the `FIRMessaging` delegate so
+  background token refreshes are delivered to JavaScript via an `FCMToken` notification.
+- Remember to run `npm run google-services-dev` (or `npm run google-services-prod`) so the correct
+  `GoogleService-Info.plist` is copied into `ios/` before building.
 
 #### Release iOS
 - build ios `yarn run ios-build`.
