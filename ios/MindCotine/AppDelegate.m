@@ -3,6 +3,7 @@
 #import <React/RCTDevLoadingView.h>
 #endif
 #import <Firebase.h>
+#import <UserNotifications/UserNotifications.h>
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
