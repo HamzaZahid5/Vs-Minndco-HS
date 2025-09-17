@@ -58,6 +58,10 @@ target 'MindCotine' do
 
       target.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+
+        if target.name&.start_with?('Sentry')
+          config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'gnu++14'
+        end
       end
     end
 

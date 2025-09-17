@@ -26,7 +26,8 @@
 2. Install pods with `npm run pods` or manually with `cd ios && pod install --repo-update`. The
    Podfile runs `fix-build-for-xcode15.sh` before and after installation so the legacy React Native
    0.64.3 dependencies (glog, Firebase, Folly, Boost) keep compiling cleanly on modern Xcode
-   toolchains.
+   toolchains, and forces the bundled Sentry SDK to use the older C++14 standard that it was
+   originally authored against.
 3. Open `ios/MindCotine.xcworkspace` in Xcode and build/run the `MindCotine` scheme.
 
 #### Release iOS
