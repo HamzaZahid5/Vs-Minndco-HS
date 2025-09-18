@@ -938,14 +938,10 @@ PODS:
   - RNScreens (3.8.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.22.0):
-    - React-Core
-    - Sentry/HybridSDK (= 8.24.0)
   - RNSVG (12.5.1):
     - React-Core
   - RNVectorIcons (8.1.0):
     - React-Core
-  - Sentry/HybridSDK (8.24.0)
   - Smartlook (1.8.9)
   - smartlook-react-native-bridge (1.2.8):
     - React
@@ -1318,10 +1314,8 @@ SPEC CHECKSUMS:
   RNPermissions: 215c54462104b3925b412b0fb3c9c497b21c358b
   RNReanimated: 024eff8202342abf4b24e11575a16afc441dabfe
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
-  RNSentry: 72a9e22fb2fabdad8007c6d0018503a34def7b6c
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
-  Sentry: 2f6baed15a3f8056b875fc903dc3dcb2903117f4
   Smartlook: 9a49d32502f9c659045c1a599aad495c2a0b9480
   smartlook-react-native-bridge: 64fcd1c83495e1895ca14d2df9ccdf1b7b8a9f3c
   Yoga: e6ecf3fa25af9d4c87e94ad7d5d292eedef49749
